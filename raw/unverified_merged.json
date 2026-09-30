@@ -1,0 +1,117 @@
+[
+  {
+    "_unverified": "Google Cloud Vertex AI Model Optimizer",
+    "note": "Old docs URLs (cloud.google.com/vertex-ai/generative-ai/docs/model-reference/vertex-ai-model-optimizer and variants) now redirect to the generic Gemini Enterprise Agent Platform models overview or return 404; no current optimizer/router page found in its link list. Added the data-driven prompt optimizer docs instead.",
+    "_file": "g11_unverified.json"
+  },
+  {
+    "_unverified": "Predibase case studies (e.g., LoRA Land blog, Checkr)",
+    "note": "predibase.com now redirects to rubrik.com, which returns 403 Access Denied to curl. LoRA Land paper already in index (zhao-2024-lora-land).",
+    "_file": "g11_unverified.json"
+  },
+  {
+    "_unverified": "OpenPipe case studies / blog",
+    "note": "openpipe.ai/blog, /case-studies and /blog/art-e-mail-agent return an empty JS shell (title 'OpenPipe', no content). ART already in index (openpipe-2025-art).",
+    "_file": "g11_unverified.json"
+  },
+  {
+    "_unverified": "Modal blog cost posts",
+    "note": "modal.com/blog index only exposed /blog/how-to-price-serverless and the atom feed; no substantive LLM cost post found without search.",
+    "_file": "g11_unverified.json"
+  },
+  {
+    "_unverified": "Baseten blog cost posts",
+    "note": "Index showed only product/news posts; Baseten Loops posts lacked numbers and were folded into gola-2026-langsmith-fine-tuning.",
+    "_file": "g11_unverified.json"
+  },
+  {
+    "_unverified": "Anyscale blog (LLM router)",
+    "note": "anyscale.com/blog renders empty to curl; the Anyscale router post is already in the index (almahairi-2024-anyscale-router).",
+    "_file": "g11_unverified.json"
+  },
+  {
+    "_unverified": "Hugging Face blog routing/cost posts",
+    "note": "Current blog index had no routing, caching or distillation-for-cost posts; no older URL known without search.",
+    "_file": "g11_unverified.json"
+  },
+  {
+    "_unverified": "OpenAI API model distillation announcement (openai.com/index/api-model-distillation)",
+    "note": "openai.com returns 403 (JS/cookie challenge) to curl; used developers.openai.com model-optimization track instead.",
+    "_file": "g11_unverified.json"
+  },
+  {
+    "_unverified": "Skipped as duplicates/companions (not unverified)",
+    "note": "LMSYS RouteLLM blog (paper ong-2024 in index, no production data); Google Research speculative cascades blog (narasimhan-2024 in index); LMSYS SGLang/RadixAttention blog (zheng-2023-sglang in index); vLLM signal-decision blog (companion to liu-2026-vllm-semantic-router); AWS Bedrock distillation blogs (aws-bedrock-model-distillation in index); Anthropic context engineering, Manus, GPTCache, LiteLLM router, Portkey, Martian docs, NVIDIA router blueprint, Azure model router, Bedrock prompt routing already in index.",
+    "_file": "g11_unverified.json"
+  },
+  {
+    "_unverified": "Learning from Naturally Occurring Feedback (Don-Yehiya et al., implicit feedback in chat logs)",
+    "note": "OpenAlex title search returned no match; arXiv API rate-limited (429) and WebSearch budget exhausted, so could not confirm ID/authors. Left out.",
+    "_file": "g5_unverified.json"
+  },
+  {
+    "_unverified": "BARouter: A Budget-adaptive Online Large Language Model Router Framework",
+    "note": "Appears in Semantic Scholar cited-by list of C2MAB-V and MetaLLM without arXiv ID or venue; no abstract seen. Left out.",
+    "_file": "g5_unverified.json"
+  },
+  {
+    "_unverified": "Uncertainty-Aware Adaptive Routing for Large Language Models using Constrained Thompson Sampling (Patel et al., 2026)",
+    "note": "Found only as Zenodo/Research Square deposits via OpenAlex; no peer-reviewed or arXiv version seen. Excluded on rigor grounds.",
+    "_file": "g5_unverified.json"
+  },
+  {
+    "_unverified": "Industry blogs on A/B testing, shadow deployment and online routing (Martian, Not Diamond, OpenRouter, LMSYS RouteLLM blog)",
+    "note": "WebSearch budget for the session was exhausted (200/200) before blog searches; only academic APIs (OpenAlex, arXiv, Semantic Scholar via WebFetch) were usable. Not searched.",
+    "_file": "g5_unverified.json"
+  },
+  {
+    "_unverified": "Contextual Bandit Routing for LoRA Experts",
+    "note": "Listed in Semantic Scholar cited-by of C2MAB-V with no year or ID; not verifiable. Left out.",
+    "_file": "g5_unverified.json"
+  },
+  {
+    "_unverified": "OpenAI 'Prompt Caching in the API' announcement page (openai.com/index/api-prompt-caching/)",
+    "note": "Seen in web search results but WebFetch returned HTTP 403, so its launch-date and discount figures could not be checked. The OpenAI prompt-caching docs page was fetched and verified, and it is recorded as openai-2024-prompt-caching. All other C10/C11 seeds were verified via arXiv abs pages or official pages.",
+    "_file": "g7_unverified.json"
+  },
+  {
+    "_unverified": "DoorDash LLM-based Dasher support automation blog",
+    "note": "Known URL careersatdoordash.com/blog/large-language-modules-based-dasher-support-automation/ returned HTTP 403 to both curl and WebFetch; content not seen, so excluded.",
+    "_file": "g8_unverified.json"
+  },
+  {
+    "_unverified": "Martian model router product page",
+    "note": "withmartian.com now shows interpretability research; docs.withmartian.com describes only a Gateway API; /martian-model-router returned 404. Recorded docs page and RouterBench only.",
+    "_file": "g8_unverified.json"
+  },
+  {
+    "_unverified": "Not Diamond as the engine behind OpenRouter auto-router",
+    "note": "Current OpenRouter docs describe a market-spend-based router and do not mention Not Diamond; Not Diamond site quotes OpenRouter CEO. Relationship not confirmed.",
+    "_file": "g8_unverified.json"
+  },
+  {
+    "_unverified": "Databricks blog posts on LLM routing/cost",
+    "note": "WebSearch budget for the session was exhausted before searching; only Databricks AI Gateway docs verified.",
+    "_file": "g8_unverified.json"
+  },
+  {
+    "_unverified": "Together AI blog on routing/cost (beyond Batch API)",
+    "note": "WebSearch budget exhausted; only the Together Batch API post verified.",
+    "_file": "g8_unverified.json"
+  },
+  {
+    "_unverified": "Unify routing-era blog/benchmarks",
+    "note": "unify.ai has pivoted to continual post-training; no routing documentation found on current site.",
+    "_file": "g8_unverified.json"
+  },
+  {
+    "_unverified": "Hugging Face posts on routing",
+    "note": "WebSearch budget exhausted; only the EvalEval eval-costs post and LLM-Perf leaderboard verified.",
+    "_file": "g8_unverified.json"
+  },
+  {
+    "_unverified": "Google Vertex AI Model Optimizer (auto routing)",
+    "note": "Known docs URL redirected to a generic Agent Platform models overview; feature not confirmed.",
+    "_file": "g8_unverified.json"
+  }
+]

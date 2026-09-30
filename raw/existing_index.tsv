@@ -1,0 +1,1131 @@
+agarwal-2026-switchcraft	2605.07112	Switchcraft: AI Model Router for Agentic Tool Calling	C1,C3,C13	5
+alazraki-2026-sale-strategy-auctions	2602.02751	Scaling Small Agents Through Strategy Auctions	C1,C3,C8	5
+anthropic-2026-advisor-strategy		The advisor strategy: Give Sonnet an intelligence boost with Opus	C2,C3,C14	5
+anthropic-2026-optimizing-cost-and-intelligence		Optimizing for cost and intelligence	C3,C9,C10,C12,C14	5
+bai-2026-agents-spend-your-money	2604.22750	How Do AI Agents Spend Your Money? Analyzing and Predicting Token Consumption in Agentic Coding Tasks	C9,C10,C12,C13	5
+bao-2026-orcarouter	2605.30736	OrcaRouter: A Production-Oriented LLM Router with Hybrid Offline-Online Learning	C1,C5,C14	5
+bechard-2026-terminal-agents-suffice	2604.00073	Terminal Agents Suffice for Enterprise Automation	C12,C14	5
+bhola-2026-scrouting-superscout	2608.04804	Scrouting: Cost-Aware Routing of Coding Agents by Scouting the Repository First	C1,C3	5
+borthwick-2026-robophd	2608.16207	Competing at Every Price Point with Agentic Evolution over a Menu of LLMs	C3,C4	5
+chen-2026-agentslimming	2605.08813	AgentSlimming: Towards Efficient and Cost-Aware Multi-Agent Systems	C3,C4,C12	5
+cui-2026-uno-orchestra	2605.05007	Uno-Orchestra: Parsimonious Agent Routing via Selective Delegation	C1,C3	5
+dennis-2026-compiling-workflows-into-weights	2605.22502	Compiling Agentic Workflows into LLM Weights: Near-Frontier Quality at Two Orders of Magnitude Less Cost	C8,C12	5
+dylan-2026-equal-inference-cost-mas	2609.04217	At Equal Inference Cost, Multi-Agent Structure Does Not Beat a Single Frozen Agent	C12	5
+fang-2026-critique-and-routing-controller	2605.08686	Iterative Critique-and-Routing Controller for Multi-Agent Systems with Heterogeneous LLMs	C3	5
+feng-2026-graphplanner	2604.23626	GraphPlanner: Graph Memory-Augmented Agentic Routing for Multi-Agent LLMs	C1,C3	5
+gandhi-2026-steer-dont-solve-critic	2606.21811	Steer, Don't Solve: Training Small Critic Models for Large Code Agents	C3,C7,C8	5
+ganz-2026-handoff-tax	2608.24358	The Handoff Tax: Continuing Non-Native Trajectories in LLM Agents	C3,C12	5
+gao-2026-agentcollab	2603.26034	AgentCollab: A Self-Evaluation-Driven Collaboration Paradigm for Efficient LLM Agents	C2,C3	5
+gonuguntla-2026-replay-gap	2608.08239	The Replay Gap: Static Evaluation of Model Switching in LLM Agents Scores the Wrong World	C3,C6,C13	5
+gravara-2026-atlas	2609.04513	Atlas: Optimizing Deployment of Compound AI Workflows on Heterogeneous Clusters	C4,C11	5
+guo-2026-routenlp	2604.23577	RouteNLP: Closed-Loop LLM Routing with Conformal Cascading and Distillation Co-Optimization	C1,C2,C8,C14	5
+hamri-2026-zebra-budget-allocation	2605.20485	ZEBRA: Zero-shot Budgeted Resource Allocation for LLM Orchestration	C3,C4,C9	5
+hemadri-2026-r2v-agent	2605.16604	R2V Agent: Teaching SLMs When to Ask for Help	C2,C3,C7,C8	5
+hong-2026-dats-difficulty-aware-topology	2609.13890	Learning How Much to Collaborate: Difficulty-Aware Topology Selection for Multi-Agent Code Generation	C1,C3,C12	5
+hua-2026-agentopt	2604.06296	AgentOpt v0.1 Technical Report: Client-Side Optimization for LLM-Based Agent	C3,C4,C5	5
+huang-2026-scope	2606.00774	SCOPE: Cost-Efficient Model Selection for Compound AI Systems under Quality Constraints	C3,C4	5
+jali-2026-turn-adaptive-budgets	2604.05164	Not All Turns Are Equally Hard: Adaptive Thinking Budgets For Efficient Multi-Turn Reasoning in Agents	C3,C9	5
+jiang-2026-agentcard	2606.20629	Specialize Roles, Mix Deployments: Pushing the Cost-Accuracy Frontier of LLM Agent Teams	C3,C4,C11,C13	5
+karmakar-2026-agentfloor	2605.00334	AgentFloor: How Far Up the tool use Ladder Can Small Open-Weight Models Go?	C3,C13	5
+ke-2026-mas-orchestra	2601.14652	MAS-Orchestra: Understanding and Improving Multi-Agent Reasoning Through Holistic Orchestration and Controlled Benchmarks	C3,C12,C13	5
+kon-2026-swe-protege	2602.22124	SWE-Prot\'eg\'e: Learning to Selectively Collaborate With an Expert Unlocks Small Language Models as Software Engineering Agents	C2,C3,C8	5
+kumar-2026-task-session-routing-eval	2608.14641	Task- and Session-Level Model Routing: A Common-Interface Hybrid Evaluation of Four Open-Source Routers Across Four Benchmarks	C1,C13	5
+kwartler-2026-harness-tokenomics	2609.28919	Harness Tokenomics: A Router for the Enterprise Agentic Control Plane	C1,C3,C10,C12,C14	5
+lei-2026-tacit-switch	2608.27911	TACIT-Switch: Cost-Aware Model Escalation for LLM Agents from Censored Supervision	C2,C3,C6	5
+leins-2026-when-orchestration-pays-off	2608.00685	When Does LLM Orchestration Pay Off? A Controlled Evaluation of Accuracy, Cost, and Task Difficulty	C12,C13	5
+li-2026-flowcompile	2605.13647	FlowCompile: An Optimizing Compiler for Structured LLM Workflows	C4,C11	5
+li-2026-jev-as-a-judge	2609.26550	JEV-as-a-Judge: Accept When Confident, Escalate When Unsure	C2,C7	5
+li-2026-llmrouterbench	2601.07206	LLMRouterBench: A Massive Benchmark and Unified Framework for LLM Routing	C1,C13	5
+li-2026-progrouter	2608.25992	ProgRouter: Online Progress-Guided Orchestration for Multi-Agent LLM Workflows under Quality-Cost Tradeoffs	C3,C5	5
+li-2026-rsi-router	2609.34712	RSI-Router: Evolving Subtask-Level LLM Routing and Skills for Cost-Efficient Agents	C3,C4,C8	5
+li-2026-wiserouter	2607.23765	WISERouter: LLM Routing with Workload Budget Constraint	C1,C5,C6	5
+liu-2026-adaptive-vlm-routing-cua	2603.12823	Adaptive Vision-Language Model Routing for Computer Use Agents	C2,C3	5
+liu-2026-caster	2601.19793	CASTER: Breaking the Cost-Performance Barrier in Multi-Agent Orchestration via Context-Aware Strategy for Task Efficient Routing	C3	5
+liu-2026-harness-native-routing	2607.11399	Agentic Routing: The Harness-Native Data Flywheel	C1,C3,C5,C6,C13,C14	5
+lugoloobi-2026-llms-encode-failures	2602.09924	LLMs Encode Their Failures: Predicting Success from Pre-Generation Activations	C1,C7	5
+lyu-2026-differential-reasoning-router	2608.30224	The Differential Reasoning Router: Operationalizing Cost-Aware LLM Annotation in E-commerce	C1,C2,C9,C14	5
+paul-2026-agentrouter-step-tiers	2609.22951	AgentRouter: Heterogeneous Model Routing for Cost-Optimal Multi-Step Agentic Workflows	C3,C4,C6,C14	5
+piatrashyn-2026-redact	2604.07036	ReDAct: Uncertainty-Aware Deferral for LLM Agents	C2,C3,C7	5
+qian-2026-dyserve	2607.02942	Serving Agentic Workflows with a Physical-Plan Compiler and Adaptive Runtime	C3,C11	5
+rajib-2026-gated-memory-routing	2609.00237	Learning What to Retain: Gated-Memory Routing for Efficient Collaboration in Multi-Agent LLM Systems	C3,C10	5
+ruan-2026-early-abort-agent-episodes	2607.06503	Doomed from the Start: Early Abort of LLM Agent Episodes via a Recall-Controlled Probe Cascade	C2,C3,C7	5
+singh-2026-planner-as-router	2609.32917	Planner-as-Router: Joint Plan-Time Model Routing for Cost-Efficient Multi-Agent Workflows	C3,C14	5
+son-2026-swe-router	2607.00053	SWE-Router: Routing in Multi-turn Agentic Software Engineering Tasks	C1,C2,C3,C6	5
+sridhar-2026-correlated-bandits-routing	2607.09015	Correlation-Aware Contextual Bandits with Surrogate Rewards for LLM Routing	C1,C5,C7,C15	5
+taberner-miller-2026-paretobandit	2604.00136	ParetoBandit: Budget-Paced Adaptive Routing for Non-Stationary LLM Serving	C1,C5	5
+tran-2026-single-vs-multi-agent-equal-budget	2604.02460	Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets	C9,C12,C13	5
+wang-2026-boundaryrouter	2605.07180	Learning Agent Routing From Early Experience	C1,C2,C3,C6,C12	5
+wang-2026-dropbox-dash-dspy		How we optimized Dash's relevance judge with DSPy	C4,C7,C14	5
+wang-2026-oi-mas	2601.04861	Orchestrating Intelligence: Confidence-Aware Routing for Efficient Multi-Agent Collaboration across Multi-Scale Models	C3	5
+wei-2026-step-level-cua-cascade	2604.27151	Step-level Optimization for Efficient Computer-use Agents	C2,C3,C7	5
+woisetschlager-2026-slarouter	2606.19376	Cost-Optimal LLM Routing with Limited User Feedback under User Satisfaction Guarantees	C1,C5	5
+wu-2026-rlm-cascade	2606.22840	RLM-Cascade: Response-Level Speculative Decoding for Cost-Efficient LLM API Serving	C2,C3,C14	5
+xiang-2026-otrope	2609.36264	OTROPE: Optimal Transport-based Robust Off-policy Evaluation for Large Language Models	C6,C7	5
+xu-2026-seqroute	2605.25424	SeqRoute: Global Budget-Aware Sequential LLM Routing via Offline Reinforcement Learning	C1,C3,C5,C6,C15	5
+yang-2026-ares-reasoning-effort	2603.07915	Ares: Adaptive Reasoning Effort Selection for Efficient LLM Agents	C3,C9	5
+yang-2026-harness-adaptation-slm	2607.08938	Better Harnesses, Smaller Models: Building 90% Cheaper Agents via Automated Harness Adaptation	C3,C4,C8,C10,C12	5
+yang-2026-twinrouterbench	2605.18859	TwinRouterBench: Fast Static and Live Dynamic Evaluation for Realistic Agentic LLM Routing	C1,C3,C13	5
+yao-2026-mera	2608.10333	MERA: Model Evolution and Routing with Skill Adaptation for Agentic Systems at Scale	C3,C6,C8	5
+yuan-2026-flowbank	2606.11290	FlowBank: Query-Adaptive Agentic Workflows Optimization through Precompute-and-Reuse	C1,C4	5
+zhang-2026-budget-aware-agentic-routing	2602.21227	Budget-Aware Agentic Routing via Boundary-Guided Training	C1,C2,C3	5
+zhang-2026-evoroute	2601.02695	EvoRoute: Experience-Driven Self-Routing LLM Agent Systems	C3,C4,C5	5
+zhang-2026-hera-device-cloud	2605.24598	Hera: Learning Long-Horizon Coordination for Device-Cloud Collaborative LLM Agents	C2,C3	5
+zhang-2026-rethinking-mas-efficiency-evaluation	2609.05933	Rethinking the Evaluation of Efficiency Methods for Multi-Agent Systems	C12,C13	5
+zhao-2026-sc-mas	2601.09434	SC-MAS: Constructing Cost-Efficient Multi-Agent Systems with Edge-Level Heterogeneous Collaboration	C3,C4	5
+zhou-2026-agent-as-a-router	2606.22902	Agent-as-a-Router: Agentic Model Routing for Coding Tasks	C1,C3,C5,C13	5
+zywot-2026-small-agents-beat-large-llm	2601.11327	Can Small Agents Collaborate to Beat a Single Large Language Model?	C3,C12	5
+atalar-2025-sequential-bandits	2508.09958	Neural Bandit Based Optimal LLM Selection for a Pipeline of Subtasks	C3,C4,C5	5
+barker-2025-mo-hpo-rag	2502.18635	Faster, Cheaper, Better: Multi-Objective Hyperparameter Optimization for LLM and RAG Systems	C4	5
+belcak-2025-slms-future-agentic-ai	2506.02153	Small Language Models are the Future of Agentic AI	C3,C8,C12,C15	5
+cai-2025-agentbalance	2512.11426	AgentBalance: Backbone-then-Topology Design for Cost-Effective Multi-Agent Systems under Budget Constraints	C3,C4	5
+chaudhry-2025-murakkab	2508.18298	Murakkab: Resource-Efficient Agentic Workflow Orchestration in Cloud Platforms	C3,C4,C11,C12	5
+chen-2025-llmselector	2502.14815	Optimizing Model Selection for Compound AI Systems	C3,C4	5
+conway-2025-syftr	2505.20266	syftr: Pareto-Optimal Generative AI	C3,C4	5
+cuadron-2025-danger-of-overthinking-agents	2502.08235	The Danger of Overthinking: Examining the Reasoning-Action Dilemma in Agentic Tasks	C3,C9,C13	5
+dai-2025-aragog	2511.20975	Aragog: Just-in-Time Model Routing for Scalable Serving of Agentic Workflows	C3,C4,C11	5
+dang-2025-puppeteer-evolving-orchestration	2505.19591	Multi-Agent Collaboration via Evolving Orchestration	C3,C4,C12	5
+dong-2025-hybridflow	2512.22137	HybridFlow: Resource-Adaptive Subtask Routing for Efficient Edge-Cloud LLM Inference	C3,C11	5
+fan-2025-imad	2511.11306	iMAD: Intelligent Multi-Agent Debate for Efficient and Accurate LLM Inference	C2,C7,C12	5
+feng-2025-ipr	2509.06274	IPR: Intelligent Prompt Routing with User-Controlled Quality-Cost Trade-offs	C1,C14	5
+gao-2025-single-or-multi-agent-why-not-both	2505.18286	Single-agent or Multi-agent Systems? Why Not Both?	C2,C12	5
+hadfield-2025-multi-agent-research-system		How we built our multi-agent research system	C3,C12,C14	5
+he-2025-cognify	2502.08056	Cognify: Supercharging Gen-AI Workflows With Hierarchical Autotuning	C3,C4	5
+jin-2025-corl-centralized-budget	2511.02755	Controlling Performance and Budget of a Centralized Multi-agent LLM System with Reinforcement Learning	C1,C3	5
+kapoor-2025-hal-holistic-agent-leaderboard	2510.11977	Holistic Agent Leaderboard: The Missing Infrastructure for AI Agent Evaluation	C12,C13	5
+kim-2025-science-of-scaling-agent-systems	2512.08296	Towards a Science of Scaling Agent Systems	C12,C13	5
+kiyohara-2025-prompt-opt-logged-bandit	2504.02646	Prompt Optimization with Logged Bandit Data	C4,C6	5
+lee-2025-cope-llm-collaboration-planning	2506.11578	Efficient LLM Collaboration via Planning	C2,C3	5
+lee-2025-steer	2511.06190	Confidence-Guided Stepwise Model Routing for Cost-Efficient Reasoning	C2,C3,C9	5
+li-2025-llm-bandit	2502.02743	LLM Bandit: Cost-Efficient LLM Generation via Preference-Conditioned Dynamic Routing	C1,C5	5
+narayan-2025-minions	2502.15964	Minions: Cost-efficient Collaboration Between On-device and Cloud Language Models	C3,C11	5
+nie-2025-foundation-model-programs	2504.07247	Resource-efficient Inference with Foundation Model Programs	C2,C3,C5	5
+openai-2025-gpt5-system-card		GPT-5 System Card	C1,C5,C9,C14	5
+panda-2025-pilot	2508.21141	Adaptive LLM Routing under Budget Constraints	C1,C5	5
+qian-2025-xrouter	2510.08439	xRouter: Training Cost-Aware LLMs Orchestration System via Reinforcement Learning	C1,C3	5
+russo-2025-abacus	2505.14661	Abacus: A Cost-Based Optimizer for Semantic Operator Systems	C3,C4	5
+sabbatella-2025-malbo	2511.11788	MALBO: Optimizing LLM-Based Multi-Agent Teams via Multi-Objective Bayesian Optimization	C3,C4	5
+shao-2025-r2-reasoner	2506.05901	Route-and-Reason: Scaling Large Language Model Reasoning with Reinforced Model Router	C1,C3,C9	5
+somerstep-2025-carrot	2502.03261	CARROT: A Cost Aware Rate Optimal Router	C1,C6,C13,C15	5
+su-2025-daao	2509.11079	Difficulty-Aware Agentic Orchestration for Query-Specific Multi-Agent Workflows	C1,C3,C4	5
+su-2025-toolorchestra	2511.21689	ToolOrchestra: Elevating Intelligence via Efficient Model and Tool Orchestration	C1,C3,C8	5
+tan-2025-langprobe	2502.20315	LangProBe: a Language Programs Benchmark	C4,C13	5
+tsiourvas-2025-causal-routing	2505.16037	Causal LLM Routing: End-to-End Regret Minimization from Observational Data	C1,C6	5
+wang-2025-agent-reinforce	2511.00086	Generalizing Test-time Compute-optimal Scaling as an Optimizable Graph	C3,C4,C9	5
+wang-2025-agentdropout	2503.18891	AgentDropout: Dynamic Agent Elimination for Token-Efficient and High-Performance LLM-Based Multi-Agent Collaboration	C3,C12	5
+wang-2025-agenttts	2508.00890	AgentTTS: Large Language Model Agent for Test-time Compute-optimal Scaling Strategy in Complex Tasks	C3,C4,C9	5
+wang-2025-efficient-agents	2508.02694	Efficient Agents: Building Effective Agents While Reducing Cost	C3,C12,C13,C15	5
+wang-2025-mixllm	2502.18482	MixLLM: Dynamic Routing in Mixed Large Language Models	C1,C5	5
+wei-2025-barp	2510.07429	Learning to Route LLMs from Bandit Feedback: One Policy, Many Trade-offs	C1,C5,C6	5
+wei-2025-moar	2512.02289	Multi-Objective Agentic Rewrites for Unstructured Data Processing	C3,C4	5
+wu-2025-optimas	2507.03041	Optimas: Optimizing Compound AI Systems with Globally Aligned Local Rewards	C3,C4	5
+yang-2025-bamas	2511.21572	BAMAS: Structuring Budget-Aware Multi-Agent Systems	C3,C4	5
+yarullin-2025-intercom-escalation		To escalate, or not to escalate, that is the question	C2,C8,C14	5
+ye-2025-x-mas	2505.16997	X-MAS: Towards Building Multi-Agent Systems with Heterogeneous LLMs	C3,C4,C13	5
+yue-2025-masrouter	2502.11133	MasRouter: Learning to Route LLMs for Multi-Agent Systems	C1,C3	5
+zhang-2025-agentic-plan-caching	2506.14852	Agentic Plan Caching: Test-Time Memory for Fast and Cost-Efficient LLM Agents	C3,C10	5
+zhang-2025-evoflow	2502.07373	EvoFlow: Evolving Diverse Agentic Workflows On The Fly	C3,C4	5
+zhang-2025-maas-agentic-supernet	2502.04180	Multi-agent Architecture Search via Agentic Supernet	C3,C4,C12	5
+zhang-2025-router-r1	2506.09033	Router-R1: Teaching LLMs Multi-Round Routing and Aggregation via Reinforcement Learning	C1,C3	5
+bhargava-2024-ope-logged-human-feedback	2406.10030	Off-Policy Evaluation from Logged Human Feedback	C6,C7	5
+boisvert-2024-workarena-plus-plus	2407.05291	WorkArena++: Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks	C8,C13	5
+chen-2024-optima	2410.08115	Optima: Optimizing Effectiveness and Efficiency for LLM-Based Multi-Agent System	C3,C4,C8,C12	5
+dai-2024-c2mab-v	2405.16587	Cost-Effective Online Multi-LLM Selection with Versatile Reward Models	C1,C5	5
+dekoninck-2024-cascade-routing	2410.10347	A Unified Approach to Routing and Cascading for LLMs	C1,C2,C15	5
+drouin-2024-workarena	2403.07718	WorkArena: How Capable Are Web Agents at Solving Common Knowledge Work Tasks?	C13	5
+gandhi-2024-budgetmlagent	2411.07464	BudgetMLAgent: A Cost-Effective LLM Multi-Agent system for Automating Machine Learning Tasks	C2,C3	5
+hu-2024-routerbench	2403.12031	RouterBench: A Benchmark for Multi-LLM Routing System	C1,C13	5
+jung-2024-trust-or-escalate	2407.18370	Trust or Escalate: LLM Judges with Provable Guarantees for Human Agreement	C2,C7	5
+kapoor-2024-ai-agents-that-matter	2407.01502	AI Agents That Matter	C2,C12,C13	5
+nguyen-2024-metallm	2407.10834	MetaLLM: A High-performant and Cost-efficient Dynamic Framework for Wrapping LLMs	C1,C5	5
+nie-2024-online-cascade-learning	2402.04513	Online Cascade Learning for Efficient Inference over Streams	C2,C5,C8	5
+saadfalcon-2024-archon	2409.15254	Archon: An Architecture Search Framework for Inference-Time Techniques	C4,C9	5
+sun-2024-adaswitch	2410.13181	AdaSwitch: Adaptive Switching between Small and Large Agents for Effective Cloud-Local Collaborative Learning	C2,C3	5
+yao-2024-tau-bench	2406.12045	τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains	C7,C13	5
+zhang-2024-aflow	2410.10762	AFlow: Automating Agentic Workflow Generation	C3,C4,C12	5
+zhang-2024-agentprune	2410.02506	Cut the Crap: An Economical Communication Pipeline for LLM-based Multi-Agent Systems	C3,C10,C12	5
+zhang-2024-g-designer	2410.11782	G-Designer: Architecting Multi-agent Communication Topologies via Graph Neural Networks	C3,C4,C12	5
+bala-2026-set-valued-agent-routing	2606.28925	Multi-Agent Routing as Set-Valued Prediction: A WildChat Benchmark and Cost-Aware Evaluation	C1,C13	4
+basu-2026-w5h2-intent-caching	2602.18922	Why Agent Caching Fails and How to Fix It: Structured Intent Canonicalization with Few-Shot Learning	C2,C10	4
+bertalanic-2026-cost-of-consensus	2605.00914	The Cost of Consensus: Isolated Self-Correction Prevails Over Unguided Homogeneous Multi-Agent Debate	C12	4
+bhatti-2026-proteus	2601.19402	PROTEUS: SLA-Aware Routing via Lagrangian RL for Multi-LLM Serving Systems	C1,C6,C14	4
+bouchard-2026-escalation-decision-theory	2605.06350	Is Escalation Worth It? A Decision-Theoretic Characterization of LLM Cascades	C1,C2,C15	4
+bouchard-2026-trajectory-uq-agents	2608.11552	Beyond Single-Turn Confidence: Trajectory-Adapted Uncertainty Quantification for LLM Agents	C7	4
+bussing-2026-mo-capo	2605.18869	MO-CAPO: Multi-Objective Cost-Aware Prompt Optimization	C4,C10	4
+chang-2026-agentic-workload-characterization	2608.15127	From LLM Inference to Agentic Workloads: Characterization and Implications for Serving Systems	C10,C11,C14	4
+chang-2026-cascadedebate	2604.12262	CascadeDebate: Multi-Agent Deliberation for Cost-Aware LLM Cascades	C2,C12	4
+chatrath-2026-ready	2609.02095	READY or Not: Reliable Enterprise Agent Deployment	C2,C7,C13	4
+chen-2026-co-failure-ceiling	2606.27288	When Does Combining Language Models Help? A Co-Failure Ceiling on Routing, Voting, and Mixture-of-Agents Across 67 Frontier Models	C1,C12,C13,C15	4
+chen-2026-da-grpo-cloud-offloading	2602.00166	Joint Continual Learning of Local Language Models and Cloud Offloading Decisions with Budget Constraints	C3,C5,C8	4
+chen-2026-hm-router	2609.32213	HM-ROUTER: Joint Model and Harness Routing for Agentic Systems	C1,C3,C4	4
+chen-2026-lemon-counterfactual-orchestration	2605.14483	COLLATOR: Compositional Multi-Agent Orchestration with Counterfactual Reinforcement Learning	C3	4
+chen-2026-signals-trajectory-triage	2604.00356	Signals: Trajectory Sampling and Triage for Agentic Interactions	C6,C7,C8	4
+chillara-2026-semanticalli	2601.16286	SemanticALLI: Caching Reasoning, Not Just Responses, in Agentic Systems	C10,C14	4
+deng-2026-cfrc-residual-completion-handoffs	2609.13800	Do Not Restart: Residual Completion for Stateful Agent Handoffs	C2,C3	4
+dennis-2026-in-context-obsoletes-orchestration	2604.27891	In-Context Prompting Obsoletes Agent Orchestration for Procedural Tasks	C12	4
+dip-2026-sevra-selective-verification	2606.19808	Think Again or Think Longer? Selective Verification for Budget-Aware Reasoning	C2,C7,C9	4
+dong-2026-learning-to-stop-cost-study	2606.30852	When Does Learning to Stop Help? A Cost-Aware Study of Early Exits in Reasoning Models	C9,C13	4
+dong-2026-llm-shepherding	2601.22132	Pay for Hints, Not Answers: LLM Shepherding for Cost-Efficient Inference	C1,C2,C9	4
+dou-2026-conformal-cascade	2607.25018	Conformal Cascade: Distribution-Free Accuracy Guarantees for Multi-Tier LLM Inference	C2,C7	4
+du-2026-swift	2604.25012	Why Search When You Can Transfer? Amortized Agentic Workflow Design from Structural Priors	C4	4
+dubey-2026-telemetry-failure-detection	2608.02464	Real-Time Detection and Repair of LLM Agent Failures	C7	4
+feng-2026-llmrouter	2608.06867	LLMRouter: Unified Infrastructure for Developing, Evaluating, and Deploying LLM Routers	C1,C13	4
+fisch-2026-pandoras-router	2608.20316	Pandora's AI Model Routing Box: Efficient Allocation with Costly Value Estimation	C1,C15	4
+gao-2026-decisionbench	2605.19099	DecisionBench: A Benchmark for Emergent Delegation in Long-Horizon Agentic Workflows	C3,C13	4
+ghosh-2026-grade-gated-routing	2607.10836	Route, Communicate, and Reason: Gated Routing and Adaptive Depth for Efficient Multi-Agent Reasoning	C3,C12	4
+gillespie-2026-enterprise-agent-routing-scaling	2606.17519	Scaling Enterprise Agent Routing: Degradation, Diagnosis, and Recovery	C1,C13,C14	4
+gravara-2026-compass	2603.20821	Compass: Optimizing Compound AI Workflows for Dynamic Adaptation	C4,C5,C11	4
+gravara-2026-plaiground	2606.14356	PLAIground: SLO-Driven Runtime Model Selection for Compound AI Systems in the Edge-Cloud-Space Continuum	C3,C4,C11	4
+guan-2026-symphony-coord	2602.00966	Symphony-Coord: Adaptive Routing for Multi-Agent LLM Systems	C3,C5	4
+guo-2026-eet-early-termination	2601.05777	EET: Experience-Driven Early Termination for Cost-Efficient Software Engineering Agents	C9,C12	4
+guo-2026-think-when-needed-ranking	2601.18146	Think When Needed: Model-Aware Reasoning Routing for LLM-based Ranking	C1,C9	4
+hajimiri-2026-skill-memory-worth-tokens	2606.15017	Are Online Skill and Memory Modules Always Worth Their Tokens? A Budget-Constrained Study of Web Agents	C10,C12,C13	4
+hasanaliyev-2026-expected-reward-prediction	2603.20217	Expected Reward Prediction, with Applications to Model Routing	C1,C6,C7	4
+healy-2026-tool-selection-hallucination-probes	2601.05214	Internal Representations as Indicators of Hallucinations in Agent Tool Selection	C7	4
+hu-2026-cost-inefficient-coding-agents	2609.30725	Analyzing and Mitigating Cost-Inefficient Behaviors in Coding Agents	C10,C12,C13	4
+huang-2026-rlcascaderouter	2608.15817	RLCascadeRouter: Quality-Estimator-Free Cascade Routing via Reinforcement Learning	C1,C2,C6	4
+hussain-2026-coverage-illusion-rag	2605.27220	The Coverage Illusion: From Pre-retrieval Routing Failure to Post-retrieval Cascades in a Production RAG System	C2,C6,C10,C14	4
+khaled-2026-pyramid-moa	2602.19509	Pyramid MoA: A Probabilistic Framework for Cost-Optimized Anytime Inference	C2,C12	4
+kim-2026-agent-memory-distillation	2608.07169	Agent Memory Distillation: Empowering Small LLM Agents with Hierarchical Teacher Memory	C8,C10	4
+koster-2026-memboost	2603.26557	MemBoost: A Memory-Boosted Framework for Cost-Aware LLM Inference	C2,C10	4
+kotte-2026-ucci	2605.18796	UCCI: Calibrated Uncertainty for Cost-Optimal LLM Cascade Routing	C2,C7	4
+kulkarni-2026-financial-mas-orchestration-benchmark	2603.22651	Benchmarking Multi-Agent LLM Architectures for Financial Document Processing: A Comparative Study of Orchestration Patterns, Cost-Accuracy Tradeoffs and Production Scaling Strategies	C12,C13,C14	4
+lai-2026-routing-collapse	2602.03478	When Routing Collapses: On the Degenerate Convergence of LLM Routers	C1,C13	4
+lai-2026-saverouter	2609.37402	Routing Should Pay for Itself: Sparse Supervision for Economical LLM Routing	C1,C6	4
+lee-2026-dart	2606.23181	DART: Draft-Agreement Routing for Training-Free Adaptive Thinking Budgets in Hybrid Reasoning Models	C2,C9	4
+lee-2026-drift-aware-routing	2609.00662	Drift-Aware LLM Routing with Sparse Contexts and Shared Budgets	C1,C5	4
+lee-2026-routing-gap-task-type	2608.23023	Most of the LLM Routing Gap Is Task Type	C1,C13	4
+li-2026-afanet-gnn-attribution	2608.18575	Beyond LLM-Based Reasoning: Lightweight GNNs for Agent Failure Attribution	C7	4
+li-2026-dynamic-mixed-precision-routing	2602.02711	Dynamic Mixed-Precision Routing for Efficient Multi-step LLM Interaction	C3,C11	4
+li-2026-single-agent-skills-vs-mas	2601.04748	When Single-Agent with Skills Replace Multi-Agent Systems and When They Fail	C12	4
+liao-2026-hyfunc	2602.13665	HyFunc: Accelerating LLM-based Function Calls for Agentic AI through Hybrid-Model Cascade and Dynamic Templating	C2,C3,C11	4
+liu-2026-copilot-traces	2608.00101	Agentic Coding in the Wild: Characterizing GitHub Copilot Traces at Production Scale	C11,C14	4
+liu-2026-hcp-mad	2604.09679	HCP-MAD:Heterogeneous Consensus-Progressive Reasoning for Efficient Multi-Agent Debate	C3,C12	4
+liu-2026-treecredit	2608.02291	Shared Prefixes, Better Credit: Adaptive Routing for Multi-Agent Reasoning	C3,C6	4
+liu-2026-vllm-semantic-router	2603.04444	vLLM Semantic Router: Signal Driven Decision Routing for Mixture-of-Modality Models	C1,C11,C14	4
+lumer-2026-dont-break-the-cache	2601.06007	Don't Break the Cache: An Evaluation of Prompt Caching for Long-Horizon Agentic Tasks	C10,C13,C14	4
+luo-2026-agentark	2602.03955	AgentArk: Distilling Multi-Agent Intelligence into a Single LLM Agent	C8,C12	4
+manoharan-2026-t2mo	2608.08528	Task-to-Model Optimization for Enterprise LLM Coding Assistants: A Data-Driven Framework for Cost-Optimal Routing	C1,C6,C14	4
+mia-2026-adaptive-reasoning-agentic-ai	2608.26442	Don't Overthink, Don't Underthink: Toward Adaptive Reasoning in Agentic AI	C3,C9	4
+mohamed-2026-workload-aware-caching	2607.20495	Workload-Aware Caching for Multi-Agent Systems	C10,C11	4
+moslem-2026-cluster-route-escalate	2606.27457	Cluster, Route, Escalate: Cascaded Framework for Cost-Aware LLM Serving	C1,C2	4
+moslem-2026-routing-cascading-survey	2603.04445	Dynamic Model Routing and Cascading for Efficient LLM Inference: A Survey	C1,C2,C5,C15	4
+ning-2026-hrbench	2605.28398	HRBench: Benchmarking and Understanding Thinking-Mode Switch Strategies in Hybrid-Reasoning LLMs	C9,C13	4
+oh-2026-progress-advantage	2606.26080	Neglected Free Lunch from Post-training: Progress Advantage for LLM Agents	C7	4
+peng-2026-inference-economics-coding-agents	2607.13080	Inference Economics of Enterprise Coding Agents: A Case Study of Cloud vs. On-Premise LLMs	C10,C12,C14	4
+phillips-2026-when-to-use-multi-agent-systems		Building multi-agent systems: When and how to use them	C12,C14	4
+rabanser-2026-agent-reliability	2602.16666	Towards a Science of AI Agent Reliability	C7,C13	4
+rainone-2026-hybrid-cloud-device-mas-lessons	2605.30102	When Cloud Agents Meet Device Agents: Lessons from Hybrid Multi-Agent Systems	C3,C12	4
+raj-2026-trace-router	2607.22465	TRACE-ROUTER: Task-Consistent and Adaptive Online Routing for Agentic AI	C1,C3,C5	4
+rajput-2026-cheap-verifiers-blind-spots	2609.01345	Cheap Verifiers, Large Blind Spots: Measuring the Reliability Cost of Cost-Saving Cascades	C2,C7,C8	4
+ruan-2026-aorchestra	2602.03786	AOrchestra: Automating Sub-Agent Creation for Agentic Orchestration	C3	4
+saleh-2026-illusion-agentic-complexity-readme	2606.30524	The Illusion of Agentic Complexity in README.md Generation: Evaluating Single-Agent vs. Multi-Agent RAG Systems	C12	4
+sethi-2026-trace-action-agreement	2604.08369	Don't Overthink It: Inter-Rollout Action Agreement as a Free Adaptive-Compute Signal for LLM Agents	C3,C7,C9	4
+shaikh-2026-bayesian-self-escalation	2608.24087	Knowing When to Ask for Help: Bayesian Self-Escalation in Hierarchical LLM Agents	C2,C3,C7	4
+shankar-2026-task-cascades	2601.05536	Task Cascades for Efficient Unstructured Data Processing	C2,C4	4
+singh-2026-nl2code-semantic-cache	2601.11687	Semantic Caching and Intent-Driven Context Optimization for Multi-Agent Natural Language to Code Systems	C10,C14	4
+srivastava-2026-effgen	2602.00887	EffGen: Enabling Small Language Models as Capable Autonomous Agents	C3,C8,C10	4
+sun-2026-collaboration-tax	2608.22152	The Collaboration Tax: How Much LLM Multi-Agent Systems Pay to Coordinate	C12	4
+tsai-2026-neuralucb-routing	2603.30035	Reward-Based Online LLM Routing via NeuralUCB	C1,C5	4
+tsang-2026-orchrm	2606.13598	Reward Modeling for Multi-Agent Orchestration	C3,C7	4
+tsymboi-2026-production-traffic-post-training	2609.01572	From Production Traffic to Post-Training: Building a Self-Hosted LLM That Covers the Corporate Request Mix	C6,C8,C14	4
+varshney-2026-prefill-activation-router	2603.20895	LLM Router: Rethinking Routing with Prefill Activations	C1,C7	4
+wang-2026-agentconductor	2602.17100	AgentConductor: Topology Evolution for Multi-Agent Competition-Level Code Generation	C3,C12	4
+wang-2026-beyond-tier-labels	2608.09155	Beyond Tier Labels: Role- and Deployment-Dependent Model Substitution in Multi-Call LLM Workflows	C3,C4	4
+wang-2026-conformal-thinking	2602.03814	Conformal Thinking: Risk Control for Reasoning on a Compute Budget	C7,C9	4
+wang-2026-mcpp-budget-deadline-allocation	2605.06110	On Time, Within Budget: Constraint-Driven Online Resource Allocation for Agentic Workflows	C3,C11	4
+wang-2026-rethinking-scale-slm-agent-paradigms	2604.19299	Rethinking Scale: Deployment Trade-offs of Small Language Models under Agent Paradigms	C8,C12,C13	4
+wang-2026-routemoa	2601.18130	RouteMoA: Dynamic Routing without Pre-Inference Boosts Efficient Mixture-of-Agents	C1,C3	4
+wei-2026-llm-experts-limited-feedback	2609.05820	Online Learning with LLM Experts from Limited Feedback	C5	4
+wei-2026-routing-least-learnable	2608.06171	Routing Is Least Learnable Where It Is Most Valuable: Bounds on Representation Routing for Web Agents	C3,C6,C13	4
+weinberger-2026-prompt-induced-waste-coding-agents	2608.01347	Prompt-Induced Waste in Coding Agents: Reasoning, Effort, Harness Design, and End-to-End Cost	C9,C12,C13	4
+weinberger-2026-token-reduction-not-cost	2607.12161	Token Reduction Is Not Cost Reduction	C10,C13	4
+xiong-2026-clawarena-team	2606.31174	ClawArena-Team: Benchmarking Subagent Orchestration and Dynamic Workflows in Language-Model Agents	C3,C12,C13	4
+xu-2026-hyevo	2603.19639	HyEvo: Self-Evolving Hybrid Agentic Workflows for Efficient Reasoning	C4,C12	4
+xu-2026-learning-what-to-skip	2609.30734	Learning What to Skip: Counterfactual Credit Assignment for Efficient Multi-Agent LLM Workflows	C3,C6,C12	4
+xu-2026-low-effort-office-agents	2608.03169	Low Reasoning Effort Is Enough for Routine Office Work by Language-Model Agents	C9,C13	4
+xu-2026-patching-architectures-study	2603.01257	A Systematic Study of LLM-Based Architectures for Automated Patching	C12	4
+xu-2026-tokenpilot	2606.17016	TokenPilot: Cache-Efficient Context Management for LLM Agents	C10	4
+xue-2026-r2-router	2602.02823	R2-Router: A New Paradigm for LLM Routing with Reasoning	C1,C9	4
+yang-2026-protocol-routing-cost-aware	2608.14927	LLMs Can Predict Failure Risk, But Struggle to Predict Which Collaboration Protocol Pays Off: Cost-Aware Protocol Routing Across Reasoning Tasks	C2,C7,C12	4
+yao-2026-hieramas	2602.20229	HieraMAS: Optimizing Intra-Node LLM Mixtures and Inter-Node Topology for Multi-Agent Systems	C3	4
+yuan-2026-clawtrace	2604.23853	ClawTrace: Cost-Aware Tracing for LLM Agent Skill Distillation	C6,C8	4
+yuan-2026-paramanager-small-orchestrator	2604.17009	Small Model as Master Orchestrator: Learning Unified Agent-Tool Orchestration with Parallel Subtask Decomposition	C3,C8	4
+zeng-2026-learning-to-seek-help	2604.17827	Learning to Seek Help: Dynamic Collaboration Between Small and Large Language Models	C2,C3	4
+zeng-2026-metarouter	2606.06178	Learning to Route LLMs from Implicit Cost-Performance Preferences via Meta-Learning	C1,C5	4
+zeng-2026-mixture-of-roles-single-agent	2608.27338	One Model, Many Minds: Unlocking Multi-Agent Synergy in a Single Agent via Mixture of Roles	C8,C12	4
+zhang-2026-agentfactory	2609.01045	AgentFactory: Towards Automated Agentic System Design and Optimization	C4,C8	4
+zhang-2026-agentforesight	2605.08715	AgentForesight: Online Auditing for Early Failure Prediction in Multi-Agent Systems	C7	4
+zhang-2026-cachescout	2608.14624	Learning Agent Execution for KV-Cache Management in Agentic Serving	C10,C11	4
+zhang-2026-cauc	2609.11446	Calibration-Aware Uncertainty Cascades for Efficient Heterogeneous Model Collaboration	C2,C7	4
+zhang-2026-corea	2603.03752	Confidence-Calibrated Small-Large Language Model Collaboration for Cost-Efficient Reasoning	C2,C7	4
+zhang-2026-po-coin-flip	2604.14585	Prompt Optimization Is a Coin Flip: Diagnosing When It Helps in Compound AI Systems	C4,C13	4
+zhang-2026-racer	2605.10805	Reasoning Is Not Free: Robust Adaptive Cost-Efficient Routing for LLM-as-a-Judge	C1,C7,C9	4
+zhang-2026-xconf-experiential-confidence	2609.17708	Confidence Comes from Experience: Experiential Confidence Estimation from Reasoning to Agents	C7	4
+zhao-2026-atom	2605.26178	ATOM: Instantiating Budget-Controllable Multi-Agent Collaboration via Nucleus-Electron Hierarchy	C4,C12	4
+zhong-2026-enterpriseclawbench	2606.23654	EnterpriseClawBench: Benchmarking Agents from Real Workplace Sessions	C13	4
+zhou-2026-select-then-solve	2604.06753	Select-then-Solve: Paradigm Routing as Inference-Time Optimization for LLM Agents	C1,C3	4
+aggarwal-2025-optimalthinkingbench	2508.13141	OptimalThinkingBench: Evaluating Over and Underthinking in LLMs	C9,C13	4
+agrawal-2025-gepa	2507.19457	GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning	C4	4
+aws-2025-bedrock-intelligent-prompt-routing		Use Amazon Bedrock Intelligent Prompt Routing for cost and latency benefits	C1,C14	4
+ayala-2025-slm-vs-llm-low-code-workflows	2505.24189	Fine-Tune an SLM or Prompt an LLM? The Case of Generating Low-Code Workflows	C8,C14	4
+barres-2025-tau2-bench	2506.07982	τ²-Bench: Evaluating Conversational Agents in a Dual-Control Environment	C13	4
+bian-2025-tokencake	2510.18586	TokenCake: A KV-Cache-centric Serving Framework for LLM-based Multi-Agent Applications	C11	4
+bijoy-2025-prost-slm-multi-agent	2509.04508	ProST: Progressive Sub-task Training for Pareto-Optimal Multi-agent Systems Using Small Language Models	C3,C8,C12	4
+cemri-2025-mast-why-mas-fail	2503.13657	Why Do Multi-Agent LLM Systems Fail?	C7,C12	4
+cencerrado-2025-no-answer-needed	2509.10625	No Answer Needed: Predicting LLM Answer Accuracy from Question-Only Linear Probes	C1,C6,C7	4
+chae-2025-web-shepherd	2505.15277	Web-Shepherd: Advancing PRMs for Reinforcing Web Agents	C7	4
+chakraborty-2025-gencache	2511.17565	Generative Caching for Structurally Similar Prompts and Responses	C10	4
+cheema-2025-tweakllm	2507.23674	TweakLLM: A Routing Architecture for Dynamic Tailoring of Cached Responses	C1,C10	4
+chen-2025-concur	2512.09386	CONCUR: A Framework for Continual Constrained and Unconstrained Routing	C1,C4,C5,C9	4
+chen-2025-mao-arag	2508.01005	MAO-ARAG: Multi-Agent Orchestration for Adaptive Retrieval-Augmented Generation	C3,C4	4
+chen-2025-tagrouter	2506.12473	TagRouter: Learning Route to LLMs through Tags for Open-Domain Text Generation Tasks	C1	4
+chiang-2025-dueling-routing	2510.00841	LLM Routing with Dueling Feedback	C1,C5	4
+choudhury-2025-agentprm-choudhury	2502.10325	Process Reward Models for LLM Agents: Practical Framework and Directions	C7,C8	4
+chuang-2025-confident-or-seek-stronger	2502.04428	Confident or Seek Stronger: Exploring Uncertainty-Based On-device LLM Routing From Benchmarking to Generalization	C1,C2,C7,C13	4
+ding-2025-best-route	2506.22716	BEST-Route: Adaptive LLM Routing with Test-Time Optimal Compute	C1,C9	4
+el-2025-inefficiencies-meta-agents	2510.06711	Inefficiencies of Meta Agents for Agent Design	C4,C12,C13	4
+erol-2025-cost-of-pass	2504.13359	Cost-of-Pass: An Economic Framework for Evaluating Language Models	C12,C13,C15	4
+fan-2025-cothink	2505.22017	The Price of a Second Thought: On the Evaluation of Reasoning Efficiency in Large Language Models	C3,C9,C13	4
+feng-2025-agentrr	2505.17716	Get Experience from Practice: LLM Agents with Record & Replay	C3,C10	4
+feng-2025-fusionfactory	2507.10540	FusionFactory: Fusing LLM Capabilities with Multi-LLM Log Data	C1,C6,C8,C13	4
+fernandez-2025-radar	2509.25426	RADAR: Reasoning-Ability and Difficulty-Aware Routing for Reasoning LLMs	C1,C9	4
+frick-2025-p2l	2502.14855	Prompt-to-Leaderboard	C1,C13	4
+gao-2025-flowreasoner	2504.15257	FlowReasoner: Reinforcing Query-Level Meta-Agents	C3,C4	4
+guan-2025-dynamic-speculative-planning	2509.01920	Dynamic Speculative Agent Planning	C3,C5,C11	4
+guo-2025-moma-generalized-routing	2509.07571	Towards Generalized Routing: Model and Agent Orchestration for Adaptive and Efficient Inference	C1,C3	4
+huang-2025-crmarena-pro	2505.18878	CRMArena-Pro: Holistic Assessment of LLM Agents Across Diverse Business Scenarios and Interactions	C13	4
+huang-2025-routereval	2503.10657	RouterEval: A Comprehensive Benchmark for Routing LLMs to Explore Model-level Scaling Up in LLMs	C1,C13	4
+jha-2025-itbench	2502.05352	ITBench: Evaluating AI Agents across Diverse Real-World IT Automation Tasks	C13	4
+ji-2025-manus-context-engineering		Context Engineering for AI Agents: Lessons from Building Manus	C10,C14	4
+jiang-2025-cascadia	2506.04203	Cascadia: An Efficient Cascade Serving System for Large Language Models	C2,C11	4
+jiang-2025-guided-topology-diffusion	2510.07799	Dynamic Generation of Multi-LLM Agents Communication Topologies with Graph Diffusion Models	C3,C12	4
+jitkrittum-2025-unirouter	2502.08773	Universal Model Routing for Efficient LLM Inference	C1,C5,C6,C15	4
+joglekar-2025-intercom-small-llms		David vs Goliath: are small LLMs any good?	C8,C14	4
+kang-2025-acon	2510.00615	ACON: Optimizing Context Compression for Long-horizon LLM Agents	C8,C10	4
+kang-2025-agent-distillation-retrieval-code	2505.17612	Distilling LLM Agent into Small Models with Retrieval and Code Tools	C8	4
+ke-2025-mas-zero	2505.14996	MAS-ZERO: Designing Multi-Agent Systems with Zero Supervision	C3,C4	4
+kiyohara-2025-opl-sentence-personalization	5328.37480	An Off-Policy Learning Approach for Steering Sentence Generation towards Personalization	C6	4
+lee-2025-mapcoder-lite	2509.17489	MapCoder-Lite: Distilling Multi-Agent Coding into a Single Small LLM	C3,C8	4
+li-2025-adaptive-graph-pruning	2506.02951	Adaptive Graph Pruning for Multi-Agent Communication	C3,C12	4
+li-2025-arg-designer	2507.18224	Assemble Your Crew: Automatic Multi-agent Communication Topology Design via Autoregressive Graph Generation	C3,C12	4
+li-2025-chain-of-agents-afm	2508.13167	Chain-of-Agents: End-to-End Agent Foundation Models via Multi-Agent Distillation and Agentic RL	C8,C12	4
+li-2025-continuum	2511.02230	Continuum: Efficient and Robust Multi-Turn LLM Agent Scheduling with KV Cache Time-to-Live	C10,C11	4
+li-2025-knn-routing	2505.12601	Rethinking Predictive Modeling for LLM Routing: When Simple kNN Beats Complex Learned Routers	C1,C6,C13	4
+li-2025-stageroute	2506.17254	Near-Optimal Online Deployment and Routing for Streaming LLMs	C5,C11	4
+lin-2025-plan-and-budget	2505.16122	Plan and Budget: Effective and Efficient Test-Time Scaling on Reasoning Large Language Models	C3,C9	4
+lin-2025-sleep-time-compute	2504.13171	Sleep-time Compute: Beyond Inference Scaling at Test-time	C9,C10	4
+lin-2025-supervisoragent	2510.26585	Stop Wasting Your Tokens: Towards Efficient Runtime Multi-Agent Systems	C7,C10,C12	4
+lindenbauer-2025-complexity-trap	2508.21433	The Complexity Trap: Simple Observation Masking Is as Efficient as LLM Summarization for Agent Context Management	C10,C13	4
+liu-2025-structured-agent-distillation	2505.13820	Structured Agent Distillation for Large Language Model	C8	4
+lou-2025-adacot	2505.11896	AdaCoT: Pareto-Optimal Adaptive Chain-of-Thought Triggering via Reinforcement Learning	C9,C14	4
+lu-2025-car-certainty-routing	2505.15154	Prolonged Reasoning Is Not All You Need: Certainty-Based Adaptive Routing for Efficient LLM/MLLM Reasoning	C2,C9	4
+lu-2025-routerarena	2510.00202	RouterArena: An Open Platform for Comprehensive Comparison of LLM Routers	C1,C13	4
+luo-2025-autellix	2502.13965	Autellix: An Efficient Serving Engine for LLM Agents as General Programs	C11	4
+mehta-2025-clear	2511.14136	Beyond Accuracy: A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems	C4,C13	4
+mei-2025-omnirouter	2502.20576	OmniRouter: Budget and Performance Controllable Multi-LLM Routing	C1,C15	4
+microsoft-2025-foundry-model-router		Model router for Microsoft Foundry (concepts)	C1,C14	4
+ni-2025-uncertainty-heads	2511.06209	ReProbe: Efficient Test-Time Scaling of Multi-Step Reasoning by Probing Internal States of Large Language Models	C7	4
+nie-2025-w4s	2504.04785	Weak-for-Strong: Training Weak Meta-Agent to Harness Strong Executors	C4	4
+nielsen-2025-conductor	2512.04388	Learning to Orchestrate Agents in Natural Language with the Conductor	C1,C3	4
+openai-2025-practical-guide-building-agents		A practical guide to building agents	C3,C12,C14	4
+openpipe-2025-art		ART (Agent Reinforcement Trainer) and ART-E email agent	C8,C14	4
+pacchiardi-2025-predictaboard	2502.14445	PredictaBoard: Benchmarking LLM Score Predictability	C6,C7,C13	4
+paglieri-2025-learning-when-to-plan	2509.03581	Learning When to Plan: Efficiently Allocating Test-Time Compute for LLM Agents	C3,C9	4
+pan-2025-kvflow	2507.07400	KVFlow: Efficient Prefix Caching for Accelerating LLM-Based Multi-Agent Workflows	C10,C11	4
+pan-2025-route-to-reason	2505.19435	Route to Reason: Adaptive Routing for LLM and Reasoning Strategy Selection	C1,C9	4
+poon-2025-online-multi-llm-context-evolution	2506.17670	Online Multi-LLM Selection via Contextual Bandits under Unstructured Context Evolution	C1,C5	4
+prabhakar-2025-apigen-mt	2504.03601	APIGen-MT: Agentic Pipeline for Multi-Turn Data Generation via Simulated Agent-Human Interplay	C8	4
+qiu-2025-agentdistill-mcp	2506.14728	AgentDistill: Training-Free Agent Distillation with Generalizable MCP Boxes	C8	4
+ro-2025-sherlock	2511.00330	Sherlock: Reliable and Efficient Agentic Workflow Execution	C7,C11	4
+schroeder-2025-vcache	2502.03771	vCache: Verified Semantic Prompt Caching	C7,C10	4
+sharma-2025-slm-agentic-survey	2510.03847	Small Language Models for Agentic Systems: A Survey of Architectures, Capabilities, and Deployment Trade offs	C3,C8,C12,C15	4
+she-2025-hawkeye	2504.00424	Hawkeye:Efficient Reasoning with Model Collaboration	C2,C3,C9	4
+shen-2025-sater	2510.05164	SATER: A Self-Aware and Token-Efficient Approach to Routing and Cascading	C1,C2	4
+shirkavand-2025-cscr	2508.12491	Cost-Aware Contrastive Routing for LLMs	C1	4
+singhvi-2025-databricks-gepa-90x		Building State-of-the-Art Enterprise Agents 90x Cheaper with Automated Prompt Optimization	C4,C14	4
+soiffer-2025-semantic-agreement-cascades	2509.21837	Semantic Agreement Enables Efficient Open-Ended LLM Cascades	C2,C7	4
+song-2025-irt-router	2506.01048	IRT-Router: Effective and Interpretable Multi-LLM Routing via Item Response Theory	C1,C6	4
+sun-2025-context-folding	2510.11967	Scaling Long-Horizon LLM Agent via Context-Folding	C9,C10	4
+tran-2025-arch-router	2506.16655	Arch-Router: Aligning LLM Routing with Human Preferences	C1,C6,C14	4
+valkanas-2025-c3po	2511.07396	C3PO: Optimized Large Language Model Cascades with Probabilistic Cost Constraints for Reasoning	C2,C9	4
+varangot-reille-2025-doing-more-with-less	2502.00409	Doing More with Less: A Survey on Routing Strategies for Resource Optimisation in Large Language Model-Based Systems	C1,C15	4
+wang-2025-icl-router	2510.09719	ICL-Router: In-Context Learned Model Representations for LLM Routing	C1	4
+wang-2025-scoreflow	2502.04306	ScoreFlow: Mastering LLM Agent Workflows via Score-based Preference Optimization	C4	4
+wang-2025-strmac	2511.02200	Optimal-Agent-Selection: State-Aware Routing Framework for Efficient Multi-Agent Collaboration	C3	4
+wang-2025-when-to-reason	2510.08731	When to Reason: Semantic Router for vLLM	C1,C9,C11	4
+woisetschlager-2025-mess-plus	2505.19947	MESS+: Dynamically Learned Inference-Time LLM Routing in Model Zoos with Service Level Guarantees	C1,C5,C15	4
+wu-2025-inter-cascade	2509.22984	From Deferral to Learning: Online In-Context Knowledge Distillation for LLM Cascades	C2,C5,C8,C10	4
+wu-2025-training-free-online-routing	2509.02718	Efficient Training-Free Online Routing for High-Volume Multi-LLM Serving	C1,C5,C15	4
+xi-2025-agentprm-xi	2511.08325	AgentPRM: Process Reward Models for LLM Agents via Step-Wise Promise and Progress	C7	4
+xiao-2025-agentdiet-trajectory-reduction	2509.23586	Reducing Cost of LLM Agents with Trajectory Reduction	C10,C12	4
+xiao-2025-generalized-correctness-models	2509.24988	Generalized Correctness Models: Learning Calibrated and Model-Agnostic Correctness Predictors from Historical Patterns	C6,C7	4
+xu-2025-verimap	2510.17109	Verification-Aware Planning for Multi-Agent Systems	C3,C7	4
+yang-2025-shapleyflow	2502.00510	Understanding and Optimizing Agentic Workflows via Shapley value	C3,C4	4
+yazdani-2025-masprm	2510.24803	MASPRM: Multi-Agent System Process Reward Model	C3,C7	4
+ye-2025-kvcomm	2510.12872	KVCOMM: Online Cross-context KV-cache Communication for Efficient LLM-based Multi-agent Systems	C10,C11	4
+ye-2025-mas-gpt	2503.03686	MAS-GPT: Training LLMs to Build LLM-based Multi-Agent Systems	C3,C4	4
+ye-2025-speculative-actions	2510.04371	Speculative Actions: A Lossless Framework for Faster Agentic Systems	C3,C11	4
+zeighami-2025-bargain	2509.02896	Cut Costs, Not Accuracy: LLM-Powered Data Processing with Guarantees	C2,C7	4
+zellinger-2025-early-abstention-cascades	2502.09054	Cost-Saving LLM Cascades with Early Abstention	C2	4
+zellinger-2025-economic-evaluation	2507.03834	Economic Evaluation of LLMs	C2,C13	4
+zellinger-2025-rational-tuning-cascades	2501.09345	Rational Tuning of LLM Cascades via Probabilistic Modeling	C2,C6	4
+zhang-2025-agentracer	2509.03312	AgenTracer: Who Is Inducing Failure in the LLM Agentic Systems?	C7,C8	4
+zhang-2025-confidence-driven-router	2502.11021	Leveraging Uncertainty Estimation for Efficient LLM Routing	C1,C7	4
+zhang-2025-meta-router	2509.25535	Meta-Router: Bridging Gold-standard and Preference-based Evaluations in Large Language Model Routing	C1,C6,C7	4
+zhang-2025-model-sat	2502.17282	Capability Instruction Tuning: A New Paradigm for Dynamic LLM Routing	C1	4
+zhang-2025-reasoning-models-know-right	2504.05419	Reasoning Models Know When They're Right: Probing Hidden States for Self-Verification	C7,C9	4
+zhang-2025-safesieve	2508.11733	SafeSieve: From Heuristics to Experience in Progressive Pruning for LLM-based Multi-Agent Communication	C3,C12	4
+zhang-2025-synapseroute	2507.02822	SynapseRoute: An Auto-Route Switching Framework on Dual-State Large Language Model	C1,C9	4
+zhang-2025-which-agent-when	2505.00212	Which Agent Causes Task Failures and When? On Automated Failure Attribution of LLM Multi-Agent Systems	C3,C7	4
+zhou-2025-mass	2502.02533	Multi-Agent Design: Optimizing Agents with Better Prompts and Topologies	C4	4
+zhu-2025-test-time-compute-agents	2506.12928	Scaling Test-time Compute for LLM Agents	C3,C9	4
+abhyankar-2024-infercept	2402.01869	InferCept: Efficient Intercept Support for Augmented Large Language Model Inference	C11	4
+almahairi-2024-anyscale-router		Building an LLM Router for High-Quality and Cost-Effective Responses	C1,C14	4
+anthropic-2024-building-effective-agents		Building effective agents	C1,C12,C14	4
+bottaro-2024-linkedin-genai-product		Musings on Building a Generative AI Product	C3,C14	4
+chan-2024-agentmonitor	2408.14972	AgentMonitor: A Plug-and-Play Framework for Predictive and Secure Multi-Agent Systems	C7,C12	4
+chen-2024-model-cascading-code	2405.15842	Model Cascading for Code: A Cascaded Black-Box Multi-Model Framework for Cost-Efficient Code Completion with Self-Testing	C2	4
+chen-2024-routerdc	2409.19886	RouterDC: Query-Based Router by Dual Contrastive Learning for Assembling Large Language Models	C1	4
+chiang-2024-chatbot-arena	2403.04132	Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference	C5,C6,C13	4
+chuang-2024-self-ref	2410.13284	Learning to Route LLMs with Confidence Tokens	C1,C2,C7	4
+damani-2024-learning-how-hard-to-think	2410.04707	Learning How Hard to Think: Input-Adaptive Allocation of LM Computation	C1,C2,C9	4
+ding-2024-hybrid-llm	2404.14618	Hybrid LLM: Cost-Efficient and Quality-Aware Query Routing	C1,C2,C6	4
+feng-2024-graphrouter	2410.03834	GraphRouter: A Graph-based Router for LLM Selections	C1	4
+fu-2024-dynasor-certaindex	2412.20993	Efficiently Scaling LLM Reasoning with Certaindex	C9,C11	4
+gupta-2024-lm-cascades-token-uncertainty	2404.10136	Language Model Cascades: Token-level uncertainty and beyond	C2,C7	4
+han-2024-uala-uncertainty-aware-agent	2401.14016	Towards Uncertainty-Aware Language Agent	C3,C7	4
+hu-2024-adas	2408.08435	Automated Design of Agentic Systems	C4	4
+kolawole-2024-agreement-based-cascading	2407.02348	Agreement-Based Cascading for Efficient Inference	C2	4
+kossen-2024-semantic-entropy-probes	2406.15927	Semantic Entropy Probes: Robust and Cheap Hallucination Detection in LLMs	C7	4
+li-2024-sparse-topology-debate	2406.11776	Improving Multi-Agent Debate with Sparse Communication Topology	C3,C12	4
+lin-2024-parrot	2405.19888	Parrot: Efficient Serving of LLM-based Applications with Semantic Variable	C11	4
+mohammadshahi-2024-routoo	2401.13979	Routoo: Learning to Route to Large Language Models Effectively	C1	4
+narasimhan-2024-speculative-cascades	2405.19261	Faster Cascades via Speculative Decoding	C2,C11	4
+ong-2024-routellm	2406.18665	RouteLLM: Learning to Route LLMs with Preference Data	C1,C6,C13,C14	4
+opsahlong-2024-mipro	2406.11695	Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs	C4	4
+patel-2024-lotus	2407.11418	Semantic Operators: A Declarative Model for Rich, AI-based Data Processing	C2,C4	4
+ramirez-2024-two-tier	2405.02134	Optimising Calls to Large Language Models with Uncertainty-Based Two-Tier Selection	C1,C2,C7	4
+shekhar-2024-optimizing-costs-llm-usage	2402.01742	Towards Optimizing the Costs of LLM Usage	C1,C2,C6,C10	4
+shen-2024-alpha-umi-multi-llm-agent	2401.07324	Small LLMs Are Weak Tool Learners: A Multi-LLM Agent	C3,C8	4
+snell-2024-test-time-compute-optimal	2408.03314	Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters	C9,C15	4
+stripelis-2024-to-router	2408.12320	TensorOpera Router: A Multi-Model Router for Efficient LLM Inference	C1,C14	4
+tang-2024-minicheck	2404.10774	MiniCheck: Efficient Fact-Checking of LLMs on Grounding Documents	C7,C8	4
+verga-2024-poll-juries	2404.18796	Replacing Judges with Juries: Evaluating LLM Generations with a Panel of Diverse Models	C7	4
+wang-2024-agent-workflow-memory	2409.07429	Agent Workflow Memory	C8,C10	4
+wang-2024-reasoning-token-economies	2406.06461	Reasoning in Token Economies: Budget-Aware Evaluation of LLM Reasoning Strategies	C9,C13	4
+wang-2024-rethinking-bounds-multi-agent-discussion	2402.18272	Rethinking the Bounds of LLM Reasoning: Are Multi-Agent Discussions the Key?	C12	4
+xia-2024-agentless	2407.01489	Agentless: Demystifying LLM-based Software Engineering Agents	C12	4
+xia-2024-which-llm-to-play	2403.07213	Which LLM to Play? Convergence-Aware Online Model Selection with Time-Increasing Bandits	C5	4
+xu-2024-theagentcompany	2412.14161	TheAgentCompany: Benchmarking LLM Agents on Consequential Real World Tasks	C13	4
+zhang-2024-ecoact	2411.01643	EcoAct: Economic Agent Determines When to Register What Action	C3,C10,C12	4
+zhang-2024-osca	2410.22480	Scaling LLM Inference with Optimized Sample Compute Allocation	C4,C9	4
+zhang-2024-treacle	2404.13082	Efficient Contextual LLM Cascades through Budget-Constrained Policy Learning	C1,C2,C5,C6	4
+zhao-2024-eagle	2409.15518	Eagle: Efficient Training-Free Router for Multi-LLM Inference	C1,C5	4
+zhao-2024-lora-land	2405.00732	LoRA Land: 310 Fine-tuned LLMs that Rival GPT-4, A Technical Report	C8,C11,C14	4
+zhuang-2024-embedllm	2410.02223	EmbedLLM: Learning Compact Representations of Large Language Models	C1,C6,C13	4
+zhuge-2024-agent-as-a-judge	2410.10934	Agent-as-a-Judge: Evaluate Agents with Agents	C7,C13	4
+aggarwal-2023-automix	2310.12963	AutoMix: Automatically Mixing Language Models	C1,C2,C7	4
+chen-2023-fireact	2310.05915	FireAct: Toward Language Agent Fine-tuning	C8	4
+chen-2023-frugalgpt	2305.05176	FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance	C1,C2	4
+khattab-2023-dspy	2310.03714	DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines	C4	4
+kim-2023-llmcompiler	2312.04511	An LLM Compiler for Parallel Function Calling	C4,C11,C12	4
+lin-2023-swiftsage	2305.17390	SwiftSage: A Generative Agent with Fast and Slow Thinking for Complex Interactive Tasks	C3,C8	4
+lu-2023-zooter	2311.08692	Routing to the Expert: Efficient Reward-guided Ensemble of Large Language Models	C1,C6	4
+ramirez-2023-cache-and-distil	2310.13561	Cache & Distil: Optimising API Calls to Large Language Models	C2,C5,C8,C10	4
+sakota-2023-forc	2308.06077	Fly-Swat or Cannon? Cost-Effective Language Model Choice via Meta-Modeling	C1,C2,C6	4
+shnitzer-2023-routing-benchmark-datasets	2309.15789	Large Language Model Routing with Benchmark Datasets	C1,C6	4
+wang-2023-ecooptigen	2303.04673	Cost-Effective Hyperparameter Optimization for Large Language Model Generation Inference	C4	4
+yue-2023-mot-cascades	2310.03094	Large Language Model Cascades with Mixture of Thoughts Representations for Cost-efficient Reasoning	C2,C7	4
+zhang-2023-ecoassistant	2310.03046	EcoAssistant: Using LLM Assistant More Affordably and Accurately	C2,C3,C10	4
+zheng-2023-sglang	2312.07104	SGLang: Efficient Execution of Structured Language Model Programs	C10,C11	4
+github-copilot-auto-model-selection		About Copilot auto model selection	C1,C3,C14	4
+openrouter-2025-auto-router		Auto Router (Intelligent Model Selection)	C1,C5,C14	4
+alballa-2026-comed	2609.26913	COMED: The Missing Middle Between Routing and Collaboration in Multi-LLM Inference	C1,C2,C12	3
+ashley-2026-rpra	2604.12634	RPRA: Predicting an LLM-Judge for Efficient but Performant Inference	C2,C7	3
+askin-2026-federated-router	2601.22318	Federate the Router: Learning Language Model Routers with Sparse and Decentralized Evaluations	C1,C6	3
+atreja-2026-pioneer-agent	2604.09791	Pioneer Agent: Continual Improvement of Small Language Models in Production	C8,C14	3
+bachar-2026-llm-performance-predictors	2601.07006	LLM Performance Predictors: Learning When to Escalate in Hybrid Human-AI Moderation Systems	C2,C7	3
+baral-2026-semantic-cache-operational-gap	2606.19719	Closing the Operational Gap in Semantic Caching	C10,C13	3
+barke-2026-agentrx	2602.02475	AgentRx: Diagnosing AI Agent Failures from Execution Trajectories	C7	3
+bell-2026-continual-model-routing	2605.28577	Continual Model Routing in Evolving Model Hubs	C1	3
+belloni-2026-online-pandoras-box-cascading	2606.07392	Online Pandora's Box for Contextual LLM Cascading	C2,C5,C15	3
+bertalanic-2026-small-llm-team-scaling-decomposition	2609.36104	An Exact Generate - Transform Decomposition of Small-LLM Team Scaling Across Orchestration Architectures	C12	3
+bian-2026-tokendance	2604.03143	TokenDance: Scaling Multi-Agent LLM Serving via Collective KV Cache Sharing	C11	3
+biswas-2026-sutradhara	2601.12967	Sutradhara: An Intelligent Orchestrator-Engine Co-design for Tool-based Agentic Inference	C11	3
+burleigh-2026-slm-know-when-wrong	2604.19781	Do Small Language Models Know When They're Wrong? Confidence-Based Cascade Scoring for Educational Assessment	C2,C7	3
+chen-2026-coact	2607.02911	CoACT: Action-Preserving Observation Compression for Coding Agents	C8,C10	3
+chen-2026-concur	2601.22705	CONCUR: High-Throughput Agentic Batch Inference of LLM via Congestion-Based Concurrency Control	C11	3
+chen-2026-llm-mab-survey	2601.12945	A Component-Based Survey of Interactions between Large Language Models and Multi-Armed Bandits	C5,C15	3
+chen-2026-token-economics-agents-survey	2605.09104	Token Economics for LLM Agents: A Dual-View Study from Computing and Economics	C12,C15	3
+chen-2026-workload-router-pool	2603.21354	The Workload-Router-Pool Architecture for LLM Inference Optimization: A Vision Paper from the vLLM Semantic Router Project	C1,C11,C14	3
+chi-2026-agentmeter	2606.21140	Matching Matters: A Fair Quality-Efficiency Benchmark for Command-Line Agents	C12,C13	3
+dhanani-2026-dynamo-agentic-inference		Full-Stack Optimizations for Agentic Inference with NVIDIA Dynamo	C10,C11,C14	3
+dixit-2026-focus	2609.37590	FOCUS: Training-Free Decision-Preserving Context Compression for LLM Agents	C10	3
+dubey-2026-psmas-phase-scheduled	2604.17400	Phase-Scheduled Multi-Agent Systems for Token-Efficient Coordination	C10,C12	3
+elhaimeur-2026-multi-agent-tutoring-latency-cost	2604.24110	Latency and Cost of Multi-Agent Intelligent Tutoring at Scale	C11,C12,C14	3
+elzemity-2026-orchestrated-slms-malware	2607.20216	Small, Free, and Effective: Orchestrating Open-Weight Small Language Models to Outperform Single LLM for Malware Analysis	C3,C12	3
+fan-2026-agent-rrm	2601.22154	Exploring Reasoning Reward Model for Agents	C7	3
+fan-2026-agentprocessbench	2603.14465	AgentProcessBench: Diagnosing Step-Level Process Quality in Tool-Using Agents	C7,C13	3
+fan-2026-science-of-collective-ai	2602.05289	Towards a Science of Collective AI: LLM-based Multi-Agent Systems Need a Transition from Blind Trial-and-Error to Rigorous Science	C12,C15	3
+fang-2026-recache	2608.19662	ReCache: Efficient KV Cache Reuse and Compression for Tool-Augmented LLM Agents	C10,C11	3
+felicia-2026-stepshield	2601.22136	StepShield: When, Not Whether to Intervene on Rogue Agents	C7	3
+feng-2026-dr-mas	2602.08847	Dr. MAS: Stable Reinforcement Learning for Multi-Agent LLM Systems	C3,C8	3
+garg-2026-unsolvability-ceiling	2605.07395	Unsolvability Ceiling in Multi-LLM Routing: An Empirical Study of Evaluation Artifacts	C1,C7,C13	3
+gharzeddine-2026-cyclic-subtask-graphs	2604.22820	Complete Cyclic Subtask Graphs for Tool-Using LLM Agents: Flexibility, Cost, and Bottlenecks in Long-Horizon Workflows	C12	3
+ghosh-2026-eval-costs-bottleneck		AI evals are becoming the new compute bottleneck	C13	3
+gonzalez-pumariega-2026-cua-reliability	2604.17849	On the Reliability of Computer Use Agents	C13	3
+gou-2026-dysco-sparse-consensus	2606.01828	Dynamic Trust-Aware Sparse Communication Topology for LLM-Based Multi-Agent Consensus	C3,C12	3
+gu-2026-peek	2605.19932	PEEK: Context Map as an Orientation Cache for Long-Context LLM Agents	C10	3
+hao-2026-racer	2603.06616	RACER: Risk-Aware Calibrated Efficient Routing for Large Language Models	C1,C7,C15	3
+huang-2026-constrained-bandits-time-varying	2606.17489	Online LLM Selection via Constrained Bandits with Time-Varying Demand	C5,C11	3
+huang-2026-evolverouter	2604.05149	EvolveRouter: Co-Evolving Routing and Prompt for Multi-Agent Question Answering	C1,C3	3
+itkin-2026-budgeted-strong-correctors	2607.09765	How Much Does Correctness Cost? Budgeted Placement of Strong Correctors in a Weak Multi-Agent Swarm	C3,C15	3
+jeon-2026-lragent	2602.01053	LRAgent: Efficient KV Cache Sharing for Multi-LoRA LLM Agents	C11	3
+jiang-2026-cera-moa	2609.18779	CERA-MoA: Co-Evolving Routing Mechanisms with Continually Learning LLM Agents	C3,C8	3
+jiang-2026-moae	2609.05992	MOAE: Multi-Objective Agent Evolution with Pareto-Preserving Search	C4	3
+jiang-2026-reliability-at-k	2608.14711	Beyond Pass@k: Measuring Reliability and Security of Agentic Code Generation	C13	3
+kang-2026-thunderagent	2602.13692	ThunderAgent: A Simple, Fast and Program-Aware Agentic Inference System	C11	3
+khailo-2026-keepalive-economics	2607.19214	Keeping the Cache Warm Pays: Keepalive Economics for Agentic Workloads	C10,C14	3
+khanal-2026-beyond-pass1	2603.29231	Beyond pass@1: A Reliability Science Framework for Long-Horizon LLM Agents	C13	3
+kim-2026-agenticcache	2604.24039	AgenticCache: Cache-Driven Asynchronous Planning for Embodied AI Agents	C10	3
+koh-2026-graft	2608.02353	Global Optimization and Inference-Time Region Grafting for Agentic Workflows	C4,C7	3
+kondapalli-2026-slms-as-multi-agent-routers	2608.00030	SLMs as Multi-Agent Routers: A Progressive SFT and Reinforcement Learning Approach	C1,C3,C8	3
+kovacs-2026-squeez	2604.04979	Squeez: Task-Conditioned Tool-Output Pruning for Coding Agents	C8,C10	3
+kulkarni-2026-cache-eviction-study	2608.20280	Which Eviction Policy Should an LLM Cache Use? A Systematic Study Across Workloads, Capacities, and Encoders	C10,C13	3
+kumar-2026-craft	2606.04661	CRAFT: Cost-aware Refinement And Front-aware Tuning of Prompts	C4,C10	3
+kumar-2026-tvcache	2602.10986	TVCACHE: A Stateful Tool-Value Cache for Post-Training LLM Agents	C10	3
+laddha-2026-slmjury	2606.07810	SLMJury: Can Small Language Models Judge as Well as Large Ones?	C7,C13	3
+lai-2026-dars	2606.06924	From Sampled Outcomes to Capability Distributions: Rethinking Supervision for LLM Routing	C1,C6	3
+lai-2026-routefm	2609.37362	Pretrain Once, Route Anywhere: Towards a Foundation Model for LLM Routing	C1	3
+li-2026-bavt-budget-aware-value-tree	2603.12634	Spend Less, Reason Better: Budget-Aware Value Tree Search for LLM Agents	C3,C9	3
+li-2026-coca-confidence-before-answering	2603.05881	Confidence Before Answering: A Paradigm Shift for Efficient LLM Uncertainty Estimation	C6,C7	3
+li-2026-e2-explainer-topology	2608.12921	Discovering Efficient and Explainable Communication Topologies for LLM-based Multi-Agent Systems via Causal Inference	C3,C12	3
+li-2026-morse	2608.09251	MoRSE: Task-Oriented Multi-Agent System with Mixture of Role-Subtask Experts	C3,C8	3
+li-2026-test-time-scaling-agents	2602.18998	Evaluating Test-Time Scaling of General LLM Agents	C9,C13	3
+li-2026-toolprmbench	2601.12294	ToolPRMBench: Evaluating and Advancing Process Reward Models for Tool-using Agents	C7,C13	3
+lim-2026-lodestar	2606.00946	Lodestar: An Online-Learning LLM Inference Router	C5,C11	3
+lin-2026-bagen-budget-aware-agents	2606.00198	BAGEN: Are LLM Agents Budget-Aware?	C7,C9,C12	3
+liu-2026-cost-utility-alignment-trajectories	2608.26195	Cost-Utility Alignment in LLM Agent Trajectories:Profiling,Attribution,Diagnosis,Adaptation,and Evaluation	C6,C12,C13,C15	3
+liu-2026-e3-orch	2608.04588	E$^3$-Orch: Towards Effective, Efficient, and Extensible Agentic Orchestration with Reinforcement Learning	C3	3
+liu-2026-ems-majority-then-stopping	2604.02863	EMS: Multi-Agent Voting via Efficient Majority-then-Stopping	C3,C12	3
+liu-2026-multi-agent-protocol-distillation	2607.24280	From Proprietary to Open-Source: Bridging the Distribution Gap via Multi-Agent Protocol Distillation in Agentic Search	C8	3
+liu-2026-search-do-not-guess	2604.04651	Search, Do not Guess: Teaching Small Language Models to Be Effective Search Agents	C8	3
+liu-2026-trouter	2604.09377	Task-Aware LLM Routing with Multi-Level Task-Profile-Guided Data Synthesis for Cold-Start Scenarios	C1	3
+liu-2026-utility-guided-orchestration	2603.19896	Utility-Guided Agent Orchestration for Efficient LLM Tool Use	C3,C12	3
+lodha-2026-less-context-better-agents	2606.10209	Less Context, Better Agents: Efficient Context Engineering for Long-Horizon Tool-Using LLM Agents	C10,C14	3
+lukassen-2026-cafe	2607.10380	CAFE: A Compound-AI Factorial Evaluation Framework	C4,C13	3
+lyu-2026-agenticqwen	2604.21590	AgenticQwen: Training Small Agentic Language Models with Dual Data Flywheels for Industrial-Scale Tool Use	C8,C14	3
+mahmood-2026-routing-user-choice	2602.09902	Routing, Cascades, and User Choice for LLMs	C1,C2,C15	3
+markovic-voronov-2026-batch-routing	2603.26796	Robust Batch-Level Query Routing for Large Language Models under Cost and Capacity Constraints	C1,C11	3
+merchant-2026-temporal-semantic-cache-mcp	2605.20630	Evaluating Temporal Semantic Caching and Workflow Optimization in Agentic Plan-Execute Pipelines	C10,C12	3
+mieczkowski-2026-latte-adaptive-task-graphs	2605.06320	Improving the Efficiency of Language Agent Teams with Adaptive Task Graphs	C12	3
+mo-2026-entworld	2601.17722	EntWorld: A Holistic Environment and Benchmark for Verifiable Enterprise GUI Agents	C13	3
+moon-2026-price-of-thinking	2608.16956	The Price of Thinking: Reasoning Effort as a Model-Specific API Contract	C9,C13,C14	3
+ndzomga-2026-efficient-benchmarking-agents	2603.23749	Efficient Benchmarking of AI Agents	C13	3
+ni-2026-topas	2608.25523	TOPAS: Workflow-Aware Prefix-State Scheduling for Multi-Agent LLM Serving	C11	3
+nie-2026-generative-opt-challenges	2603.23994	Understanding the Challenges in Iterative Generative Optimization with LLMs	C4	3
+nie-2026-rivet-internalizing-experts	2609.12578	From Collaboration to Capability: Internalizing Routed LLM Experts into Compact Reasoners	C3,C8	3
+niu-2026-armor-mad	2606.13197	ARMOR-MAD: Adaptive Routing for Heterogeneous Multi-Agent Debate in Large Language Model Reasoning	C3,C12	3
+okamoto-2026-topaz-explainable-routing	2604.03527	Explainable Model Routing for Agentic Workflows	C3,C7	3
+pan-2026-smoothagent	2607.00151	SmoothAgent: Efficient Long-Horizon LLM-Based Agent Serving with Lookahead Context Engineering	C10,C11	3
+patel-2026-locus	2601.21082	LOCUS: Low-Dimensional Model Embeddings for Efficient Model Exploration, Comparison, and Selection	C1	3
+peng-2026-hexagent	2605.16637	HexAGenT: Efficient Agentic LLM Serving via Workflow- and Heterogeneity-Aware Scheduling	C11	3
+piriyakulkij-2026-subagents-vs-skills	2609.09233	Subagents vs Agent Skills: Executing Reusable Knowledge for Long-Horizon Agentic Tasks	C10,C12	3
+pona-2026-calibrate-then-delegate	2604.14251	Calibrate-Then-Delegate: Safety Monitoring with Risk and Budget Guarantees via Model Cascades	C2,C7	3
+qiao-2026-verifymas	2605.17467	VerifyMAS: Hypothesis Verification for Failure Attribution in LLM Multi-Agent Systems	C7	3
+raghavendra-2026-swe-atlas	2605.08366	SWE Atlas: Benchmarking Coding Agents Beyond Issue Resolution	C13	3
+raj-2026-consistency-testable	2605.10516	Consistency as a Testable Property: Statistical Methods to Evaluate AI Agent Reliability	C7,C13	3
+rognvaldsson-2026-lean-prover-cost-quality	2606.04883	Optimizing the Cost-Quality Tradeoff of Agentic Theorem Provers in Lean	C3,C4,C9	3
+rokon-2026-autorelannotator	2606.25871	AutoRelAnnotator: Calibrated Model Cascades for Cost-Efficient Relevance Evaluation in Sponsored Search	C2,C8,C14	3
+rosset-2026-universal-verifier-cua	2604.06240	The Art of Building Verifiers for Computer Use Agents	C7	3
+saha-2026-llm-judge-on-budget	2602.15481	LLM-as-Judge on a Budget	C7	3
+satish-2026-beyond-token-savings	2609.32961	Beyond Token Savings: A Systematic Study of Context Compression in LLM Agents	C10,C13	3
+shen-2026-dynbranch	2609.31047	DynBranch: Speculative Subgraph Reuse for Dynamic Agentic LLM Serving	C10,C11	3
+shi-2026-dynsteer	2609.14637	DynSTEER: Dynamic Stage-wise Trajectory Evaluation and Execution-time Review for Agents	C7,C9	3
+shi-2026-lamas-latency-aware-mas	2601.10560	Learning Latency-Aware Orchestration for Multi-Agent Systems	C3,C11	3
+shim-2026-when2think	2609.19671	When2Think: Learning When and How Much to Reason	C9	3
+singh-2026-krites	2602.13165	Asynchronous Verified Semantic Caching for Tiered LLM Architectures	C7,C10	3
+singh-2026-total-cost-of-agency	2609.23790	Total Cost of Agency: Exact Attribution of Memory Injection Cost in Multi-Agent LLM Workflows	C10,C12,C14	3
+smekal-2026-task-spec-token-spend	2608.25399	Can your AI agent be cheaper? Investigating the effects of task specifications on token spend in agentic coding tasks	C9,C12,C13	3
+sui-2026-paste	2603.18897	Parallelizing Tool Execution and LLM Generation for Low-Latency Agent Serving	C11	3
+sun-2026-routeguard	2608.07583	RouteGuard: Certifying Routing Gain in LLM Multi-Agent Systems When Complementarity Is Not Enough	C1,C6,C13	3
+suwannapichat-2026-rga-designer	2608.20099	Reward-Guided Autoregressive Graph Generation for Efficient Multi-Agent Communication Topology Design	C3,C12	3
+tan-2026-atod	2606.27814	ATOD: Annealed Turn-aware On-policy Distillation for Multi-turn Autonomous Agents	C8	3
+tang-2026-jisi	2601.01330	Beyond Gemini-3-Pro: Revisiting LLM Routing and Aggregation at Scale	C1,C12	3
+team-2026-dr-venus	2604.19859	DR-Venus: Towards Frontier Edge-Scale Deep Research Agents with Only 10K Open Data	C8	3
+tiwari-2026-cachewise	2606.16824	CacheWise: Understanding Workloads and Optimizing KVCache Management for Efficiently Serving LLM Coding Agents	C10,C11	3
+wadlom-2026-helium	2603.16104	Efficient LLM Serving for Agentic Workflows: A Data Systems Perspective	C10,C11	3
+wang-2026-amro-s-ant-colony-routing	2603.12933	Efficient and Interpretable Multi-Agent LLM Routing via Ant Colony Optimization	C3,C5	3
+wang-2026-confidently-wrong-finqa	2607.11414	Confidently Wrong: Detecting Hallucinations in Financial Question Answering from LLM Internal States	C7	3
+wang-2026-forecasting-agents-reliability-routing	2609.28475	When Should Forecasting Agents Reason? Behavioral Stress Tests for Reliability Routing	C3,C9	3
+wang-2026-forkkv	2604.06370	ForkKV: Scaling Multi-LoRA Agent Serving via Copy-on-Write Disaggregated KV Cache	C11	3
+wang-2026-random-routing-sparse-debate	2609.27150	Do We Need Complex Topology Control? Distinct-Peer Random Routing Improves Cost-Efficiency in Sparse Multi-Agent Debate	C3,C12	3
+wang-2026-scale-query-level-workflows	2601.11147	Do We Always Need Query-Level Workflows? Rethinking Agentic Workflow Generation for Multi-Agent Systems	C4,C12	3
+wang-2026-signed-rescue-routing	2609.07786	Signed Rescue Routing: Harm-Aware Cascades for Efficient LLM Inference	C2	3
+wang-2026-swe-pruner	2601.16746	SWE-Pruner: Self-Adaptive Context Pruning for Coding Agents	C10	3
+wei-2026-triage-trajectory-reuse	2609.01428	TRIAGE: Three-level Routing and Intelligent Agent Guidance for Efficient Execution	C10,C12	3
+white-2026-scepsy	2604.15186	Scepsy: Serving Agentic Workflows Using Aggregate LLM Pipelines	C11	3
+wu-2026-card-conditional-topology	2603.01089	CARD: Towards Conditional Design of Multi-agent Topological Structures	C3	3
+wu-2026-routerxbench	2602.11877	Towards Fair and Comprehensive Evaluation of Routers in Collaborative LLM Systems	C1,C7,C13	3
+wunderlich-2026-multi-agent-pareto-tts	2605.01566	Multi-Agent Reasoning Improves Compute Efficiency: Pareto-Optimal Test-Time Scaling	C9,C12,C13	3
+xia-2026-mori	2606.00866	Idleness is Relative: Exploiting Tool-Call Idle Windows for Offloading in Agentic Systems with MORI	C11	3
+xuan-2026-confidence-dichotomy-tool-agents	2601.07264	The Confidence Dichotomy: Analyzing and Mitigating Miscalibration in Tool-Use Agents	C7	3
+yan-2026-zerorouter	2601.06220	Breaking Model Lock-in: Cost-Efficient Zero-Shot LLM Routing via a Universal Latent Space	C1	3
+yao-2026-ace-router	2601.08276	ACE-Router: Generalizing History-Aware Routing from MCP Tools to the Agent Web	C3,C10	3
+ye-2026-conditional-progressive-pruning-debate	2609.33974	Beyond Solo and Consistency: Vindicating Multi-Agent Debate via Conditional Progressive Pruning	C3,C12	3
+yu-2026-pythia	2604.25899	Pythia: Exploiting Workflow Predictability for Efficient Agent-Native LLM Serving	C11	3
+yu-2026-when-mas-help-information-bottleneck	2607.16133	When Do Multi-Agent Systems Help? An Information Bottleneck Perspective	C12,C15	3
+yue-2026-workflow-opt-survey	2603.22386	From Static Templates to Dynamic Runtime Graphs: A Survey of Workflow Optimization for LLM Agents	C4,C15	3
+zeng-2026-relope	2603.24787	ReLope: KL-Regularized LoRA Probes for Multimodal LLM Routing	C1,C7	3
+zhang-2026-duotrace-cascade-attribution	2608.29646	Detect Before You Attribute: Cascade Failure Attribution for Multi-Agent Systems	C7	3
+zhang-2026-metaagentx	2605.14212	MetaAgent-X : Breaking the Ceiling of Automatic Multi-Agent Systems via End-to-End Reinforcement Learning	C4	3
+zhang-2026-orchslm	2609.13470	OrchSLM: Probing the Dynamics of Small Language Model Orchestration	C3,C12	3
+zhao-2026-tcandon-router	2601.04544	TCAndon-Router: Adaptive Reasoning Router for Multi-Agent Collaboration	C1,C3	3
+zheng-2026-pbkv	2605.06472	Efficient Serving for Dynamic Agent Workflows with Prediction-based KV-Cache Management	C11	3
+zhong-2026-sod-onpolicy-distillation	2605.07725	SOD: Step-wise On-policy Distillation for Small Language Model Agents	C8	3
+aggarwal-2025-l1-lcpo	2503.04697	L1: Controlling How Long A Reasoning Model Thinks With Reinforcement Learning	C9	3
+alexandru-2025-atla-selene-mini	2501.17195	Atla Selene Mini: A General Purpose Evaluation Model	C7	3
+alomrani-2025-reasoning-on-a-budget	2507.02076	Reasoning on a Budget: A Survey of Adaptive and Controllable Test-Time Compute in LLMs	C9,C15	3
+arora-2025-reason-efficiently	2502.04463	Training Language Models to Reason Efficiently	C9	3
+balachandran-2025-inference-time-scaling-complex-tasks	2504.00294	Inference-Time Scaling for Complex Tasks: Where We Stand and What Lies Ahead	C9,C13	3
+baranowski-2025-instacart-maple		Simplifying Large-Scale LLM Processing across Instacart with Maple	C11,C14	3
+barrak-2025-cargo	2509.14899	CARGO: A Framework for Confidence-Aware Routing of Large Language Models	C1,C7	3
+behera-2025-multi-llm-inference-survey	2506.06579	Towards Efficient Multi-LLM Inference: Characterization and Analysis of LLM Routing and Hierarchical Techniques	C1,C2,C15	3
+bouchard-2025-uqlm-suite	2504.19254	Uncertainty Quantification for Language Models: A Suite of Black-Box, White-Box, LLM Judge, and Ensemble Scorers	C7	3
+chase-2025-how-when-multi-agent		How and when to build multi-agent systems	C10,C12	3
+chen-2025-llm-ensemble-survey	2502.18036	Harnessing Multiple Large Language Models: A Survey on LLM Ensemble	C1,C15	3
+chen-2025-llm-slm-collab-survey	2505.07460	A Survey on Collaborative Mechanisms Between Large and Small Language Models	C1,C2,C3,C15	3
+chhikara-2025-mem0	2504.19413	Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory	C10,C14	3
+dai-2025-s-grpo	2505.07686	S-GRPO: Early Exit via Reinforcement Learning in Reasoning Models	C9	3
+deshpande-2025-trail	2505.08638	TRAIL: Trace Reasoning and Agentic Issue Localization	C7,C13	3
+elumar-2025-camvo	2505.15101	Cost-aware LLM-based Online Dataset Annotation	C1,C5	3
+erdogan-2025-plan-and-act	2503.09572	Plan-and-Act: Improving Planning of Agents for Long-Horizon Tasks	C3,C8	3
+fan-2025-agent-gspo	2510.22477	Agent-GSPO: Communication-Efficient Multi-Agent Systems via Group Sequence Policy Optimization	C3,C8	3
+fanconi-2025-cascaded-human-ai	2506.11887	Cascaded Language Models for Cost-effective Human-AI Decision-Making	C2,C5	3
+fang-2025-thinkless	2505.13379	Thinkless: LLM Learns When to Think	C9	3
+farinhas-2025-qe-deferral-translation	2502.12701	Translate Smart, not Hard: Cascaded Translation Systems with Quality-Aware Deferral	C2,C7	3
+fatemi-2025-concise-reasoning-rl	2504.05185	Concise Reasoning via Reinforcement Learning	C9	3
+feng-2025-efficient-reasoning-models-survey	2504.10903	Efficient Reasoning Models: A Survey	C8,C9,C15	3
+feng-2025-heterogeneous-swarms	2502.04510	Heterogeneous Swarms: Jointly Optimizing Model Roles and Weights for Multi-LLM Systems	C3,C4	3
+gao-2025-reasoning-efficiency-gap	2506.07104	How Far Are We from Optimal Reasoning Efficiency?	C9,C13	3
+ge-2025-famas-spectrum-attribution	2509.13782	Who is Introducing the Failure? Automatically Attributing Failures of Multi-Agent Systems via Spectrum Analysis	C7	3
+gema-2025-inverse-scaling-test-time	2507.14417	Inverse Scaling in Test-Time Compute	C9,C13	3
+geuter-2025-robon	2512.05542	RoBoN: Routed Online Best-of-n for Test-Time Scaling with Multiple LLMs	C5,C7,C9	3
+ghosal-2025-mirage-test-time-scaling	2506.04210	Does Thinking More always Help? Mirage of Test-Time Scaling in Reasoning Models	C9	3
+gim-2025-pie	2510.24051	Pie: A Programmable Serving System for Emerging LLM Applications	C11	3
+han-2025-tale	2412.18547	Token-Budget-Aware LLM Reasoning	C9	3
+he-2025-thinkdial	2508.18773	ThinkDial: An Open Recipe for Controlling Reasoning Effort in Large Language Models	C9	3
+hou-2025-edge-cloud-expert-cascades	2512.20012	Reliable LLM-Based Edge-Cloud-Expert Cascades for Telecom Knowledge Systems	C2	3
+hou-2025-thinkprune	2504.01296	ThinkPrune: Pruning Long Chain-of-Thought of LLMs via Reinforcement Learning	C9	3
+huang-2025-pluralistic-ope	2509.19333	Pluralistic Off-policy Evaluation and Alignment	C6	3
+huang-2025-thriftllm	2501.04901	ThriftLLM: On Cost-Effective Selection of Large Language Models for Classification Queries	C1,C15	3
+ivanovici-2025-intercom-cost-of-serving		Cost of Serving LLMs	C11,C14	3
+jhandi-2025-slm-agentic-tool-calling	2512.15943	Small Language Models for Efficient Agentic Tool Calling: Outperforming Large Models with Targeted Fine-tuning	C3,C8	3
+jiang-2025-flashthink	2505.13949	FlashThink: An Early Exit Method For Efficient Reasoning	C7,C9	3
+jiang-2025-lhrm	2505.14631	Think Only When You Need with Large Hybrid-Reasoning Models	C9	3
+jin-2025-radialrouter	2506.03880	RadialRouter: Structured Representation for Efficient and Robust Large Language Models Routing	C1	3
+jung-2025-futureweaver	2512.11213	FutureWeaver: Planning Test-Time Compute for Multi-Agent Systems with Modularized Collaboration	C3,C4,C9	3
+kadekodi-2025-dualtune	2510.00229	AgentFlux: Decoupled Fine-Tuning & Inference for On-Device Agentic Systems	C8,C11	3
+kadu-2025-reflexgrad	2511.14584	ReflexGrad: Within-Episode Failure Recovery in LLM Agents via Progress-Gated Dual-Process Routing	C3,C7	3
+kassem-2025-router-robustness	2504.07113	How Robust Are Router-LLMs? Analysis of the Fragility of LLM Routing Capabilities	C1,C13	3
+kilpatrick-2025-gemini-implicit-caching		Gemini 2.5 Models now support implicit caching	C10,C14	3
+kim-2025-cost-of-dynamic-reasoning	2506.04301	The Cost of Dynamic Reasoning: Demystifying AI Agents and Test-Time Scaling from an AI Infrastructure Perspective	C11,C12,C13	3
+kleinman-2025-e1-adaptive-effort	2510.27042	e1: Learning Adaptive Control of Reasoning Effort	C9	3
+lan-2025-expert-failures-agent-tuning	2504.13145	Exploring Expert Failures Improves LLM Agent Tuning	C8	3
+lee-2025-cais-opt-survey	2506.08234	Compound AI Systems Optimization: A Survey of Methods, Challenges, and Future Directions	C4,C15	3
+lee-2025-prints	2511.19314	PRInTS: Reward Modeling for Long-Horizon Information Seeking	C7,C10	3
+li-2025-agentswift	2506.06017	AgentSwift: Efficient LLM Agent Design via Value-guided Hierarchical Search	C4	3
+li-2025-budget-guidance	2506.13752	Steering LLM Thinking with Budget Guidance	C9	3
+li-2025-self-moa	2502.00674	Rethinking Mixture-of-Agents: Is Mixing Different Large Language Models Beneficial?	C3,C12	3
+li-2025-selfbudgeter	2505.11274	SelfBudgeter: Adaptive Token Allocation for Efficient LLM Reasoning	C9	3
+li-2025-small-model-learnability-gap	2502.12143	Small Models Struggle to Learn from Strong Reasoners	C8	3
+liang-2025-thinkswitcher	2505.14183	ThinkSwitcher: When to Think Hard, When to Think Fast	C9	3
+lin-2025-cuarewardbench	2510.18596	CUARewardBench: A Benchmark for Evaluating Reward Models on Computer-using Agent	C7,C13	3
+liu-2025-answer-convergence-early-stop	2506.02536	Answer Convergence as a Signal for Early Stopping in Reasoning	C9	3
+liu-2025-budget-aware-tool-use	2511.17006	Budget-Aware Tool Use Enables Effective Agent Scaling	C9,C12,C13	3
+liu-2025-context-as-a-tool	2512.22087	Context as a Tool: Context Management for Long-Horizon SWE-Agents	C10	3
+liu-2025-off-cmab	2501.19300	Offline Learning for Combinatorial Multi-armed Bandits	C6,C10	3
+liu-2025-rcr-router	2508.04903	RCR-Router: Efficient Role-Aware Context Routing for Multi-Agent LLM Systems with Structured Memory	C3,C10	3
+lu-2025-agentrewardbench	2504.08942	AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories	C7,C13	3
+luo-2025-ada-r1	2504.21659	Ada-R1: Hybrid-CoT via Bi-Level Adaptive Reasoning Optimization	C9	3
+luo-2025-agent-lightning	2508.03680	Agent Lightning: Train ANY AI Agents with Reinforcement Learning	C8	3
+luo-2025-o1-pruner	2501.12570	O1-Pruner: Length-Harmonizing Fine-Tuning for O1-Like Reasoning Pruning	C9	3
+ma-2025-automaas	2510.02669	AutoMaAS: Self-Evolving Multi-Agent Architecture Search for Large Language Models	C3,C4	3
+ma-2025-cot-valve	2502.09601	CoT-Valve: Length-Compressible Chain-of-Thought Tuning	C9	3
+ma-2025-nothinking	2504.09858	Reasoning Models Can Be Effective Without Thinking	C9	3
+mao-2025-multi-expert-deferral-thesis	2512.22886	Theory and Algorithms for Learning with Multi-Class Abstention and Multi-Expert Deferral	C2,C15	3
+mcnamara-2025-shopify-sidekick		Building production-ready agentic systems: Lessons from Shopify Sidekick	C7,C13,C14	3
+molinari-2025-rp-react	2512.03560	Reason-Plan-ReAct: A Reasoner-Planner Supervising a ReAct Executor for Complex Enterprise Tasks	C3,C10	3
+muennighoff-2025-s1	2501.19393	s1: Simple test-time scaling	C8,C9	3
+munkhbat-2025-self-training-concise	2502.20122	Self-Training Elicits Concise Reasoning in Large Language Models	C8,C9	3
+nath-2025-toolcomp	2501.01290	ToolComp: A Multi-Tool Reasoning & Process Supervision Benchmark	C7,C13	3
+ni-2025-astraea	2512.14142	Astraea: A State-Aware Scheduling Engine for LLM-Powered Agents	C11	3
+orbach-2025-rag-hpo	2505.03452	An Analysis of Hyper-Parameter Optimization Methods for Retrieval Augmented Generation	C4,C13	3
+patel-2025-proxrouter	2510.09852	ProxRouter: Proximity-Weighted LLM Query Routing for Improved Robustness to Outliers	C1	3
+pu-2025-thoughtterminator	2504.13367	THOUGHTTERMINATOR: Benchmarking, Calibrating, and Mitigating Overthinking in Reasoning Models	C9,C13	3
+pulishetty-2025-cross-attention-router	2509.09782	One Head, Many Models: Cross-Attention Routing for Cost-Aware LLM Selection	C1	3
+qi-2025-anytime-reasoner-brpo	2505.13438	Optimizing Anytime Reasoning via Budget Relative Policy Optimization	C9	3
+qu-2025-efficient-reasoning-lrm-survey	2503.21614	A Survey of Efficient Reasoning for Large Reasoning Models: Language, Multimodality, and Beyond	C9,C15	3
+qu-2025-mrt	2503.07572	Optimizing Test-Time Compute via Meta Reinforcement Fine-Tuning	C9	3
+rabanser-2025-gatekeeper	2502.19335	Gatekeeper: Improving Model Cascades Through Confidence Tuning	C2,C7	3
+rajasekaran-2025-effective-context-engineering		Effective context engineering for AI agents	C10,C12	3
+ruan-2025-cortex-knowledge-cache	2509.17360	Cortex: Achieving Low-Latency, Cost-Efficient Remote Data Access For LLM via Semantic-Aware Knowledge Caching	C10,C11	3
+shen-2025-dast	2503.04472	DAST: Difficulty-Adaptive Slow-Thinking for Large Reasoning Models	C9	3
+shen-2025-halo	2509.02121	Batch Query Processing and Optimization for Agentic Workflows	C4,C11	3
+shi-2025-inferencedynamics	2505.16303	INFERENCEDYNAMICS: Efficient Routing Across LLMs through Structured Capability and Knowledge Profiling	C1	3
+song-2025-agent-data-protocol	2510.24702	Agent Data Protocol: Unifying Datasets for Diverse, Effective Fine-tuning of LLM Agents	C8	3
+sui-2025-stop-overthinking	2503.16419	Stop Overthinking: A Survey on Efficient Reasoning for Large Language Models	C9,C15	3
+tan-2025-zero-step-thinking	2510.19176	The Zero-Step Thinking: An Empirical Study of Mode Selection as Harder Early Exit in Reasoning Models	C9,C13	3
+tripathy-2025-swenergy	2512.09543	SWEnergy: An Empirical Study on Energy Efficiency in Agentic Issue Resolution Frameworks with SLMs	C8,C12	3
+trirat-2025-agentic-predictor	2505.19764	Multi-View Encoders for Performance Prediction in LLM-Based Agentic Workflows	C4,C6	3
+tu-2025-autothink	2505.10832	Learning When to Think: Shaping Adaptive Reasoning in R1-Style Models via Multi-Stage RL	C9	3
+vllm-2025-semantic-router		vLLM Semantic Router: Next Phase in LLM inference	C1,C9,C14	3
+wang-2025-augserve	2512.04013	AugServe: Adaptive Request Scheduling for Augmented Large Language Model Inference Serving	C11	3
+wang-2025-cosmos	2505.01449	COSMOS: Predictable and Cost-Effective Adaptation of LLMs	C4,C6	3
+wang-2025-demystifying-hybrid-thinking	2510.12680	Demystifying Hybrid Thinking: Can LLMs Truly Switch Between Think and No-Think?	C9	3
+wang-2025-efficient-moa-serving	2512.18126	Efficient Mixture-of-Agents Serving via Tree-Structured Routing, Adaptive Pruning, and Dependency-Aware Prefill-Decode Overlap	C3,C11	3
+wang-2025-entropy-after-think	2509.26522	Entropy After </Think> for reasoning model early exiting	C9	3
+wang-2025-evoagentx	2507.03616	EvoAgentX: An Automated Framework for Evolving Agentic Workflows	C4	3
+wang-2025-kvcache-in-the-wild	2506.02634	KVCache Cache in the Wild: Characterizing and Optimizing KVCache Cache at a Large Cloud Provider	C10,C11,C14	3
+wang-2025-mas2	2509.24323	MAS$^2$: Self-Generative, Self-Configuring, Self-Rectifying Multi-Agent Systems	C3,C4	3
+wang-2025-practitioners-guide-agentic-rl	2510.01132	A Practitioner's Guide to Multi-turn Agentic Reinforcement Learning	C8	3
+wang-2025-reasoning-economy	2503.24377	Harnessing the Reasoning Economy: A Survey of Efficient Reasoning for Large Language Models	C9,C15	3
+wang-2025-slm-llm-collab-survey	2510.13890	A Survey on Collaborating Small and Large Language Models for Performance, Cost-effectiveness, Cloud-edge Privacy, and Trustworthiness	C1,C15	3
+wang-2025-slm-mux	2510.05077	Slm-mux: Orchestrating small language models for reasoning	C1,C3	3
+warren-2025-bidirectional-cascading	2504.19391	Bi-directional Model Cascading with Proxy Confidence	C2,C7	3
+wei-2025-webagent-r1	2505.16421	WebAgent-R1: Training Web Agents via End-to-End Multi-Turn Reinforcement Learning	C8	3
+wen-2025-budgetthinker	2508.17196	BudgetThinker: Empowering Budget-aware LLM Reasoning with Control Tokens	C9	3
+wu-2025-resum	2509.13313	ReSum: Unlocking Long-Horizon Search Intelligence via Context Summarization	C10	3
+wu-2025-rirs-iterative-routing-specialists	2501.07813	Talk to Right Specialists: Iterative Routing in Multi-agent Systems for Question Answering	C1,C3	3
+wu-2025-when-more-is-less-cot	2502.07266	When More is Less: Understanding Chain-of-Thought Length in LLMs	C9,C15	3
+xi-2025-agentgym-rl	2509.08755	AgentGym-RL: Training LLM Agents for Long-Horizon Decision Making through Multi-Turn Reinforcement Learning	C8	3
+xia-2025-agentrm	2502.18407	AgentRM: Enhancing Agent Generalization with Reward Modeling	C7,C8	3
+xia-2025-tokenskip	2502.12067	TokenSkip: Controllable Chain-of-Thought Compression in LLMs	C9,C10	3
+xiang-2025-spo	2502.06855	Self-Supervised Prompt Optimization	C4,C7	3
+xie-2025-gmtrouter	2511.08590	GMTRouter: Personalized LLM Router over Multi-turn User Interactions	C1	3
+xie-2025-rmoa	2505.24442	RMoA: Optimizing Mixture-of-Agents through Diversity Maximization and Residual Compensation	C3	3
+xu-2025-chain-of-draft	2502.18600	Chain of Draft: Thinking Faster by Writing Less	C9,C10	3
+xu-2025-collaborative-expertise-delegation	2505.07313	Towards Multi-Agent Reasoning Systems for Collaborative Expertise Delegation: An Exploratory Design Study	C12	3
+xu-2025-elastic-reasoning	2505.05315	Scalable Chain of Thoughts via Elastic Reasoning	C9	3
+yang-2025-deer-dynamic-early-exit	2504.15895	Dynamic Early Exit in Reasoning Models	C9	3
+yang-2025-mashost	2506.08507	MasHost Builds It All: Autonomous Multi-Agent System Directed by Reinforcement Learning	C3,C4	3
+yang-2025-qwen3	2505.09388	Qwen3 Technical Report	C9	3
+yang-2025-thinking-optimal-scaling	2502.18080	Towards Thinking-Optimal Scaling of Test-Time Compute for LLM Reasoning	C9	3
+ye-2025-agentfold	2510.24699	AgentFold: Long-Horizon Web Agents with Proactive Context Management	C10	3
+zehle-2025-capo	2504.16005	CAPO: Cost-Aware Prompt Optimization	C4,C10	3
+zeng-2025-pac-efficient-routing	2512.03057	A note on conditional PAC-efficient reasoning in large language model routing	C1,C2,C15	3
+zhang-2025-ace	2510.04618	Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models	C4,C10	3
+zhang-2025-adaptthink	2505.13417	AdaptThink: Reasoning Models Can Learn When to Think	C9	3
+zhang-2025-agentrouter-kg	2510.05445	AgentRouter: A Knowledge-Graph-Guided LLM Router for Collaborative Multi-Agent Question Answering	C1,C3	3
+zhang-2025-alphaone	2505.24863	AlphaOne: Reasoning Models Thinking Slow and Fast at Test Time	C9	3
+zhang-2025-asrr	2505.15400	When to Continue Thinking: Adaptive Thinking Mode Switching for Efficient Reasoning	C9	3
+zhang-2025-avengers	2505.19797	The Avengers: A Simple Recipe for Uniting Smaller Language Models to Challenge Proprietary Giants	C1,C12	3
+zhang-2025-benchmark-prediction-misses	2506.07673	How Benchmark Prediction from Fewer Data Misses the Mark	C6,C13	3
+zhang-2025-othink-r1	2506.02397	OThink-R1: Intrinsic Fast/Slow Thinking Mode Switching for Over-Reasoning Mitigation	C9	3
+zheng-2025-disrouter	2510.19208	DiSRouter: Distributed Self-Routing for LLM Selections	C1,C7	3
+zhou-2025-mem1	2506.15841	MEM1: Learning to Synergize Memory and Reasoning for Efficient Long-Horizon Agents	C8,C10	3
+zhou-2025-sweet-rl	2503.15478	SWEET-RL: Training Multi-Turn LLM Agents on Collaborative Reasoning Tasks	C8	3
+zhu-2025-agentdebug	2509.25370	Where LLM Agents Fail and How They can Learn From Failures	C7	3
+zhu-2025-agentic-benchmark-checklist	2507.02825	Establishing Best Practices for Building Rigorous Agentic Benchmarks	C13	3
+zhu-2025-multiagentbench	2503.01935	MultiAgentBench: Evaluating the Collaboration and Competition of LLM agents	C12,C13	3
+anthropic-2024-prompt-caching		Prompt caching (Claude API documentation) and "Prompt caching with Claude" announcement	C10,C14	3
+anthropic-2024-prompt-caching-b		Prompt caching with Claude	C10,C14	3
+bai-2024-digirl	2406.11896	DigiRL: Training In-The-Wild Device-Control Agents with Autonomous Reinforcement Learning	C8	3
+brown-2024-large-language-monkeys	2407.21787	Large Language Monkeys: Scaling Inference Compute with Repeated Sampling	C7,C9,C13,C15	3
+chatzi-2024-prediction-powered-ranking	2402.17826	Prediction-Powered Ranking of Large Language Models	C6,C7,C13	3
+chen-2024-agent-flan	2403.12881	Agent-FLAN: Designing Data and Methods of Effective Agent Tuning for Large Language Models	C8	3
+chen-2024-octopus-v2	2404.01744	Octopus v2: On-device language model for super agent	C8,C11	3
+chen-2024-overthinking-o1	2412.21187	Do NOT Think That Much for 2+3=? On the Overthinking of o1-Like LLMs	C9	3
+chen-2024-small-models-survey	2409.06857	What is the Role of Small Models in the LLM Era: A Survey	C1,C8,C15	3
+cheng-2024-trace	2406.16218	Trace is the Next AutoDiff: Generative Optimization with Rich Feedback, Execution Traces, and LLMs	C4	3
+chezelles-2024-browsergym	2412.05467	The BrowserGym Ecosystem for Web Agent Research	C13	3
+deshpande-2024-glider	2412.14140	GLIDER: Grading LLM Interactions and Decisions using Explainable Ranking	C7	3
+duan-2024-muxserve	2404.02015	MuxServe: Flexible Spatial-Temporal Multiplexing for Multiple LLM Serving	C11	3
+erdogan-2024-tinyagent	2409.00608	TinyAgent: Function Calling at the Edge	C8,C11	3
+farquhar-2024-semantic-entropy-nature		Detecting hallucinations in large language models using semantic entropy	C7	3
+fourney-2024-magentic-one	2411.04468	Magentic-One: A Generalist Multi-Agent System for Solving Complex Tasks	C3,C12	3
+fu-2024-tiny-titans	2402.00841	Tiny Titans: Can Smaller Large Language Models Punch Above Their Weight in the Real World for Meeting Summarization?	C8,C14	3
+gao-2024-cachedattention	2403.19708	Cost-Efficient Large Language Model Serving for Multi-turn Conversations with CachedAttention	C10,C11	3
+gill-2024-meancache	2403.02694	MeanCache: User-Centric Semantic Caching for LLM Web Services	C10	3
+google-2024-gemini-context-caching		Context caching (Gemini API documentation)	C10,C14	3
+guha-2024-smoothie	2412.04692	Smoothie: Label Free Language Model Routing	C1,C7	3
+hu-2024-pak-ucb	2410.13287	PAK-UCB Contextual Bandit: An Online Learning Approach to Prompt-Aware Selection of Generative Models and LLMs	C1,C5	3
+huang-2024-crmarena	2411.02305	CRMArena: Understanding the Capacity of LLM Agents to Perform Professional CRM Tasks in Realistic Environments	C13	3
+ibm-2024-llm-routers-blog		LLM routing for quality, low-cost responses	C1,C14	3
+jha-2024-prompt-compression-characterization	2407.08892	Characterizing Prompt Compression Methods for Long Context Inference	C10,C13	3
+kapoor-2024-taught-to-know-uncertainty	2406.08391	Large Language Models Must Be Taught to Know What They Don't Know	C7	3
+kim-2024-autorag	2410.20878	AutoRAG: Automated Framework for optimization of Retrieval Augmented Generation Pipeline	C4	3
+kim-2024-prometheus-2	2405.01535	Prometheus 2: An Open Source Language Model Specialized in Evaluating Other Language Models	C7	3
+li-2024-agent-oriented-planning	2410.02189	Agent-Oriented Planning in Multi-Agent Systems	C3	3
+li-2024-arena-hard	2406.11939	From Crowdsourced Data to High-Quality Benchmarks: Arena-Hard and BenchBuilder Pipeline	C6,C13	3
+li-2024-early-stopping-self-consistency	2401.10480	Escape Sky-high Cost: Early-stopping Self-Consistency for Multi-step Reasoning	C9	3
+li-2024-smoa	2411.03284	SMoA: Improving Multi-agent Large Language Models with Sparse Mixture-of-Agents	C3,C12	3
+liu-2024-apigen	2406.18518	APIGen: Automated Pipeline for Generating Verifiable and Diverse Function-Calling Datasets	C8	3
+liu-2024-meta-ranking	2402.12146	Enabling Weak LLMs to Judge Response Reliability via Meta Ranking	C2,C7	3
+liu-2024-toolace	2409.00920	ToolACE: Winning the Points of LLM Function Calling	C8	3
+maurya-2024-selectllm	2408.08545	SelectLLM: Query-Aware Efficient Selection Algorithm for Large Language Models	C1	3
+montreuil-2024-l2d-extractive-qa	2410.15761	Optimal Query Allocation in Extractive QA with LLMs: A Learning-to-Defer Framework with Theoretical Guarantees	C2	3
+notdiamond-2024-rorf		RoRF - Routing on Random Forests	C1,C14	3
+openai-2024-prompt-caching		Prompt caching (OpenAI API guide) and "Prompt Caching in the API"	C10,C14	3
+pan-2024-autonomous-eval-digital-agents	2404.06474	Autonomous Evaluation and Refinement of Digital Agents	C7,C8	3
+pan-2024-llmlingua-2	2403.12968	LLMLingua-2: Data Distillation for Efficient and Faithful Task-Agnostic Prompt Compression	C8,C10	3
+pan-2024-swe-gym	2412.21139	Training Software Engineering Agents and Verifiers with SWE-Gym	C7,C8	3
+polo-2024-prompteval	2405.17202	Efficient multi-prompt evaluation of LLMs	C6,C13	3
+polo-2024-tinybenchmarks	2402.14992	tinyBenchmarks: evaluating LLMs with fewer examples	C6,C13	3
+putta-2024-agent-q	2408.07199	Agent Q: Advanced Reasoning and Learning for Autonomous AI Agents	C8	3
+qi-2024-webrl	2411.02337	WebRL: Training LLM Web Agents via Self-Evolving Online Curriculum Reinforcement Learning	C8	3
+qin-2024-mooncake	2407.00079	Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving	C10,C11,C14	3
+raghavan-2024-alto	2403.04311	Alto: Orchestrating Distributed Compound AI Systems with Nested Ancestry	C11	3
+ruan-2024-observational-scaling	2405.10938	Observational Scaling Laws and the Predictability of Language Model Performance	C6	3
+schnabel-2024-sammo	2404.02319	Symbolic Prompt Program Search: A Structure-Aware Approach to Efficient Compile-Time Prompt Optimization	C4,C10	3
+setlur-2024-rewarding-progress-pav	2410.08146	Rewarding Progress: Scaling Automated Process Verifiers for LLM Reasoning	C7	3
+shahout-2024-lamps	2410.18248	Fast Inference for Augmented Large Language Models	C11	3
+shang-2024-agentsquare	2410.06153	AgentSquare: Automatic LLM Agent Search in Modular Design Space	C3,C4	3
+shi-2024-triple-bai-prompt	2402.09723	Efficient Prompt Optimization Through the Lens of Best Arm Identification	C4,C5	3
+shi-2024-wildfeedback	2408.15549	WildFeedback: Aligning LLMs With In-situ User Interactions And Feedback	C5,C6	3
+sikeridis-2024-pickllm	2412.12170	PickLLM: Context-Aware RL-Assisted Large Language Model Routing	C1,C5	3
+song-2024-agentbank	2410.07706	AgentBank: Towards Generalized LLM Agents via Fine-Tuning on 50000+ Interaction Trajectories	C8	3
+song-2024-eto-trial-and-error	2403.02502	Trial and Error: Exploration-Based Trajectory Optimization for LLM Agents	C8	3
+soylu-2024-bettertogether	2407.10930	Fine-Tuning and Prompt Optimization: Two Great Steps that Work Better Together	C4,C8	3
+srivatsa-2024-lessons-routing	2405.00467	Harnessing the Power of Multiple Minds: Lessons Learned from LLM Routing	C1	3
+srivatsa-2024-preble	2407.00023	Preble: Efficient Distributed Prompt Scheduling for LLM Serving	C10,C11	3
+styles-2024-workbench	2405.00823	WorkBench: a Benchmark Dataset for Agents in a Realistic Workplace Setting	C13	3
+tan-2024-teola	2407.00326	Teola: Towards End-to-End Optimization of LLM-based Applications	C4,C11	3
+trivedi-2024-appworld	2407.18901	AppWorld: A Controllable World of Apps and People for Benchmarking Interactive Coding Agents	C13	3
+wang-2024-cascade-aware-training	2406.00060	Cascade-Aware Training of Language Models	C2,C8	3
+wang-2024-difficulty-adaptive-sc	2408.13457	Make Every Penny Count: Difficulty-Adaptive Self-Consistency for Cost-Efficient Reasoning	C7,C9	3
+wang-2024-learning-from-failure-nat	2402.11651	Learning From Failure: Integrating Negative Examples when Fine-tuning Large Language Models as Agents	C8	3
+wang-2024-mixture-of-agents	2406.04692	Mixture-of-Agents Enhances Large Language Model Capabilities	C3,C12	3
+wang-2024-uber-genai-gateway		Navigating the LLM Landscape: Uber's Innovation with GenAI Gateway	C14	3
+wu-2024-inference-scaling-laws	2408.00724	Inference Scaling Laws: An Empirical Analysis of Compute-Optimal Inference for Problem-Solving with Language Models	C9,C15	3
+wu-2024-ocean	2410.23703	OCEAN: Offline Chain-of-thought Evaluation and Alignment in Large Language Models	C6,C7	3
+xi-2024-agentgym	2406.04151	AgentGym: Evolving Large Language Model-based Agents across Diverse Environments	C8	3
+xiong-2024-ipr-step-level-refinement	2406.11176	Watch Every Step! LLM Agent Learning via Iterative Step-Level Process Refinement	C7,C8	3
+xu-2024-conveyor	2406.00059	Conveyor: Efficient Tool-aware LLM Serving with Tool Partial Execution	C11	3
+yao-2024-cacheblend	2405.16444	CacheBlend: Fast Large Language Model Serving for RAG with Cached Knowledge Fusion	C10,C11	3
+yuan-2024-evoagent	2406.14228	EvoAgent: Towards Automatic Multi-Agent Generation via Evolutionary Algorithms	C4	3
+yuksekgonul-2024-textgrad	2406.07496	TextGrad: Automatic "Differentiation" via Text	C4	3
+zaharia-2024-compound-ai-systems		The Shift from Models to Compound AI Systems	C4,C15	3
+zhang-2024-collaborative-performance-prediction	2407.01300	Collaborative Performance Prediction for Large Language Models	C6	3
+zhang-2024-genrm-generative-verifiers	2408.15240	Generative Verifiers: Reward Modeling as Next-Token Prediction	C7	3
+zhang-2024-p3defer	2410.08014	Privacy-preserved LLM Cascade via CoT-enhanced Policy Learning	C2	3
+zhang-2024-xlam	2409.03215	xLAM: A Family of Large Action Models to Empower AI Agent Systems	C8	3
+zhao-2024-saup	2412.01033	SAUP: Situation Awareness Uncertainty Propagation on LLM Agent	C7	3
+zhao-2024-wildchat	2405.01470	WildChat: 1M ChatGPT Interaction Logs in the Wild	C6,C13	3
+zhuge-2024-gptswarm	2402.16823	Language Agents as Optimizable Graphs	C3,C4,C12	3
+aggarwal-2023-adaptive-consistency	2305.11860	Let's Sample Step by Step: Adaptive-Consistency for Efficient Reasoning and Coding with LLMs	C7,C9	3
+aksitov-2023-rest-meets-react	2312.10003	ReST meets ReAct: Self-Improvement for Multi-Step Reasoning LLM Agent	C8	3
+bang-2023-gptcache		GPTCache: An Open-Source Semantic Cache for LLM Applications Enabling Faster Answers and Cost Savings	C10,C14	3
+chen-2023-punica	2310.18547	Punica: Multi-Tenant LoRA Serving	C8,C11	3
+gim-2023-prompt-cache	2311.04934	Prompt Cache: Modular Attention Reuse for Low-Latency Inference	C10,C11	3
+hakhamaneshi-2023-anyscale-finetuning-llama2		Fine-Tuning Llama-2: A Comprehensive Case Study for Tailoring Models to Unique Applications	C8,C14	3
+hari-2023-tryage	2308.11601	Tryage: Real-time, intelligent Routing of User Prompts to Large Language Models	C1	3
+hsieh-2023-distilling-step-by-step	2305.02301	Distilling Step-by-Step! Outperforming Larger Language Models with Less Training Data and Smaller Model Sizes	C8	3
+jiang-2023-llmlingua	2310.05736	LLMLingua: Compressing Prompts for Accelerated Inference of Large Language Models	C10	3
+jiang-2023-longllmlingua	2310.06839	LongLLMLingua: Accelerating and Enhancing LLMs in Long Context Scenarios via Prompt Compression	C10	3
+jitkrittum-2023-confidence-cascade-deferral	2307.02764	When Does Confidence-Based Cascade Deferral Suffice?	C2,C15	3
+kuhn-2023-semantic-uncertainty	2302.09664	Semantic Uncertainty: Linguistic Invariances for Uncertainty Estimation in Natural Language Generation	C2,C7	3
+kwon-2023-vllm	2309.06180	Efficient Memory Management for Large Language Model Serving with PagedAttention	C11	3
+lee-2023-orchestrallm	2311.09758	OrchestraLLM: Efficient Orchestration of Language Models for Dialogue State Tracking	C1	3
+li-2023-selective-context	2310.06201	Compressing Context to Enhance Inference Efficiency of Large Language Models	C10	3
+lightman-2023-lets-verify-step-by-step	2305.20050	Let's Verify Step by Step	C7	3
+lin-2023-generating-with-confidence	2305.19187	Generating with Confidence: Uncertainty Quantification for Black-box Large Language Models	C2,C7	3
+liu-2023-dylan	2310.02170	A Dynamic LLM-Powered Agent Network for Task-Oriented Agent Collaboration	C3,C12	3
+manakul-2023-selfcheckgpt	2303.08896	SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models	C7	3
+packer-2023-memgpt	2310.08560	MemGPT: Towards LLMs as Operating Systems	C10	3
+patil-2023-gorilla	2305.15334	Gorilla: Large Language Model Connected with Massive APIs	C8	3
+qin-2023-toolllm	2307.16789	ToolLLM: Facilitating Large Language Models to Master 16000+ Real-world APIs	C8	3
+ren-2023-self-eval-selective-generation	2312.09300	Self-Evaluation Improves Selective Generation in Large Language Models	C2,C7	3
+sheng-2023-s-lora	2311.03285	S-LoRA: Serving Thousands of Concurrent LoRA Adapters	C8,C11	3
+tian-2023-just-ask-for-calibration	2305.14975	Just Ask for Calibration: Strategies for Eliciting Calibrated Confidence Scores from Language Models Fine-Tuned with Human Feedback	C2,C7	3
+wang-2023-math-shepherd	2312.08935	Math-Shepherd: Verify and Reinforce LLMs Step-by-step without Human Annotations	C7	3
+xiong-2023-llms-express-uncertainty	2306.13063	Can LLMs Express Their Uncertainty? An Empirical Evaluation of Confidence Elicitation in LLMs	C2,C7	3
+xu-2023-recomp	2310.04408	RECOMP: Improving Retrieval-Augmented LMs with Compression and Selective Augmentation	C10	3
+ye-2023-predictable-bigbench	2305.14947	How Predictable Are Large Language Model Capabilities? A Case Study on BIG-bench	C6	3
+yin-2023-lumos	2311.05657	Agent Lumos: Unified and Modular Training for Open-Source Language Agents	C8	3
+zeng-2023-agenttuning	2310.12823	AgentTuning: Enabling Generalized Agent Abilities for LLMs	C8	3
+zheng-2023-lmsys-chat-1m	2309.11998	LMSYS-Chat-1M: A Large-Scale Real-World LLM Conversation Dataset	C6,C13	3
+zheng-2023-mt-bench	2306.05685	Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena	C5,C7,C13	3
+zhu-2023-judgelm	2310.17631	JudgeLM: Fine-tuned Large Language Models are Scalable Judges	C7	3
+kadavath-2022-lms-know-what-they-know	2207.05221	Language Models (Mostly) Know What They Know	C2,C7	3
+leviathan-2022-speculative-decoding	2211.17192	Fast Inference from Transformers via Speculative Decoding	C11	3
+saito-2022-ope-large-action-embeddings	2202.06317	Off-Policy Evaluation for Large Action Spaces via Embeddings	C6	3
+wang-2022-self-consistency	2203.11171	Self-Consistency Improves Chain of Thought Reasoning in Language Models	C7,C9	3
+jiang-2021-enigma-dialog-ope	2102.10242	Towards Automatic Evaluation of Dialog Systems: A Model-Free Off-Policy Evaluation Approach	C6,C7	3
+saito-2020-open-bandit-pipeline	2008.07146	Open Bandit Dataset and Pipeline: Towards Realistic and Reproducible Off-Policy Evaluation	C6,C13	3
+anthropic-message-batches		Batch processing (Message Batches API)	C11,C14	3
+aws-bedrock-model-distillation		Amazon Bedrock Model Distillation	C8,C14	3
+notdiamond-product		Not Diamond: Model Routing for Coding Agents	C1,C3,C14	3
+openai-batch-api		Batch API	C11,C14	3
+openai-flex-processing		Flex processing	C11,C14	3
+openai-prompt-caching		Prompt caching	C10,C14	3
+amin-2026-bayesian-orchestration-multi-llm	2601.01522	Bayesian Orchestration of Multi-LLM Agents for Cost-Aware Sequential Decision-Making	C3,C7	2
+chen-2026-agentic-energy-survey	2604.07857	Networking-Aware Energy Efficiency in Agentic AI Inference: A Survey	C11,C15	2
+chen-2026-governance-decay	2606.22528	Governance Decay: How Context Compaction Silently Erases Safety Constraints in Long-Horizon LLM Agents	C7,C10	2
+chen-2026-olp-routing-serving	2607.03948	Online Linear Programming for Multi-Objective Routing in LLM Serving	C5,C11	2
+cheng-2026-optimas-mas	2608.21918	OptiMAS: Automatically Optimize Multi-Agent System	C4	2
+cim-2026-parallel-context-compaction	2605.23296	Parallel Context Compaction for Long-Horizon LLM Agent Serving	C10,C11	2
+ding-2026-calibrate-then-act	2602.16699	Calibrate-Then-Act: Cost-Aware Exploration in LLM Agents	C9,C12	2
+ding-2026-conserve	2606.01839	Observation, Not Prediction: Conversation-Level Disaggregated Scheduling for Agentic Serving	C11	2
+guo-2026-saga	2605.00528	SAGA: Workflow-Atomic Scheduling for AI Agent Inference on GPU Clusters	C11	2
+han-2026-rideway	2609.17985	RideWay: Benchmarking Efficient Task Completion for Tool-Using Language Agents	C13	2
+li-2026-herasys	2607.22578	HeraSys: Collaborative Serving of Multiple LLM Workflows via Fine-Grained End-to-End Optimization	C11	2
+li-2026-polar	2604.16583	POLAR: Online Learning for LoRA Adapter Caching and Routing in Edge LLM Serving	C5,C11	2
+liang-2026-lacache	2608.01718	LaCache: Robust Semantic Caching for LLM Serving	C10	2
+merrill-2026-terminal-bench	2601.11868	Terminal-Bench: Benchmarking Agents on Hard, Realistic Tasks in Command Line Interfaces	C13	2
+mitra-2026-cascades-under-perturbations	2608.17711	Accuracy and Robustness of Model Cascades Under Data Perturbations	C2,C13	2
+nguyen-2026-cliffcompaction	2609.26779	CliffCompaction: Cost-Efficient Compaction for Long-Horizon Coding Agents	C10	2
+petrova-2026-agents-dont-paginate	2608.26130	Agents Don't Paginate: First-Chunk Selection for LLM Tool Responses	C10	2
+qiu-2026-dataprm	2604.24198	Rewarding the Scientific Process: Process-Level Reward Modeling for Agentic Data Analysis	C7	2
+sampath-2026-adaptive-orchestration-concierge	2601.09742	Adaptive Orchestration: Scalable Self-Evolving Multi-Agent Systems	C3,C12	2
+sun-2026-cascade-adversarial-attack	2605.17288	When Efficiency Backfires: Cascading LLMs Trigger Cascade Failure under Adversarial Attack	C2	2
+wang-2026-actkv	2609.31395	ActKV: Efficient LLM Agents through Action-Guided KV Cache Management	C10,C11	2
+wang-2026-agentspec	2608.24004	AgentSpec: Speculative Decoding for Batch Inference of LLM Agents	C11	2
+wang-2026-plan-rewardbench	2604.08178	Aligning Agents via Planning: A Benchmark for Trajectory-Level Reward Modeling	C7,C13	2
+wang-2026-reflect-judges-research-agents	2605.19196	Time to REFLECT: Can We Trust LLM Judges for Evidence-based Research Agents?	C7,C13	2
+wang-2026-smetric	2607.08565	SMetric: Rethink LLM Scheduling for Serving Agents with Balanced Session-centric Scheduling	C11	2
+wu-2026-litegui	2605.07505	LiteGUI: Distilling Compact GUI Agents with Reinforcement Learning	C8	2
+yuan-2026-bayesflow	2601.22305	BayesFlow: A Probability Inference Framework for Meta-Agent Assisted Workflow Generation	C4	2
+zeng-2026-autoragtuner	2605.02967	AutoRAGTuner: A Declarative Framework for Automatic Optimization of RAG Pipelines	C4	2
+zeng-2026-when-multi-agent-rl-helps	2605.24202	When Does Multi-Agent RL Improve LLM Workflows? Workflow, Scale, and Policy-Sharing Tradeoffs	C8,C12	2
+zhang-2026-cacheattack	2601.23088	From Similarity to Vulnerability: Key Collision Attack on LLM Semantic Caching	C10	2
+zhang-2026-cclub-prompt-routing	2603.15647	Steering Frozen LLMs: Adaptive Social Alignment via Online Prompt Routing	C5	2
+zhang-2026-semantic-cache-poisoning	2609.35908	Similarity Is Not Validity: Defending LLM Semantic Caches Against Poisoning	C10	2
+zhang-2026-specbox	2607.23933	SpecBox: Speculative Sandbox Scheduling for Efficient LLM Agent Serving	C11	2
+zhao-2026-catchbench	2608.22808	CatchBench: When Can an Agent Failure Be Caught?	C7,C13	2
+ashiga-2025-ensemble-survey	2503.13505	Ensemble Learning for Large Language Models in Text and Code Generation: A Survey	C1,C2,C15	2
+chen-2025-kairos	2508.06948	Kairos: Low-latency Multi-Agent Serving with Shared LLMs and Excessive Loads in the Public Cloud	C11	2
+cheng-2025-agent-r1	2511.14460	Agent-R1: A Unified and Modular Framework for Agentic Reinforcement Learning	C8	2
+chung-2025-mlenergy	2505.06371	The ML.ENERGY Benchmark: Toward Automated Inference Energy Measurement and Optimization	C11,C13	2
+dai-2025-scuba	2509.26506	SCUBA: Salesforce Computer Use Benchmark	C13	2
+dang-2025-rl-small-llms-reasoning	2503.16219	Reinforcement Learning for Reasoning in Small LLMs: What Works and What Doesn't	C8	2
+deepseekai-2025-deepseek-r1	2501.12948	DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning	C8,C9	2
+estornell-2025-acc-collab	2411.00053	ACC-Collab: An Actor-Critic Approach to Multi-Agent LLM Collaboration	C7,C8	2
+feng-2025-gigpo	2505.10978	Group-in-Group Policy Optimization for LLM Agent Training	C8	2
+feng-2025-retool	2504.11536	ReTool: Reinforcement Learning for Strategic Tool Use in LLMs	C8	2
+fu-2025-agentrefine	2501.01702	AgentRefine: Enhancing Agent Generalization through Refinement Tuning	C8	2
+gu-2025-auditing-prompt-caching	2502.07776	Auditing Prompt Caching in Language Model APIs	C10	2
+guan-2025-glow	2512.15751	GLOW: Graph-Language Co-Encoding for Agentic Workflow Performance Prediction	C4,C6	2
+haque-2025-tinyllm-edge-agents	2511.22138	TinyLLM: Evaluation and Optimization of Small Language Models for Agentic Tasks on Edge Devices	C8,C13	2
+iacobacci-2025-thinking-budget-not-all	2512.19585	Increasing the Thinking Budget is Not All You Need	C9	2
+iyengar-2025-generative-caching	2503.17603	A Generative Caching System for Large Language Models	C10	2
+jin-2025-search-r1	2503.09516	Search-R1: Training LLMs to Reason and Leverage Search Engines with Reinforcement Learning	C8	2
+joey-2025-temporal-predictors-outcome	2511.14773	Temporal Predictors of Outcome in Reasoning Language Models	C7,C9	2
+kartal-2025-ragsmith	2511.01386	RAGSmith: A Framework for Finding the Optimal Composition of Retrieval-Augmented Generation Methods Across Datasets	C4	2
+khalifa-2025-thinkprm	2504.16828	Process Reward Models That Think	C7	2
+kirchhof-2025-uq-agents-position	2505.22655	Position: Uncertainty Quantification Needs Reassessment for Large-language Model Agents	C7,C15	2
+koh-2025-rbridge	2509.21013	Predicting LLM Reasoning Performance with Small Proxy Model	C6	2
+langchain-2025-context-engineering		Context Engineering (for agents)	C10	2
+li-2025-eagle-3	2503.01840	EAGLE-3: Scaling up Inference Acceleration of Large Language Models via Training-Time Test	C11	2
+li-2025-edge-cloud-survey	2507.16731	Collaborative Inference and Learning between Edge SLMs and Cloud LLMs: A Survey of Algorithms, Execution, and Open Challenges	C1,C11,C15	2
+li-2025-websailor	2507.02592	WebSailor: Navigating Super-human Reasoning for Web Agent	C8	2
+lin-2025-router-vulnerabilities	2503.08704	Life-Cycle Routing Vulnerabilities of LLM Router	C1	2
+liu-2025-deepseek-grm	2504.02495	Inference-Time Scaling for Generalist Reward Modeling	C7	2
+liu-2025-efficient-inference-lrm-survey	2503.23077	Efficient Inference for Large Reasoning Models: A Survey	C9,C15	2
+pagonas-2025-cortex-workflow-serving	2510.14126	Cortex: Workflow-Aware Resource Pooling and Scheduling for Agentic Serving	C11	2
+pahuja-2025-explorer	2502.11357	Explorer: Scaling Exploration-driven Web Trajectory Synthesis for Multimodal Web Agents	C8	2
+peng-2025-agentic-reward-modeling	2502.19328	Agentic Reward Modeling: Integrating Human Preferences with Verifiable Correctness Signals for Reliable Reward Systems	C7	2
+qian-2025-toolrl	2504.13958	ToolRL: Reward is All Tool Learning Needs	C8	2
+ren-2025-predicting-zero-shot-success	2509.15356	Predicting Language Models' Success at Zero-Shot Probabilistic Prediction	C6,C7	2
+song-2025-prmbench	2501.03124	PRMBench: A Fine-grained and Challenging Benchmark for Process-Level Reward Models	C7,C13	2
+spangher-2025-chatbot-arena-estimate		Chatbot Arena Estimate: towards a generalized performance benchmark for LLM capabilities	C6,C13	2
+su-2025-underthinking-overthinking-length	2505.00127	Between Underthinking and Overthinking: An Empirical Study of Reasoning Length and correctness in LLMs	C9	2
+team-2025-kimi-k15	2501.12599	Kimi k1.5: Scaling Reinforcement Learning with LLMs	C8,C9	2
+together-2025-batch-api		Introducing the Together AI Batch API: Process Thousands of LLM Requests at 50% Lower Cost	C11,C14	2
+wang-2025-klear-agentforge	2511.05951	Klear-AgentForge: Forging Agentic Intelligence through Posttraining Scaling	C8	2
+wang-2025-ragen-starpo	2504.20073	RAGEN: Understanding Self-Evolution in LLM Agents via Multi-Turn Reinforcement Learning	C8	2
+wang-2025-talkhier	2502.11098	Talk Structurally, Act Hierarchically: A Collaborative Framework for LLM Multi-Agent Systems	C12	2
+wang-2025-underthinking-o1	2501.18585	Thoughts Are All Over the Place: On the Underthinking of o1-Like LLMs	C9	2
+wei-2025-browsecomp	2504.12516	BrowseComp: A Simple Yet Challenging Benchmark for Browsing Agents	C13	2
+wu-2025-webdancer	2505.22648	WebDancer: Towards Autonomous Information Seeking Agency	C8	2
+xie-2025-swe-fixer	2501.05040	SWE-Fixer: Training Open-Source LLMs for Effective and Efficient GitHub Issue Resolution	C8	2
+xu-2025-a-mem	2502.12110	A-MEM: Agentic Memory for LLM Agents	C10	2
+xu-2025-doubly-robust-alignment	2506.01183	Doubly Robust Alignment for Large Language Models	C6	2
+xu-2025-robustflow	2509.21834	RobustFlow: Towards Robust Agentic Workflow Generation	C4	2
+yang-2025-swe-smith	2504.21798	SWE-smith: Scaling Data for Software Engineering Agents	C8	2
+yoon-2025-reasoning-models-confidence	2505.14489	Reasoning Models Better Express Their Confidence	C2,C7,C9	2
+yuan-2025-agent-r	2501.11425	Agent-R: Training Language Model Agents to Reflect via Iterative Self-Training	C8	2
+yue-2025-dont-overthink-survey	2508.02120	Don't Overthink It: A Survey of Efficient R1-style Large Reasoning Models	C9,C15	2
+zhang-2025-dgm	2505.22954	Darwin Godel Machine: Open-Ended Evolution of Self-Improving Agents	C4	2
+zhang-2025-flora-bench	2503.11301	GNNs as Predictors of Agentic Workflow Performances	C4,C6	2
+zhang-2025-lessons-developing-prms	2501.07301	The Lessons of Developing Process Reward Models in Mathematical Reasoning	C7	2
+zhao-2025-a2flow	2511.20693	A2Flow: Automating Agentic Workflow Generation via Self-Adaptive Abstraction Operators	C4	2
+zhao-2025-cochain	2505.10936	Cochain: Balancing Insufficient and Excessive Collaboration in LLM Agent Workflows	C8,C12	2
+zhen-2025-taming-the-titans	2504.19720	Taming the Titans: A Survey of Efficient LLM Inference Serving	C11,C15	2
+zheng-2025-survey-process-reward-models	2510.08049	A Survey of Process Reward Models: From Outcome Signals to Process Supervisions for Large Language Models	C7,C15	2
+zhu-2025-concise-adaptive-thinking-survey	2507.09662	Towards Concise and Adaptive Thinking in Large Reasoning Models: A Survey	C9,C15	2
+zhu-2025-planner-r1	2509.25779	Planner-R1: Reward Shaping Enables Efficient Agentic RL with Smaller LLMs	C3,C8	2
+ziems-2025-mmgrpo	2508.04660	Composing Policy Gradients and Prompt Optimization for Language Model Programs	C4,C8	2
+abdelaziz-2024-granite-function-calling	2407.00121	Granite-Function Calling Model: Introducing Function Calling Abilities via Multi-task Learning of Granular Tasks	C8	2
+agrawal-2024-sarathi-serve	2403.02310	Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve	C11	2
+cai-2024-medusa	2401.10774	Medusa: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads	C11	2
+chan-2024-cache-augmented-generation	2412.15605	Don't Do RAG: When Cache-Augmented Generation is All You Need for Knowledge Tasks	C10	2
+chen-2024-inside-eigenscore	2402.03744	INSIDE: LLMs' Internal States Retain the Power of Hallucination Detection	C7	2
+fu-2024-lookahead-decoding	2402.02057	Break the Sequential Dependency of LLM Inference Using Lookahead Decoding	C11	2
+fu-2024-serverlessllm	2401.14351	ServerlessLLM: Low-Latency Serverless Inference for Large Language Models	C11	2
+godaddy-2024-llm-from-the-trenches		LLM From the Trenches: 10 Lessons Learned Operationalizing Models at GoDaddy	C14	2
+gu-2024-survey-llm-as-a-judge	2411.15594	A Survey on LLM-as-a-Judge	C7,C15	2
+hu-2024-evomac	2410.16946	Self-Evolving Multi-Agent Collaboration Networks for Software Development	C3,C4	2
+hu-2024-mab-generative-eval	2406.07451	A Multi-Armed Bandit Approach to Online Selection and Evaluation of Generative Models	C5,C13	2
+intercom-2024-fin-2-claude		Fin 2: Powered by Anthropic's Claude LLM	C14	2
+jin-2024-ragcache	2404.12457	RAGCache: Efficient Knowledge Caching for Retrieval-Augmented Generation	C10,C11	2
+juravsky-2024-hydragen	2402.05099	Hydragen: High-Throughput LLM Inference with Shared Prefixes	C10,C11	2
+kipnis-2024-metabench	2407.12844	metabench -- A Sparse Benchmark of Reasoning and Knowledge in Large Language Models	C6,C13	2
+klarna-2024-ai-assistant		Klarna AI assistant handles two-thirds of customer service chats in its first month	C14	2
+kurtic-2024-bf16-or-death	2411.02355	"Give Me BF16 or Give Me Death"? Accuracy-Performance Trade-Offs in LLM Quantization	C11,C13	2
+lambert-2024-rewardbench	2403.13787	RewardBench: Evaluating Reward Models for Language Modeling	C7,C13	2
+levy-2024-st-webagentbench	2410.06703	ST-WebAgentBench: A Benchmark for Evaluating Safety and Trustworthiness in Web Agents	C13	2
+li-2024-eagle	2401.15077	EAGLE: Speculative Sampling Requires Rethinking Feature Uncertainty	C11	2
+li-2024-eagle-2	2406.16858	EAGLE-2: Faster Inference of Language Models with Dynamic Draft Trees	C11	2
+li-2024-more-agents-is-all-you-need	2402.05120	More Agents Is All You Need	C9,C12	2
+li-2024-prompt-compression-survey	2410.12388	Prompt Compression for Large Language Models: A Survey	C10,C15	2
+li-2024-serving-survey	2407.12391	LLM Inference Serving: Survey of Recent Advances and Opportunities	C11,C15	2
+li-2024-snapkv	2404.14469	SnapKV: LLM Knows What You are Looking for Before Generation	C10,C11	2
+lin-2024-hammer	2410.04587	Hammer: Robust Function-Calling for On-Device Language Models via Function Masking	C8	2
+lin-2024-scaffolded-lm-survey	2410.16392	Scaffolded Language Models with Language Supervision for Mixed-Autonomy: A Survey	C4,C15	2
+liu-2024-grab-llm-data-classification		LLM-powered data classification for data entities at scale	C14	2
+lu-2024-merge-ensemble-cooperate	2407.06089	Merge, Ensemble, and Cooperate! A Survey on Collaborative Strategies in the Era of Large Language Models	C1,C15	2
+luo-2024-omegaprm	2406.06592	Improve Mathematical Reasoning in Language Models by Automated Process Supervision	C7	2
+mitra-2024-agentinstruct-orca3	2407.03502	AgentInstruct: Toward Generative Teaching with Agentic Flows	C8	2
+murty-2024-nnetnav	2410.02907	NNetNav: Unsupervised Learning of Browser Agents Through Environment Interaction in the Wild	C8	2
+nguyen-2024-laser	2410.01735	LASeR: Learning to Adaptively Select Reward Models with Multi-Armed Bandits	C5,C7	2
+nikitin-2024-kernel-language-entropy	2405.20003	Kernel Language Entropy: Fine-grained Uncertainty Quantification for LLMs from Semantic Similarities	C7	2
+orgad-2024-llms-know-more-than-show	2410.02707	LLMs Know More Than They Show: On the Intrinsic Representation of LLM Hallucinations	C7	2
+ou-2024-synatra	2409.15637	Synatra: Turning Indirect Knowledge into Direct Demonstrations for Digital Agents at Scale	C8	2
+patel-2024-self-improve-web-agents	2405.20309	Large Language Models Can Self-Improve At Web Agent Tasks	C8	2
+phu-2024-discord-genai		Developing Rapidly with Generative AI	C8,C14	2
+plaut-2024-msp-predicts-correctness	2402.13213	Probabilities of Chat LLMs Are Miscalibrated but Still Predict Correctness on Multiple-Choice Q&A	C6,C7	2
+qian-2024-macnet-scaling-multi-agent	2406.07155	Scaling Large Language Model-based Multi-Agent Collaboration	C12	2
+qiu-2024-semantic-density	2405.13845	Semantic Density: Uncertainty Quantification for Large Language Models through Confidence Measurement in Semantic Space	C7	2
+ravi-2024-lynx	2407.08488	Lynx: An Open Source Hallucination Evaluation Model	C7	2
+regmi-2024-gpt-semantic-cache	2411.05276	GPT Semantic Cache: Reducing LLM Costs and Latency via Semantic Embedding Caching	C10	2
+renze-2024-concise-cot	2401.05618	The Benefits of a Concise Chain of Thought on Problem-Solving in Large Language Models	C9,C10	2
+richemond-2024-dro	2405.19107	Offline Regularised Reinforcement Learning for Large Language Models Alignment	C6	2
+snell-2024-predicting-emergent	2411.16035	Predicting Emergent Capabilities by Finetuning	C6	2
+sun-2024-llumnix	2406.03243	Llumnix: Dynamic Scheduling for Large Language Model Serving	C11	2
+sun-2024-os-genesis	2412.19723	OS-Genesis: Automating GUI Agent Trajectory Construction via Reverse Task Synthesis	C8	2
+thakur-2024-judging-the-judges	2406.12624	Judging the Judges: Evaluating Alignment and Vulnerabilities in LLMs-as-Judges	C7	2
+tomani-2024-uncertainty-abstention	2404.10960	Uncertainty-Based Abstention in LLMs Improves Safety and Reduces Hallucinations	C2,C7	2
+wang-2024-airbnb-automation-platform-v2		Automation Platform v2: Improving conversational AI at Airbnb	C14	2
+wang-2024-codeact	2402.01030	Executable Code Actions Elicit Better LLM Agents	C8,C12	2
+wen-2024-abstention-survey	2407.18418	Know Your Limits: A Survey of Abstention in Large Language Models	C2,C7,C15	2
+xia-2024-speculative-decoding-survey	2401.07851	Unlocking Efficiency in Large Language Model Inference: A Comprehensive Survey of Speculative Decoding	C11,C15	2
+xie-2024-osworld	2404.07972	OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments	C13	2
+xu-2024-agent-services-survey	2412.13437	Deploying Foundation Model Powered Agent Services: A Survey	C11,C15	2
+xu-2024-agenttrek	2412.09605	AgentTrek: Agent Trajectory Synthesis via Guiding Replay with Web Tutorials	C8	2
+xu-2024-survey-kd-llms	2402.13116	A Survey on Knowledge Distillation of Large Language Models	C8,C15	2
+yadav-2024-moerging-survey	2408.07057	A Survey on Model MoErging: Recycling and Routing Among Specialized Experts for Collaborative Learning	C1,C15	2
+ye-2024-calm-judge-biases	2410.02736	Justice or Prejudice? Quantifying Biases in LLM-as-a-Judge	C7	2
+ye-2024-chunkattention	2402.15220	ChunkAttention: Efficient Self-Attention with Prefix-Aware KV Cache and Two-Phase Partition	C10,C11	2
+yin-2024-godel-agent	2410.04444	Gödel Agent: A Self-Referential Agent Framework for Recursive Self-Improvement	C4	2
+zhang-2024-agentohana	2402.15506	AgentOhana: Design Unified Data and Training Pipeline for Effective Agent Learning	C8	2
+zhao-2024-predict-lvlm	2410.10112	Can We Predict Performance of Large Models across Vision-Language Tasks?	C6	2
+zhao-2024-steve-2-distill	2404.04619	Do We Really Need a Complex Agent System? Distill Embodied Agent into a Single Model	C8,C12	2
+zheng-2024-processbench	2412.06559	ProcessBench: Identifying Process Errors in Mathematical Reasoning	C7,C13	2
+zhong-2024-distserve	2401.09670	DistServe: Disaggregating Prefill and Decoding for Goodput-optimized Large Language Model Serving	C11	2
+zhou-2024-agent-symbolic-learning	2406.18532	Symbolic Learning Enables Self-Evolving Agents	C4	2
+zhou-2024-archer	2402.19446	ArCHer: Training Language Model Agents via Hierarchical Multi-Turn RL	C8	2
+zhou-2024-efficient-inference-survey	2404.14294	A Survey on Efficient Inference for Large Language Models	C11,C15	2
+azaria-2023-internal-state-lying	2304.13734	The Internal State of an LLM Knows When its Lying	C7	2
+boubdir-2023-elo-uncovered	2311.17295	Elo Uncovered: Robustness and Best Practices in Language Model Evaluation	C5,C13	2
+chen-2023-speculative-sampling	2302.01318	Accelerating Large Language Model Decoding with Speculative Sampling	C11	2
+chen-2023-universal-self-consistency	2311.17311	Universal Self-Consistency for Large Language Model Generation	C7	2
+chevalier-2023-autocompressors	2305.14788	Adapting Language Models to Compress Contexts	C10	2
+duan-2023-shifting-attention-relevance	2307.01379	Shifting Attention to Relevance: Towards the Uncertainty Estimation of Large Language Models	C7	2
+fadeeva-2023-lm-polygraph	2311.07383	LM-Polygraph: Uncertainty Estimation for Language Models	C7,C13	2
+fernando-2023-promptbreeder	2309.16797	Promptbreeder: Self-Referential Self-Improvement Via Prompt Evolution	C4	2
+fu-2023-specializing-smaller-lms	2301.12726	Specializing Smaller Language Models towards Multi-Step Reasoning	C8	2
+gao-2023-continual-qa-feedback	2305.12473	Continually Improving Extractive QA via Human Feedback	C5	2
+ge-2023-icae	2307.06945	In-context Autoencoder for Context Compression in a Large Language Model	C10	2
+geng-2023-survey-confidence-calibration	2311.08298	A Survey of Confidence Estimation and Calibration in Large Language Models	C7,C15	2
+gou-2023-critic	2305.11738	CRITIC: Large Language Models Can Self-Correct with Tool-Interactive Critiquing	C7	2
+gu-2023-minillm	2306.08543	MiniLLM: On-Policy Distillation of Large Language Models	C8	2
+honeycomb-2023-hard-stuff-llm		All the Hard Stuff Nobody Talks About when Building Products with LLMs	C14	2
+huang-2023-cannot-self-correct	2310.01798	Large Language Models Cannot Self-Correct Reasoning Yet	C7	2
+jimenez-2023-swe-bench	2310.06770	SWE-bench: Can Language Models Resolve Real-World GitHub Issues?	C13	2
+kim-2023-prometheus	2310.08491	Prometheus: Inducing Fine-grained Evaluation Capability in Language Models	C7	2
+li-2023-alpaserve	2302.11665	AlpaServe: Statistical Multiplexing with Model Parallelism for Deep Learning Serving	C11	2
+li-2023-auto-j	2310.05470	Generative Judge for Evaluating Alignment	C7	2
+lin-2023-awq	2306.00978	AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration	C11	2
+lin-2023-instinct	2310.02905	Use Your INSTINCT: INSTruction optimization for LLMs usIng Neural bandits Coupled with Transformers	C4,C5	2
+liu-2023-agentbench	2308.03688	AgentBench: Evaluating LLMs as Agents	C13	2
+liu-2023-cachegen	2310.07240	CacheGen: KV Cache Compression and Streaming for Fast Large Language Model Serving	C10,C11	2
+liu-2023-calibrating-llm-evaluator	2309.13308	Calibrating LLM-Based Evaluator	C7	2
+liu-2023-g-eval	2303.16634	G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment	C7	2
+liu-2023-lost-in-the-middle	2307.03172	Lost in the Middle: How Language Models Use Long Contexts	C10	2
+mao-2023-l2d-multiple-experts	2310.14774	Principled Approaches for Learning to Defer with Multiple Experts	C2,C15	2
+mialon-2023-gaia	2311.12983	GAIA: a benchmark for General AI Assistants	C13	2
+miao-2023-specinfer	2305.09781	SpecInfer: Accelerating Generative Large Language Model Serving with Tree-based Speculative Inference and Verification	C11	2
+mu-2023-gist	2304.08467	Learning to Compress Prompts with Gist Tokens	C10	2
+mukherjee-2023-orca	2306.02707	Orca: Progressive Learning from Complex Explanation Traces of GPT-4	C8	2
+patel-2023-splitwise	2311.18677	Splitwise: Efficient generative LLM inference using phase splitting	C11	2
+pryzant-2023-protegi	2305.03495	Automatic Prompt Optimization with "Gradient Descent" and Beam Search	C4	2
+quach-2023-conformal-language-modeling	2306.10193	Conformal Language Modeling	C7	2
+schick-2023-toolformer	2302.04761	Toolformer: Language Models Can Teach Themselves to Use Tools	C8	2
+shen-2023-hugginggpt	2303.17580	HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in Hugging Face	C3	2
+tang-2023-toolalpaca	2306.05301	ToolAlpaca: Generalized Tool Learning for Language Models with 3000 Simulated Cases	C8	2
+vivek-2023-anchor-points	2309.08638	Anchor Points: Benchmarking Models with Much Fewer Examples	C6,C13	2
+wan-2023-efficient-llms-survey	2312.03863	Efficient Large Language Models: A Survey	C11,C15	2
+wang-2023-llms-not-fair-evaluators	2305.17926	Large Language Models are not Fair Evaluators	C7	2
+xiao-2023-streamingllm	2309.17453	Efficient Streaming Language Models with Attention Sinks	C10,C11	2
+xie-2023-self-eval-guided-decoding	2305.00633	Self-Evaluation Guided Beam Search for Reasoning	C7,C9	2
+yang-2023-gpt4tools	2305.18752	GPT4Tools: Teaching Large Language Model to Use Tools via Self-instruction	C8	2
+yang-2023-opro	2309.03409	Large Language Models as Optimizers	C4	2
+yin-2023-selfaware	2305.18153	Do Large Language Models Know What They Don't Know?	C7	2
+zhang-2023-h2o	2306.14048	H2O: Heavy-Hitter Oracle for Efficient Generative Inference of Large Language Models	C10,C11	2
+zhou-2023-predictable-ai	2310.06167	Predictable Artificial Intelligence	C6,C15	2
+zhou-2023-webarena	2307.13854	WebArena: A Realistic Web Environment for Building Autonomous Agents	C13	2
+frantar-2022-gptq	2210.17323	GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers	C11	2
+gao-2022-bandit-user-feedback-qa	2203.10079	Simulating Bandit Learning from User Feedback for Extractive Question Answering	C5	2
+ho-2022-reasoning-teachers	2212.10071	Large Language Models Are Reasoning Teachers	C8	2
+khalili-2022-babybear	2205.11747	BabyBear: Cheap inference triage for expensive language models	C2	2
+kiyohara-2022-cascade-dr	2202.01562	Doubly Robust Off-Policy Evaluation for Ranking Policies under the Cascade Behavior Model	C6	2
+lin-2022-verbalized-probability	2205.14334	Teaching Models to Express Their Uncertainty in Words	C7	2
+liu-2022-nonstationary-bwk	2205.12427	Non-stationary Bandits with Knapsacks	C5	2
+schuster-2022-calm	2207.07061	Confident Adaptive Language Modeling	C2,C9,C11	2
+varshney-2022-model-cascading-nlp	2210.05528	Model Cascading: Towards Jointly Improving Efficiency and Accuracy of NLP Systems	C2	2
+verma-2022-calibrated-l2d-ova	2202.03673	Calibrated Learning to Defer with One-vs-All Classifiers	C2,C7	2
+xu-2022-learning-after-deployment	2208.03270	Learning New Skills after Deployment: Improving open-domain internet-driven dialogue with human feedback	C5,C6	2
+zhou-2022-ape	2211.01910	Large Language Models Are Human-Level Prompt Engineers	C4	2
+cobbe-2021-gsm8k-verifiers	2110.14168	Training Verifiers to Solve Math Word Problems	C7	2
+gibbs-2021-adaptive-conformal	2106.00170	Adaptive Conformal Inference Under Distribution Shift	C5,C7	2
+kreutzer-2020-offline-rl-seq2seq	2011.02511	Offline Reinforcement Learning from Human Feedback in Real-World Sequence-to-Sequence Tasks	C6	2
+mozannar-2020-consistent-l2d	2006.01862	Consistent Estimators for Learning to Defer to an Expert	C2	2
+wang-2020-wisdom-of-committees	2012.01988	Wisdom of Committees: An Overlooked Approach To Faster and More Accurate Models	C2	2
+zhang-2020-neural-thompson	2010.00827	Neural Thompson Sampling	C5	2
+zhou-2019-neuralucb	1911.04462	Neural Contextual Bandits with UCB-based Exploration	C5	2
+gilotte-2018-offline-ab	1801.07030	Offline A/B Testing for Recommender Systems	C5,C6	2
+joachims-2018-banditnet		Deep Learning with Logged Bandit Feedback	C6	2
+madras-2017-predict-responsibly	1711.06664	Predict Responsibly: Improving Fairness and Accuracy by Learning to Defer	C2	2
+russo-2017-thompson-tutorial	1707.02038	A Tutorial on Thompson Sampling	C5,C15	2
+agrawal-2015-linear-cbwk	1507.06738	Linear Contextual Bandits with Knapsacks	C5	2
+swaminathan-2015-crm	1502.02362	Counterfactual Risk Minimization: Learning from Logged Bandit Feedback	C6	2
+swaminathan-2015-snips		The self-normalized estimator for counterfactual learning	C6	2
+badanidiyuru-2014-resourceful-cb	1402.6779	Resourceful Contextual Bandits	C5	2
+badanidiyuru-2013-bwk	1305.2545	Bandits with Knapsacks	C5	2
+kohavi-2013-online-experiments	7575.24882	Online controlled experiments at large scale	C5,C14	2
+bottou-2012-counterfactual-reasoning	1209.2355	Counterfactual Reasoning and Learning Systems	C6	2
+chapelle-2012-interleaving	4072.20940	Large-scale validation and analysis of interleaved search evaluation	C5,C13	2
+agrawal-2011-thompson-analysis	1111.1797	Analysis of Thompson Sampling for the multi-armed bandit problem	C5	2
+dudik-2011-doubly-robust	1103.4601	Doubly Robust Policy Evaluation and Learning	C6	2
+li-2010-linucb	1003.0146	A contextual-bandit approach to personalized news article recommendation	C5	2
+li-2010-unbiased-offline-eval	1003.5956	Unbiased Offline Evaluation of Contextual-bandit-based News Article Recommendation Algorithms	C5,C6	2
+anthropic-choosing-a-model		Choosing the right model	C14	2
+artificial-analysis		Artificial Analysis: AI Model and API Providers Analysis	C13,C14	2
+aws-bedrock-prompt-caching		Prompt caching for faster model inference (Amazon Bedrock)	C10,C14	2
+cloudflare-ai-gateway		Cloudflare AI Gateway	C10,C14	2
+databricks-ai-gateway		AI governance with Unity Gateway (Mosaic AI Gateway)	C14	2
+google-gemini-batch-api		Batch API (Gemini API)	C11,C14	2
+helicone-observability		Helicone: open-source LLM observability platform	C6,C14	2
+huggingface-llm-perf-leaderboard		LLM-Perf Leaderboard	C11,C13	2
+katanemo-plano-archgw		Plano (formerly archgw): AI-native proxy and data plane for agentic apps	C1,C14	2
+kong-ai-gateway		Kong AI Gateway	C14	2
+litellm-router		LiteLLM Router and AI Gateway	C10,C14	2
+martian-docs		Martian Documentation (Gateway API)	C1,C14	2
+nvidia-llm-router-blueprint		NVIDIA AI Blueprint: LLM Router	C1,C14	2
+openai-cost-optimization		Cost optimization	C14	2
+openai-model-selection		Model selection	C14	2
+portkey-ai-gateway		Portkey AI Gateway	C10,C14	2
+requesty-router		Requesty: AI Gateway and LLM Router	C1,C14	2
+unify-product		unify	C8,C14	2
+vercel-ai-gateway		Vercel AI Gateway	C14	2

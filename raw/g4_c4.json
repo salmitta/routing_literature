@@ -1,0 +1,4077 @@
+[
+ {
+  "id": "chen-2025-llmselector",
+  "title": "Optimizing Model Selection for Compound AI Systems",
+  "authors": [
+   "Lingjiao Chen",
+   "Jared Quincy Davis",
+   "Boris Hanin",
+   "Peter Bailis",
+   "Matei Zaharia",
+   "James Zou",
+   "Ion Stoica"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.14815",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "LLM-estimated per-module performance",
+   "end-to-end task score"
+  ],
+  "cost_reduction_reported": "5%-70% accuracy gains vs. using the same LLM for all modules (multi-agent debate, self-refine); API calls scale linearly with number of modules",
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-4o",
+   "Claude 3.5 Sonnet",
+   "Gemini 1.5"
+  ],
+  "production_evidence": false,
+  "summary": "Studies how to pick which LLM to use for each module of a compound system (e.g., self-refine, multi-agent debate). Exploits the observation that end-to-end quality is often monotone in per-module quality and that an LLM can estimate per-module quality, then greedily assigns the best model module by module.",
+  "key_idea": "Per-module model allocation via iterative greedy search with LLM-estimated module-wise performance.",
+  "relevance_score": 5,
+  "relevance_rationale": "Canonical formulation of model choice per module as a decision variable in compound AI systems; direct template for per-subagent model assignment.",
+  "found_via": "seed: Optimizing Model Selection for Compound AI Systems",
+  "cites_or_cited_by": [
+   "huang-2026-scope",
+   "wu-2025-optimas"
+  ]
+ },
+ {
+  "id": "khattab-2023-dspy",
+  "title": "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines",
+  "authors": [
+   "Omar Khattab",
+   "Arnav Singhvi",
+   "Paridhi Maheshwari",
+   "Zhiyuan Zhang",
+   "Keshav Santhanam",
+   "Sri Vardhamanan",
+   "Saiful Haq",
+   "Ashutosh Sharma",
+   "Thomas T. Joshi",
+   "Hanna Moazam",
+   "Heather Miller",
+   "Matei Zaharia",
+   "Christopher Potts"
+  ],
+  "year": 2023,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2310.03714",
+  "code_url": "https://github.com/stanfordnlp/dspy",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "task metric on training set",
+   "bootstrapped demonstrations"
+  ],
+  "cost_reduction_reported": "Compiled DSPy programs on small open LMs (770M T5, llama2-13b-chat) are competitive with expert-written prompt chains for proprietary GPT-3.5",
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-3.5",
+   "llama2-13b-chat",
+   "T5-770M"
+  ],
+  "production_evidence": false,
+  "summary": "Introduces DSPy, a programming model where LM pipelines are declarative modules with learnable prompts/demonstrations, plus a compiler that optimizes a whole pipeline toward a metric. Shows bootstrapped pipelines beat standard few-shot prompting and let small open models approach proprietary-model pipelines.",
+  "key_idea": "Treat LM pipelines as parameterized programs and compile (optimize) prompts/demos end-to-end against a metric.",
+  "relevance_score": 4,
+  "relevance_rationale": "Foundational framework for optimizing compound AI pipelines; the cheaper-model-with-optimized-program result is a direct cost lever.",
+  "found_via": "seed: DSPy",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "opsahlong-2024-mipro",
+  "title": "Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs",
+  "authors": [
+   "Krista Opsahl-Ong",
+   "Michael J Ryan",
+   "Josh Purtell",
+   "David Broman",
+   "Christopher Potts",
+   "Matei Zaharia",
+   "Omar Khattab"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2406.11695",
+  "code_url": "https://github.com/stanfordnlp/dspy",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "stochastic mini-batch metric",
+   "Bayesian surrogate model"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Llama-3-8B"
+  ],
+  "production_evidence": false,
+  "summary": "Presents MIPRO, an optimizer for multi-stage LM programs that jointly searches instructions and few-shot demonstrations for every module without module-level labels, using a Bayesian surrogate over mini-batch evaluations and meta-optimized proposal generation. Beats baseline optimizers on five of seven programs, by up to 13% accuracy with Llama-3-8B.",
+  "key_idea": "Bayesian-surrogate search over per-module instructions and demos with program-aware proposal generation.",
+  "relevance_score": 4,
+  "relevance_rationale": "Core optimizer for compound LM programs (DSPy MIPROv2); widely used baseline for config optimization.",
+  "found_via": "seed: MIPRO",
+  "cites_or_cited_by": [
+   "khattab-2023-dspy"
+  ]
+ },
+ {
+  "id": "yuksekgonul-2024-textgrad",
+  "title": "TextGrad: Automatic \"Differentiation\" via Text",
+  "authors": [
+   "Mert Yuksekgonul",
+   "Federico Bianchi",
+   "Joseph Boen",
+   "Sheng Liu",
+   "Zhi Huang",
+   "Carlos Guestrin",
+   "James Zou"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2406.07496",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "LLM textual feedback (textual gradients)"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "GPQA",
+   "LeetCode-Hard"
+  ],
+  "models_studied": [
+   "GPT-4o"
+  ],
+  "production_evidence": false,
+  "summary": "TextGrad backpropagates natural-language feedback from LLMs through a computation graph to improve components of a compound AI system, with a PyTorch-like API. Demonstrated on QA, code, prompt optimization, molecule design and treatment planning, e.g. raising GPT-4o zero-shot GPQA from 51% to 55%.",
+  "key_idea": "Automatic 'differentiation' via textual feedback for optimizing variables in compound AI graphs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Widely used generic optimizer for compound systems; quality-focused, no cost objective.",
+  "found_via": "seed: TextGrad",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "cheng-2024-trace",
+  "title": "Trace is the Next AutoDiff: Generative Optimization with Rich Feedback, Execution Traces, and LLMs",
+  "authors": [
+   "Ching-An Cheng",
+   "Allen Nie",
+   "Adith Swaminathan"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2406.16218",
+  "code_url": "https://github.com/microsoft/Trace",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "execution traces",
+   "rich feedback"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Frames workflow optimization as Optimization with Trace Oracle (OPTO), where an LLM-based optimizer sees the execution trace plus feedback and updates heterogeneous parameters (prompts, code, hyperparameters). Provides the Trace library and the OptoPrime optimizer, competitive with specialized optimizers across several domains.",
+  "key_idea": "Execution traces act like back-propagated gradients for LLM-driven generative optimization of workflows.",
+  "relevance_score": 3,
+  "relevance_rationale": "General generative-optimization framework applicable to agent configs including hyperparameters; no explicit cost objective.",
+  "found_via": "seed: Trace",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhang-2024-aflow",
+  "title": "AFlow: Automating Agentic Workflow Generation",
+  "authors": [
+   "Jiayi Zhang",
+   "Jinyu Xiang",
+   "Zhaoyang Yu",
+   "Fengwei Teng",
+   "Xionghui Chen",
+   "Jiaqi Chen",
+   "Mingchen Zhuge",
+   "Xin Cheng",
+   "Sirui Hong",
+   "Jinlin Wang",
+   "Bingnan Zheng",
+   "Bang Liu",
+   "Yuyu Luo",
+   "Chenglin Wu"
+  ],
+  "year": 2024,
+  "venue_or_source": "ICLR 2025 (Oral)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2410.10762",
+  "code_url": "https://github.com/FoundationAgents/AFlow",
+  "topic_clusters": [
+   "C4",
+   "C12"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "execution feedback",
+   "benchmark score"
+  ],
+  "cost_reduction_reported": "Smaller models outperform GPT-4o on specific tasks at 4.55% of its inference cost in dollars; 5.7% average improvement over SOTA baselines across six benchmarks",
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-4o"
+  ],
+  "production_evidence": false,
+  "summary": "AFlow reformulates agentic workflow design as search over code-represented workflows and uses Monte Carlo Tree Search with reusable operators (e.g., Ensemble, Review & Revise) and execution feedback to refine them. It reports gains over hand-designed and automated baselines and lets cheaper models beat GPT-4o at a small fraction of the cost.",
+  "key_idea": "MCTS over code-represented workflows built from reusable operators.",
+  "relevance_score": 5,
+  "relevance_rationale": "Leading automated workflow optimizer with explicit dollar-cost comparison showing small models in optimized workflows can replace frontier models.",
+  "found_via": "seed: AFlow",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "hu-2024-adas",
+  "title": "Automated Design of Agentic Systems",
+  "authors": [
+   "Shengran Hu",
+   "Cong Lu",
+   "Jeff Clune"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2408.08435",
+  "code_url": "https://github.com/ShengranHu/ADAS",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "validation accuracy",
+   "archive of prior agents"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Defines Automated Design of Agentic Systems (ADAS) and proposes Meta Agent Search, where a meta agent writes new agents in code using an archive of prior designs. Discovered agents outperform hand-designed agents and transfer across domains and models.",
+  "key_idea": "A meta agent programs new agent designs in code, iterating over an archive of discoveries.",
+  "relevance_score": 4,
+  "relevance_rationale": "Seminal automated agent design work; the search space covers workflow and prompts but not cost-aware model choice.",
+  "found_via": "seed: ADAS",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhuge-2024-gptswarm",
+  "title": "Language Agents as Optimizable Graphs",
+  "authors": [
+   "Mingchen Zhuge",
+   "Wenyi Wang",
+   "Louis Kirsch",
+   "Francesco Faccio",
+   "Dmitrii Khizbullin",
+   "Jürgen Schmidhuber"
+  ],
+  "year": 2024,
+  "venue_or_source": "ICML 2024",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2402.16823",
+  "code_url": "https://github.com/metauto-ai/gptswarm",
+  "topic_clusters": [
+   "C4",
+   "C12"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "task utility"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Represents LLM agents and multi-agent systems as computational graphs whose nodes query LLMs or tools and whose edges carry information. Optimizes node prompts and edge connectivity (orchestration) automatically.",
+  "key_idea": "Agents as optimizable graphs with node (prompt) and edge (topology) optimization.",
+  "relevance_score": 3,
+  "relevance_rationale": "Early graph-based formulation of multi-agent config optimization; basis for later topology/cost work.",
+  "found_via": "seed: GPTSwarm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "saadfalcon-2024-archon",
+  "title": "Archon: An Architecture Search Framework for Inference-Time Techniques",
+  "authors": [
+   "Jon Saad-Falcon",
+   "Adrian Gamarra Lafuente",
+   "Shlok Natarajan",
+   "Nahum Maru",
+   "Hristo Todorov",
+   "Etash Guha",
+   "E. Kelly Buchanan",
+   "Mayee Chen",
+   "Neel Guha",
+   "Christopher Ré",
+   "Azalia Mirhoseini"
+  ],
+  "year": 2024,
+  "venue_or_source": "ICML 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2409.15254",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C9"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "benchmark score",
+   "token budget"
+  ],
+  "cost_reduction_reported": "Archon architectures advance the Pareto frontier of accuracy vs. maximum token budget; outperform o1, GPT-4o and Claude 3.5 Sonnet by an average of 15.1%",
+  "benchmarks": [],
+  "models_studied": [
+   "o1",
+   "GPT-4o",
+   "Claude 3.5 Sonnet"
+  ],
+  "production_evidence": false,
+  "summary": "Archon is a framework for selecting and combining inference-time techniques (ensembling, sampling, ranking, fusion, critique, verification, unit tests) and LLMs into layered architectures. It uses Bayesian-optimization-based inference-time architecture search under a compute budget.",
+  "key_idea": "Inference-time architecture search (ITAS) over layered combinations of LLMs and inference techniques.",
+  "relevance_score": 5,
+  "relevance_rationale": "Jointly searches model choice and technique composition under a token budget; directly relevant to config optimization with cost.",
+  "found_via": "seed: Archon",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "he-2025-cognify",
+  "title": "Cognify: Supercharging Gen-AI Workflows With Hierarchical Autotuning",
+  "authors": [
+   "Zijian He",
+   "Reyna Abhyankar",
+   "Vikranth Srivatsa",
+   "Yiying Zhang"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.08056",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "user evaluator score",
+   "execution cost",
+   "latency"
+  ],
+  "cost_reduction_reported": "Improves generation quality by up to 2.8x, reduces execution monetary cost by up to 10x, and end-to-end latency by 2.7x across six workflow types",
+  "benchmarks": [
+   "RAG QA",
+   "text-to-SQL"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Cognify autotunes gen-AI workflows (LangChain, DSPy, or its own model) with AdaSeek, a hierarchical search that splits a user search budget across structure, operator (including model choice) and prompt layers and reallocates budget to promising configurations. Supports quality, cost and latency objectives and returns multiple Pareto versions.",
+  "key_idea": "Budget-adaptive hierarchical autotuning over workflow structure, per-step model and prompt settings.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly optimizes per-step model selection jointly with cost/latency objectives on real workflow frameworks.",
+  "found_via": "seed: Cognify",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "yang-2023-opro",
+  "title": "Large Language Models as Optimizers",
+  "authors": [
+   "Chengrun Yang",
+   "Xuezhi Wang",
+   "Yifeng Lu",
+   "Hanxiao Liu",
+   "Quoc V. Le",
+   "Denny Zhou",
+   "Xinyun Chen"
+  ],
+  "year": 2023,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2309.03409",
+  "code_url": "https://github.com/google-deepmind/opro",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "score of previous solutions in meta-prompt"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "GSM8K",
+   "Big-Bench Hard"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "OPRO uses an LLM as an optimizer: the meta-prompt lists earlier solutions and their scores, and the LLM proposes new candidates each step. Optimized prompts beat human prompts by up to 8% on GSM8K and up to 50% on Big-Bench Hard.",
+  "key_idea": "Optimization by prompting: LLM proposes new solutions conditioned on scored history.",
+  "relevance_score": 2,
+  "relevance_rationale": "Foundational LLM-as-optimizer method used inside many config optimizers; no cost objective.",
+  "found_via": "seed: OPRO",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "kim-2023-llmcompiler",
+  "title": "An LLM Compiler for Parallel Function Calling",
+  "authors": [
+   "Sehoon Kim",
+   "Suhong Moon",
+   "Ryan Tabrizi",
+   "Nicholas Lee",
+   "Michael W. Mahoney",
+   "Kurt Keutzer",
+   "Amir Gholami"
+  ],
+  "year": 2023,
+  "venue_or_source": "ICML 2024",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2312.04511",
+  "code_url": "https://github.com/SqueezeAILab/LLMCompiler",
+  "topic_clusters": [
+   "C4",
+   "C11",
+   "C12"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "planner-generated DAG"
+  ],
+  "cost_reduction_reported": "Up to 3.7x latency speedup, up to 6.7x cost savings and up to ~9% accuracy improvement vs. ReAct",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "LLMCompiler plans function calls as a DAG and executes independent calls in parallel via a planner, task-fetching unit and executor, instead of ReAct-style sequential reasoning. It cuts latency and cost while improving accuracy.",
+  "key_idea": "Compile agent tool calls into a parallel execution plan.",
+  "relevance_score": 3,
+  "relevance_rationale": "Architecture-level cost reduction for tool-using agents; complements config search.",
+  "found_via": "seed: LLMCompiler",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zaharia-2024-compound-ai-systems",
+  "title": "The Shift from Models to Compound AI Systems",
+  "authors": [
+   "Matei Zaharia",
+   "Omar Khattab",
+   "Lingjiao Chen",
+   "Jared Quincy Davis",
+   "Heather Miller",
+   "Chris Potts",
+   "James Zou",
+   "Michael Carbin",
+   "Jonathan Frankle",
+   "Naveen Rao",
+   "Ali Ghodsi"
+  ],
+  "year": 2024,
+  "venue_or_source": "BAIR blog",
+  "source_type": "blog",
+  "url": "https://bair.berkeley.edu/blog/2024/02/18/compound-ai-systems/",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C15"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Position post arguing that state-of-the-art results increasingly come from systems of multiple interacting components rather than single models. Identifies co-optimizing non-differentiable components (e.g., via DSPy) and cost-quality management (e.g., FrugalGPT-style routing) as core open problems.",
+  "key_idea": "Defines compound AI systems and frames their end-to-end optimization and cost control as a research agenda.",
+  "relevance_score": 3,
+  "relevance_rationale": "Framing document for the C4 cluster; motivates per-component optimization and cost-aware design.",
+  "found_via": "seed: The Shift from Models to Compound AI Systems (BAIR blog)",
+  "cites_or_cited_by": [
+   "khattab-2023-dspy"
+  ]
+ },
+ {
+  "id": "agrawal-2025-gepa",
+  "title": "GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning",
+  "authors": [
+   "Lakshya A Agrawal",
+   "Shangyin Tan",
+   "Dilara Soylu",
+   "Noah Ziems",
+   "Rishi Khare",
+   "Krista Opsahl-Ong",
+   "Arnav Singhvi",
+   "Herumb Shandilya",
+   "Michael J Ryan",
+   "Meng Jiang",
+   "Christopher Potts",
+   "Koushik Sen",
+   "Alexandros G. Dimakis",
+   "Ion Stoica",
+   "Dan Klein",
+   "et al."
+  ],
+  "year": 2025,
+  "venue_or_source": "ICLR 2026 (Oral)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2507.19457",
+  "code_url": "https://github.com/gepa-ai/gepa",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "natural-language reflection on trajectories",
+   "Pareto frontier of candidates"
+  ],
+  "cost_reduction_reported": "Outperforms GRPO by 6% on average (up to 20%) using up to 35x fewer rollouts; beats MIPROv2 by over 10% (+12% on AIME-2025)",
+  "benchmarks": [
+   "AIME-2025"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "GEPA is a reflective prompt optimizer for any system with one or more LLM prompts: it samples trajectories, reflects on them in natural language to diagnose failures, proposes prompt updates, and merges complementary lessons from a Pareto frontier of candidates. It is far more sample-efficient than RL fine-tuning.",
+  "key_idea": "Genetic-Pareto reflective prompt evolution for compound AI systems.",
+  "relevance_score": 4,
+  "relevance_rationale": "State-of-the-art compound-system prompt optimizer; industry reports use it to let cheap open models match frontier models.",
+  "found_via": "seed list: GEPA",
+  "cites_or_cited_by": [
+   "opsahlong-2024-mipro"
+  ]
+ },
+ {
+  "id": "wang-2025-scoreflow",
+  "title": "ScoreFlow: Mastering LLM Agent Workflows via Score-based Preference Optimization",
+  "authors": [
+   "Yinjie Wang",
+   "Ling Yang",
+   "Guohao Li",
+   "Mengdi Wang",
+   "Bryon Aragam"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.04306",
+  "code_url": "https://github.com/Gen-Verse/ScoreFlow",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "quantitative evaluation scores (Score-DPO)"
+  ],
+  "cost_reduction_reported": "8.2% improvement over baselines on six benchmarks; enables smaller models to outperform larger ones with lower inference costs",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "ScoreFlow trains a workflow generator with Score-DPO, a DPO variant that uses quantitative feedback, performing gradient-based optimization in a continuous space rather than discrete search. It improves over prior workflow optimizers across QA, coding and math.",
+  "key_idea": "Preference-optimize a workflow generator using score-aware DPO.",
+  "relevance_score": 4,
+  "relevance_rationale": "Automated workflow optimization with a smaller-model-beats-larger cost angle.",
+  "found_via": "seed list: ScoreFlow",
+  "cites_or_cited_by": [
+   "zhang-2024-aflow"
+  ]
+ },
+ {
+  "id": "zhang-2025-maas",
+  "title": "Multi-agent Architecture Search via Agentic Supernet",
+  "authors": [
+   "Guibin Zhang",
+   "Luyang Niu",
+   "Junfeng Fang",
+   "Kun Wang",
+   "Lei Bai",
+   "Xiang Wang"
+  ],
+  "year": 2025,
+  "venue_or_source": "ICML 2025 (Oral)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2502.04180",
+  "code_url": "https://github.com/bingreeky/MaAS",
+  "topic_clusters": [
+   "C4",
+   "C12"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "query features",
+   "inference cost",
+   "task score"
+  ],
+  "cost_reduction_reported": "Requires only 6-45% of the inference costs of existing handcrafted or automated multi-agent systems while surpassing them by 0.54%-11.82%",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "MaAS optimizes an 'agentic supernet', a probabilistic distribution over multi-agent architectures, and samples a query-dependent system from it at inference. This allocates LLM calls, tool calls and tokens according to query difficulty.",
+  "key_idea": "Learn a distribution over agent architectures and sample a cost-appropriate one per query.",
+  "relevance_score": 5,
+  "relevance_rationale": "Explicitly trades performance against inference cost in automated MAS design with per-query adaptation.",
+  "found_via": "seed list: MaAS",
+  "cites_or_cited_by": [
+   "zhang-2024-aflow"
+  ]
+ },
+ {
+  "id": "gao-2025-flowreasoner",
+  "title": "FlowReasoner: Reinforcing Query-Level Meta-Agents",
+  "authors": [
+   "Hongcheng Gao",
+   "Yue Liu",
+   "Yufei He",
+   "Longxu Dou",
+   "Chao Du",
+   "Zhijie Deng",
+   "Bryan Hooi",
+   "Min Lin",
+   "Tianyu Pang"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2504.15257",
+  "code_url": "https://github.com/sail-sg/FlowReasoner",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "execution feedback",
+   "reward on performance, complexity and efficiency"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "o1-mini",
+   "DeepSeek R1 (distillation source)"
+  ],
+  "production_evidence": false,
+  "summary": "FlowReasoner is a reasoning meta-agent that generates a separate multi-agent system per user query; it is distilled from DeepSeek R1 and then trained with RL using execution feedback and a reward covering performance, complexity and efficiency. It beats o1-mini by 10.52% accuracy on three code benchmarks.",
+  "key_idea": "RL-trained meta-agent that designs a per-query multi-agent system.",
+  "relevance_score": 4,
+  "relevance_rationale": "Query-level automated MAS design with efficiency in the reward.",
+  "found_via": "seed list: FlowReasoner",
+  "cites_or_cited_by": [
+   "zhang-2024-aflow"
+  ]
+ },
+ {
+  "id": "yuan-2024-evoagent",
+  "title": "EvoAgent: Towards Automatic Multi-Agent Generation via Evolutionary Algorithms",
+  "authors": [
+   "Siyu Yuan",
+   "Kaitao Song",
+   "Jiangjie Chen",
+   "Xu Tan",
+   "Dongsheng Li",
+   "Deqing Yang"
+  ],
+  "year": 2024,
+  "venue_or_source": "NAACL 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2406.14228",
+  "code_url": "https://github.com/siyuyuan/evoagent",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "task score"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "EvoAgent treats an existing agent framework as an initial individual and applies evolutionary operators (mutation, crossover, selection) to generate diverse expert agents, extending single agents into multi-agent systems without manual design.",
+  "key_idea": "Evolutionary expansion of a single agent into a multi-agent system.",
+  "relevance_score": 3,
+  "relevance_rationale": "Automated multi-agent generation; quality-focused.",
+  "found_via": "seed list: EvoAgent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2025-evoagentx",
+  "title": "EvoAgentX: An Automated Framework for Evolving Agentic Workflows",
+  "authors": [
+   "Yingxu Wang",
+   "Siwei Liu",
+   "Jinyuan Fang",
+   "Zaiqiao Meng"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2507.03616",
+  "code_url": "https://github.com/EvoAgentX/EvoAgentX",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "task metric"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "HotPotQA",
+   "MBPP",
+   "MATH",
+   "GAIA"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "EvoAgentX is an open-source platform for generating, executing and evolving multi-agent workflows, integrating TextGrad, AFlow and MIPRO to refine prompts, tool configs and topologies. Reports gains such as +7.44% HotPotQA F1 and up to +20% on GAIA.",
+  "key_idea": "Unified open-source platform for evolutionary optimization of agent workflows.",
+  "relevance_score": 3,
+  "relevance_rationale": "Practical toolkit combining several C4 optimizers.",
+  "found_via": "search: FlowReasoner EvoAgent arXiv multi-agent workflow",
+  "cites_or_cited_by": [
+   "yuksekgonul-2024-textgrad",
+   "zhang-2024-aflow",
+   "opsahlong-2024-mipro"
+  ]
+ },
+ {
+  "id": "conway-2025-syftr",
+  "title": "syftr: Pareto-Optimal Generative AI",
+  "authors": [
+   "Alexander Conway",
+   "Debadeepta Dey",
+   "Stefan Hackmann",
+   "Matthew Hausknecht",
+   "Michael Schmidt",
+   "Mark Steadman",
+   "Nick Volynets"
+  ],
+  "year": 2025,
+  "venue_or_source": "AutoML 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2505.20266",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "accuracy",
+   "cost",
+   "early-stopping"
+  ],
+  "cost_reduction_reported": "Finds flows on average ~9x cheaper while preserving most of the accuracy of the most accurate Pareto-frontier flows, across multiple RAG benchmarks",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "syftr runs multi-objective Bayesian optimization over a very large space of agentic and non-agentic RAG flows (embedders, splitters, retrievers, synthesizing LLMs, verifiers, rerankers) to find Pareto-optimal accuracy-cost configurations, with early stopping to prune weak candidates.",
+  "key_idea": "Multi-objective BO over RAG/agentic flow configs including LLM choice per component.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly optimizes cost jointly with quality and treats LLM per module as a decision variable.",
+  "found_via": "search: syftr Pareto optimal RAG flows arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "kim-2024-autorag",
+  "title": "AutoRAG: Automated Framework for optimization of Retrieval Augmented Generation Pipeline",
+  "authors": [
+   "Dongkyu Kim",
+   "Byoungwook Kim",
+   "Donggeon Han",
+   "Matouš Eibich"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2410.20878",
+  "code_url": "https://github.com/Marker-Inc-Korea/AutoRAG",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "retrieval and generation metrics"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "ARAGOG"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AutoRAG automatically selects RAG modules for a given dataset by greedily optimizing one pipeline stage at a time in pipeline order, and releases its experimental results.",
+  "key_idea": "Greedy stage-by-stage module selection for RAG pipelines.",
+  "relevance_score": 3,
+  "relevance_rationale": "RAG config search tool; quality-focused.",
+  "found_via": "search: AutoRAG automated RAG pipeline optimization arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "orbach-2025-rag-hpo",
+  "title": "An Analysis of Hyper-Parameter Optimization Methods for Retrieval Augmented Generation",
+  "authors": [
+   "Matan Orbach",
+   "Ohad Eytan",
+   "Benjamin Sznajder",
+   "Ariel Gera",
+   "Odellia Boni",
+   "Yoav Kantor",
+   "Gal Bloch",
+   "Omri Levy",
+   "Hadas Abraham",
+   "Nitzan Barzilay",
+   "Eyal Shnarch",
+   "Michael E. Factor",
+   "Shila Ofek-Koifman",
+   "Paula Ta-Shma",
+   "Assaf Toledo"
+  ],
+  "year": 2025,
+  "venue_or_source": "AAAI 2026 Workshop (NewFrontiers in IR)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2505.03452",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "RAG evaluation metrics"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Benchmarks five hyperparameter-optimization algorithms for RAG over five datasets, including a real-world product documentation set, with full grid-search references. Finds that greedy or random search is efficient and that optimizing model choice first beats following pipeline order.",
+  "key_idea": "Empirical benchmark of RAG HPO methods; tune model selection first.",
+  "relevance_score": 3,
+  "relevance_rationale": "Evidence on how to search RAG configs efficiently, relevant to config search design.",
+  "found_via": "search: AutoRAG automated RAG pipeline optimization arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "barker-2025-mo-hpo-rag",
+  "title": "Faster, Cheaper, Better: Multi-Objective Hyperparameter Optimization for LLM and RAG Systems",
+  "authors": [
+   "Matthew Barker",
+   "Andrew Bell",
+   "Evan Thomas",
+   "James Carr",
+   "Thomas Andrews",
+   "Umang Bhatt"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.18635",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "cost",
+   "latency",
+   "safety",
+   "alignment"
+  ],
+  "cost_reduction_reported": "Bayesian optimization obtains a superior Pareto front over baselines on two new RAG benchmark tasks (no single headline cost number in abstract)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Introduces multi-objective parameter optimization of cost, latency, safety and alignment over entire LLM and RAG systems, including choice of LLM, embedder and reranker. Bayesian optimization beats baselines in Pareto quality.",
+  "key_idea": "Multi-objective BO over full LLM/RAG system configs including model choice.",
+  "relevance_score": 5,
+  "relevance_rationale": "Cost as an explicit objective with LLM choice as a variable in end-to-end system tuning.",
+  "found_via": "search: RAG hyperparameter configuration tuning Bayesian optimization cost arXiv 2025",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zeng-2026-autoragtuner",
+  "title": "AutoRAGTuner: A Declarative Framework for Automatic Optimization of RAG Pipelines",
+  "authors": [
+   "Xintan Zeng",
+   "Yongchao Liu",
+   "Yice Luo",
+   "Jiajun Zhen"
+  ],
+  "year": 2026,
+  "venue_or_source": "EuroSys 2026 (poster)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2605.02967",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "RAG metrics"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AutoRAGTuner is a declarative framework covering RAG construction, execution, evaluation and optimization, with an adaptive Bayesian optimization engine for end-to-end hyperparameter tuning across vanilla to graph-based RAG.",
+  "key_idea": "Declarative RAG pipeline spec plus adaptive BO tuning.",
+  "relevance_score": 2,
+  "relevance_rationale": "RAG config tuning infrastructure; no explicit cost objective.",
+  "found_via": "search: AutoRAG automated RAG pipeline optimization arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "kartal-2025-ragsmith",
+  "title": "RAGSmith: A Framework for Finding the Optimal Composition of Retrieval-Augmented Generation Methods Across Datasets",
+  "authors": [
+   "Muhammed Yusuf Kartal",
+   "Suha Kagan Kose",
+   "Korhan Sevinç",
+   "Burak Aktas"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2511.01386",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "retrieval metrics",
+   "LLM judge"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "RAGSmith treats RAG design as architecture search over nine technique families and 46,080 configurations using a genetic algorithm with a combined retrieval-generation objective, gaining +3.8% on average over naive RAG while exploring about 0.2% of the space.",
+  "key_idea": "Genetic search over RAG technique compositions.",
+  "relevance_score": 2,
+  "relevance_rationale": "RAG config search; quality-only.",
+  "found_via": "search: AutoRAG automated RAG pipeline optimization arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zehle-2025-capo",
+  "title": "CAPO: Cost-Aware Prompt Optimization",
+  "authors": [
+   "Tom Zehle",
+   "Moritz Schlager",
+   "Timo Heiß",
+   "Matthias Feurer"
+  ],
+  "year": 2025,
+  "venue_or_source": "AutoML 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2504.16005",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "accuracy",
+   "prompt length",
+   "racing"
+  ],
+  "cost_reduction_reported": "Outperforms SOTA discrete prompt optimizers in 11/15 cases (up to 21%p); reduces average prompt length via length penalty and saves evaluations via racing",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "CAPO is an evolutionary prompt optimizer with LLM operators that uses racing to save evaluations and a multi-objective length penalty to shorten prompts, jointly tuning instructions and few-shot examples.",
+  "key_idea": "AutoML-style cost-aware prompt optimization (racing plus length penalty).",
+  "relevance_score": 3,
+  "relevance_rationale": "Cost-aware prompt optimization, both of optimization cost and inference prompt cost.",
+  "found_via": "search: cost-aware prompt optimization LLM token cost Pareto arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "bussing-2026-mo-capo",
+  "title": "MO-CAPO: Multi-Objective Cost-Aware Prompt Optimization",
+  "authors": [
+   "Jan Büssing",
+   "Moritz Schlager",
+   "Timo Heiß",
+   "Tom Zehle",
+   "Matthias Feurer"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.18869",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "performance",
+   "input/output token cost"
+  ],
+  "cost_reduction_reported": "Outperforms NSGA-II baseline on 8 of 12 cases (noisy R2), often at considerably lower budget",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "MO-CAPO extends CAPO to true multi-objective prompt optimization of performance and a deployment-oriented inference-cost objective covering input and output tokens, with budget allocation for efficient search, returning a Pareto set of prompts.",
+  "key_idea": "Multi-objective prompt optimization with a deployment-realistic token-cost objective.",
+  "relevance_score": 4,
+  "relevance_rationale": "Cost-quality Pareto prompt optimization; directly usable for per-module cost-aware configuration.",
+  "found_via": "search: cost-aware prompt optimization LLM token cost Pareto arXiv",
+  "cites_or_cited_by": [
+   "zehle-2025-capo"
+  ]
+ },
+ {
+  "id": "kumar-2026-craft",
+  "title": "CRAFT: Cost-aware Refinement And Front-aware Tuning of Prompts",
+  "authors": [
+   "Shanu Kumar",
+   "Shubhanshu Khandelwal",
+   "Akhila Yesantarao Venkata",
+   "Parag Agrawal",
+   "Yova Kementchedjhieva",
+   "Manish Gupta"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.04661",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "accuracy",
+   "prompt-token cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "CRAFT searches the Pareto front of accuracy and prompt-token cost, spending scarce validation calls on candidates near the optimistic front and keeping a spread population via NSGA-II, avoiding the 'scalarization collapse' of weighted-sum objectives.",
+  "key_idea": "Pareto-front prompt optimization with validation-budget-aware acquisition.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cost-aware prompt optimization; complements model selection.",
+  "found_via": "search: cost-aware prompt optimization LLM token cost Pareto arXiv",
+  "cites_or_cited_by": [
+   "zehle-2025-capo"
+  ]
+ },
+ {
+  "id": "huang-2026-scope",
+  "title": "SCOPE: Cost-Efficient Model Selection for Compound AI Systems under Quality Constraints",
+  "authors": [
+   "Yiqian Huang",
+   "Shiqi Zhang",
+   "Tianyuan Jin",
+   "Xiaokui Xiao"
+  ],
+  "year": 2026,
+  "venue_or_source": "KDD 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2606.00774",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "per-query cost and quality",
+   "confidence bounds"
+  ],
+  "cost_reduction_reported": "Under same search budget and quality constraint, up to 20x lower cost than best competitor during search and up to 6x lower final cost in returned solution (three data processing tasks, 7 baselines)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Formalizes constrained LLM selection for compound AI systems: choose an LLM per module to minimize average cost subject to a quality threshold. SCOPE uses per-query results and confidence bounds to guide search, with guarantees on meeting the threshold and near-optimal cost.",
+  "key_idea": "Quality-constrained cost minimization over per-module LLM assignment with confidence-bound search.",
+  "relevance_score": 5,
+  "relevance_rationale": "Exactly the per-module model-choice-with-cost problem, with theoretical guarantees.",
+  "found_via": "search: joint optimization model selection prompt compound AI system cost quality arXiv",
+  "cites_or_cited_by": [
+   "chen-2025-llmselector",
+   "he-2025-cognify"
+  ]
+ },
+ {
+  "id": "wu-2025-optimas",
+  "title": "Optimas: Optimizing Compound AI Systems with Globally Aligned Local Rewards",
+  "authors": [
+   "Shirley Wu",
+   "Parth Sarthi",
+   "Shiyu Zhao",
+   "Aaron Lee",
+   "Herumb Shandilya",
+   "Adrian Mladenic Grobelnik",
+   "Nurendra Choudhary",
+   "Eddie Huang",
+   "Karthik Subbian",
+   "Linjun Zhang",
+   "Diyi Yang",
+   "James Zou",
+   "Jure Leskovec"
+  ],
+  "year": 2025,
+  "venue_or_source": "ICLR 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2507.03041",
+  "code_url": "https://optimas.stanford.edu",
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "local reward functions aligned with global reward",
+   "preference data"
+  ],
+  "cost_reduction_reported": "Average improvement of 11.92% over strong baselines across five real-world compound systems",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Optimas keeps a learned local reward function per component that is aligned with global system performance, so heterogeneous configurations (prompts, hyperparameters, model routing/selection, LoRA weights) can be updated independently while still improving the whole system.",
+  "key_idea": "Globally aligned local rewards enable independent optimization of heterogeneous component configs.",
+  "relevance_score": 5,
+  "relevance_rationale": "Unified optimizer covering model selection per component alongside prompts and weights.",
+  "found_via": "search: Optimas compound AI globally aligned local rewards",
+  "cites_or_cited_by": [
+   "chen-2025-llmselector",
+   "opsahlong-2024-mipro"
+  ]
+ },
+ {
+  "id": "zhang-2026-po-coin-flip",
+  "title": "Prompt Optimization Is a Coin Flip: Diagnosing When It Helps in Compound AI Systems",
+  "authors": [
+   "Xing Zhang",
+   "Guanghui Wang",
+   "Yanwei Cui",
+   "Wei Qiu",
+   "Ziyuan Li",
+   "Bing Zhu",
+   "Peiyang He"
+  ],
+  "year": 2026,
+  "venue_or_source": "CTB@ICML 2026 Workshop",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2604.14585",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "zero-shot vs optimized score"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Claude Haiku 4.5",
+   "Amazon Nova Lite"
+  ],
+  "production_evidence": false,
+  "summary": "Large-scale study (72+ optimization runs, 18,000 grid evaluations) finding that prompt optimization in compound systems is often no better than chance: 49% of runs on Claude Haiku 4.5 score below zero-shot. Agent-prompt interaction effects were never significant; gains appear only when a task has exploitable output structure.",
+  "key_idea": "Prompt optimization in compound systems helps only with exploitable output structure; joint optimization rarely matters.",
+  "relevance_score": 4,
+  "relevance_rationale": "Rigorous negative result that informs whether to invest in prompt vs. model/config optimization.",
+  "found_via": "search: joint optimization model selection prompt compound AI system cost quality arXiv",
+  "cites_or_cited_by": [
+   "yuksekgonul-2024-textgrad",
+   "khattab-2023-dspy"
+  ]
+ },
+ {
+  "id": "gravara-2026-compass",
+  "title": "Compass: Optimizing Compound AI Workflows for Dynamic Adaptation",
+  "authors": [
+   "Milos Gravara",
+   "Juan Luis Herrera",
+   "Stefan Nastic"
+  ],
+  "year": 2026,
+  "venue_or_source": "IEEE CLUSTER 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2603.20821",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C11",
+   "C5"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "queue depth",
+   "profiled latency",
+   "accuracy threshold"
+  ],
+  "cost_reduction_reported": "COMPASS-V reduces configuration evaluations by 57.5% on average vs exhaustive search (up to 95.3%); runtime adaptation achieves 90-98% SLO compliance, +71.6% over static high-accuracy baselines",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Compass discovers multiple accuracy-feasible Pareto configurations of a compound AI workflow offline and switches between them at runtime based on load, using a queuing-theory planner and a queue-depth-driven controller.",
+  "key_idea": "Offline Pareto config discovery plus online load-aware configuration switching.",
+  "relevance_score": 4,
+  "relevance_rationale": "Links config optimization to runtime adaptation for production SLOs.",
+  "found_via": "search: joint optimization model selection prompt compound AI system cost quality arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "sabbatella-2025-malbo",
+  "title": "MALBO: Optimizing LLM-Based Multi-Agent Teams via Multi-Objective Bayesian Optimization",
+  "authors": [
+   "Antonio Sabbatella"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv (Master's thesis)",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2511.11788",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "accuracy",
+   "inference cost",
+   "GP surrogate"
+  ],
+  "cost_reduction_reported": "BO phase reduced average configuration cost by over 45% vs random search at comparable performance; heterogeneous teams achieve up to 65.8% cost reduction vs homogeneous baselines at maximum performance",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "MALBO casts assignment of LLMs to roles in a multi-agent team as multi-objective black-box optimization, using GP-based multi-objective Bayesian optimization over a continuous LLM feature space to find the accuracy-cost Pareto front.",
+  "key_idea": "Multi-objective BO over per-role LLM assignment in agent teams.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly optimizes per-agent model choice for cost and accuracy.",
+  "found_via": "search: multi-objective agentic workflow optimization cost accuracy Pareto arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhang-2025-evoflow",
+  "title": "EvoFlow: Evolving Diverse Agentic Workflows On The Fly",
+  "authors": [
+   "Guibin Zhang",
+   "Kaijie Chen",
+   "Guancheng Wan",
+   "Heng Chang",
+   "Hong Cheng",
+   "Kun Wang",
+   "Shuyue Hu",
+   "Lei Bai"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.07373",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "task score",
+   "cost"
+  ],
+  "cost_reduction_reported": "Outperforms handcrafted and automated workflows by 1.23%-29.86%; surpasses o1-preview at 12.4% of its inference cost using weaker open-source models",
+  "benchmarks": [],
+  "models_studied": [
+   "o1-preview",
+   "open-source LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "EvoFlow uses a niching evolutionary algorithm to evolve a population of heterogeneous, complexity-adaptive workflows that mix different LLMs, rather than one homogeneous complex workflow, optimizing both performance and cost.",
+  "key_idea": "Evolve a diverse population of multi-LLM workflows with cost-aware selection.",
+  "relevance_score": 5,
+  "relevance_rationale": "Explicit LLM heterogeneity and cost objective in automated workflow search.",
+  "found_via": "search: multi-objective agentic workflow optimization cost accuracy Pareto arXiv",
+  "cites_or_cited_by": [
+   "zhang-2024-aflow"
+  ]
+ },
+ {
+  "id": "wei-2025-moar",
+  "title": "Multi-Objective Agentic Rewrites for Unstructured Data Processing",
+  "authors": [
+   "Lindsey Linxi Wei",
+   "Shreya Shankar",
+   "Sepanta Zeighami",
+   "Yeounoh Chung",
+   "Fatma Ozcan",
+   "Aditya G. Parameswaran"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2512.02289",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "accuracy",
+   "cost",
+   "multi-armed bandit over rewrites"
+  ],
+  "cost_reduction_reported": "27% higher accuracy than ABACUS on average; matches ABACUS's best accuracy at 55% of its cost, across six workloads",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "MOAR is a multi-objective optimizer for DocETL pipelines that applies over 30 agentic rewrite directives (including cost-targeted ones such as model substitution and decomposition) and searches globally over whole pipelines using a multi-armed bandit to choose what to rewrite.",
+  "key_idea": "Bandit-guided global search over LLM pipeline rewrites for accuracy-cost Pareto.",
+  "relevance_score": 5,
+  "relevance_rationale": "Cost-quality Pareto optimization of multi-operator LLM pipelines from a system with real users.",
+  "found_via": "search: multi-objective agentic workflow optimization cost accuracy Pareto arXiv",
+  "cites_or_cited_by": [
+   "russo-2025-abacus"
+  ]
+ },
+ {
+  "id": "chen-2026-agentslimming",
+  "title": "AgentSlimming: Towards Efficient and Cost-Aware Multi-Agent Systems",
+  "authors": [
+   "Yulang Chen",
+   "Haoxuan Peng",
+   "Jinyan Liu",
+   "Zichen Wen",
+   "Dongrui Liu",
+   "Linfeng Zhang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.08813",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C12",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "agent importance scores",
+   "baseline-anchored acceptance"
+  ],
+  "cost_reduction_reported": "Reduces average token cost by up to 78.9% with negligible performance degradation",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AgentSlimming compresses graph-structured multi-agent workflows by scoring agent importance, then pruning redundant agents or replacing them with low-cost models, accepting each change only if performance stays anchored to the baseline.",
+  "key_idea": "Prune or downgrade agents in a workflow, analogous to network pruning/quantization.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly reduces multi-agent cost by removing or downscaling agents.",
+  "found_via": "search: multi-objective agentic workflow optimization cost accuracy Pareto arXiv",
+  "cites_or_cited_by": [
+   "zhang-2024-aflow"
+  ]
+ },
+ {
+  "id": "jiang-2026-moae",
+  "title": "MOAE: Multi-Objective Agent Evolution with Pareto-Preserving Search",
+  "authors": [
+   "Hengle Jiang",
+   "Qijun Cai",
+   "Ziying Luo",
+   "Ke Tang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.05992",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "task performance",
+   "trajectory quality",
+   "safety"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "TravelPlanner",
+   "AgentDojo"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "MOAE performs Pareto-preserving in-context evolutionary search over agent rollouts, keeping an archive of non-dominated candidates and applying constraint-aware selection only at deployment, so no scalarization is fixed during search.",
+  "key_idea": "Pareto-archive evolutionary agent refinement without fixed scalarization.",
+  "relevance_score": 3,
+  "relevance_rationale": "Multi-objective agent optimization method; cost not a primary objective in abstract.",
+  "found_via": "search: multi-objective agentic workflow optimization cost accuracy Pareto arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "mehta-2025-clear",
+  "title": "Beyond Accuracy: A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems",
+  "authors": [
+   "Sushant Mehta"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2511.14136",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C4"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "cost",
+   "latency",
+   "efficacy",
+   "assurance",
+   "reliability"
+  ],
+  "cost_reduction_reported": "Accuracy-only optimization yields agents 4.4-10.8x more expensive than cost-aware alternatives with comparable performance (300 enterprise tasks); up to 50x cost variation for similar precision",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Proposes CLEAR, an enterprise agent evaluation framework across cost, latency, efficacy, assurance and reliability, arguing accuracy-only benchmarks mislead. Expert evaluation suggests CLEAR predicts production success better than accuracy alone.",
+  "key_idea": "Multi-dimensional, cost-controlled evaluation for enterprise agents.",
+  "relevance_score": 3,
+  "relevance_rationale": "Supports cost-aware objectives for agent configuration selection.",
+  "found_via": "search: multi-objective agentic workflow optimization cost accuracy Pareto arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "lee-2025-cais-opt-survey",
+  "title": "Compound AI Systems Optimization: A Survey of Methods, Challenges, and Future Directions",
+  "authors": [
+   "Yu-Ang Lee",
+   "Guan-Ting Yi",
+   "Mei-Yi Liu",
+   "Jui-Chao Lu",
+   "Guan-Bo Yang",
+   "Yun-Nung Chen"
+  ],
+  "year": 2025,
+  "venue_or_source": "EMNLP 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2506.08234",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C4"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Systematic survey of compound AI system optimization covering numerical (SFT, RL) and language-feedback-based methods, with a formalization and taxonomy of existing approaches and open challenges.",
+  "key_idea": "Taxonomy of compound AI optimization methods.",
+  "relevance_score": 3,
+  "relevance_rationale": "Survey that maps C4.",
+  "found_via": "search: compound AI optimization survey arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "lin-2024-scaffolded-lm-survey",
+  "title": "Scaffolded Language Models with Language Supervision for Mixed-Autonomy: A Survey",
+  "authors": [
+   "Matthieu Lin",
+   "Jenny Sheng",
+   "Andrew Zhao",
+   "Shenzhi Wang",
+   "Yang Yue",
+   "Victor Shea Jay Huang",
+   "Huan Liu",
+   "Jun Liu",
+   "Gao Huang",
+   "Yong-Jin Liu"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2410.16392",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C4"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey (first released as 'LLM-based Optimization of Compound AI Systems: A Survey') of training non-parametric variables of scaffolded LMs, such as prompts, tools and scaffold code, using an LM as optimizer with language supervision.",
+  "key_idea": "LLM-as-optimizer over prompts/tools/scaffold code, surveyed.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background survey for C4.",
+  "found_via": "search: LLM-based Optimization of Compound AI Systems survey arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhou-2025-mass",
+  "title": "Multi-Agent Design: Optimizing Agents with Better Prompts and Topologies",
+  "authors": [
+   "Han Zhou",
+   "Xingchen Wan",
+   "Ruoxi Sun",
+   "Hamid Palangi",
+   "Shariq Iqbal",
+   "Ivan Vulić",
+   "Anna Korhonen",
+   "Sercan Ö. Arık"
+  ],
+  "year": 2025,
+  "venue_or_source": "ICLR 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2502.02533",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "validation score"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Gemini 1.5 Pro",
+   "Gemini 1.5 Flash",
+   "Claude 3.5 Sonnet",
+   "Mistral Nemo"
+  ],
+  "production_evidence": false,
+  "summary": "Analyzes the multi-agent design space and finds prompts and topologies both matter; proposes MASS, which interleaves block-level prompt optimization, topology optimization, and workflow-level prompt optimization.",
+  "key_idea": "Staged local-to-global optimization of prompts and topology for MAS.",
+  "relevance_score": 4,
+  "relevance_rationale": "Strong MAS configuration optimizer; model choice not optimized.",
+  "found_via": "search: MASS Multi-Agent Design optimizing agents prompts topologies arXiv",
+  "cites_or_cited_by": [
+   "zhang-2024-aflow",
+   "hu-2024-adas"
+  ]
+ },
+ {
+  "id": "shang-2024-agentsquare",
+  "title": "AgentSquare: Automatic LLM Agent Search in Modular Design Space",
+  "authors": [
+   "Yu Shang",
+   "Yu Li",
+   "Keyu Zhao",
+   "Likai Ma",
+   "Jiahe Liu",
+   "Fengli Xu",
+   "Yong Li"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2410.06153",
+  "code_url": "https://github.com/tsinghua-fib-lab/AgentSquare",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "task score",
+   "in-context surrogate predictor"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AgentSquare defines a modular agent design space (planning, reasoning, tool use, memory) and searches it with module evolution and recombination plus an in-context surrogate that skips unpromising designs, gaining 17.2% on average over best human designs across six benchmarks.",
+  "key_idea": "Modular agent search with surrogate-based pruning.",
+  "relevance_score": 3,
+  "relevance_rationale": "Automated agent design; surrogate lowers search cost.",
+  "found_via": "search: AgentSquare modular design space agent search arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "li-2025-agentswift",
+  "title": "AgentSwift: Efficient LLM Agent Design via Value-guided Hierarchical Search",
+  "authors": [
+   "Yu Li",
+   "Lehui Li",
+   "Zhihao Wu",
+   "Qingmin Liao",
+   "Jianye Hao",
+   "Kun Shao",
+   "Fengli Xu",
+   "Yong Li"
+  ],
+  "year": 2025,
+  "venue_or_source": "AAAI 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2506.06017",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "value model predictions",
+   "uncertainty"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AgentSwift searches a hierarchical space of agent workflows and functional components using uncertainty-guided hierarchical MCTS and a learned value model to cut evaluation cost, gaining 8.34% on average across seven benchmarks.",
+  "key_idea": "Value-model-guided hierarchical MCTS for agent design.",
+  "relevance_score": 3,
+  "relevance_rationale": "Reduces cost of agent design search via learned predictors.",
+  "found_via": "search: GPTSwarm Language Agents as Optimizable Graphs arXiv",
+  "cites_or_cited_by": [
+   "shang-2024-agentsquare"
+  ]
+ },
+ {
+  "id": "zhang-2024-gdesigner",
+  "title": "G-Designer: Architecting Multi-agent Communication Topologies via Graph Neural Networks",
+  "authors": [
+   "Guibin Zhang",
+   "Yanwei Yue",
+   "Xiangguo Sun",
+   "Guancheng Wan",
+   "Miao Yu",
+   "Junfeng Fang",
+   "Kun Wang",
+   "Tianlong Chen",
+   "Dawei Cheng"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2410.11782",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C12"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "task embedding",
+   "graph auto-encoder"
+  ],
+  "cost_reduction_reported": "Reduces token consumption by up to 95.33% on HumanEval",
+  "benchmarks": [
+   "MMLU",
+   "HumanEval"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "G-Designer uses a variational graph auto-encoder over agents and a task node to generate task-adaptive multi-agent communication topologies, reaching strong accuracy while adapting topology complexity (and tokens) to task difficulty.",
+  "key_idea": "Generate per-task communication topology with a graph auto-encoder.",
+  "relevance_score": 4,
+  "relevance_rationale": "Large token-cost reductions via learned topology design.",
+  "found_via": "search: AgentPrune G-Designer multi-agent topology token cost arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "soylu-2024-bettertogether",
+  "title": "Fine-Tuning and Prompt Optimization: Two Great Steps that Work Better Together",
+  "authors": [
+   "Dilara Soylu",
+   "Christopher Potts",
+   "Omar Khattab"
+  ],
+  "year": 2024,
+  "venue_or_source": "EMNLP 2024",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2407.10930",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C8"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "bootstrapped traces",
+   "task metric"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "mistral-7b",
+   "llama-2-7b",
+   "llama-3-8b"
+  ],
+  "production_evidence": false,
+  "summary": "BetterTogether alternates prompt optimization and fine-tuning of LM weights in modular pipelines, outperforming weight-only and prompt-only optimization by up to 60% and 6% on average.",
+  "key_idea": "Alternate prompt optimization and weight fine-tuning for LM programs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Joint prompt/weight optimization supports small-model specialization.",
+  "found_via": "search: BetterTogether fine-tuning and prompt optimization LM programs arXiv",
+  "cites_or_cited_by": [
+   "khattab-2023-dspy"
+  ]
+ },
+ {
+  "id": "ziems-2025-mmgrpo",
+  "title": "Composing Policy Gradients and Prompt Optimization for Language Model Programs",
+  "authors": [
+   "Noah Ziems",
+   "Dilara Soylu",
+   "Lakshya A Agrawal",
+   "Isaac Miller",
+   "Liheng Lai",
+   "Chen Qian",
+   "Kaiqiang Song",
+   "Meng Jiang",
+   "Dan Klein",
+   "Matei Zaharia",
+   "Karel D'Oosterlinck",
+   "Christopher Potts",
+   "Omar Khattab"
+  ],
+  "year": 2025,
+  "venue_or_source": "ACM CAIS 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2508.04660",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C8"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "task reward"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Composes policy-gradient training (a multi-module GRPO) with prompt optimization for LM programs, studying how RL on module weights and prompt search combine.",
+  "key_idea": "Combine multi-module GRPO with prompt optimization.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background on joint weight/prompt optimization of compound systems.",
+  "found_via": "search: BetterTogether fine-tuning and prompt optimization LM programs arXiv",
+  "cites_or_cited_by": [
+   "soylu-2024-bettertogether"
+  ]
+ },
+ {
+  "id": "su-2025-daao",
+  "title": "Difficulty-Aware Agentic Orchestration for Query-Specific Multi-Agent Workflows",
+  "authors": [
+   "Jinwei Su",
+   "Qizhen Lan",
+   "Yinghui Xia",
+   "Lifan Sun",
+   "Weiyou Tian",
+   "Tianyu Shi",
+   "Xinyuan Song",
+   "Lewei He",
+   "Yang Jingsong"
+  ],
+  "year": 2025,
+  "venue_or_source": "WWW 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2509.11079",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "predicted query difficulty (VAE)",
+   "cost-aware router"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "DAAO predicts query difficulty with a VAE and uses it to select agentic operators and workflow depth, then routes each workflow component to an LLM via a cost-aware router balancing reasoning needs and budget.",
+  "key_idea": "Difficulty-conditioned workflow generation with per-component cost-aware LLM routing.",
+  "relevance_score": 5,
+  "relevance_rationale": "Combines query-level difficulty with per-component model assignment under cost.",
+  "found_via": "search: Difficulty-Aware Agentic Orchestration query-specific workflows DAAO arXiv",
+  "cites_or_cited_by": [
+   "zhang-2025-maas"
+  ]
+ },
+ {
+  "id": "yuan-2026-flowbank",
+  "title": "FlowBank: Query-Adaptive Agentic Workflows Optimization through Precompute-and-Reuse",
+  "authors": [
+   "Lingzhi Yuan",
+   "Chenghao Deng",
+   "Fangxu Yu",
+   "Souradip Chakraborty",
+   "Mohammad Rostami",
+   "Furong Huang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.11290",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "predicted query-workflow utility"
+  ],
+  "cost_reduction_reported": "Improves over strongest automated and handcrafted baselines by 4.26% and 14.92% relative while remaining cost-competitive",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "FlowBank precomputes a portfolio of complementary workflows offline, compresses it, and routes each query to the portfolio member with the best predicted utility under a performance-cost trade-off, avoiding expensive per-query workflow synthesis.",
+  "key_idea": "Precompute a workflow portfolio and route queries to it.",
+  "relevance_score": 5,
+  "relevance_rationale": "Bridges offline workflow optimization with query routing under cost.",
+  "found_via": "search: FlowBank query-adaptive agentic workflows precompute reuse",
+  "cites_or_cited_by": [
+   "zhang-2025-maas",
+   "gao-2025-flowreasoner"
+  ]
+ },
+ {
+  "id": "zhang-2026-metaagentx",
+  "title": "MetaAgent-X : Breaking the Ceiling of Automatic Multi-Agent Systems via End-to-End Reinforcement Learning",
+  "authors": [
+   "Yaolun Zhang",
+   "Yujie Zhao",
+   "Nan Wang",
+   "Yiran Wu",
+   "Jiayu Chang",
+   "Yizhao Chen",
+   "Qingyun Wu",
+   "Jishen Zhao",
+   "Huazheng Wang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.14212",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "task reward"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "MetaAgent-X trains both a MAS designer and executor end to end with RL, using hierarchical rollouts and stagewise co-evolution, outperforming automatic MAS baselines by up to 21.7%.",
+  "key_idea": "End-to-end RL co-training of designer and executor agents.",
+  "relevance_score": 3,
+  "relevance_rationale": "Automated MAS design; quality-focused.",
+  "found_via": "search: ScoreFlow MaAS agentic supernet arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "koh-2026-graft",
+  "title": "Global Optimization and Inference-Time Region Grafting for Agentic Workflows",
+  "authors": [
+   "Donghyeok Koh",
+   "Gyuwan Kim",
+   "Jinyeong Bak",
+   "Seung-Hoon Na",
+   "Tao Yang",
+   "Haneol Jang",
+   "Cheoneum Park"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.02353",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C7"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "label-free execution-quality signals"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "GRAFT keeps a globally optimized workflow but replaces selected regions per input at inference time using label-free quality signals, improving over MaAS by 3.85 points on average.",
+  "key_idea": "Inference-time local region replacement in a globally optimized workflow.",
+  "relevance_score": 3,
+  "relevance_rationale": "Runtime adaptation of optimized workflows using label-free signals.",
+  "found_via": "search: ScoreFlow MaAS agentic supernet arXiv",
+  "cites_or_cited_by": [
+   "zhang-2025-maas"
+  ]
+ },
+ {
+  "id": "cheng-2026-optimas-mas",
+  "title": "OptiMAS: Automatically Optimize Multi-Agent System",
+  "authors": [
+   "Yuxin Cheng",
+   "Chang Liu",
+   "Hanxin Yu",
+   "Haochen Tan",
+   "Taiqiang Wu",
+   "Weiqiang Jin",
+   "Jie Ran",
+   "Kaibo Wang",
+   "Xiaoguang Li",
+   "Haoli Bai",
+   "Graziano Chesi",
+   "Ngai Wong"
+  ],
+  "year": 2026,
+  "venue_or_source": "EMNLP 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2608.21918",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "task score"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "OptiMAS automatically optimizes multi-agent systems over extended horizons and matches or beats domain-specialized hand-crafted systems and evolutionary methods on four agentic benchmarks across three LLM backbones.",
+  "key_idea": "Long-horizon automated MAS optimization.",
+  "relevance_score": 2,
+  "relevance_rationale": "Automated MAS optimization; cost not primary.",
+  "found_via": "search: Automated Design of Agentic Systems ADAS Meta Agent Search arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "el-2025-meta-agent-inefficiencies",
+  "title": "Inefficiencies of Meta Agents for Agent Design",
+  "authors": [
+   "Batu El",
+   "Mert Yuksekgonul",
+   "James Zou"
+  ],
+  "year": 2025,
+  "venue_or_source": "Findings of EMNLP 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2510.06711",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "design cost",
+   "per-example inference cost"
+  ],
+  "cost_reduction_reported": "Only on two datasets does total design-plus-deployment cost of meta-designed agents fall below human-designed agents, and only when deployed on over 15,000 examples",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Examines meta-agent-based automated agent design and finds learning inefficiency (using all prior designs hurts), low behavioral diversity, and poor economics: design cost rarely pays off relative to hand-designed agents.",
+  "key_idea": "Automated agent design is rarely cost-effective once design cost is counted.",
+  "relevance_score": 4,
+  "relevance_rationale": "Important cost-accounting critique of the C4 paradigm.",
+  "found_via": "search: Inefficiencies of Meta Agents for Agent Design cost",
+  "cites_or_cited_by": [
+   "hu-2024-adas"
+  ]
+ },
+ {
+  "id": "trirat-2025-agentic-predictor",
+  "title": "Multi-View Encoders for Performance Prediction in LLM-Based Agentic Workflows",
+  "authors": [
+   "Patara Trirat",
+   "Wonyong Jeong",
+   "Sung Ju Hwang"
+  ],
+  "year": 2025,
+  "venue_or_source": "ICLR 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2505.19764",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C6"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "code, prompt and graph embeddings"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Agentic Predictor is a lightweight predictor of agentic-workflow success from multi-view encodings (graph, code, prompts) with cross-domain pretraining, used to select workflow configurations without costly execution.",
+  "key_idea": "Surrogate performance predictor for workflow configs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Reduces cost of config search by predicting performance.",
+  "found_via": "search: agentic workflow performance predictor surrogate cheap evaluation arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhang-2025-flora-bench",
+  "title": "GNNs as Predictors of Agentic Workflow Performances",
+  "authors": [
+   "Yuanshuo Zhang",
+   "Yuchen Hou",
+   "Bohan Tang",
+   "Shuo Chen",
+   "Muhan Zhang",
+   "Xiaowen Dong",
+   "Siheng Chen"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2503.11301",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C6"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "GNN over workflow graph"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Studies GNNs as cheap predictors of agentic workflow performance and builds a benchmark for this prediction task, to reduce reliance on repeated LLM execution during workflow optimization.",
+  "key_idea": "GNN surrogates for workflow performance.",
+  "relevance_score": 2,
+  "relevance_rationale": "Surrogate evaluation for config search.",
+  "found_via": "search: agentic workflow performance predictor surrogate cheap evaluation arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "guan-2025-glow",
+  "title": "GLOW: Graph-Language Co-Encoding for Agentic Workflow Performance Prediction",
+  "authors": [
+   "Wei Guan",
+   "Jian Cao",
+   "Jinyu Cai",
+   "Qiqi Cai",
+   "Jianqi Gao",
+   "See-Kiong Ng"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2512.15751",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C6"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "graph and language co-encoding"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "GLOW combines graph and language encoders to predict performance of candidate agentic workflows, reducing the need for costly LLM calls during workflow generation.",
+  "key_idea": "Graph-language surrogate for workflow performance.",
+  "relevance_score": 2,
+  "relevance_rationale": "Surrogate evaluation for config search.",
+  "found_via": "search: agentic workflow performance predictor surrogate cheap evaluation arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2023-ecooptigen",
+  "title": "Cost-Effective Hyperparameter Optimization for Large Language Model Generation Inference",
+  "authors": [
+   "Chi Wang",
+   "Susan Xueqing Liu",
+   "Ahmed H. Awadallah"
+  ],
+  "year": 2023,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2303.04673",
+  "code_url": "https://aka.ms/autogen",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "utility",
+   "inference cost",
+   "cost-based pruning"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-3.5",
+   "GPT-4"
+  ],
+  "production_evidence": false,
+  "summary": "EcoOptiGen tunes LLM inference hyperparameters (number of responses, temperature, max tokens, prompts, model) under a budget using economical hyperparameter optimization with cost-based pruning; implemented in FLAML's autogen package.",
+  "key_idea": "Budget-aware HPO of LLM inference hyperparameters.",
+  "relevance_score": 4,
+  "relevance_rationale": "Early cost-aware LLM inference config tuning, ancestor of AutoGen tuning.",
+  "found_via": "search: LLM configuration tuning inference hyperparameters optimization arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhang-2024-osca",
+  "title": "Scaling LLM Inference with Optimized Sample Compute Allocation",
+  "authors": [
+   "Kexun Zhang",
+   "Shang Zhou",
+   "Danqing Wang",
+   "William Yang Wang",
+   "Lei Li"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2410.22480",
+  "code_url": "https://github.com/LeiLiLab/OSCA",
+  "topic_clusters": [
+   "C4",
+   "C9"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "per-configuration accuracy estimates"
+  ],
+  "cost_reduction_reported": "Better accuracy than best single configuration with 128x less compute on code generation and 25x less on 4 reasoning tasks; better SWE-Bench accuracy with 3x less compute",
+  "benchmarks": [
+   "SWE-Bench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "OSCA learns an optimal mixed allocation of sample budget across inference configurations (model, temperature, language, etc.), rather than using a single best configuration.",
+  "key_idea": "Learn a mixed allocation of samples over inference configurations.",
+  "relevance_score": 4,
+  "relevance_rationale": "Config mixing over models reduces compute substantially, including for agents.",
+  "found_via": "search: LLM configuration tuning inference hyperparameters optimization arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "nie-2025-w4s",
+  "title": "Weak-for-Strong: Training Weak Meta-Agent to Harness Strong Executors",
+  "authors": [
+   "Fan Nie",
+   "Lan Feng",
+   "Haotian Ye",
+   "Weixin Liang",
+   "Pan Lu",
+   "Huaxiu Yao",
+   "Alexandre Alahi",
+   "James Zou"
+  ],
+  "year": 2025,
+  "venue_or_source": "COLM 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2504.04785",
+  "code_url": "https://github.com/fannie1208/W4S",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "execution feedback"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-3.5-Turbo",
+   "GPT-4o"
+  ],
+  "production_evidence": false,
+  "summary": "W4S trains a small (7B) meta-agent with RL for agentic workflow optimization to design workflows that call a stronger executor LLM, outperforming the strongest baseline by 2.9%-24.6% across eleven benchmarks after one GPU hour of training.",
+  "key_idea": "Weak meta-agent trained with RL designs workflows for strong executors.",
+  "relevance_score": 4,
+  "relevance_rationale": "Cheap optimizer model for workflow design, lowering optimization cost.",
+  "found_via": "search: Weak-for-Strong meta-agent workflow optimization W4S arXiv",
+  "cites_or_cited_by": [
+   "zhang-2024-aflow",
+   "hu-2024-adas"
+  ]
+ },
+ {
+  "id": "tan-2025-langprobe",
+  "title": "LangProBe: a Language Programs Benchmark",
+  "authors": [
+   "Shangyin Tan",
+   "Lakshya A Agrawal",
+   "Arnav Singhvi",
+   "Liheng Lai",
+   "Michael J Ryan",
+   "Dan Klein",
+   "Omar Khattab",
+   "Koushik Sen",
+   "Matei Zaharia"
+  ],
+  "year": 2025,
+  "venue_or_source": "Findings of EMNLP 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2502.20315",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "quality",
+   "cost"
+  ],
+  "cost_reduction_reported": "Optimized language programs give strong cost-quality Pareto improvements over raw model calls; smaller models in optimized programs beat larger models at a fraction of the cost",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "LangProBe benchmarks over 2000 combinations of tasks, program architectures, optimizers and LMs, studying quality-cost trade-offs of language programs. Human judgment about which compositions to pursue still matters.",
+  "key_idea": "Cost-aware benchmark of compound LM program architectures and optimizers.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly measures cost-quality trade-offs of model choice plus program optimization.",
+  "found_via": "search: LangProBe language programs benchmark cost quality optimizers",
+  "cites_or_cited_by": [
+   "khattab-2023-dspy",
+   "opsahlong-2024-mipro"
+  ]
+ },
+ {
+  "id": "schnabel-2024-sammo",
+  "title": "Symbolic Prompt Program Search: A Structure-Aware Approach to Efficient Compile-Time Prompt Optimization",
+  "authors": [
+   "Tobias Schnabel",
+   "Jennifer Neville"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2404.02319",
+  "code_url": "https://github.com/microsoft/sammo",
+  "topic_clusters": [
+   "C4",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "task metric",
+   "prompt length"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "SAMMO represents prompt programs symbolically and searches structural transformations at compile time, improving instruction tuning, RAG pipeline tuning and prompt compression across LLMs; supports multiple objectives such as accuracy and efficiency.",
+  "key_idea": "Symbolic structure-aware search over prompt programs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Multi-objective compile-time prompt optimization including compression.",
+  "found_via": "search: SAMMO structure-aware multi-objective metaprompt optimization",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "atalar-2025-sequential-bandits",
+  "title": "Neural Bandit Based Optimal LLM Selection for a Pipeline of Subtasks",
+  "authors": [
+   "Baran Atalar",
+   "Eddie Zhang",
+   "Carlee Joe-Wong"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2508.09958",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C5",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "neural contextual bandit",
+   "subtask success",
+   "cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Addresses LLM selection for each subtask in a pipeline where upstream outputs affect downstream cost and success; proposes a neural contextual bandit (Sequential Bandits) with sublinear regret that needs no historical performance data.",
+  "key_idea": "Online neural-bandit selection of LLMs per pipeline subtask.",
+  "relevance_score": 5,
+  "relevance_rationale": "Online per-step model assignment with cost for pipelines.",
+  "found_via": "search: LLM selection for each stage of multi-stage pipeline budget constraint optimization arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "yang-2025-bamas",
+  "title": "BAMAS: Structuring Budget-Aware Multi-Agent Systems",
+  "authors": [
+   "Liming Yang",
+   "Junyu Luo",
+   "Xuanzhe Liu",
+   "Yiling Lou",
+   "Zhenpeng Chen"
+  ],
+  "year": 2025,
+  "venue_or_source": "AAAI 2026 (Oral)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2511.21572",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "cost budget",
+   "ILP",
+   "RL-selected topology"
+  ],
+  "cost_reduction_reported": "Comparable performance while reducing cost by up to 86% vs SOTA agent construction methods",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "BAMAS builds budget-aware multi-agent systems by selecting an LLM pool via integer linear programming under a cost budget and choosing a collaboration topology with RL.",
+  "key_idea": "ILP-based LLM provisioning plus RL topology selection under budget.",
+  "relevance_score": 5,
+  "relevance_rationale": "Explicit budget-constrained model selection for MAS.",
+  "found_via": "search: LLM selection for each stage of multi-stage pipeline budget constraint optimization arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "cai-2025-agentbalance",
+  "title": "AgentBalance: Backbone-then-Topology Design for Cost-Effective Multi-Agent Systems under Budget Constraints",
+  "authors": [
+   "Shuowei Cai",
+   "Yansong Ning",
+   "Hao Liu"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2512.11426",
+  "code_url": "https://github.com/usail-hkust/AgentBalance",
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "token-cost budget",
+   "latency budget",
+   "agent representations"
+  ],
+  "cost_reduction_reported": "Up to 10% and 22% performance gains under matched token-cost and latency budgets respectively (14 candidate LLM backbones)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AgentBalance constructs cost-effective MAS backbone-first: builds and selects an LLM pool and matches roles to backbones, then generates a latency-aware topology, under explicit token-cost and latency budgets.",
+  "key_idea": "Backbone-then-topology MAS design under budgets.",
+  "relevance_score": 5,
+  "relevance_rationale": "Per-role model assignment under explicit cost budgets.",
+  "found_via": "search: AgentBalance backbone-then-topology cost-effective multi-agent budget",
+  "cites_or_cited_by": [
+   "zhang-2024-gdesigner"
+  ]
+ },
+ {
+  "id": "zhao-2026-sc-mas",
+  "title": "SC-MAS: Constructing Cost-Efficient Multi-Agent Systems with Edge-Level Heterogeneous Collaboration",
+  "authors": [
+   "Di Zhao",
+   "Longhui Ma",
+   "Siwei Wang",
+   "Miao Wang",
+   "Yi Kong"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.09434",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "query",
+   "role",
+   "edge context"
+  ],
+  "cost_reduction_reported": "+3.35% accuracy on MMLU with 15.38% lower inference cost; +3.53% on MBPP with 12.13% cost reduction",
+  "benchmarks": [
+   "MMLU",
+   "MBPP"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "SC-MAS uses a controller that, per query, selects agent roles, assigns edge-level collaboration strategies, and allocates LLM backbones to individual agents to build cost-efficient heterogeneous MAS.",
+  "key_idea": "Per-query construction of heterogeneous MAS with per-agent backbone allocation.",
+  "relevance_score": 5,
+  "relevance_rationale": "Per-agent model assignment jointly with topology for cost.",
+  "found_via": "search: heterogeneous LLM assignment multi-agent system roles optimization cost arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "jiang-2026-agentcard",
+  "title": "Specialize Roles, Mix Deployments: Pushing the Cost-Accuracy Frontier of LLM Agent Teams",
+  "authors": [
+   "Yinsicheng Jiang",
+   "Liang Cheng",
+   "Yeqi Huang",
+   "Yufan Zhao",
+   "Zhan Lu",
+   "Li Dong",
+   "Wenda Li",
+   "Edoardo Ponti",
+   "Luo Mai"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.20629",
+  "code_url": "https://github.com/Auto-CAP/AgentCAP",
+  "topic_clusters": [
+   "C3",
+   "C4",
+   "C13"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "role-level evaluation",
+   "Shapley role diagnostics",
+   "API/self-hosted cost model"
+  ],
+  "cost_reduction_reported": "Heterogeneous teams improve accuracy by up to 44% over cost-equivalent homogeneous teams, or match the strongest homogeneous team at up to 12x lower per-task cost via hybrid deployment",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AgentCARD evaluates multi-role agent teams (planner, executor, verifier) with a unified API/self-hosted cost model, Pareto analysis and Shapley diagnostics of role bottlenecks, showing heterogeneous role assignment dominates the frontier and that the best assignment is domain-dependent.",
+  "key_idea": "Role-decomposed cost-accuracy frontier analysis for agent teams.",
+  "relevance_score": 5,
+  "relevance_rationale": "Direct evidence that per-role model choice drives cost-quality.",
+  "found_via": "search: heterogeneous LLM assignment multi-agent system roles optimization cost arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "ye-2025-xmas",
+  "title": "X-MAS: Towards Building Multi-Agent Systems with Heterogeneous LLMs",
+  "authors": [
+   "Rui Ye",
+   "Xiangrui Liu",
+   "Qimin Wu",
+   "Xianghe Pang",
+   "Zhenfei Yin",
+   "Lei Bai",
+   "Siheng Chen"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2505.16997",
+  "code_url": "https://github.com/MASWorks/X-MAS",
+  "topic_clusters": [
+   "C3",
+   "C4"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "per-domain per-function benchmark results"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MATH",
+   "AIME"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "X-MAS-Bench evaluates 27 LLMs across 5 domains and 5 MAS functions (over 1.7M evaluations) to pick the best model per function; heterogeneous MAS improves up to 8.4% on MATH (chatbot-only) and up to 47% on AIME (mixed chatbot-reasoner).",
+  "key_idea": "Choose different LLMs per MAS function based on large-scale benchmarking.",
+  "relevance_score": 4,
+  "relevance_rationale": "Evidence and data for per-function model selection in MAS.",
+  "found_via": "search: X-MAS heterogeneous LLMs multi-agent systems arXiv 2505",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "russo-2025-abacus",
+  "title": "Abacus: A Cost-Based Optimizer for Semantic Operator Systems",
+  "authors": [
+   "Matthew Russo",
+   "Chunwei Liu",
+   "Sivaprasad Sudhir",
+   "Gerardo Vitagliano",
+   "Michael Cafarella",
+   "Tim Kraska",
+   "Samuel Madden"
+  ],
+  "year": 2025,
+  "venue_or_source": "VLDB 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2505.14661",
+  "code_url": "https://github.com/mitdbg/palimpzest",
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "validation examples",
+   "prior beliefs",
+   "LLM judge"
+  ],
+  "cost_reduction_reported": "Abacus-optimized systems achieve 6.7%-39.4% better quality and are 10.8x cheaper and 3.4x faster than the next best system on average (BioDEX, CUAD, MMQA)",
+  "benchmarks": [
+   "BioDEX",
+   "CUAD",
+   "MMQA"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Abacus is a cost-based optimizer for semantic operator systems (in Palimpzest) that picks physical implementations, including model choice per operator, under constrained objectives, estimating operator performance from few validation examples, priors or an LLM judge and tracking Pareto frontiers of subplans.",
+  "key_idea": "Pareto-Cascades cost-based query optimization over LLM operator implementations.",
+  "relevance_score": 5,
+  "relevance_rationale": "Database-style per-operator model/implementation selection with cost-quality constraints.",
+  "found_via": "search: Abacus cost-based optimizer semantic operator systems Palimpzest arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "patel-2024-lotus",
+  "title": "Semantic Operators: A Declarative Model for Rich, AI-based Data Processing",
+  "authors": [
+   "Liana Patel",
+   "Siddharth Jha",
+   "Melissa Pan",
+   "Harshit Gupta",
+   "Parth Asawa",
+   "Carlos Guestrin",
+   "Matei Zaharia"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv (PVLDB version: Semantic Operators and Their Optimization in LOTUS)",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2407.11418",
+  "code_url": "https://github.com/lotus-data/lotus",
+  "topic_clusters": [
+   "C4",
+   "C2"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "proxy scores",
+   "gold-algorithm correlation"
+  ],
+  "cost_reduction_reported": "Optimizations accelerate semantic filter/join/group-by/top-k by up to 1,000x; LOTUS programs match or exceed SOTA pipeline accuracy while running up to 3.6x faster",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Defines semantic operators (LLM-powered filter, join, map, top-k) with a declarative model, and optimizes them by replacing an expensive gold algorithm with cheap proxies and cascades while giving accuracy guarantees.",
+  "key_idea": "Declarative semantic operators optimized via cascades with accuracy guarantees.",
+  "relevance_score": 4,
+  "relevance_rationale": "Cost-reduction via per-operator cascades with statistical guarantees.",
+  "found_via": "search: LOTUS semantic operators model cascades optimization arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhang-2025-dgm",
+  "title": "Darwin Godel Machine: Open-Ended Evolution of Self-Improving Agents",
+  "authors": [
+   "Jenny Zhang",
+   "Shengran Hu",
+   "Cong Lu",
+   "Robert Lange",
+   "Jeff Clune"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2505.22954",
+  "code_url": "https://github.com/jennyzzt/dgm",
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "coding benchmark score"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "The Darwin Gödel Machine is a self-improving coding agent that rewrites its own code and validates changes on coding benchmarks, maintaining an open-ended archive of agents.",
+  "key_idea": "Open-ended evolutionary self-modification of agent code.",
+  "relevance_score": 2,
+  "relevance_rationale": "Automated agent design background; very compute-heavy.",
+  "found_via": "search: Darwin Gödel Machine self-improving agent design arXiv",
+  "cites_or_cited_by": [
+   "hu-2024-adas"
+  ]
+ },
+ {
+  "id": "yin-2024-godel-agent",
+  "title": "Gödel Agent: A Self-Referential Agent Framework for Recursive Self-Improvement",
+  "authors": [
+   "Xunjian Yin",
+   "Xinyi Wang",
+   "Liangming Pan",
+   "Li Lin",
+   "Xiaojun Wan",
+   "William Yang Wang"
+  ],
+  "year": 2024,
+  "venue_or_source": "ACL 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2410.04444",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "task feedback"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Gödel Agent is a self-referential agent that inspects and modifies its own logic (via monkey patching) to recursively self-improve without predefined optimization routines.",
+  "key_idea": "Self-referential recursive self-improvement of agent code.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background on self-optimizing agents.",
+  "found_via": "search: Darwin Gödel Machine self-improving agent design arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhou-2024-agent-symbolic-learning",
+  "title": "Symbolic Learning Enables Self-Evolving Agents",
+  "authors": [
+   "Wangchunshu Zhou",
+   "Yixin Ou",
+   "Shengwei Ding",
+   "Long Li",
+   "Jialong Wu",
+   "Tiannan Wang",
+   "Jiamin Chen",
+   "Shuai Wang",
+   "Xiaohua Xu",
+   "Ningyu Zhang",
+   "Huajun Chen",
+   "Yuchen Eleanor Jiang"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2406.18532",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "language loss and gradients"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Agent symbolic learning treats agent pipelines as symbolic networks and optimizes prompts, tools and pipeline structure using natural-language analogues of loss, back-propagation and gradient descent, enabling agents to self-evolve after deployment.",
+  "key_idea": "Language-based backprop over agent pipelines.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background optimizer for agent pipelines.",
+  "found_via": "search: Agent Symbolic Learning self-evolving arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "pryzant-2023-protegi",
+  "title": "Automatic Prompt Optimization with \"Gradient Descent\" and Beam Search",
+  "authors": [
+   "Reid Pryzant",
+   "Dan Iter",
+   "Jerry Li",
+   "Yin Tat Lee",
+   "Chenguang Zhu",
+   "Michael Zeng"
+  ],
+  "year": 2023,
+  "venue_or_source": "EMNLP 2023",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2305.03495",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "textual gradients",
+   "bandit beam selection"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "ProTeGi (APO) forms natural-language 'gradients' from minibatch errors, edits prompts in the opposite semantic direction, and uses beam search with bandit selection to retain top prompts.",
+  "key_idea": "Textual-gradient prompt optimization with bandit beam search.",
+  "relevance_score": 2,
+  "relevance_rationale": "Foundational prompt optimization technique.",
+  "found_via": "search: Promptbreeder ProTeGi Automatic Prompt Engineer arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "fernando-2023-promptbreeder",
+  "title": "Promptbreeder: Self-Referential Self-Improvement Via Prompt Evolution",
+  "authors": [
+   "Chrisantha Fernando",
+   "Dylan Banarse",
+   "Henryk Michalewski",
+   "Simon Osindero",
+   "Tim Rocktäschel"
+  ],
+  "year": 2023,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2309.16797",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "fitness on training set"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Promptbreeder evolves task prompts and the mutation prompts that modify them in a self-referential evolutionary loop.",
+  "key_idea": "Self-referential evolution of task and mutation prompts.",
+  "relevance_score": 2,
+  "relevance_rationale": "Foundational prompt optimization technique.",
+  "found_via": "search: Promptbreeder ProTeGi Automatic Prompt Engineer arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhou-2022-ape",
+  "title": "Large Language Models Are Human-Level Prompt Engineers",
+  "authors": [
+   "Yongchao Zhou",
+   "Andrei Ioan Muresanu",
+   "Ziwen Han",
+   "Keiran Paster",
+   "Silviu Pitis",
+   "Harris Chan",
+   "Jimmy Ba"
+  ],
+  "year": 2022,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2211.01910",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "score of candidate instructions"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Automatic Prompt Engineer generates candidate instructions with an LLM from demonstrations, scores them, and iteratively refines the best, reaching human-level prompt engineering on many tasks.",
+  "key_idea": "LLM-generated and scored instruction search.",
+  "relevance_score": 2,
+  "relevance_rationale": "Foundational prompt optimization technique.",
+  "found_via": "search: Promptbreeder ProTeGi Automatic Prompt Engineer arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "xiang-2025-spo",
+  "title": "Self-Supervised Prompt Optimization",
+  "authors": [
+   "Jinyu Xiang",
+   "Jiayi Zhang",
+   "Zhaoyang Yu",
+   "Xinbing Liang",
+   "Fengwei Teng",
+   "Jinhao Tu",
+   "Fashen Ren",
+   "Xiangru Tang",
+   "Sirui Hong",
+   "Chenglin Wu",
+   "Yuyu Luo"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.06855",
+  "code_url": "https://github.com/FoundationAgents/SPO",
+  "topic_clusters": [
+   "C4",
+   "C7"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "pairwise LLM-judge output comparison"
+  ],
+  "cost_reduction_reported": "Comparable or superior results to SOTA prompt optimizers at 1.1%-5.6% of their cost, using about three samples",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Self-Supervised Prompt Optimization selects prompts via pairwise output comparisons by an LLM evaluator, requiring no ground truth, and cuts optimization cost drastically.",
+  "key_idea": "Reference-free prompt optimization via pairwise LLM judging.",
+  "relevance_score": 3,
+  "relevance_rationale": "Label-free, low-cost optimization relevant when production data lacks ground truth.",
+  "found_via": "snowball: cited-by saadfalcon-2024-archon",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "yue-2026-workflow-opt-survey",
+  "title": "From Static Templates to Dynamic Runtime Graphs: A Survey of Workflow Optimization for LLM Agents",
+  "authors": [
+   "Ling Yue",
+   "Kushal Raj Bhandari",
+   "Ching-Yun Ko",
+   "Dhaval Patel",
+   "Shuxin Lin",
+   "Nianjun Zhou",
+   "Jianxi Gao",
+   "Pin-Yu Chen",
+   "Shaowu Pan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.22386",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C4"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of workflow optimization for LLM agents distinguishing static templates, run-specific graphs and execution traces, classifying methods by when structure is fixed, what is optimized and which signals guide it, and proposing structure- and cost-aware evaluation.",
+  "key_idea": "Unified vocabulary and taxonomy for agent workflow optimization.",
+  "relevance_score": 3,
+  "relevance_rationale": "Recent survey of C4 methods including cost-aware evaluation.",
+  "found_via": "search: agentic workflow optimization survey automated generation 2025 arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2025-mas2",
+  "title": "MAS^2: Self-Generative, Self-Configuring, Self-Rectifying Multi-Agent Systems",
+  "authors": [
+   "Kun Wang",
+   "Guibin Zhang",
+   "ManKit Ye",
+   "Xinyu Deng",
+   "Dongxia Wang",
+   "Xiaobin Hu",
+   "Jinyang Guo",
+   "Yang Liu",
+   "Yufei Guo"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2509.24323",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "task reward"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "MAS^2 uses a generator-implementer-rectifier tri-agent team trained with Collaborative Tree Optimization to build and adaptively fix bespoke multi-agent systems per problem.",
+  "key_idea": "Recursive self-generating and self-rectifying MAS.",
+  "relevance_score": 2,
+  "relevance_rationale": "Automated MAS design; cost not central.",
+  "found_via": "search: MaAS Multi-agent Architecture Search via Agentic Supernet arXiv",
+  "cites_or_cited_by": [
+   "zhang-2025-maas"
+  ]
+ },
+ {
+  "id": "zhao-2026-atom",
+  "title": "ATOM: Instantiating Budget-Controllable Multi-Agent Collaboration via Nucleus-Electron Hierarchy",
+  "authors": [
+   "Xinkui Zhao",
+   "Sai Liu",
+   "Yifan Zhang",
+   "Qingyu Ma",
+   "Zewen Lin",
+   "Naibo Wang",
+   "Guanjie Cheng",
+   "Chang Liu",
+   "Yueshen Xu"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.26178",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C12"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "RL-online",
+  "signals_used": [
+   "query difficulty",
+   "budget"
+  ],
+  "cost_reduction_reported": "Improves token efficiency by up to 30% vs strong baselines across six benchmarks",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "ATOM generates budget-controllable multi-agent collaboration graphs, keeping an offline-learned backbone and activating query-conditioned agents according to estimated difficulty.",
+  "key_idea": "Difficulty-aware budget control over which agents are instantiated.",
+  "relevance_score": 4,
+  "relevance_rationale": "Budget-controlled MAS construction.",
+  "found_via": "search: BAMAS budget-aware multi-agent systems LLM provisioning ILP arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "hamri-2026-zebra",
+  "title": "ZEBRA: Zero-shot Budgeted Resource Allocation for LLM Orchestration",
+  "authors": [
+   "May Hamri",
+   "Inbal Talgam-Cohen"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.20485",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C9",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "LLM-estimated per-phase utility curves"
+  ],
+  "cost_reduction_reported": "At 0.5 of unconstrained spend, recovers 94.4% of unconstrained quality vs 88.1% for LLM-direct on APPS; beats LLM-direct by 14.3pp on 3-phase HotpotQA pipeline",
+  "benchmarks": [
+   "APPS",
+   "HotpotQA"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "ZEBRA splits an inference budget across phases of a multi-agent pipeline by casting allocation as a continuous nonlinear knapsack: an LLM estimates per-phase utility curves and water-filling on the Lagrange multiplier returns the split.",
+  "key_idea": "Zero-shot knapsack budget allocation across pipeline phases.",
+  "relevance_score": 5,
+  "relevance_rationale": "Per-phase budget allocation in multi-agent pipelines.",
+  "found_via": "search: BAMAS budget-aware multi-agent systems LLM provisioning ILP arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "xu-2025-robustflow",
+  "title": "RobustFlow: Towards Robust Agentic Workflow Generation",
+  "authors": [
+   "Shengxiang Xu",
+   "Jiayi Zhang",
+   "Shimin Di",
+   "Yuyu Luo",
+   "Liang Yao",
+   "Hanmo Liu",
+   "Jia Zhu",
+   "Min-Ling Zhang"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2509.21834",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "robustness to instruction variation"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "RobustFlow studies the robustness of generated agentic workflows to semantically equivalent task instructions and trains generators to produce consistent workflows.",
+  "key_idea": "Robustness of automated workflow generation.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background on reliability of workflow optimizers.",
+  "found_via": "search: ScoreFlow MaAS agentic supernet arXiv",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "yang-2025-shapleyflow",
+  "title": "Understanding and Optimizing Agentic Workflows via Shapley value",
+  "authors": [
+   "Yingxuan Yang",
+   "Bo Huang",
+   "Siyuan Qi",
+   "Chao Feng",
+   "Haoyi Hu",
+   "Yuxuan Zhu",
+   "Jinbo Hu",
+   "Haoran Zhao",
+   "Ziyi He",
+   "Xiao Liu",
+   "Muning Wen",
+   "Zongyu Wang",
+   "Lin Qiu",
+   "Xuezhi Cao",
+   "Xunliang Cai",
+   "et al."
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.00510",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "Shapley value attribution"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "ShapleyFlow applies cooperative game theory to attribute contributions of workflow components and identify task-specific component configurations, including different LLMs per component, that beat single-LLM workflows across 7 scenarios.",
+  "key_idea": "Shapley attribution to find optimal per-component configurations.",
+  "relevance_score": 4,
+  "relevance_rationale": "Per-component model configuration with attribution.",
+  "found_via": "search: FlowBank query-adaptive agentic workflows precompute reuse",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "du-2026-swift",
+  "title": "Why Search When You Can Transfer? Amortized Agentic Workflow Design from Structural Priors",
+  "authors": [
+   "Shiyi Du",
+   "Jiayuan Liu",
+   "Weihua Du",
+   "Yue Huang",
+   "Jiayi Li",
+   "Yingtao Luo",
+   "Xiangliang Zhang",
+   "Vincent Conitzer",
+   "Carl Kingsford"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2604.25012",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "workflow demonstrations"
+  ],
+  "cost_reduction_reported": "Reduces marginal per-task optimization cost by three orders of magnitude vs SOTA search-based method",
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-4o-mini",
+   "Grok",
+   "Qwen",
+   "Gemma"
+  ],
+  "production_evidence": false,
+  "summary": "SWIFT synthesizes an executable workflow for an unseen task from structural priors and cross-task workflow demonstrations, skipping iterative search while outperforming search-based methods on five benchmarks.",
+  "key_idea": "Amortized workflow design by transfer instead of per-task search.",
+  "relevance_score": 4,
+  "relevance_rationale": "Slashes the optimization cost of workflow search itself.",
+  "found_via": "search: FlowBank query-adaptive agentic workflows precompute reuse",
+  "cites_or_cited_by": [
+   "zhang-2024-aflow"
+  ]
+ },
+ {
+  "id": "li-2026-flowcompile",
+  "title": "FlowCompile: An Optimizing Compiler for Structured LLM Workflows",
+  "authors": [
+   "Junyan Li",
+   "Zhang-Wei Hong",
+   "Maohao Shen",
+   "Yang Zhang",
+   "Chuang Gan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.13647",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C11"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "per-sub-agent profiles",
+   "structure-aware proxy"
+  ],
+  "cost_reduction_reported": "Up to 6.4x speedup vs heuristically optimized configurations and routing-based baselines",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "FlowCompile compiles structured LLM workflows by profiling each sub-agent under diverse configurations and composing measurements with a structure-aware proxy to find a reusable accuracy-latency trade-off set in one compile-time pass.",
+  "key_idea": "Compile-time per-sub-agent config profiling composed into workflow-level trade-offs.",
+  "relevance_score": 5,
+  "relevance_rationale": "Per-sub-agent configuration optimization with reusable Pareto set.",
+  "found_via": "search: FlowBank query-adaptive agentic workflows precompute reuse",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "paul-2026-agentrouter",
+  "title": "AgentRouter: Heterogeneous Model Routing for Cost-Optimal Multi-Step Agentic Workflows",
+  "authors": [
+   "Rudrendu Kumar Paul",
+   "Sourav Nandy"
+  ],
+  "year": 2026,
+  "venue_or_source": "AgenticUQ Workshop, ICML 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2609.22951",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C4"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "five step-level features",
+   "annotated trajectory steps"
+  ],
+  "cost_reduction_reported": "72% cost reduction vs frontier-only baselines while retaining 97.3% of frontier-only quality",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AgentRouter is a 12M-parameter classifier that routes each agent trajectory step to one of four model tiers, trained on 50,000 annotated steps across planning, coding, research and data analysis.",
+  "key_idea": "Lightweight step-level tier router for agent trajectories.",
+  "relevance_score": 5,
+  "relevance_rationale": "Step-level routing in enterprise-style agent workflows with strong cost reduction.",
+  "found_via": "snowball: cited-by chen-2025-llmselector",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "gravara-2026-atlas",
+  "title": "Atlas: Optimizing Deployment of Compound AI Workflows on Heterogeneous Clusters",
+  "authors": [
+   "Milos Gravara",
+   "Andrija Stanisic",
+   "Stefan Nastic"
+  ],
+  "year": 2026,
+  "venue_or_source": "IEEE/ACM SEC 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2609.04513",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C11"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "Markovian accuracy predictor",
+   "SLOs",
+   "MILP"
+  ],
+  "cost_reduction_reported": "Selects plans within 0.03 of oracle accuracy while reducing deployment cost by up to 42% via heterogeneous placement; up to 2.6x lower profiling cost",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Atlas picks models per workflow stage and places them on a heterogeneous cluster via MILP, using a Markovian accuracy predictor that composes stage-to-stage accuracy transitions instead of full end-to-end profiling.",
+  "key_idea": "Stage-wise model choice and placement via MILP with composed accuracy estimates.",
+  "relevance_score": 5,
+  "relevance_rationale": "Per-stage model selection with cost/SLOs.",
+  "found_via": "snowball: cited-by chen-2025-llmselector",
+  "cites_or_cited_by": [
+   "gravara-2026-compass"
+  ]
+ },
+ {
+  "id": "borthwick-2026-robophd",
+  "title": "Competing at Every Price Point with Agentic Evolution over a Menu of LLMs",
+  "authors": [
+   "Andrew Borthwick"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.16207",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "priced model menu",
+   "cost target",
+   "task score"
+  ],
+  "cost_reduction_reported": "Evolved agents hold every public Pareto-frontier slot but one on DS-1000 and PaperFindingBench leaderboards",
+  "benchmarks": [
+   "DS-1000",
+   "PaperFindingBench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "An evolutionary meta-agent (RoboPhD) evolves complete multi-LLM agent programs from at most 100 training examples, given a priced menu of nine LLM endpoints and a per-problem cost target, to dominate competitors at each price point.",
+  "key_idea": "Evolve multi-LLM agent programs to a cost target over a priced model menu.",
+  "relevance_score": 5,
+  "relevance_rationale": "Explicit cost-targeted multi-LLM agent evolution.",
+  "found_via": "snowball: cited-by chen-2025-llmselector",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "lukassen-2026-cafe",
+  "title": "CAFE: A Compound-AI Factorial Evaluation Framework",
+  "authors": [
+   "Fabian Lukassen",
+   "Christoph Weisser",
+   "Thomas Kneib",
+   "Alexander Silbersdorff"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.10380",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "LLM judge",
+   "human ratings",
+   "mixed-effects models"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "HotpotQA"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "CAFE applies factorial design of experiments to compound AI systems, attributing quality variance to swappable components (retriever, model, prompt) and their interactions and reporting cost and latency trade-offs.",
+  "key_idea": "Factorial DoE for compound AI configuration effects.",
+  "relevance_score": 3,
+  "relevance_rationale": "Statistically rigorous config evaluation.",
+  "found_via": "snowball: cited-by chen-2025-llmselector",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "rognvaldsson-2026-lean-cost",
+  "title": "Optimizing the Cost-Quality Tradeoff of Agentic Theorem Provers in Lean",
+  "authors": [
+   "Kári Rögnvaldsson",
+   "Chenhao Sun",
+   "Jasper Dekoninck",
+   "Martin Vechev"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.04883",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C9"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "estimated success likelihood",
+   "attempt cost"
+  ],
+  "cost_reduction_reported": "Decreases cost by 28.9% over a fixed-step baseline on average on a PutnamBench subset, preserving performance",
+  "benchmarks": [
+   "PutnamBench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "An action-routing agent for Lean theorem proving whose control plane estimates success probability and cost of another attempt and decides whether to continue or restart with a new decomposition.",
+  "key_idea": "Cost-aware control plane for agentic proof search.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cost-aware step control in agent loops.",
+  "found_via": "snowball: cited-by chen-2025-llmselector",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "gravara-2026-plaiground",
+  "title": "PLAIground: SLO-Driven Runtime Model Selection for Compound AI Systems in the Edge-Cloud-Space Continuum",
+  "authors": [
+   "Milos Gravara",
+   "Cynthia Marcelino",
+   "Andrija Stanisic",
+   "Stefan Nastic"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.14356",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3",
+   "C11"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "SLOs on accuracy, latency, cost"
+  ],
+  "cost_reduction_reported": "Up to 91.3% accuracy while maintaining SLO compliance; fixed-model strategies violate cost and latency budgets up to 21x or miss accuracy by 4%",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "PLAIground enables runtime per-task model switching in compound AI workflows through a model abstraction with task/data contracts and an SLO-driven selector (Pixie).",
+  "key_idea": "Runtime SLO-driven per-task model selection.",
+  "relevance_score": 4,
+  "relevance_rationale": "Per-step model selection under cost/latency SLOs.",
+  "found_via": "snowball: cited-by chen-2025-llmselector",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhang-2026-evoroute",
+  "title": "EvoRoute: Experience-Driven Self-Routing LLM Agent Systems",
+  "authors": [
+   "Guibin Zhang",
+   "Haiyang Yu",
+   "Kaiming Yang",
+   "Bingli Wu",
+   "Fei Huang",
+   "Yongbin Li",
+   "Shuicheng Yan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.02695",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C4",
+   "C5"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "experience knowledge base",
+   "environment feedback"
+  ],
+  "cost_reduction_reported": "Reduces execution cost by up to 80% and latency by over 70% while sustaining or improving performance on GAIA and BrowseComp+",
+  "benchmarks": [
+   "GAIA",
+   "BrowseComp+"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "EvoRoute routes each agent step to a Pareto-optimal LLM backbone using a growing base of prior experience and refines its policy from feedback.",
+  "key_idea": "Experience-driven self-evolving step-level model routing.",
+  "relevance_score": 5,
+  "relevance_rationale": "Step-level cost-aware routing inside agent systems.",
+  "found_via": "snowball: cited-by chen-2025-llmselector",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "chaudhry-2025-murakkab",
+  "title": "Murakkab: Resource-Efficient Agentic Workflow Orchestration in Cloud Platforms",
+  "authors": [
+   "Gohar Irfan Chaudhry",
+   "Esha Choukse",
+   "Haoran Qiu",
+   "Íñigo Goiri",
+   "Rodrigo Fonseca",
+   "Adam Belay",
+   "Ricardo Bianchini"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2508.18298",
+  "code_url": null,
+  "topic_clusters": [
+   "C11",
+   "C4"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "profiles",
+   "SLOs"
+  ],
+  "cost_reduction_reported": "Reduces GPU usage by up to 2.8x, energy by 3.7x and cost by 4.3x while maintaining SLOs",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Murakkab is a serving system that decouples workflow specification from execution configuration and uses a profile-guided optimizer to map workflow components to models and hardware under SLOs.",
+  "key_idea": "Declarative workflows with profile-guided model/hardware mapping.",
+  "relevance_score": 4,
+  "relevance_rationale": "Joint model and hardware configuration for agentic workflows (Microsoft).",
+  "found_via": "snowball: cited-by chen-2025-llmselector",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "nie-2026-generative-opt-challenges",
+  "title": "Understanding the Challenges in Iterative Generative Optimization with LLMs",
+  "authors": [
+   "Allen Nie",
+   "Xavier Daull",
+   "Zhiyi Kuang",
+   "Abhinav Akkiraju",
+   "Anish Chaudhuri",
+   "Max Piasevoli",
+   "Ryan Rong",
+   "YuCheng Yuan",
+   "Prerit Choudhary",
+   "Shannon Xiao",
+   "Rasool Fakoor",
+   "Adith Swaminathan",
+   "Ching-An Cheng"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.23994",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "execution feedback"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MLAgentBench",
+   "Atari",
+   "BigBench Extra Hard"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Argues LLM-driven generative optimization is brittle because of hidden design choices (starting artifact, credit horizon, batching of evidence), notes only 9% of surveyed agents use automated optimization, and demonstrates these choices decide success.",
+  "key_idea": "Hidden design choices determine whether generative optimization works.",
+  "relevance_score": 3,
+  "relevance_rationale": "Practical guidance on making C4 optimizers reliable.",
+  "found_via": "snowball: cited-by conway-2025-syftr",
+  "cites_or_cited_by": [
+   "cheng-2024-trace"
+  ]
+ },
+ {
+  "id": "zhang-2026-agentfactory",
+  "title": "AgentFactory: Towards Automated Agentic System Design and Optimization",
+  "authors": [
+   "Enci Zhang",
+   "Haofeng Wang",
+   "Yuesheng Zhu",
+   "Xiaole Cui",
+   "Guibo Luo"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.01045",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C8"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "performance",
+   "cost",
+   "efficiency"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MedQA",
+   "FinEval"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AgentFactory jointly optimizes foundation models (including fine-tuned ones) and workflow structures with LLM optimizers over multiple objectives including cost, gaining 9.1% on average over eight benchmarks.",
+  "key_idea": "Joint model and workflow optimization with multiple objectives.",
+  "relevance_score": 4,
+  "relevance_rationale": "Model choice as a variable with cost among objectives.",
+  "found_via": "snowball: cited-by saadfalcon-2024-archon",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2026-beyond-tier-labels",
+  "title": "Beyond Tier Labels: Role- and Deployment-Dependent Model Substitution in Multi-Call LLM Workflows",
+  "authors": [
+   "Renxiang Wang",
+   "Jiaming Cui"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.09155",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C4"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "role",
+   "deployment context"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Separates where to use a stronger model from the value of the substitution in multi-call workflows, showing the benefit of upgrading a call depends on its role and surrounding deployment and can reverse across tasks.",
+  "key_idea": "Model substitution value is role- and deployment-dependent.",
+  "relevance_score": 4,
+  "relevance_rationale": "Informs per-role model assignment decisions.",
+  "found_via": "snowball: cited-by saadfalcon-2024-archon",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2025-agent-reinforce",
+  "title": "Generalizing Test-time Compute-optimal Scaling as an Optimizable Graph",
+  "authors": [
+   "Fali Wang",
+   "Jihai Chen",
+   "Shuhua Yang",
+   "Runxue Bao",
+   "Tianxiang Zhao",
+   "Zhiwei Zhang",
+   "Xianfeng Tang",
+   "Hui Liu",
+   "Qi He",
+   "Suhang Wang"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2511.00086",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C9",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "textual feedback as gradient",
+   "accuracy",
+   "latency"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Formulates test-time scaling as searching compute-optimal multi-LLM collaboration graphs (roles, model assignments, edges) under a fixed budget and proposes Agent-REINFORCE, an LLM-augmented REINFORCE-style search.",
+  "key_idea": "Search over multi-LLM collaboration graphs under a compute budget.",
+  "relevance_score": 5,
+  "relevance_rationale": "Joint role/model/topology search under budget.",
+  "found_via": "snowball: cited-by saadfalcon-2024-archon",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2025-agenttts",
+  "title": "AgentTTS: Large Language Model Agent for Test-time Compute-optimal Scaling Strategy in Complex Tasks",
+  "authors": [
+   "Fali Wang",
+   "Hui Liu",
+   "Zhenwei Dai",
+   "Jingying Zeng",
+   "Zhiwei Zhang",
+   "Zongyu Wu",
+   "Chen Luo",
+   "Zhen Li",
+   "Xianfeng Tang",
+   "Qi He",
+   "Suhang Wang"
+  ],
+  "year": 2025,
+  "venue_or_source": "NeurIPS 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2508.00890",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C9",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "execution feedback"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AgentTTS searches for compute-optimal model and budget allocations per subtask in multi-stage tasks with an LLM agent guided by empirical insights, beating traditional and LLM-based baselines in search efficiency.",
+  "key_idea": "LLM-agent search over per-subtask model and budget allocation.",
+  "relevance_score": 5,
+  "relevance_rationale": "Per-subtask model selection and budget allocation.",
+  "found_via": "snowball: cited-by saadfalcon-2024-archon",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "jung-2025-futureweaver",
+  "title": "FutureWeaver: Planning Test-Time Compute for Multi-Agent Systems with Modularized Collaboration",
+  "authors": [
+   "Dongwon Jung",
+   "Peng Shi",
+   "Muhao Chen",
+   "Yi Zhang"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2512.11213",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C9"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "budget",
+   "lookahead planning"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "FutureWeaver plans test-time compute allocation in multi-agent systems under fixed budgets using self-induced collaboration modules and dual-level planning.",
+  "key_idea": "Budget-constrained planning of multi-agent test-time compute.",
+  "relevance_score": 3,
+  "relevance_rationale": "Budget-aware MAS compute allocation.",
+  "found_via": "snowball: cited-by saadfalcon-2024-archon",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2025-cosmos",
+  "title": "COSMOS: Predictable and Cost-Effective Adaptation of LLMs",
+  "authors": [
+   "Jiayu Wang",
+   "Aws Albarghouthi",
+   "Frederic Sala"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2505.01449",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C6"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "proxy models",
+   "low-sample scaling laws"
+  ],
+  "cost_reduction_reported": "Reduces computational costs of strategy selection by 92.72% on average with high prediction accuracy",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "COSMOS predicts performance and cost of model-plus-adaptation strategies (fine-tuning, retrieval-augmented ICL) without full trials using proxy models and scaling laws.",
+  "key_idea": "Predict cost and performance of LLM adaptation choices cheaply.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cheap prediction for choosing model/strategy configurations.",
+  "found_via": "snowball: cited-by saadfalcon-2024-archon",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "chen-2024-optima",
+  "title": "Optima: Optimizing Effectiveness and Efficiency for LLM-Based Multi-Agent System",
+  "authors": [
+   "Weize Chen",
+   "Jiarui Yuan",
+   "Chen Qian",
+   "Cheng Yang",
+   "Zhiyuan Liu",
+   "Maosong Sun"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2410.08115",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C12",
+   "C8"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "task reward",
+   "token efficiency",
+   "readability"
+  ],
+  "cost_reduction_reported": "Up to 2.8x performance gain with less than 10% of tokens on information-heavy tasks vs vanilla MAS (Llama 3 8B)",
+  "benchmarks": [],
+  "models_studied": [
+   "Llama 3 8B"
+  ],
+  "production_evidence": false,
+  "summary": "Optima trains LLM-based MAS via iterative generate-rank-select-train with a reward balancing task performance and token efficiency, using SFT/DPO and MCTS-inspired data generation.",
+  "key_idea": "Train MAS agents for both effectiveness and communication efficiency.",
+  "relevance_score": 4,
+  "relevance_rationale": "Large token reductions in MAS via training.",
+  "found_via": "snowball: cited-by saadfalcon-2024-archon",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "yuan-2026-bayesflow",
+  "title": "BayesFlow: A Probability Inference Framework for Meta-Agent Assisted Workflow Generation",
+  "authors": [
+   "Bo Yuan",
+   "Yun Zhou",
+   "Zhichao Xu",
+   "Kiran Ramnath",
+   "Aosong Feng",
+   "Balasubramaniam Srinivasan"
+  ],
+  "year": 2026,
+  "venue_or_source": "Findings of EACL 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2601.22305",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "look-ahead rollouts",
+   "importance weights"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "BayesFlow casts workflow generation as Bayesian inference over workflows with parallel look-ahead rollouts and an in-loop refiner, improving accuracy by up to 9 points over workflow-generation baselines.",
+  "key_idea": "Workflow generation as posterior sampling.",
+  "relevance_score": 2,
+  "relevance_rationale": "Workflow optimization method; cost not central.",
+  "found_via": "snowball: cited-by saadfalcon-2024-archon",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhao-2025-a2flow",
+  "title": "A2Flow: Automating Agentic Workflow Generation via Self-Adaptive Abstraction Operators",
+  "authors": [
+   "Mingming Zhao",
+   "Xiaokang Wei",
+   "Yuanqi Shao",
+   "Kaiwen Zhou",
+   "Lin Yang",
+   "Siwei Rao",
+   "Junhui Zhan",
+   "Zhitang Chen"
+  ],
+  "year": 2025,
+  "venue_or_source": "AAAI 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2511.20693",
+  "code_url": null,
+  "topic_clusters": [
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "execution feedback"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "A2Flow automatically extracts reusable abstract operators from demonstrations for workflow generation, removing the need for manually defined operators as in AFlow.",
+  "key_idea": "Self-adaptive operator abstraction for workflow search.",
+  "relevance_score": 2,
+  "relevance_rationale": "Extension of AFlow.",
+  "found_via": "snowball: cited-by saadfalcon-2024-archon",
+  "cites_or_cited_by": [
+   "zhang-2024-aflow"
+  ]
+ },
+ {
+  "id": "dang-2025-puppeteer",
+  "title": "Multi-Agent Collaboration via Evolving Orchestration",
+  "authors": [
+   "Yufan Dang",
+   "Chen Qian",
+   "Xueheng Luo",
+   "Jingru Fan",
+   "Zihao Xie",
+   "Ruijie Shi",
+   "Weize Chen",
+   "Cheng Yang",
+   "Xiaoyin Che",
+   "Ye Tian",
+   "Xuantang Xiong",
+   "Lei Han",
+   "Zhiyuan Liu",
+   "Maosong Sun"
+  ],
+  "year": 2025,
+  "venue_or_source": "NeurIPS 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2505.19591",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C12",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "task state",
+   "reward"
+  ],
+  "cost_reduction_reported": "Superior performance with reduced computational costs (no single number in abstract)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "A centralized 'puppeteer' orchestrator trained with RL dynamically sequences and selects agents based on evolving task state, producing compact cyclic reasoning structures.",
+  "key_idea": "RL-trained orchestrator that dynamically chooses which agent acts next.",
+  "relevance_score": 4,
+  "relevance_rationale": "Learned dynamic agent selection lowers MAS cost.",
+  "found_via": "snowball: cited-by chen-2025-llmselector",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "singhvi-2025-databricks-gepa-90x",
+  "title": "Building State-of-the-Art Enterprise Agents 90x Cheaper with Automated Prompt Optimization",
+  "authors": [
+   "Arnav Singhvi",
+   "Ivan Zhou",
+   "Erich Elsen",
+   "Krista Opsahl-Ong",
+   "Michael Bendersky",
+   "Matei Zaharia",
+   "Xing Chen",
+   "Omar Khattab",
+   "Xiangrui Meng",
+   "Simon Favreau-Lessard"
+  ],
+  "year": 2025,
+  "venue_or_source": "Databricks blog",
+  "source_type": "blog",
+  "url": "https://www.databricks.com/blog/building-state-art-enterprise-agents-90x-cheaper-automated-prompt-optimization",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "task metric on IE Bench"
+  ],
+  "cost_reduction_reported": "GEPA-optimized gpt-oss-120b surpasses Claude Sonnet 4 and Claude Opus 4.1 baselines by ~3% while being ~22x and ~90x cheaper to serve on IE Bench; GEPA ~20% cheaper to serve than SFT alternatives",
+  "benchmarks": [
+   "IE Bench (Databricks internal information extraction)"
+  ],
+  "models_studied": [
+   "gpt-oss-120b",
+   "Claude Sonnet 4",
+   "Claude Opus 4.1",
+   "gpt-4.1"
+  ],
+  "production_evidence": false,
+  "summary": "Databricks reports that automated prompt optimization (GEPA and others in Agent Bricks) lets an open model beat frontier proprietary models on an enterprise information-extraction benchmark at a fraction of the serving cost, and compares favorably with supervised fine-tuning on lifetime cost.",
+  "key_idea": "Optimize prompts for a cheap open model instead of paying for a frontier model.",
+  "relevance_score": 4,
+  "relevance_rationale": "Practitioner evidence that config/prompt optimization plus model downscaling yields large cost savings on enterprise-style tasks; not real traffic.",
+  "found_via": "search: Databricks GEPA prompt optimization enterprise agents cheaper models blog",
+  "cites_or_cited_by": [
+   "agrawal-2025-gepa"
+  ]
+ },
+ {
+  "id": "wang-2026-dropbox-dash-dspy",
+  "title": "How we optimized Dash's relevance judge with DSPy",
+  "authors": [
+   "Eric Wang",
+   "Dmitriy Meyerzon"
+  ],
+  "year": 2026,
+  "venue_or_source": "Dropbox Tech blog",
+  "source_type": "blog",
+  "url": "https://dropbox.tech/machine-learning/optimizing-dropbox-dash-relevance-judge-with-dspy",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C14",
+   "C7"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "human-annotated relevance labels",
+   "NMSE"
+  ],
+  "cost_reduction_reported": "Adapting the production relevance judge from o3 to gpt-oss-120b with GEPA cut NMSE 45% (8.83 to 4.86); enabled 10-100x more labeling at the same cost; on gemma-3-12b (MIPROv2) NMSE 46.88 to 17.26 and malformed JSON down >97%",
+  "benchmarks": [
+   "Dropbox Dash relevance judgments (internal)"
+  ],
+  "models_studied": [
+   "OpenAI o3",
+   "gpt-oss-120b",
+   "gemma-3-12b"
+  ],
+  "production_evidence": true,
+  "summary": "Dropbox used DSPy optimizers (GEPA, MIPROv2) to migrate an LLM relevance judge used across Dash production pipelines from an expensive model to cheaper open models, measured against human labels. Model adaptation time fell from 1-2 weeks to 1-2 days.",
+  "key_idea": "Treat model swaps as re-optimization problems so prompts transfer to cheaper models.",
+  "relevance_score": 5,
+  "relevance_rationale": "Production case study of cost reduction by downscaling a pipeline component with automated prompt optimization.",
+  "found_via": "search: dropbox.tech DSPy relevance judge Dash prompt optimization",
+  "cites_or_cited_by": [
+   "agrawal-2025-gepa",
+   "opsahlong-2024-mipro"
+  ]
+ }
+]

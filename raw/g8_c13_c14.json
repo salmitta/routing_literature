@@ -1,0 +1,4712 @@
+[
+ {
+  "id": "hu-2024-routerbench",
+  "title": "RouterBench: A Benchmark for Multi-LLM Routing System",
+  "authors": [
+   "Qitian Jason Hu",
+   "Jacob Bieker",
+   "Xiuyu Li",
+   "Nan Jiang",
+   "Benjamin Keigwin",
+   "Gaurav Ranganath",
+   "Kurt Keutzer",
+   "Shriyash Kaustubh Upadhyay"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2403.12031",
+  "code_url": "https://github.com/withmartian/routerbench",
+  "topic_clusters": [
+   "C13",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "per-query model outcomes",
+   "cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "RouterBench (405k inference outcomes over standard benchmarks)"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Introduces a standardized evaluation framework and a dataset of over 405k precomputed inference outcomes from a pool of LLMs so routers can be compared without re-running models. It also gives a theoretical framing of routing as navigating a cost-quality convex hull and benchmarks several routing approaches. Released by Martian.",
+  "key_idea": "Precomputed multi-LLM outcome dataset plus cost-quality hull metrics for comparing routers offline.",
+  "relevance_score": 5,
+  "relevance_rationale": "Seed benchmark for query-level cost-aware routing; the de facto offline testbed.",
+  "found_via": "seed: RouterBench",
+  "cites_or_cited_by": [
+   "somerstep-2025-carrot-sprout",
+   "li-2026-llmrouterbench",
+   "lu-2025-routerarena",
+   "kumar-2026-task-session-routing-eval"
+  ]
+ },
+ {
+  "id": "huang-2025-routereval",
+  "title": "RouterEval: A Comprehensive Benchmark for Routing LLMs to Explore Model-level Scaling Up in LLMs",
+  "authors": [
+   "Zhongzhan Huang",
+   "Guoming Ling",
+   "Yupei Lin",
+   "Yandong Chen",
+   "Shanshan Zhong",
+   "Hefeng Wu",
+   "Liang Lin"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2503.10657",
+  "code_url": "https://github.com/MilkThink-Lab/RouterEval",
+  "topic_clusters": [
+   "C13",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "per-query model outcomes"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "ARC",
+   "HellaSwag",
+   "MMLU",
+   "TruthfulQA",
+   "GSM8K",
+   "MMLU-PRO",
+   "and 6 other evaluations"
+  ],
+  "models_studied": [
+   "8,500+ open LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "A router benchmark built from more than 200 million performance records spanning 12 evaluations and over 8,500 LLMs, framing routing as m-way classification over candidate pools of varying size and strength. The authors report a model-level scaling effect where a capable router improves as candidate count grows, and find most existing routers leave large headroom.",
+  "key_idea": "Very large candidate pools reveal router scaling and headroom.",
+  "relevance_score": 4,
+  "relevance_rationale": "Seed routing benchmark; quality-focused rather than cost-focused but reusable for cost-aware studies.",
+  "found_via": "seed: RouterEval",
+  "cites_or_cited_by": [
+   "hu-2024-routerbench"
+  ]
+ },
+ {
+  "id": "somerstep-2025-carrot-sprout",
+  "title": "CARROT: A Cost Aware Rate Optimal Router",
+  "authors": [
+   "Seamus Somerstep",
+   "Felipe Maia Polo",
+   "Allysson Flavio Melo de Oliveira",
+   "Prattyush Mangal",
+   "Mírian Silva",
+   "Onkar Bhardwaj",
+   "Mikhail Yurochkin",
+   "Subha Maity"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.03261",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C1",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "predicted accuracy",
+   "predicted cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "SPROUT (GPQA, MuSR, MMLU-Pro, MATH, OpenHermes, RAGBench)",
+   "RouterBench",
+   "Open LLM Leaderboard v2"
+  ],
+  "models_studied": [
+   "13 SOTA LLMs incl. GPT-4o, Claude-3.5-Sonnet, o3-mini (per SPROUT)"
+  ],
+  "production_evidence": false,
+  "summary": "Gives a minimax analysis of routing and shows a router that separately estimates each model's cost and accuracy can be minimax optimal; proposes CARROT on that basis. Also releases SPROUT (Smart Price-aware ROUTing), an instruction-style routing dataset with chat templates and LLM-judged outcomes across current frontier and open models.",
+  "key_idea": "Predict cost and accuracy per model and plug into a cost-weighted objective; SPROUT dataset for price-aware routing.",
+  "relevance_score": 5,
+  "relevance_rationale": "Contains the SPROUT seed benchmark and a theoretically grounded cost-aware router.",
+  "found_via": "seed: SPROUT",
+  "cites_or_cited_by": [
+   "hu-2024-routerbench"
+  ]
+ },
+ {
+  "id": "lu-2025-routerarena",
+  "title": "RouterArena: An Open Platform for Comprehensive Comparison of LLM Routers",
+  "authors": [
+   "Yifan Lu",
+   "Rixin Liu",
+   "Jiayi Yuan",
+   "Xingqi Cui",
+   "Shenrun Zhang",
+   "Hongyi Liu",
+   "Jiarong Xing"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.00202",
+  "code_url": "https://github.com/RouteWorks/RouterArena",
+  "topic_clusters": [
+   "C13",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "router outputs",
+   "cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "RouterArena dataset (multi-domain, multi-difficulty)"
+  ],
+  "models_studied": [
+   "commercial and open-source routers"
+  ],
+  "production_evidence": false,
+  "summary": "Proposes an open platform and leaderboard for comparing LLM routers, with a dataset stratified by domain and difficulty, a broad set of metrics including cost, and automated leaderboard updates.",
+  "key_idea": "Standardized router leaderboard analogous to model leaderboards.",
+  "relevance_score": 4,
+  "relevance_rationale": "Direct cost-aware router evaluation infrastructure.",
+  "found_via": "web search: RouterEval benchmark routing LLMs",
+  "cites_or_cited_by": [
+   "hu-2024-routerbench"
+  ]
+ },
+ {
+  "id": "li-2026-llmrouterbench",
+  "title": "LLMRouterBench: A Massive Benchmark and Unified Framework for LLM Routing",
+  "authors": [
+   "Hao Li",
+   "Yiqun Zhang",
+   "Zhaoyan Guo",
+   "Chenxu Wang",
+   "Shengji Tang",
+   "Qiaosheng Zhang",
+   "Yang Chen",
+   "Biqing Qi",
+   "Peng Ye",
+   "Lei Bai",
+   "Zhen Wang",
+   "Shuyue Hu"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.07206",
+  "code_url": "https://github.com/ynulihao/LLMRouterBench",
+  "topic_clusters": [
+   "C13",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "query embedding",
+   "cost",
+   "latency"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "21 datasets (400K instances)"
+  ],
+  "models_studied": [
+   "33 models",
+   "10 routing baselines incl. commercial routers"
+  ],
+  "production_evidence": false,
+  "summary": "Unified benchmark and framework with 400K+ instances over 21 datasets and 33 models, supporting both performance-only and performance-cost routing. Re-evaluating the field, it finds many routers perform similarly, several recent and commercial routers fail to reliably beat a simple baseline, and the oracle gap is dominated by model-recall failures; larger pools give diminishing returns versus curation.",
+  "key_idea": "Unified re-evaluation shows most routers, including commercial ones, barely beat simple baselines.",
+  "relevance_score": 5,
+  "relevance_rationale": "Critical, rigorous evaluation of cost-aware routing claims including commercial routers.",
+  "found_via": "web search: RouterEval benchmark routing LLMs",
+  "cites_or_cited_by": [
+   "hu-2024-routerbench",
+   "lee-2026-routing-gap-task-type"
+  ]
+ },
+ {
+  "id": "zhuang-2024-embedllm",
+  "title": "EmbedLLM: Learning Compact Representations of Large Language Models",
+  "authors": [
+   "Richard Zhuang",
+   "Tianhao Wu",
+   "Zhaojin Wen",
+   "Andrew Li",
+   "Jiantao Jiao",
+   "Kannan Ramchandran"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2410.02223",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C1",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "model embedding",
+   "query embedding",
+   "historical correctness"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "correctness forecasting across benchmarks",
+   "model routing"
+  ],
+  "models_studied": [
+   "many Hugging Face LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Learns compact vector representations of LLMs with an encoder-decoder trained on model-by-question correctness, then uses them for correctness forecasting, routing, and predicting benchmark accuracy without extra inference. Reports better routing accuracy and latency than prior methods.",
+  "key_idea": "Model embeddings from correctness matrices enable cheap routing and performance prediction.",
+  "relevance_score": 4,
+  "relevance_rationale": "Seed; reusable representation for routing and offline performance prediction.",
+  "found_via": "seed: EmbedLLM",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "yao-2024-tau-bench",
+  "title": "τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains",
+  "authors": [
+   "Shunyu Yao",
+   "Noah Shinn",
+   "Pedram Razavi",
+   "Karthik Narasimhan"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2406.12045",
+  "code_url": "https://github.com/sierra-research/tau-bench",
+  "topic_clusters": [
+   "C13",
+   "C7"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "database end-state comparison"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "τ-retail",
+   "τ-airline"
+  ],
+  "models_studied": [
+   "gpt-4o",
+   "other function-calling agents"
+  ],
+  "production_evidence": false,
+  "summary": "Benchmark of multi-turn conversations between an LLM-simulated user and a tool-using agent bound by domain policies, graded by comparing the final database state to an annotated goal. Introduces the pass^k metric for consistency across repeated trials; gpt-4o succeeds on under 50% of tasks and pass^8 falls below 25% in retail.",
+  "key_idea": "pass^k exposes reliability gaps that pass@1 hides in customer-service agents.",
+  "relevance_score": 5,
+  "relevance_rationale": "Seed; the standard enterprise-style agent benchmark and origin of pass^k reliability metric.",
+  "found_via": "seed: tau-bench",
+  "cites_or_cited_by": [
+   "barres-2025-tau2-bench",
+   "mehta-2025-clear",
+   "zhu-2025-agentic-benchmark-checklist"
+  ]
+ },
+ {
+  "id": "barres-2025-tau2-bench",
+  "title": "τ²-Bench: Evaluating Conversational Agents in a Dual-Control Environment",
+  "authors": [
+   "Victor Barres",
+   "Honghua Dong",
+   "Soham Ray",
+   "Xujie Si",
+   "Karthik Narasimhan"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2506.07982",
+  "code_url": "https://github.com/sierra-research/tau2-bench",
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "environment state"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "τ²-bench telecom",
+   "retail",
+   "airline"
+  ],
+  "models_studied": [
+   "frontier LLM agents"
+  ],
+  "production_evidence": false,
+  "summary": "Extends τ-bench to dual-control settings where the simulated user also acts on a shared environment, modeled as a Dec-POMDP, with a new telecom technical-support domain, a compositional task generator, and a tool-constrained user simulator. Agents drop sharply when moving from no-user to dual-control modes.",
+  "key_idea": "Dual-control user-agent tasks for technical support.",
+  "relevance_score": 4,
+  "relevance_rationale": "Directly relevant to IT/tech-support agents; used by later routing evaluations.",
+  "found_via": "web search: tau2-bench dual-control",
+  "cites_or_cited_by": [
+   "yao-2024-tau-bench",
+   "kumar-2026-task-session-routing-eval"
+  ]
+ },
+ {
+  "id": "kapoor-2025-hal",
+  "title": "Holistic Agent Leaderboard: The Missing Infrastructure for AI Agent Evaluation",
+  "authors": [
+   "Sayash Kapoor",
+   "Benedikt Stroebl",
+   "Peter Kirgis",
+   "Nitya Nadgir",
+   "Zachary S Siegel",
+   "Boyi Wei",
+   "Tianci Xue",
+   "Ziru Chen",
+   "Felix Chen",
+   "Saiteja Utpala",
+   "Franck Ndzomga",
+   "Dheeraj Oruganty",
+   "Sophie Luskin",
+   "Kangheng Liu",
+   "Botao Yu",
+   "Amit Arora",
+   "Dongyoon Hahm",
+   "Harsh Trivedi",
+   "Huan Sun",
+   "Juyong Lee",
+   "Tengjun Jin",
+   "Yifan Mai",
+   "Yifei Zhou",
+   "Yuxuan Zhu",
+   "Rishi Bommasani",
+   "Daniel Kang",
+   "Dawn Song",
+   "Peter Henderson",
+   "Yu Su",
+   "Percy Liang",
+   "Arvind Narayanan"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.11977",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C12"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "cost",
+   "accuracy",
+   "LLM-aided log inspection"
+  ],
+  "cost_reduction_reported": "Reports ~$40,000 total cost for 21,730 rollouts across 9 models x 9 benchmarks; finds higher reasoning effort reduced accuracy in most runs",
+  "benchmarks": [
+   "9 benchmarks incl. coding, web navigation, science, customer service (e.g., tau-bench, GAIA, SWE-bench)"
+  ],
+  "models_studied": [
+   "9 models"
+  ],
+  "production_evidence": false,
+  "summary": "The Holistic Agent Leaderboard provides a standardized parallel evaluation harness, a three-way analysis over models, scaffolds and benchmarks with cost reported alongside accuracy, and LLM-aided inspection of logs that surfaces shortcut behaviors. All 2.5B tokens of logs are released; a public cost-aware leaderboard is at hal.cs.princeton.edu.",
+  "key_idea": "Cost-aware, third-party agent leaderboard with Pareto reporting and shared logs.",
+  "relevance_score": 5,
+  "relevance_rationale": "Seed; the main cost-accuracy Pareto leaderboard for agents.",
+  "found_via": "seed: HAL",
+  "cites_or_cited_by": [
+   "kapoor-2024-ai-agents-that-matter",
+   "ghosh-2026-eval-costs-bottleneck",
+   "rabanser-2026-agent-reliability"
+  ]
+ },
+ {
+  "id": "kapoor-2024-ai-agents-that-matter",
+  "title": "AI Agents That Matter",
+  "authors": [
+   "Sayash Kapoor",
+   "Benedikt Stroebl",
+   "Zachary S. Siegel",
+   "Nitya Nadgir",
+   "Arvind Narayanan"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2407.01502",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C12",
+   "C2"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "cost",
+   "accuracy"
+  ],
+  "cost_reduction_reported": "Simple baselines (retry, warming, escalation) Pareto-dominate complex SOTA agents on HumanEval at much lower cost (secondary source reports ~50x)",
+  "benchmarks": [
+   "HumanEval",
+   "other agent benchmarks (see paper)"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Argues agent benchmarks over-focus on accuracy, and that jointly plotting cost and accuracy shows simple baselines Pareto-dominate complex agents. Also separates model-developer from downstream-developer benchmarking needs, flags weak holdout sets, and calls for standardization and reproducibility.",
+  "key_idea": "Evaluate agents on the cost-accuracy Pareto frontier, not accuracy alone.",
+  "relevance_score": 5,
+  "relevance_rationale": "Foundational argument for cost-aware agent evaluation; escalation baseline is a cascade.",
+  "found_via": "web search: AI Agents That Matter cost accuracy Pareto",
+  "cites_or_cited_by": [
+   "kapoor-2025-hal"
+  ]
+ },
+ {
+  "id": "drouin-2024-workarena",
+  "title": "WorkArena: How Capable Are Web Agents at Solving Common Knowledge Work Tasks?",
+  "authors": [
+   "Alexandre Drouin",
+   "Maxime Gasse",
+   "Massimo Caccia",
+   "Issam H. Laradji",
+   "Manuel Del Verme",
+   "Tom Marty",
+   "Léo Boisvert",
+   "Megh Thakkar",
+   "Quentin Cappart",
+   "David Vazquez",
+   "Nicolas Chapados",
+   "Alexandre Lacoste"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2403.07718",
+  "code_url": "https://github.com/ServiceNow/WorkArena",
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "task validators"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "WorkArena (33 tasks, ~19.9K instances)"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "A remote-hosted benchmark of 33 knowledge-work tasks on the ServiceNow platform, with certifiable oracles and validators, plus the BrowserGym environment for designing and evaluating web agents. Agents show promise but a large gap to full automation remains, especially for open models.",
+  "key_idea": "Enterprise ITSM-platform web-agent benchmark with verifiable tasks.",
+  "relevance_score": 5,
+  "relevance_rationale": "Seed; directly the enterprise/ITSM workflow setting of interest.",
+  "found_via": "seed: WorkArena",
+  "cites_or_cited_by": [
+   "boisvert-2024-workarena-plus-plus",
+   "chezelles-2024-browsergym"
+  ]
+ },
+ {
+  "id": "boisvert-2024-workarena-plus-plus",
+  "title": "WorkArena++: Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks",
+  "authors": [
+   "Léo Boisvert",
+   "Megh Thakkar",
+   "Maxime Gasse",
+   "Massimo Caccia",
+   "Thibault Le Sellier De Chezelles",
+   "Quentin Cappart",
+   "Nicolas Chapados",
+   "Alexandre Lacoste",
+   "Alexandre Drouin"
+  ],
+  "year": 2024,
+  "venue_or_source": "NeurIPS 2024 Datasets and Benchmarks",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2407.05291",
+  "code_url": "https://github.com/ServiceNow/WorkArena",
+  "topic_clusters": [
+   "C13",
+   "C8"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "task validators"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "WorkArena++ (682 tasks)"
+  ],
+  "models_studied": [
+   "LLMs and VLMs",
+   "human workers"
+  ],
+  "production_evidence": false,
+  "summary": "Adds 682 compositional workflows on ServiceNow that need planning, arithmetic and logical reasoning, retrieval and context understanding, and compares agents with human workers. It also provides a mechanism to generate large numbers of ground-truth observation/action traces for fine-tuning.",
+  "key_idea": "Harder compositional enterprise workflows plus trace generation for training.",
+  "relevance_score": 5,
+  "relevance_rationale": "Seed; ServiceNow enterprise workflows and trace data usable for distillation to smaller agents.",
+  "found_via": "seed: WorkArena++",
+  "cites_or_cited_by": [
+   "drouin-2024-workarena"
+  ]
+ },
+ {
+  "id": "chezelles-2024-browsergym",
+  "title": "The BrowserGym Ecosystem for Web Agent Research",
+  "authors": [
+   "Thibault Le Sellier De Chezelles",
+   "Maxime Gasse",
+   "Alexandre Drouin",
+   "Massimo Caccia",
+   "Léo Boisvert",
+   "Megh Thakkar",
+   "Tom Marty",
+   "Rim Assouel",
+   "Sahar Omidi Shayegan",
+   "Lawrence Keunho Jang",
+   "Xing Han Lù",
+   "Ori Yoran",
+   "Dehan Kong",
+   "Frank F. Xu",
+   "Siva Reddy",
+   "Quentin Cappart",
+   "Graham Neubig",
+   "Ruslan Salakhutdinov",
+   "Nicolas Chapados",
+   "Alexandre Lacoste"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2412.05467",
+  "code_url": "https://github.com/ServiceNow/BrowserGym",
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "6 web-agent benchmarks unified in BrowserGym (incl. WorkArena)"
+  ],
+  "models_studied": [
+   "Claude-3.5-Sonnet",
+   "GPT-4o",
+   "4 other LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Unifies web-agent benchmarks under a gym-like interface and adds AgentLab for building, running and analyzing agents with reproducibility and a leaderboard. Runs a large multi-benchmark comparison of six LLMs across six benchmarks.",
+  "key_idea": "Common harness for comparing web agents across benchmarks.",
+  "relevance_score": 3,
+  "relevance_rationale": "Evaluation infrastructure for enterprise web agents; enables controlled model-swap cost studies.",
+  "found_via": "web search: BrowserGym ecosystem",
+  "cites_or_cited_by": [
+   "drouin-2024-workarena",
+   "zhou-2023-webarena"
+  ]
+ },
+ {
+  "id": "huang-2024-crmarena",
+  "title": "CRMArena: Understanding the Capacity of LLM Agents to Perform Professional CRM Tasks in Realistic Environments",
+  "authors": [
+   "Kung-Hsiang Huang",
+   "Akshara Prabhakar",
+   "Sidharth Dhawan",
+   "Yixin Mao",
+   "Huan Wang",
+   "Silvio Savarese",
+   "Caiming Xiong",
+   "Philippe Laban",
+   "Chien-Sheng Wu"
+  ],
+  "year": 2024,
+  "venue_or_source": "NAACL 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2411.02305",
+  "code_url": "https://github.com/SalesforceAIResearch/CRMArena",
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "CRMArena"
+  ],
+  "models_studied": [
+   "LLM agents (function calling, ReAct)"
+  ],
+  "production_evidence": false,
+  "summary": "Benchmark of professional CRM tasks in a realistic Salesforce-like environment designed with CRM experts. Agents struggle to complete tasks reliably even with function calling.",
+  "key_idea": "Realistic CRM tasks for agent evaluation.",
+  "relevance_score": 3,
+  "relevance_rationale": "Enterprise workflow benchmark.",
+  "found_via": "seed: CRMArena",
+  "cites_or_cited_by": [
+   "huang-2025-crmarena-pro"
+  ]
+ },
+ {
+  "id": "huang-2025-crmarena-pro",
+  "title": "CRMArena-Pro: Holistic Assessment of LLM Agents Across Diverse Business Scenarios and Interactions",
+  "authors": [
+   "Kung-Hsiang Huang",
+   "Akshara Prabhakar",
+   "Onkar Thorat",
+   "Divyansh Agarwal",
+   "Prafulla Kumar Choubey",
+   "Yixin Mao",
+   "Silvio Savarese",
+   "Caiming Xiong",
+   "Chien-Sheng Wu"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2505.18878",
+  "code_url": "https://github.com/SalesforceAIResearch/CRMArena",
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "Top agents ~58% single-turn and ~35% multi-turn success",
+  "benchmarks": [
+   "CRMArena-Pro (19 tasks, B2B and B2C)"
+  ],
+  "models_studied": [
+   "leading LLM agents"
+  ],
+  "production_evidence": false,
+  "summary": "Expands CRMArena to 19 expert-validated sales, service and CPQ tasks in B2B and B2C settings, with persona-driven multi-turn interactions and confidentiality tests. Top agents reach about 58% single-turn and about 35% multi-turn success, and show almost no confidentiality awareness.",
+  "key_idea": "Multi-turn enterprise CRM evaluation with confidentiality checks.",
+  "relevance_score": 4,
+  "relevance_rationale": "Enterprise agent benchmark; multi-turn drop matters for per-step model assignment.",
+  "found_via": "web search: CRMArena-Pro",
+  "cites_or_cited_by": [
+   "huang-2024-crmarena"
+  ]
+ },
+ {
+  "id": "xu-2024-theagentcompany",
+  "title": "TheAgentCompany: Benchmarking LLM Agents on Consequential Real World Tasks",
+  "authors": [
+   "Frank F. Xu",
+   "Yufan Song",
+   "Boxuan Li",
+   "Yuxuan Tang",
+   "Kritanjali Jain",
+   "Mengxue Bao",
+   "Zora Z. Wang",
+   "Xuhui Zhou",
+   "Zhitong Guo",
+   "Murong Cao",
+   "Mingyang Yang",
+   "Hao Yang Lu",
+   "Amaad Martin",
+   "Zhe Su",
+   "Leander Maben",
+   "Raj Mehta",
+   "Wayne Chi",
+   "Lawrence Jang",
+   "Yiqing Xie",
+   "Shuyan Zhou",
+   "Graham Neubig"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2412.14161",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "checkpoint-based partial credit"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "TheAgentCompany"
+  ],
+  "models_studied": [
+   "closed API and open-weight LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Simulated small software company with internal websites, data and simulated coworkers, where agents browse, code, run programs and communicate. The best baseline agent completes 30% of tasks autonomously.",
+  "key_idea": "Digital-worker benchmark with consequential multi-tool tasks.",
+  "relevance_score": 4,
+  "relevance_rationale": "Enterprise-like long-horizon digital-worker tasks.",
+  "found_via": "seed list: TheAgentCompany",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "liu-2023-agentbench",
+  "title": "AgentBench: Evaluating LLMs as Agents",
+  "authors": [
+   "Xiao Liu",
+   "Hao Yu",
+   "Hanchen Zhang",
+   "Yifan Xu",
+   "Xuanyu Lei",
+   "Hanyu Lai",
+   "Yu Gu",
+   "Hangliang Ding",
+   "Kaiwen Men",
+   "Kejuan Yang",
+   "Shudan Zhang",
+   "Xiang Deng",
+   "Aohan Zeng",
+   "Zhengxiao Du",
+   "Chenhui Zhang",
+   "Sheng Shen",
+   "Tianjun Zhang",
+   "Yu Su",
+   "Huan Sun",
+   "Minlie Huang",
+   "Yuxiao Dong",
+   "Jie Tang"
+  ],
+  "year": 2023,
+  "venue_or_source": "ICLR 2024",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2308.03688",
+  "code_url": "https://github.com/THUDM/AgentBench",
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "AgentBench (8 environments)"
+  ],
+  "models_studied": [
+   "29+ API and open LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Multi-environment benchmark of LLMs acting as agents in eight interactive settings, testing reasoning and decision-making. Commercial models lead, with a large gap to open models, often due to weak long-horizon planning and instruction following.",
+  "key_idea": "Broad multi-environment agent capability benchmark.",
+  "relevance_score": 2,
+  "relevance_rationale": "Seed; background capability benchmark without cost focus.",
+  "found_via": "seed: AgentBench",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhu-2025-multiagentbench",
+  "title": "MultiAgentBench: Evaluating the Collaboration and Competition of LLM agents",
+  "authors": [
+   "Kunlun Zhu",
+   "Hongyi Du",
+   "Zhaochen Hong",
+   "Xiaocheng Yang",
+   "Shuyi Guo",
+   "Zhe Wang",
+   "Zhenhailong Wang",
+   "Cheng Qian",
+   "Xiangru Tang",
+   "Heng Ji",
+   "Jiaxuan You"
+  ],
+  "year": 2025,
+  "venue_or_source": "ACL 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2503.01935",
+  "code_url": "https://github.com/MultiagentBench/MARBLE",
+  "topic_clusters": [
+   "C13",
+   "C12"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "milestone KPIs"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MultiAgentBench (MARBLE)"
+  ],
+  "models_studied": [
+   "gpt-4o-mini",
+   "other LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Benchmark for LLM multi-agent systems that measures task completion and the quality of collaboration and competition via milestone-based KPIs, across coordination topologies (star, chain, tree, graph) and strategies like group discussion and cognitive planning. gpt-4o-mini achieves the best average task score, and graph topology works best in research scenarios.",
+  "key_idea": "Evaluate multi-agent topologies and coordination, not just outcomes.",
+  "relevance_score": 3,
+  "relevance_rationale": "Useful for judging when multi-agent structure pays off.",
+  "found_via": "web search: MultiAgentBench",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wei-2025-browsecomp",
+  "title": "BrowseComp: A Simple Yet Challenging Benchmark for Browsing Agents",
+  "authors": [
+   "Jason Wei",
+   "Zhiqing Sun",
+   "Spencer Papay",
+   "Scott McKinney",
+   "Jeffrey Han",
+   "Isa Fulford",
+   "Hyung Won Chung",
+   "Alex Tachard Passos",
+   "William Fedus",
+   "Amelia Glaese"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2504.12516",
+  "code_url": "https://github.com/openai/simple-evals",
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "BrowseComp (1,266 questions)"
+  ],
+  "models_studied": [
+   "GPT-4o",
+   "GPT-4.5",
+   "OpenAI Deep Research"
+  ],
+  "production_evidence": false,
+  "summary": "OpenAI benchmark of 1,266 hard-to-find, entangled questions whose short answers are easy to verify, testing persistent and creative web browsing. Non-browsing models score near zero while an agent trained for browsing does much better.",
+  "key_idea": "Short-answer verifiable benchmark for deep browsing agents.",
+  "relevance_score": 2,
+  "relevance_rationale": "Used in multi-agent research-system cost analyses (e.g., token usage explains variance).",
+  "found_via": "web search: BrowseComp",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "trivedi-2024-appworld",
+  "title": "AppWorld: A Controllable World of Apps and People for Benchmarking Interactive Coding Agents",
+  "authors": [
+   "Harsh Trivedi",
+   "Tushar Khot",
+   "Mareike Hartmann",
+   "Ruskin Manku",
+   "Vinty Dong",
+   "Edward Li",
+   "Shashank Gupta",
+   "Ashish Sabharwal",
+   "Niranjan Balasubramanian"
+  ],
+  "year": 2024,
+  "venue_or_source": "ACL 2024",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2407.18901",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "state-based unit tests"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "AppWorld (750 tasks, 9 apps, 457 APIs)"
+  ],
+  "models_studied": [
+   "GPT-4o",
+   "others"
+  ],
+  "production_evidence": false,
+  "summary": "A controllable world of 9 everyday apps with 457 APIs and about 100 simulated users, and a benchmark of 750 tasks requiring interactive code generation, graded by state-based tests that also detect collateral damage. GPT-4o solves about 49% of normal and 30% of challenge tasks.",
+  "key_idea": "API-rich simulated app world with collateral-damage checks.",
+  "relevance_score": 3,
+  "relevance_rationale": "Tool-use agent benchmark used in agent-efficiency studies.",
+  "found_via": "web search: AppWorld",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "xie-2024-osworld",
+  "title": "OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments",
+  "authors": [
+   "Tianbao Xie",
+   "Danyang Zhang",
+   "Jixuan Chen",
+   "Xiaochuan Li",
+   "Siheng Zhao",
+   "Ruisheng Cao",
+   "Toh Jing Hua",
+   "Zhoujun Cheng",
+   "Dongchan Shin",
+   "Fangyu Lei",
+   "Yitao Liu",
+   "Yiheng Xu",
+   "Shuyan Zhou",
+   "Silvio Savarese",
+   "Caiming Xiong",
+   "Victor Zhong",
+   "Tao Yu"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2404.07972",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "execution-based evaluation scripts"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "OSWorld (369 tasks)"
+  ],
+  "models_studied": [
+   "LLM and VLM agents"
+  ],
+  "production_evidence": false,
+  "summary": "Scalable real-computer environment across Ubuntu, Windows and macOS with 369 open-ended tasks and execution-based evaluation. Humans complete over 72% of tasks versus about 12% for the best model at release.",
+  "key_idea": "Real OS environment for computer-use agents.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background computer-use benchmark; used in reliability studies.",
+  "found_via": "web search: OSWorld",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "mialon-2023-gaia",
+  "title": "GAIA: a benchmark for General AI Assistants",
+  "authors": [
+   "Grégoire Mialon",
+   "Clémentine Fourrier",
+   "Craig Swift",
+   "Thomas Wolf",
+   "Yann LeCun",
+   "Thomas Scialom"
+  ],
+  "year": 2023,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2311.12983",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "GAIA (466 questions, 3 levels)"
+  ],
+  "models_studied": [
+   "GPT-4 with plugins"
+  ],
+  "production_evidence": false,
+  "summary": "Benchmark of real-world assistant questions that are simple for humans but need reasoning, multimodality, browsing and tool use; humans score 92% versus 15% for GPT-4 with plugins at release.",
+  "key_idea": "Human-easy, AI-hard assistant tasks.",
+  "relevance_score": 2,
+  "relevance_rationale": "Common agent benchmark used for cost-of-pass efficiency studies.",
+  "found_via": "web search: GAIA benchmark",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhou-2023-webarena",
+  "title": "WebArena: A Realistic Web Environment for Building Autonomous Agents",
+  "authors": [
+   "Shuyan Zhou",
+   "Frank F. Xu",
+   "Hao Zhu",
+   "Xuhui Zhou",
+   "Robert Lo",
+   "Abishek Sridhar",
+   "Xianyi Cheng",
+   "Tianyue Ou",
+   "Yonatan Bisk",
+   "Daniel Fried",
+   "Uri Alon",
+   "Graham Neubig"
+  ],
+  "year": 2023,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2307.13854",
+  "code_url": "https://github.com/web-arena-x/webarena",
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "programmatic functional-correctness checks"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "WebArena (812 tasks)"
+  ],
+  "models_studied": [
+   "GPT-4",
+   "other LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Self-hostable realistic web environment with sites for e-commerce, forums, code collaboration and CMS, plus tools and knowledge resources, and 812 long-horizon tasks checked for functional correctness.",
+  "key_idea": "Reproducible realistic websites for agent evaluation.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background; used in routing evaluation studies.",
+  "found_via": "web search: WebArena",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "jimenez-2023-swe-bench",
+  "title": "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?",
+  "authors": [
+   "Carlos E. Jimenez",
+   "John Yang",
+   "Alexander Wettig",
+   "Shunyu Yao",
+   "Kexin Pei",
+   "Ofir Press",
+   "Karthik Narasimhan"
+  ],
+  "year": 2023,
+  "venue_or_source": "ICLR 2024",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2310.06770",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "unit tests"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "SWE-bench (2,294 issues, 12 repos)"
+  ],
+  "models_studied": [
+   "Claude 2",
+   "other LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Benchmark of 2,294 real GitHub issues and pull requests across 12 Python repositories, requiring multi-file edits validated by tests. At release the best model solved 1.96% of issues.",
+  "key_idea": "Real repository issue resolution as a coding-agent benchmark.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background; basis for many later cost-per-task analyses of coding agents.",
+  "found_via": "web search: SWE-bench",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "merrill-2026-terminal-bench",
+  "title": "Terminal-Bench: Benchmarking Agents on Hard, Realistic Tasks in Command Line Interfaces",
+  "authors": [
+   "Mike A. Merrill",
+   "Alexander G. Shaw",
+   "Nicholas Carlini",
+   "Boxuan Li",
+   "Harsh Raj",
+   "Ivan Bercovich",
+   "Lin Shi",
+   "Jeong Yeon Shin",
+   "Thomas Walshe",
+   "E. Kelly Buchanan",
+   "Junhong Shen",
+   "Guanghao Ye",
+   "Haowei Lin",
+   "Jason Poulos",
+   "Maoyu Wang",
+   "Marianna Nezhurina",
+   "Jenia Jitsev",
+   "Di Lu",
+   "Orfeas Menis Mastromichalakis",
+   "Zhiwei Xu",
+   "Zizhao Chen",
+   "Yue Liu",
+   "Robert Zhang",
+   "Leon Liangyu Chen",
+   "Anurag Kashyap",
+   "Jan-Lucas Uslu",
+   "Jeffrey Li",
+   "Jianbo Wu",
+   "Minghao Yan",
+   "Song Bian",
+   "Vedang Sharma",
+   "Ke Sun",
+   "Steven Dillmann",
+   "Akshay Anand",
+   "Andrew Lanpouthakoun",
+   "Bardia Koopah",
+   "Changran Hu",
+   "Etash Guha",
+   "Gabriel H. S. Dreiman",
+   "Jiacheng Zhu",
+   "Karl Krauth",
+   "Li Zhong",
+   "Niklas Muennighoff",
+   "Robert Amanfu",
+   "Shangyin Tan",
+   "Shreyas Pimpalgaonkar",
+   "Tushar Aggarwal",
+   "Xiangning Lin",
+   "Xin Lan",
+   "Xuandong Zhao",
+   "Yiqing Liang",
+   "Yuanli Wang",
+   "Zilong Wang",
+   "Changzhi Zhou",
+   "David Heineman",
+   "Hange Liu",
+   "Harsh Trivedi",
+   "John Yang",
+   "Junhong Lin",
+   "Manish Shetty",
+   "Michael Yang",
+   "Nabil Omi",
+   "Negin Raoof",
+   "Shanda Li",
+   "Terry Yue Zhuo",
+   "Wuwei Lin",
+   "Yiwei Dai",
+   "Yuxin Wang",
+   "Wenhao Chai",
+   "Shang Zhou",
+   "Dariush Wahdany",
+   "Ziyu She",
+   "Jiaming Hu",
+   "Zhikang Dong",
+   "Yuxuan Zhu",
+   "Sasha Cui",
+   "Ahson Saiyed",
+   "Arinbjörn Kolbeinsson",
+   "Jesse Hu",
+   "Christopher Michael Rytting",
+   "Ryan Marten",
+   "Yixin Wang",
+   "Alex Dimakis",
+   "Andy Konwinski",
+   "Ludwig Schmidt"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.11868",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "verification test suites"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "Terminal-Bench 2.0 (89 tasks)"
+  ],
+  "models_studied": [
+   "frontier models and agents"
+  ],
+  "production_evidence": false,
+  "summary": "Curated set of 89 hard command-line tasks, each with its own container environment, human-written solution and tests, spanning software engineering, ML, security, sysadmin and data science. Frontier agents score below 65%.",
+  "key_idea": "Hard, verified terminal tasks for agents.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background agent benchmark.",
+  "found_via": "web search: Terminal-Bench",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "styles-2024-workbench",
+  "title": "WorkBench: a Benchmark Dataset for Agents in a Realistic Workplace Setting",
+  "authors": [
+   "Olly Styles",
+   "Sam Miller",
+   "Patricio Cerda-Mardini",
+   "Tanaya Guha",
+   "Victor Sanchez",
+   "Bertie Vidgen"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2405.00823",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "outcome-centric evaluation"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "WorkBench (690 tasks, 26 tools, 5 databases)"
+  ],
+  "models_studied": [
+   "GPT-4",
+   "Llama2-70B",
+   "others"
+  ],
+  "production_evidence": false,
+  "summary": "Workplace sandbox with five databases, 26 tools and 690 tasks such as emailing and scheduling, graded by unique database outcomes. ReAct agents completed between 3% and 43% of tasks and sometimes took harmful wrong actions.",
+  "key_idea": "Outcome-based workplace task evaluation.",
+  "relevance_score": 3,
+  "relevance_rationale": "Enterprise-style benchmark.",
+  "found_via": "web search: WorkBench",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "erol-2025-cost-of-pass",
+  "title": "Cost-of-Pass: An Economic Framework for Evaluating Language Models",
+  "authors": [
+   "Mehmet Hamza Erol",
+   "Batu El",
+   "Mirac Suzgun",
+   "Mert Yuksekgonul",
+   "James Zou"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2504.13359",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C15"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "accuracy",
+   "inference cost"
+  ],
+  "cost_reduction_reported": "Frontier cost-of-pass for complex quantitative tasks roughly halved every few months over the year studied",
+  "benchmarks": [
+   "basic quantitative, knowledge-intensive and complex quantitative task suites"
+  ],
+  "models_studied": [
+   "lightweight, large and reasoning LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Defines cost-of-pass, the expected dollar cost to get one correct answer, and a frontier cost-of-pass across models and human experts, grounded in production theory. Finds lightweight models are most cost-efficient for basic quantitative tasks, large models for knowledge tasks, and reasoning models for hard quantitative problems.",
+  "key_idea": "Expected cost per correct solution as a unified cost-quality metric.",
+  "relevance_score": 4,
+  "relevance_rationale": "A clean metric for cost-aware evaluation of routing and agent configurations.",
+  "found_via": "web search: Cost-of-Pass",
+  "cites_or_cited_by": [
+   "wang-2025-efficient-agents"
+  ]
+ },
+ {
+  "id": "jha-2025-itbench",
+  "title": "ITBench: Evaluating AI Agents across Diverse Real-World IT Automation Tasks",
+  "authors": [
+   "Saurabh Jha",
+   "Rohan Arora",
+   "Yuji Watanabe",
+   "Takumi Yanagawa",
+   "Yinfang Chen",
+   "Jackson Clark",
+   "Bhavya Bhavya",
+   "Mudit Verma",
+   "Harshit Kumar",
+   "Hirokuni Kitahara",
+   "Noah Zheutlin",
+   "Saki Takano",
+   "Divya Pathak",
+   "Felix George",
+   "Xinbo Wu",
+   "Bekir O. Turkkan",
+   "Gerard Vanloo",
+   "Michael Nidd",
+   "Ting Dai",
+   "Oishik Chatterjee",
+   "Pranjal Gupta",
+   "Suranjana Samanta",
+   "Pooja Aggarwal",
+   "Rong Lee",
+   "Pavankumar Murali",
+   "Jae-wook Ahn",
+   "Debanjana Kar",
+   "Ameet Rahane",
+   "Carlos Fonseca",
+   "Amit Paradkar",
+   "Yu Deng",
+   "Pratibha Moogi",
+   "Prateeti Mohapatra",
+   "Naoki Abe",
+   "Chandrasekhar Narayanaswami",
+   "Tianyin Xu",
+   "Lav R. Varshney",
+   "Ruchi Mahindru",
+   "Anca Sailer",
+   "Laura Shwartz",
+   "Daby Sow",
+   "Nicholas C. M. Fuller",
+   "Ruchir Puri"
+  ],
+  "year": 2025,
+  "venue_or_source": "ICML 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2502.05352",
+  "code_url": "https://github.com/itbench-hub/ITBench",
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "ITBench (94 scenarios: SRE, CISO, FinOps)"
+  ],
+  "models_studied": [
+   "SOTA LLM agents"
+  ],
+  "production_evidence": false,
+  "summary": "IBM framework for benchmarking agents on 94 real-world IT automation scenarios across site reliability engineering, security compliance and FinOps, with push-button workflows and interpretable metrics. SOTA agents solve 13.8% of SRE, 25.2% of CISO and 0% of FinOps scenarios.",
+  "key_idea": "IT-operations automation benchmark.",
+  "relevance_score": 4,
+  "relevance_rationale": "Close to ITSM/IT operations enterprise workloads.",
+  "found_via": "web search: ITBench",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "rabanser-2026-agent-reliability",
+  "title": "Towards a Science of AI Agent Reliability",
+  "authors": [
+   "Stephan Rabanser",
+   "Sayash Kapoor",
+   "Peter Kirgis",
+   "Kangheng Liu",
+   "Saiteja Utpala",
+   "Arvind Narayanan"
+  ],
+  "year": 2026,
+  "venue_or_source": "ICML 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2602.16666",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C7"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "consistency",
+   "robustness",
+   "predictability",
+   "safety metrics"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "multiple agent benchmarks"
+  ],
+  "models_studied": [
+   "frontier agents"
+  ],
+  "production_evidence": false,
+  "summary": "Proposes twelve metrics that break agent reliability into consistency, robustness, predictability and safety, borrowing from safety-critical engineering, and shows single success rates hide operational flaws.",
+  "key_idea": "Multi-dimensional reliability profile beyond accuracy.",
+  "relevance_score": 4,
+  "relevance_rationale": "Reliability metrics needed to validate cheaper configurations.",
+  "found_via": "web search: agent reliability metrics",
+  "cites_or_cited_by": [
+   "kapoor-2025-hal"
+  ]
+ },
+ {
+  "id": "khanal-2026-beyond-pass1",
+  "title": "Beyond pass@1: A Reliability Science Framework for Long-Horizon LLM Agents",
+  "authors": [
+   "Aaditya Khanal",
+   "Yangyang Tao",
+   "Junxiu Zhou"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.29231",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "repeated-attempt success"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "396-task benchmark across four duration buckets"
+  ],
+  "models_studied": [
+   "10 models"
+  ],
+  "production_evidence": false,
+  "summary": "Shows that capability (single-attempt success) and reliability (consistent repeated success) diverge as task duration grows, and proposes reliability decay curves, variance amplification, graceful degradation and meltdown-onset metrics over 23,392 episodes.",
+  "key_idea": "Reliability decays with horizon length in ways pass@1 misses.",
+  "relevance_score": 3,
+  "relevance_rationale": "Reliability measurement for long-horizon agents.",
+  "found_via": "web search: agent reliability metrics",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "gonzalez-pumariega-2026-cua-reliability",
+  "title": "On the Reliability of Computer Use Agents",
+  "authors": [
+   "Gonzalo Gonzalez-Pumariega",
+   "Saaket Agashe",
+   "Jiachen Yang",
+   "Ang Li",
+   "Xin Eric Wang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2604.17849",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "pass^k",
+   "paired statistical tests"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "OSWorld"
+  ],
+  "models_studied": [
+   "computer-use agents"
+  ],
+  "production_evidence": false,
+  "summary": "Studies why computer-use agents that succeed once fail on repeats, attributing unreliability to execution stochasticity, task ambiguity and behavior variability, using pass^k and paired tests over repeated OSWorld runs.",
+  "key_idea": "Repeated-execution evaluation for computer-use agents.",
+  "relevance_score": 3,
+  "relevance_rationale": "Reliability methodology relevant to validating model swaps.",
+  "found_via": "web search: agent reliability metrics",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "raj-2026-consistency-testable",
+  "title": "Consistency as a Testable Property: Statistical Methods to Evaluate AI Agent Reliability",
+  "authors": [
+   "Harsh Raj",
+   "Niranjan Orkat",
+   "Suvrorup Mukherjee",
+   "Aritra Guha",
+   "Cheryl Flynn",
+   "Subhabrata Majumdar"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.10516",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C7"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "U-statistics",
+   "trajectory kernels"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "multiple agent tasks"
+  ],
+  "models_studied": [
+   "LLM agents"
+  ],
+  "production_evidence": false,
+  "summary": "Develops a statistical measurement framework for agent consistency under meaning-preserving perturbations, using U-statistics for outputs and kernel metrics for trajectories, and shows high accuracy can hide severe consistency failures.",
+  "key_idea": "Statistical tests for agent consistency.",
+  "relevance_score": 3,
+  "relevance_rationale": "Reliability evaluation methodology.",
+  "found_via": "web search: agent reliability metrics",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "jiang-2026-reliability-at-k",
+  "title": "Beyond Pass@k: Measuring Reliability and Security of Agentic Code Generation",
+  "authors": [
+   "Jiajun Jiang",
+   "Sharon Zheng",
+   "Natan Vidra",
+   "Spurthi Setty"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.14711",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "independent rollouts"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "synthetic multi-rollout benchmark",
+   "coding-agent benchmarks"
+  ],
+  "models_studied": [
+   "coding agents"
+  ],
+  "production_evidence": false,
+  "summary": "Shows coding-agent leaderboards misapply the pass@k estimator by counting unit tests rather than independent rollouts, and proposes reliability@k; the misapplied metric inflates scores substantially in a synthetic benchmark.",
+  "key_idea": "Correct pass@k over independent rollouts.",
+  "relevance_score": 3,
+  "relevance_rationale": "Metric correctness for reliability claims.",
+  "found_via": "web search: agent reliability metrics",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "mehta-2025-clear",
+  "title": "Beyond Accuracy: A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems",
+  "authors": [
+   "Sushant Mehta"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2511.14136",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "cost",
+   "latency",
+   "efficacy",
+   "assurance",
+   "reliability"
+  ],
+  "cost_reduction_reported": "Accuracy-only optimization yields agents 4.4-10.8x more expensive than cost-aware alternatives with comparable performance on 300 enterprise tasks",
+  "benchmarks": [
+   "300 enterprise tasks",
+   "analysis of 12 benchmarks"
+  ],
+  "models_studied": [
+   "six leading agents"
+  ],
+  "production_evidence": false,
+  "summary": "Identifies missing cost control, weak reliability measurement (60% single-run versus 25% eight-run consistency) and missing security/latency/compliance metrics in agent benchmarks, and proposes the CLEAR framework. Expert ratings suggest CLEAR predicts production success better than accuracy alone (ρ=0.83 vs 0.41). Single-author preprint; treat numbers with caution.",
+  "key_idea": "Enterprise agent evaluation on cost, latency, efficacy, assurance, reliability.",
+  "relevance_score": 4,
+  "relevance_rationale": "Directly argues for cost-aware enterprise agent evaluation.",
+  "found_via": "web search: enterprise agent benchmark cost efficiency CLEAR",
+  "cites_or_cited_by": [
+   "yao-2024-tau-bench"
+  ]
+ },
+ {
+  "id": "ndzomga-2026-efficient-benchmarking",
+  "title": "Efficient Benchmarking of AI Agents",
+  "authors": [
+   "Franck Ndzomga"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.23749",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "historical pass rates"
+  ],
+  "cost_reduction_reported": "Mid-difficulty task filter cuts evaluation tasks by 44-70% while preserving rank fidelity",
+  "benchmarks": [
+   "8 agent benchmarks"
+  ],
+  "models_studied": [
+   "33 scaffolds, 70+ model configs"
+  ],
+  "production_evidence": false,
+  "summary": "Finds that absolute agent scores are hard to predict under scaffold shift but rankings are stable, and proposes evaluating only tasks with 30-70% historical pass rates, cutting evaluation cost substantially while keeping rankings.",
+  "key_idea": "Evaluate on mid-difficulty subsets to cut agent eval cost.",
+  "relevance_score": 3,
+  "relevance_rationale": "Reduces cost of evaluating candidate configurations.",
+  "found_via": "web search: enterprise agent benchmark cost efficiency",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhong-2026-enterpriseclawbench",
+  "title": "EnterpriseClawBench: Benchmarking Agents from Real Workplace Sessions",
+  "authors": [
+   "Jincheng Zhong",
+   "Weizhi Wang",
+   "Che Jiang",
+   "Kai Tian",
+   "Zhenzhao Yuan",
+   "Junlin Yang",
+   "Dianqiao Lei",
+   "Kaiyan Zhang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.23654",
+  "code_url": "https://github.com/FrontisAI/EnterpriseClawBench",
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "rubrics",
+   "hard rules"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "EnterpriseClawBench (852 tasks from real workplace sessions)"
+  ],
+  "models_studied": [
+   "Codex with GPT-5.5",
+   "other harness-model combinations"
+  ],
+  "production_evidence": false,
+  "summary": "Builds 852 reproducible enterprise tasks from proprietary real workplace agent sessions, releasing the construction and evaluation protocol but not the data. The best configuration scores 0.663, and the authors argue reports must include harness-model pairing, cost and runtime.",
+  "key_idea": "Benchmark mined from real enterprise agent logs.",
+  "relevance_score": 4,
+  "relevance_rationale": "Shows how to turn production sessions into an offline benchmark (relevant to C6).",
+  "found_via": "web search: enterprise agent benchmark cost efficiency",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhu-2025-agentic-benchmark-checklist",
+  "title": "Establishing Best Practices for Building Rigorous Agentic Benchmarks",
+  "authors": [
+   "Yuxuan Zhu",
+   "Tengjun Jin",
+   "Yada Pruksachatkun",
+   "Andy Zhang",
+   "Shu Liu",
+   "Sasha Cui",
+   "Sayash Kapoor",
+   "Shayne Longpre",
+   "Kevin Meng",
+   "Rebecca Weiss",
+   "Fazl Barez",
+   "Rahul Gupta",
+   "Jwala Dhamala",
+   "Jacob Merizian",
+   "Mario Giulianelli",
+   "Harry Coppock",
+   "Cozmin Ududec",
+   "Jasjeet Sekhon",
+   "Jacob Steinhardt",
+   "Antony Kellermann",
+   "Sarah Schwettmann",
+   "Matei Zaharia",
+   "Ion Stoica",
+   "Percy Liang",
+   "Daniel Kang"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2507.02825",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "Issues can misestimate agent performance by up to 100% relative; ABC reduces overestimation on CVE-Bench by 33%",
+  "benchmarks": [
+   "SWE-bench Verified",
+   "TAU-bench",
+   "CVE-Bench",
+   "others"
+  ],
+  "models_studied": [
+   "n/a"
+  ],
+  "production_evidence": false,
+  "summary": "Documents task-setup and reward-design flaws in agentic benchmarks (e.g., insufficient tests in SWE-bench Verified, empty responses counted as success in TAU-bench) and proposes the Agentic Benchmark Checklist.",
+  "key_idea": "Checklist for rigorous agentic benchmarks.",
+  "relevance_score": 3,
+  "relevance_rationale": "Benchmark validity matters when measuring small cost-quality deltas.",
+  "found_via": "snowball: related work of kapoor-2025-hal",
+  "cites_or_cited_by": [
+   "yao-2024-tau-bench",
+   "jimenez-2023-swe-bench"
+  ]
+ },
+ {
+  "id": "wang-2025-efficient-agents",
+  "title": "Efficient Agents: Building Effective Agents While Reducing Cost",
+  "authors": [
+   "Ningning Wang",
+   "Xavier Hu",
+   "Pai Liu",
+   "He Zhu",
+   "Yue Hou",
+   "Heyuan Huang",
+   "Shengyu Zhang",
+   "Jian Yang",
+   "Jiaheng Liu",
+   "Ge Zhang",
+   "Changwang Zhang",
+   "Jun Wang",
+   "Yuchen Eleanor Jiang",
+   "Wangchunshu Zhou"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2508.02694",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C12",
+   "C3"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "cost-of-pass"
+  ],
+  "cost_reduction_reported": "Retains 96.7% of OWL performance while reducing cost from $0.398 to $0.228 per task (28.4% better cost-of-pass) on GAIA",
+  "benchmarks": [
+   "GAIA"
+  ],
+  "models_studied": [
+   "multiple LLM backbones"
+  ],
+  "production_evidence": false,
+  "summary": "Systematic study of efficiency versus effectiveness in agent systems on GAIA, varying backbone choice, framework modules and test-time scaling, measured with cost-of-pass. Uses the findings to build Efficient Agents, a leaner framework.",
+  "key_idea": "Match agent complexity to task needs using cost-of-pass.",
+  "relevance_score": 5,
+  "relevance_rationale": "Direct cost reduction of agent configurations with a cost-aware metric.",
+  "found_via": "web search: Efficient Agents reducing cost",
+  "cites_or_cited_by": [
+   "erol-2025-cost-of-pass",
+   "mialon-2023-gaia"
+  ]
+ },
+ {
+  "id": "feng-2025-fusionfactory",
+  "title": "FusionFactory: Fusing LLM Capabilities with Multi-LLM Log Data",
+  "authors": [
+   "Tao Feng",
+   "Haozhen Zhang",
+   "Zijie Lei",
+   "Pengrui Han",
+   "Mostofa Patwary",
+   "Mohammad Shoeybi",
+   "Bryan Catanzaro",
+   "Jiaxuan You"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2507.10540",
+  "code_url": "https://github.com/ulab-uiuc/FusionFactory",
+  "topic_clusters": [
+   "C13",
+   "C1",
+   "C8"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "multi-LLM logs",
+   "query embedding"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "LLMFusionBench (14 tasks, 5 domains)"
+  ],
+  "models_studied": [
+   "20 open LLMs (8B-671B)"
+  ],
+  "production_evidence": false,
+  "summary": "Introduces LLMFusionBench, 103M tokens of responses from 20 open LLMs over 14 tasks, and FusionFactory, which fuses models at the query level (routers), thought level (reused reasoning templates) and model level (distillation). Fusion beats the best single LLM across benchmarks.",
+  "key_idea": "Mine multi-LLM logs for routing, template reuse and distillation.",
+  "relevance_score": 4,
+  "relevance_rationale": "Routing benchmark built from logs; bridges routing and distillation.",
+  "found_via": "web search: FusionBench LLM routing",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "bai-2026-agents-spend-money",
+  "title": "How Do AI Agents Spend Your Money? Analyzing and Predicting Token Consumption in Agentic Coding Tasks",
+  "authors": [
+   "Longju Bai",
+   "Zhemin Huang",
+   "Xingyao Wang",
+   "Jiao Sun",
+   "Rada Mihalcea",
+   "Erik Brynjolfsson",
+   "Alex Pentland",
+   "Jiaxin Pei"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2604.22750",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C9",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "token usage"
+  ],
+  "cost_reduction_reported": "Agentic coding uses ~1000x more tokens than code reasoning/chat; same-task runs vary up to 30x in tokens; accuracy peaks at intermediate cost",
+  "benchmarks": [
+   "SWE-bench Verified"
+  ],
+  "models_studied": [
+   "eight frontier LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "First systematic study of token consumption in agentic coding, finding input tokens dominate cost, token use is highly stochastic, and more tokens do not mean higher accuracy; also tests whether models can predict their own token cost before running.",
+  "key_idea": "Characterizes and predicts agent token spend.",
+  "relevance_score": 4,
+  "relevance_rationale": "Grounds where agent cost comes from; informs routing and context levers.",
+  "found_via": "web search: coding agents spend tokens",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "hu-2026-cost-inefficient-coding-agents",
+  "title": "Analyzing and Mitigating Cost-Inefficient Behaviors in Coding Agents",
+  "authors": [
+   "Yiran Hu",
+   "Nan Jiang",
+   "Shanchao Liang",
+   "Anik Dey",
+   "Yi Wu",
+   "Lin Tan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.30725",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "trajectory analysis"
+  ],
+  "cost_reduction_reported": "Three inefficient behaviors affect 79-98% of tasks and account for up to 22.75% of task cost",
+  "benchmarks": [
+   "SWE-bench Verified",
+   "SWE-bench Pro"
+  ],
+  "models_studied": [
+   "Claude Code",
+   "Mini-SWE-Agent"
+  ],
+  "production_evidence": false,
+  "summary": "Analyzes 1,200 coding-agent trajectories and identifies subsumed retrieval, similar-script generation and test re-execution as cost sinks, then tests mitigations over 10k trajectories, finding structure-aware retrieval can raise costs and developer-designed skills work better than agent-synthesized ones.",
+  "key_idea": "Behavioral cost audit of coding agents.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cost diagnosis methodology for agent trajectories.",
+  "found_via": "web search: coding agents spend tokens",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "weinberger-2026-token-reduction-not-cost",
+  "title": "Token Reduction Is Not Cost Reduction",
+  "authors": [
+   "Sarel Weinberger",
+   "Amir Hozez"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.12161",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "billed cost",
+   "cache traffic"
+  ],
+  "cost_reduction_reported": "Largest compression cut tool-output tokens by 38.4% but increased billed cost by 6.8%; token reduction correlated weakly with cost reduction (r=0.15)",
+  "benchmarks": [
+   "controlled coding tasks",
+   "SWE-bench Go subset"
+  ],
+  "models_studied": [
+   "Claude Code"
+  ],
+  "production_evidence": false,
+  "summary": "Compares token-reduction tools against unmodified Claude Code using provider-billed cost and finds prompt-cache creation and reads dominate input cost, so compression can raise cost and change trajectories.",
+  "key_idea": "Measure billed cost, not tokens removed.",
+  "relevance_score": 4,
+  "relevance_rationale": "Important caution for cost evaluation methodology with caching.",
+  "found_via": "web search: SWE-bench cost per task",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "smekal-2026-task-spec-token-spend",
+  "title": "Can your AI agent be cheaper? Investigating the effects of task specifications on token spend in agentic coding tasks",
+  "authors": [
+   "Jakub Smékal"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.25399",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C9"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "task specification",
+   "thinking effort"
+  ],
+  "cost_reduction_reported": "Bare user story vs full spec raises token spend by 29.7%",
+  "benchmarks": [
+   "agentic coding tasks (2,700 runs)"
+  ],
+  "models_studied": [
+   "Kimi K3"
+  ],
+  "production_evidence": false,
+  "summary": "Measures how task specification detail and thinking effort change agent token spend, finds task-dependent prompt sensitivity, and fits a predictor that prices spend from one cheap probe within 36%.",
+  "key_idea": "Predicting agent token spend from a cheap probe.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cost prediction is a prerequisite for budget-aware routing.",
+  "found_via": "web search: SWE-bench cost per task",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "yang-2026-twinrouterbench",
+  "title": "TwinRouterBench: Fast Static and Live Dynamic Evaluation for Realistic Agentic LLM Routing",
+  "authors": [
+   "Pei Yang",
+   "Wanyi Chen",
+   "Tongyun Yang",
+   "Pengbin Feng",
+   "Jiarong Xing",
+   "Wentao Guo",
+   "Yuhang Yao",
+   "Yuhang Han",
+   "Hanchen Li",
+   "Xu Wang",
+   "Zeyu Wang",
+   "Jie Xiao",
+   "Anjie Yang",
+   "Liang Tian",
+   "Lynn Ai",
+   "Eric Yang",
+   "Tianyu Shi"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.18859",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "router-visible prefix",
+   "execution-verified tier",
+   "token cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "SWE-bench Verified",
+   "BFCL",
+   "mtRAG",
+   "QMSum",
+   "PinchBench"
+  ],
+  "models_studied": [
+   "locked model pool"
+  ],
+  "production_evidence": false,
+  "summary": "Step-level routing benchmark for long-horizon agents: a static track with 970 intermediate prefixes labeled with execution-verified cheapest-sufficient tiers via a downgrade-and-cascade protocol, and a dynamic track running routers live on SWE-bench Verified with realized API spend and no LLM judge.",
+  "key_idea": "Benchmark for per-call routing inside agent trajectories.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly evaluates step-level routing in agents.",
+  "found_via": "web search: agentic routing benchmark multi-turn",
+  "cites_or_cited_by": [
+   "hu-2024-routerbench"
+  ]
+ },
+ {
+  "id": "bala-2026-multi-agent-routing-wildchat",
+  "title": "Multi-Agent Routing as Set-Valued Prediction: A WildChat Benchmark and Cost-Aware Evaluation",
+  "authors": [
+   "Ananto Nayan Bala",
+   "Faisal Muhammad Shah"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.28925",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C1"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "prompt text",
+   "agent cost tiers"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "WildChat-derived 3,000 prompts, 12-agent catalog"
+  ],
+  "models_studied": [
+   "encoders",
+   "linear multilabel",
+   "zero-shot LLM"
+  ],
+  "production_evidence": false,
+  "summary": "Frames routing prompts to agents as set-valued prediction and builds a WildChat-derived benchmark with cost-aware evaluation, including a weighted routing setting over ordinal agent cost tiers. Supervised routers beat nearest-neighbor and zero-shot LLM routing.",
+  "key_idea": "Cost-aware multi-label agent selection benchmark.",
+  "relevance_score": 4,
+  "relevance_rationale": "Evaluates subagent selection under cost; labels are heuristic.",
+  "found_via": "web search: agentic routing benchmark multi-turn",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "agarwal-2026-switchcraft",
+  "title": "Switchcraft: AI Model Router for Agentic Tool Calling",
+  "authors": [
+   "Sharad Agarwal",
+   "Pooria Namyar",
+   "Alec Wolman",
+   "Rahul Ambavat",
+   "Ankur Gupta",
+   "Qizheng Zhang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.07112",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C1",
+   "C3"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "query text"
+  ],
+  "cost_reduction_reported": "84% lower inference cost at 82.9% accuracy (matching or exceeding best single model); >$3,600 saved per million queries",
+  "benchmarks": [
+   "five function-calling benchmarks (incl. BFCL)"
+  ],
+  "models_studied": [
+   "multiple tool-calling LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Router for agentic tool calling that picks the cheapest model expected to be correct, with an evaluation framework across five function-calling benchmarks and a DistilBERT classifier under a latency budget. Finds larger models do not consistently win on tool use and cheaper models may cost more due to reasoning tokens.",
+  "key_idea": "Tool-call-aware routing with corrected evaluation.",
+  "relevance_score": 5,
+  "relevance_rationale": "Routing specifically for agent tool calls with cost results.",
+  "found_via": "web search: agentic routing benchmark multi-turn",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "kumar-2026-task-session-routing-eval",
+  "title": "Task- and Session-Level Model Routing: A Common-Interface Hybrid Evaluation of Four Open-Source Routers Across Four Benchmarks",
+  "authors": [
+   "Kiran N. Kumar",
+   "Santhosh K. Saminathan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.14641",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "router tier assignments"
+  ],
+  "cost_reduction_reported": "No evidence of task-specific advantage over content-blind allocation for tested open-source routers",
+  "benchmarks": [
+   "RouterBench",
+   "BFCL v4",
+   "tau2-bench",
+   "WebArena"
+  ],
+  "models_studied": [
+   "vLLM Semantic Router",
+   "Aurelio semantic router",
+   "two others"
+  ],
+  "production_evidence": false,
+  "summary": "Evaluates four open-source routers under a common protocol on 290 frozen tasks. Three routers emit near-constant tiers; vLLM Semantic Router varies with content but shows no task-specific gain over a share-matched blind allocation, suggesting gains track tier mix rather than routing skill.",
+  "key_idea": "Controlled evaluation shows routers often just pick a tier mix.",
+  "relevance_score": 5,
+  "relevance_rationale": "Rigorous skeptical evaluation of production open-source routers on agent benchmarks.",
+  "found_via": "web search: SPROUT cost-aware routing benchmark",
+  "cites_or_cited_by": [
+   "hu-2024-routerbench",
+   "barres-2025-tau2-bench",
+   "zhou-2023-webarena",
+   "vllm-2025-semantic-router"
+  ]
+ },
+ {
+  "id": "lee-2026-routing-gap-task-type",
+  "title": "Most of the LLM Routing Gap Is Task Type",
+  "authors": [
+   "Janghoon Lee"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.23023",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "task type"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "294 questions, 7 task types, 3 languages"
+  ],
+  "models_studied": [
+   "14 models"
+  ],
+  "production_evidence": false,
+  "summary": "Argues most of the oracle routing gap is explained by task type, and that run-to-run noise (5.37% of model-question pairs flipping between identical runs) makes small router wins uninterpretable.",
+  "key_idea": "Routing gains are mostly task-type effects plus noise.",
+  "relevance_score": 4,
+  "relevance_rationale": "Methodological caution for claimed routing gains.",
+  "found_via": "web search: RouterEval benchmark routing LLMs",
+  "cites_or_cited_by": [
+   "li-2026-llmrouterbench"
+  ]
+ },
+ {
+  "id": "lai-2026-routing-collapse",
+  "title": "When Routing Collapses: On the Degenerate Convergence of LLM Routers",
+  "authors": [
+   "Guannan Lai",
+   "Han-Jia Ye"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.03478",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "predicted performance",
+   "rankings"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "unimodal and multimodal routing benchmarks"
+  ],
+  "models_studied": [
+   "router baselines",
+   "EquiRouter"
+  ],
+  "production_evidence": false,
+  "summary": "Identifies routing collapse, where routers default to the most expensive model as budgets grow even when cheaper models suffice, attributes it to training on scalar scores rather than rankings, and proposes a ranking-based EquiRouter.",
+  "key_idea": "Routers over-use strong models; learn rankings instead.",
+  "relevance_score": 4,
+  "relevance_rationale": "Failure mode directly relevant to cost-aware routers.",
+  "found_via": "web search: SPROUT cost-aware routing benchmark",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "chatrath-2026-ready",
+  "title": "READY or Not: Reliable Enterprise Agent Deployment",
+  "authors": [
+   "Veronica Chatrath",
+   "Bryan Zhu",
+   "Jingxuan Fan",
+   "George Pu",
+   "Soham Dinesh Tiwari",
+   "Soham Dan",
+   "Ryan Young",
+   "Yuan",
+   "Li",
+   "Yuang Yao",
+   "Apaar Shanker",
+   "Minglai Yang",
+   "Daniel Yue Zhang",
+   "Yunzhong He",
+   "Ying Liu",
+   "Chenguang Wang",
+   "Zhijun Yin",
+   "Yuan Xue"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.02095",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C2",
+   "C7"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "reliability target",
+   "human oversight policy",
+   "cost"
+  ],
+  "cost_reduction_reported": "Two systems 0.3 points apart in autonomous accuracy need 39.2% vs 29.6% human review to reach 76% reliability",
+  "benchmarks": [
+   "clinical-audit case study (16 agent systems, 750 cases)"
+  ],
+  "models_studied": [
+   "16 agent systems"
+  ],
+  "production_evidence": false,
+  "summary": "Framework to qualify agents for enterprise deployment by measuring reliability and operating cost of the human-AI system under candidate oversight policies, selecting the cheapest policy that meets a reliability target, and statistically qualifying it on held-out cases.",
+  "key_idea": "Qualify agents by min-cost oversight policy at a reliability target.",
+  "relevance_score": 4,
+  "relevance_rationale": "Deployment-oriented cost/reliability evaluation with deferral to humans.",
+  "found_via": "web search: TheAgentCompany benchmark",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "chung-2025-mlenergy",
+  "title": "The ML.ENERGY Benchmark: Toward Automated Inference Energy Measurement and Optimization",
+  "authors": [
+   "Jae-Won Chung",
+   "Jeff J. Ma",
+   "Ruofan Wu",
+   "Jiachen Liu",
+   "Oh Jun Kweon",
+   "Yuxuan Xia",
+   "Zhiyu Wu",
+   "Mosharaf Chowdhury"
+  ],
+  "year": 2025,
+  "venue_or_source": "NeurIPS 2025 Datasets and Benchmarks (Spotlight)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2505.06371",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C11"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "energy",
+   "latency"
+  ],
+  "cost_reduction_reported": "Automated optimization recommendations sometimes save more than 40% energy",
+  "benchmarks": [
+   "ML.ENERGY Benchmark (40 models, 6 tasks)"
+  ],
+  "models_studied": [
+   "40 generative model architectures"
+  ],
+  "production_evidence": false,
+  "summary": "Benchmark suite and leaderboard for inference energy under realistic serving, with design principles and case studies on how model and serving choices affect energy.",
+  "key_idea": "Energy-per-request benchmarking and leaderboard.",
+  "relevance_score": 2,
+  "relevance_rationale": "Efficiency leaderboard; serving cost proxy.",
+  "found_via": "web search: ML.ENERGY leaderboard",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zellinger-2025-economic-evaluation",
+  "title": "Economic Evaluation of LLMs",
+  "authors": [
+   "Michael J. Zellinger",
+   "Matt Thomson"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2507.03834",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C2"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "cost of error",
+   "latency cost",
+   "abstention cost"
+  ],
+  "cost_reduction_reported": "Reasoning models give better accuracy-cost trade-offs once a mistake costs more than a small dollar threshold (MATH)",
+  "benchmarks": [
+   "MATH"
+  ],
+  "models_studied": [
+   "reasoning and non-reasoning LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Proposes scoring LLMs by a single dollar-denominated number based on the use case's cost of mistakes, latency and abstention, allowing comparison beyond Pareto plots.",
+  "key_idea": "Price errors, latency and abstention to compare models.",
+  "relevance_score": 4,
+  "relevance_rationale": "Useful objective for routing and cascade decisions.",
+  "found_via": "web search: Cost-of-Pass economic framework",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "levy-2024-st-webagentbench",
+  "title": "ST-WebAgentBench: A Benchmark for Evaluating Safety and Trustworthiness in Web Agents",
+  "authors": [
+   "Ido Levy",
+   "Ben Wiesel",
+   "Sami Marreed",
+   "Alon Oved",
+   "Avi Yaeli",
+   "Nir Mashkif",
+   "Segev Shlomov"
+  ],
+  "year": 2024,
+  "venue_or_source": "ICLR 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2410.06703",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "policy compliance"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "ST-WebAgentBench (222 tasks)"
+  ],
+  "models_studied": [
+   "web agents"
+  ],
+  "production_evidence": false,
+  "summary": "Enterprise-oriented web-agent benchmark scoring safety and trustworthiness under policies, with Completion-under-Policy and Risk Ratio metrics.",
+  "key_idea": "Policy-compliant completion for enterprise web agents.",
+  "relevance_score": 2,
+  "relevance_rationale": "Enterprise evaluation dimension beyond accuracy.",
+  "found_via": "web search: BrowserGym ecosystem",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "li-2026-test-time-scaling-agents",
+  "title": "Evaluating Test-Time Scaling of General LLM Agents",
+  "authors": [
+   "Xiaochuan Li",
+   "Ryan Ming",
+   "Pranav Setlur",
+   "Abhijay Paladugu",
+   "Andy Tang",
+   "Hao Kang",
+   "Shuai Shao",
+   "Rong Jin",
+   "Chenyan Xiong"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.18998",
+  "code_url": "https://github.com/cxcscmu/General-AgentBench",
+  "topic_clusters": [
+   "C13",
+   "C9"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "General-AgentBench (search, coding, reasoning, tool use)"
+  ],
+  "models_studied": [
+   "ten leading LLM agents"
+  ],
+  "production_evidence": false,
+  "summary": "Unified benchmark across agent domains and a study of sequential and parallel test-time scaling; neither axis yields consistent gains in realistic settings because of a scaling plateau and a verification gap.",
+  "key_idea": "More test-time compute does not reliably help general agents.",
+  "relevance_score": 3,
+  "relevance_rationale": "Evidence on diminishing returns of spending more compute in agents.",
+  "found_via": "web search: tau2-bench dual-control",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "raghavendra-2026-swe-atlas",
+  "title": "SWE Atlas: Benchmarking Coding Agents Beyond Issue Resolution",
+  "authors": [
+   "Mohit Raghavendra",
+   "Soham Dan",
+   "Miguel Romero Calvo",
+   "Yannis Yiming He",
+   "Johannes Baptist Mols",
+   "Gautam Anand",
+   "Cole McCollum",
+   "Edgar Arakelyan",
+   "Vijay Bharadwaj",
+   "Andrew Park",
+   "Jeff Da",
+   "MohammadHossein Rezaei",
+   "Bing Liu",
+   "Brad Kenstler",
+   "Yunzhong He"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.08366",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "rubrics",
+   "programmatic checks"
+  ],
+  "cost_reduction_reported": "Reports cost-per-task Pareto from ~$0.35/task (~15% pass) to ~$1.90/task (~40% pass) (per search-result excerpt)",
+  "benchmarks": [
+   "SWE Atlas (Codebase Q&A, Test Writing, Refactoring)"
+  ],
+  "models_studied": [
+   "GPT-5.4",
+   "Opus 4.7",
+   "Gemini 3 Flash",
+   "GPT 5.3 Codex"
+  ],
+  "production_evidence": false,
+  "summary": "Coding-agent benchmark across codebase Q&A, test writing and refactoring with rubric-based quality assessment, including a cost-per-task analysis from scaffold logs.",
+  "key_idea": "Coding benchmark with cost-per-task Pareto.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cost-per-task reporting on coding agents.",
+  "found_via": "web search: SWE-bench cost per task",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "liu-2026-cost-utility-alignment",
+  "title": "Cost-Utility Alignment in LLM Agent Trajectories:Profiling,Attribution,Diagnosis,Adaptation,and Evaluation",
+  "authors": [
+   "Dan Liu",
+   "Jian Li"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.26195",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C15"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "token cost",
+   "utility attribution"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "n/a"
+  ],
+  "production_evidence": false,
+  "summary": "Survey-style framework treating agent trajectory cost and task contribution as dual ledgers across profiling, attribution, diagnosis, adaptation and evaluation.",
+  "key_idea": "Trajectory-level cost-utility accounting.",
+  "relevance_score": 3,
+  "relevance_rationale": "Framework for step-level cost attribution.",
+  "found_via": "web search: coding agents spend tokens",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "dai-2025-scuba",
+  "title": "SCUBA: Salesforce Computer Use Benchmark",
+  "authors": [
+   "Yutong Dai",
+   "Krithika Ramakrishnan",
+   "Jing Gu",
+   "Matthew Fernandez",
+   "Yanqi Luo",
+   "Viraj Prabhu",
+   "Zhenyu Hu",
+   "Silvio Savarese",
+   "Caiming Xiong",
+   "Zeyuan Chen",
+   "Ran Xu"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2509.26506",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "milestones"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "SCUBA (300 tasks on Salesforce)"
+  ],
+  "models_studied": [
+   "computer-use agents"
+  ],
+  "production_evidence": false,
+  "summary": "Benchmark of 300 CRM tasks from user interviews on Salesforce sandboxes for computer-use agents, with milestone metrics; finds large gaps between agent paradigms and between open and closed models.",
+  "key_idea": "Enterprise CRM computer-use benchmark.",
+  "relevance_score": 2,
+  "relevance_rationale": "Enterprise UI workflow benchmark.",
+  "found_via": "web search: CRMArena-Pro",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "mo-2026-entworld",
+  "title": "EntWorld: A Holistic Environment and Benchmark for Verifiable Enterprise GUI Agents",
+  "authors": [
+   "Ying Mo",
+   "Yu Bai",
+   "Dapeng Sun",
+   "Yuqian Shi",
+   "Yukai Miao",
+   "Li Chen",
+   "Dan Li"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.17722",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "SQL state verification"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "EntWorld (1,756 tasks: CRM, ITIL, ERP, etc.)"
+  ],
+  "models_studied": [
+   "GPT-4.1",
+   "others"
+  ],
+  "production_evidence": false,
+  "summary": "Enterprise GUI benchmark of 1,756 tasks across six domains including ITIL, generated from database schemas and verified by SQL state checks; GPT-4.1 reaches 47.61% success.",
+  "key_idea": "Schema-grounded enterprise (incl. ITIL) GUI tasks.",
+  "relevance_score": 3,
+  "relevance_rationale": "ITIL/ITSM workflow coverage.",
+  "found_via": "web search: OSWorld benchmark",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "liu-2026-agentic-routing-flywheel",
+  "title": "Agentic Routing: The Harness-Native Data Flywheel",
+  "authors": [
+   "Xinchen Liu",
+   "Hang Zhou",
+   "Yingjie Zong",
+   "Yuchuan Tian",
+   "Liuyang Song",
+   "Shuo Zhang",
+   "Yulong Li",
+   "Wei He",
+   "Mengyu Zheng",
+   "Runke Liu",
+   "Siyang Cheng",
+   "Xiang Kuang",
+   "Hailin Hu",
+   "Kai Han",
+   "Yunhe Wang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.11399",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C3",
+   "C5"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "execution state",
+   "harness signals"
+  ],
+  "cost_reduction_reported": "LightGBM router preserves task quality while cutting realized cost ~90% on PinchBench and ~43% on DRACO vs fixed strong model",
+  "benchmarks": [
+   "PinchBench",
+   "DRACO"
+  ],
+  "models_studied": [
+   "frontier and open models"
+  ],
+  "production_evidence": false,
+  "summary": "Proposes harness-native step-level routing that picks one or several models per step using execution state, and argues routing logs form a data flywheel for training agents.",
+  "key_idea": "Step-level routing inside the agent harness as a data engine.",
+  "relevance_score": 5,
+  "relevance_rationale": "Step-level cost reduction in agents with realized cost numbers.",
+  "found_via": "web search: agentic routing benchmark multi-turn",
+  "cites_or_cited_by": [
+   "yang-2026-twinrouterbench"
+  ]
+ },
+ {
+  "id": "ong-2024-routellm",
+  "title": "RouteLLM: Learning to Route LLMs with Preference Data",
+  "authors": [
+   "Isaac Ong",
+   "Amjad Almahairi",
+   "Vincent Wu",
+   "Wei-Lin Chiang",
+   "Tianhao Wu",
+   "Joseph E. Gonzalez",
+   "M Waleed Kadous",
+   "Ion Stoica"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2406.18665",
+  "code_url": "https://github.com/lm-sys/RouteLLM",
+  "topic_clusters": [
+   "C1",
+   "C14",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "human preference data",
+   "query embedding",
+   "LLM-judge labels"
+  ],
+  "cost_reduction_reported": "Blog: >85% cost reduction on MT-Bench, 45% on MMLU, 35% on GSM8K vs GPT-4 at 95% of GPT-4 quality; paper: >2x cost reduction in some cases without quality loss",
+  "benchmarks": [
+   "MT-Bench",
+   "MMLU",
+   "GSM8K"
+  ],
+  "models_studied": [
+   "GPT-4",
+   "Mixtral-8x7B",
+   "Llama 2 70B"
+  ],
+  "production_evidence": false,
+  "summary": "Trains strong/weak binary routers (matrix factorization, BERT, causal LLM, similarity-weighted) on Chatbot Arena preference data with augmentation. The LMSYS blog (lmsys.org/blog/2024-07-01-routellm) reports comparable performance to commercial routers Martian and Unify while over 40% cheaper; code in lm-sys/RouteLLM.",
+  "key_idea": "Preference-data-trained strong/weak routers.",
+  "relevance_score": 4,
+  "relevance_rationale": "Canonical open router with blog-reported vendor comparison.",
+  "found_via": "seed: RouteLLM/LMSYS blog",
+  "cites_or_cited_by": [
+   "almahairi-2024-anyscale-router"
+  ]
+ },
+ {
+  "id": "tran-2025-arch-router",
+  "title": "Arch-Router: Aligning LLM Routing with Human Preferences",
+  "authors": [
+   "Co Tran",
+   "Salman Paracha",
+   "Adil Hafeez",
+   "Shuguang Chen"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2506.16655",
+  "code_url": "https://github.com/katanemo/archgw",
+  "topic_clusters": [
+   "C1",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "domain-action preference labels"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "conversational datasets"
+  ],
+  "models_studied": [
+   "Arch-Router-1.5B",
+   "proprietary LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Katanemo proposes routing by matching queries to user-defined domain and action preferences with a 1.5B model, allowing new models to be added without retraining; it ships in the company's open-source proxy (archgw, now Plano).",
+  "key_idea": "Preference-aligned routing policy model for gateways.",
+  "relevance_score": 3,
+  "relevance_rationale": "Router used in an open-source production gateway.",
+  "found_via": "seed list: LLM gateway (katanemo archgw)",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "almahairi-2024-anyscale-router",
+  "title": "Building an LLM Router for High-Quality and Cost-Effective Responses",
+  "authors": [
+   "Amjad Almahairi"
+  ],
+  "year": 2024,
+  "venue_or_source": "Anyscale blog",
+  "source_type": "blog",
+  "url": "https://www.anyscale.com/blog/building-an-llm-router-for-high-quality-and-cost-effective-responses",
+  "code_url": "https://github.com/lm-sys/RouteLLM",
+  "topic_clusters": [
+   "C14",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "LLM-judge score labels",
+   "query text"
+  ],
+  "cost_reduction_reported": "(vendor-reported) Up to 70% cost reduction on MT-Bench, 30% on MMLU, 40% on GSM8K vs random routing / commercial routers",
+  "benchmarks": [
+   "MT-Bench",
+   "MMLU",
+   "GSM8K"
+  ],
+  "models_studied": [
+   "GPT-4",
+   "Mixtral-8x7B",
+   "Llama3-8B (router)"
+  ],
+  "production_evidence": false,
+  "summary": "Tutorial companion to RouteLLM: fine-tunes a Llama3-8B causal classifier on ~109K Nectar queries labeled 1-5 by a GPT-4 judge on Mixtral responses, routing to Mixtral when predicted score is high and to GPT-4 otherwise.",
+  "key_idea": "Judge-labeled data to fine-tune an LLM classifier router.",
+  "relevance_score": 4,
+  "relevance_rationale": "Practical recipe for building a strong/weak router from judge labels.",
+  "found_via": "seed: Anyscale router blog",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "openai-2025-gpt5-system-card",
+  "title": "GPT-5 System Card",
+  "authors": [
+   "OpenAI"
+  ],
+  "year": 2025,
+  "venue_or_source": "OpenAI",
+  "source_type": "docs",
+  "url": "https://cdn.openai.com/gpt-5-system-card.pdf",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C1",
+   "C9",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "conversation type",
+   "complexity",
+   "tool needs",
+   "explicit intent",
+   "user model switches",
+   "preference rates",
+   "measured correctness"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "gpt-5-main",
+   "gpt-5-thinking",
+   "mini variants"
+  ],
+  "production_evidence": true,
+  "summary": "Describes GPT-5 in ChatGPT as a unified system of a fast model, a deeper reasoning model and a real-time router that chooses between them from conversation type, complexity, tool needs and explicit intent. The router is continuously trained on live signals such as user model switches, response preference rates and measured correctness; mini versions take over once usage limits are hit.",
+  "key_idea": "Production router between fast and reasoning models trained on live user signals.",
+  "relevance_score": 5,
+  "relevance_rationale": "Largest disclosed production query-level router trained from live traffic signals.",
+  "found_via": "seed: GPT-5 system card",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "anthropic-2025-multi-agent-research",
+  "title": "How we built our multi-agent research system",
+  "authors": [
+   "Jeremy Hadfield",
+   "Barry Zhang",
+   "Kenneth Lien",
+   "Florian Scholz",
+   "Jeremy Fox",
+   "Daniel Ford"
+  ],
+  "year": 2025,
+  "venue_or_source": "Anthropic engineering blog",
+  "source_type": "blog",
+  "url": "https://www.anthropic.com/engineering/multi-agent-research-system",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C12",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "token usage",
+   "tool calls",
+   "model choice"
+  ],
+  "cost_reduction_reported": "(vendor-reported) Opus 4 lead + Sonnet 4 subagents beat single-agent Opus 4 by 90.2% on internal research eval; multi-agent uses ~15x chat tokens; token usage explains 80% of BrowseComp variance",
+  "benchmarks": [
+   "internal research eval",
+   "BrowseComp"
+  ],
+  "models_studied": [
+   "Claude Opus 4",
+   "Claude Sonnet 4"
+  ],
+  "production_evidence": true,
+  "summary": "Engineering account of Claude's production Research feature, an orchestrator-worker system with an Opus lead agent and Sonnet subagents. Reports large gains over single-agent at much higher token cost, and that token usage, tool calls and model choice explain most performance variance, with lessons on prompting, evaluation and parallel tool calls.",
+  "key_idea": "Mixed-model orchestrator-worker multi-agent in production; cost scales with tokens.",
+  "relevance_score": 5,
+  "relevance_rationale": "Production evidence on role-level model assignment and multi-agent cost trade-offs.",
+  "found_via": "seed list: Anthropic engineering blog",
+  "cites_or_cited_by": [
+   "wei-2025-browsecomp"
+  ]
+ },
+ {
+  "id": "aws-2025-bedrock-intelligent-prompt-routing",
+  "title": "Use Amazon Bedrock Intelligent Prompt Routing for cost and latency benefits",
+  "authors": [
+   "Shreyas Subramanian",
+   "Haibo Ding",
+   "Balasubramaniam Srinivasan",
+   "Yun Zhou"
+  ],
+  "year": 2025,
+  "venue_or_source": "AWS Machine Learning blog",
+  "source_type": "blog",
+  "url": "https://aws.amazon.com/blogs/machine-learning/use-amazon-bedrock-intelligent-prompt-routing-for-cost-and-latency-benefits/",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "predicted response quality per model"
+  ],
+  "cost_reduction_reported": "(vendor-reported) Internal tests: 56% savings for Anthropic family (Haiku 3.5 + Sonnet 3.5 v2) at Sonnet quality, 35% Nova, 16% Llama; 63.6% average savings on RAG datasets; ~85 ms P90 router overhead",
+  "benchmarks": [
+   "internal AWS datasets incl. RAG"
+  ],
+  "models_studied": [
+   "Claude 3/3.5 Haiku",
+   "Claude 3.5 Sonnet",
+   "Llama 3.x",
+   "Amazon Nova Pro/Lite"
+  ],
+  "production_evidence": false,
+  "summary": "GA announcement of Bedrock's managed router, which predicts per-request quality for two models in the same family and routes on a cost-quality criterion. Caveats: English and chat-optimized, pairwise only, not adaptable to application data, may underperform on specialized tasks. Docs: docs.aws.amazon.com/bedrock/latest/userguide/prompt-routing.html.",
+  "key_idea": "Managed pairwise quality-prediction router inside a cloud platform.",
+  "relevance_score": 4,
+  "relevance_rationale": "Seed; major cloud router product with stated caveats.",
+  "found_via": "seed: AWS Bedrock intelligent prompt routing",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "microsoft-2025-foundry-model-router",
+  "title": "Model router for Microsoft Foundry (concepts)",
+  "authors": [
+   "Microsoft"
+  ],
+  "year": 2025,
+  "venue_or_source": "Microsoft Learn",
+  "source_type": "docs",
+  "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/model-router",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "prompt complexity",
+   "reasoning need",
+   "task type"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-5.x family",
+   "GPT-4.1 family",
+   "o4-mini",
+   "gpt-oss-120b",
+   "Claude Opus/Sonnet/Haiku 4.x",
+   "Grok 4",
+   "DeepSeek-V3.2",
+   "Llama 4 Maverick"
+  ],
+  "production_evidence": false,
+  "summary": "A trained language model deployed as a single Foundry endpoint that routes each prompt across OpenAI, Anthropic, xAI, DeepSeek and Meta models. Balanced mode picks the cheapest model within about 1-2% of the best predicted quality, Cost mode within about 5-6%, and Quality mode ignores cost; supports model subsets, failover, agent tool use and session affinity for cache reuse. No quantitative savings figures on this page.",
+  "key_idea": "Managed multi-vendor router with quality-band routing modes.",
+  "relevance_score": 4,
+  "relevance_rationale": "Seed; enterprise router product with explicit cost-quality band semantics.",
+  "found_via": "seed: Azure AI Foundry model router",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "openrouter-2025-auto-router",
+  "title": "Auto Router (Intelligent Model Selection)",
+  "authors": [
+   "OpenRouter"
+  ],
+  "year": null,
+  "venue_or_source": "OpenRouter docs",
+  "source_type": "docs",
+  "url": "https://openrouter.ai/docs/features/model-routing",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "task-type classifier (~30 types)",
+   "community spend over trailing 7 days",
+   "cost tier"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "OpenRouter model catalog"
+  ],
+  "production_evidence": true,
+  "summary": "OpenRouter's free auto router classifies each prompt into about 30 task types, ranks models by what the OpenRouter community actually spends on for that task over the last seven days, applies the user's cost tier, and returns primary picks with fallbacks and session stickiness. The current docs describe this market-signal design and do not mention Not Diamond (earlier versions were reported as Not Diamond-powered, unverified here).",
+  "key_idea": "Route by aggregate market spend per task type.",
+  "relevance_score": 4,
+  "relevance_rationale": "Production router using live aggregate traffic as signal.",
+  "found_via": "seed: OpenRouter auto-router",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "notdiamond-product",
+  "title": "Not Diamond: Model Routing for Coding Agents",
+  "authors": [
+   "Not Diamond"
+  ],
+  "year": null,
+  "venue_or_source": "Not Diamond website",
+  "source_type": "product",
+  "url": "https://www.notdiamond.ai",
+  "code_url": "https://github.com/Not-Diamond/RoRF",
+  "topic_clusters": [
+   "C14",
+   "C1",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "provider",
+   "domain",
+   "reasoning complexity",
+   "sub-agents",
+   "cache",
+   "context"
+  ],
+  "cost_reduction_reported": "(vendor-reported) Claims 5%+ accuracy gains and 20%+ cost savings; Rootly case: +39% average accuracy across benchmarks",
+  "benchmarks": [],
+  "models_studied": [
+   "multiple frontier models"
+  ],
+  "production_evidence": false,
+  "summary": "Commercial router now positioned for coding agents, predicting the best model per input and integrating with existing gateways and harnesses. Marketing claims and customer quotes (Rootly, Replicated, OpenRouter) are vendor-reported without methodology. Also open-sourced a random-forest router (github.com/Not-Diamond/RoRF).",
+  "key_idea": "Commercial per-call router for agent workloads.",
+  "relevance_score": 3,
+  "relevance_rationale": "Seed; vendor claims only.",
+  "found_via": "seed: Not Diamond",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "martian-docs",
+  "title": "Martian Documentation (Gateway API)",
+  "authors": [
+   "Martian"
+  ],
+  "year": null,
+  "venue_or_source": "Martian docs",
+  "source_type": "docs",
+  "url": "https://docs.withmartian.com",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "200+ models"
+  ],
+  "production_evidence": false,
+  "summary": "Martian, the company behind RouterBench and an early commercial model router, now documents a gateway API for 200+ models alongside research tools (ARES, K-Steering); its homepage emphasizes interpretability research rather than routing, and no current router-specific page was found.",
+  "key_idea": "Early router vendor, now gateway plus research.",
+  "relevance_score": 2,
+  "relevance_rationale": "Seed; RouterBench authors; limited current router detail.",
+  "found_via": "seed: Martian",
+  "cites_or_cited_by": [
+   "hu-2024-routerbench"
+  ]
+ },
+ {
+  "id": "unify-product",
+  "title": "unify",
+  "authors": [
+   "Unify"
+  ],
+  "year": null,
+  "venue_or_source": "Unify website",
+  "source_type": "product",
+  "url": "https://unify.ai",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C8"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "RL-online",
+  "signals_used": [
+   "production corrections",
+   "retries",
+   "outcomes"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Unify, previously a model-routing platform (compared against RouteLLM in the LMSYS blog), now presents itself as post-training an agent's model on its own production work, gated by evals. Routing-era details were not found on the current site.",
+  "key_idea": "Pivot from routing to continual post-training on production data.",
+  "relevance_score": 2,
+  "relevance_rationale": "Seed; illustrates vendor pivot from routing to specialization.",
+  "found_via": "seed: Unify",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "portkey-ai-gateway",
+  "title": "Portkey AI Gateway",
+  "authors": [
+   "Portkey"
+  ],
+  "year": null,
+  "venue_or_source": "Portkey docs / GitHub",
+  "source_type": "product",
+  "url": "https://portkey.ai/docs/product/ai-gateway",
+  "code_url": "https://github.com/Portkey-AI/gateway",
+  "topic_clusters": [
+   "C14",
+   "C10"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "custom conditions",
+   "metadata"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "1,600+ LLMs (per repo)"
+  ],
+  "production_evidence": false,
+  "summary": "Open-source and hosted gateway with conditional routing, fallbacks, load balancing, simple and semantic caching, budget and rate limits, retries and canary testing. No quantitative benchmarks provided.",
+  "key_idea": "Rule-based routing plus semantic caching and budgets.",
+  "relevance_score": 2,
+  "relevance_rationale": "Seed; common gateway plumbing for cost control.",
+  "found_via": "seed: Portkey",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "litellm-router",
+  "title": "LiteLLM Router and AI Gateway",
+  "authors": [
+   "BerriAI"
+  ],
+  "year": null,
+  "venue_or_source": "LiteLLM docs / GitHub",
+  "source_type": "repo",
+  "url": "https://docs.litellm.ai/docs/routing",
+  "code_url": "https://github.com/BerriAI/litellm",
+  "topic_clusters": [
+   "C14",
+   "C10"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "rpm/tpm",
+   "latency",
+   "usage",
+   "cost",
+   "in-flight calls"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "100+ LLM APIs"
+  ],
+  "production_evidence": false,
+  "summary": "Widely used open-source SDK and proxy that unifies LLM APIs with cost tracking, and a router offering simple-shuffle, latency-, usage-, least-busy- and cost-based strategies, cooldowns, retries, fallbacks, response caching and session affinity for provider prompt caching.",
+  "key_idea": "Load-balancing router with cost-based strategy.",
+  "relevance_score": 2,
+  "relevance_rationale": "Seed; standard OSS gateway.",
+  "found_via": "seed: LiteLLM",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "openai-batch-api",
+  "title": "Batch API",
+  "authors": [
+   "OpenAI"
+  ],
+  "year": null,
+  "venue_or_source": "OpenAI API docs",
+  "source_type": "docs",
+  "url": "https://platform.openai.com/docs/guides/batch",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C11"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "(vendor-reported) 50% discount vs synchronous APIs, 24-hour completion window",
+  "benchmarks": [],
+  "models_studied": [
+   "OpenAI models"
+  ],
+  "production_evidence": false,
+  "summary": "Asynchronous batch processing of request files at half price with a 24-hour window and separate rate limits.",
+  "key_idea": "Trade latency for 50% price.",
+  "relevance_score": 3,
+  "relevance_rationale": "Provider cost lever for offline agent steps and evals.",
+  "found_via": "seed: provider batch APIs",
+  "cites_or_cited_by": [
+   "openai-flex-processing"
+  ]
+ },
+ {
+  "id": "openai-flex-processing",
+  "title": "Flex processing",
+  "authors": [
+   "OpenAI"
+  ],
+  "year": null,
+  "venue_or_source": "OpenAI API docs",
+  "source_type": "docs",
+  "url": "https://platform.openai.com/docs/guides/flex-processing",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C11"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "(vendor-reported) Priced at Batch API rates for synchronous-style requests with slower responses and occasional unavailability",
+  "benchmarks": [],
+  "models_studied": [
+   "selected OpenAI models"
+  ],
+  "production_evidence": false,
+  "summary": "Service tier that bills at batch rates in exchange for slower responses and possible 429 unavailability, aimed at evals and non-urgent workloads.",
+  "key_idea": "Cheaper best-effort service tier.",
+  "relevance_score": 3,
+  "relevance_rationale": "Provider cost lever for latency-tolerant subagent calls.",
+  "found_via": "seed: provider cost-optimization guides",
+  "cites_or_cited_by": [
+   "openai-batch-api"
+  ]
+ },
+ {
+  "id": "openai-prompt-caching",
+  "title": "Prompt caching",
+  "authors": [
+   "OpenAI"
+  ],
+  "year": null,
+  "venue_or_source": "OpenAI API docs",
+  "source_type": "docs",
+  "url": "https://platform.openai.com/docs/guides/prompt-caching",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "prompt prefix hash",
+   "prompt_cache_key"
+  ],
+  "cost_reduction_reported": "(vendor-reported) Cached input discounted up to 95% (0.1x standard rate for recent models)",
+  "benchmarks": [],
+  "models_studied": [
+   "OpenAI models"
+  ],
+  "production_evidence": false,
+  "summary": "Automatic prefix caching of KV states for prompts above a minimum length, routed by a hash of the prefix and an optional cache key; the docs note overflow routing above about 15 requests per minute per prefix.",
+  "key_idea": "Automatic prefix KV caching with discounted cached tokens.",
+  "relevance_score": 3,
+  "relevance_rationale": "Key cost lever for agents with long shared prefixes.",
+  "found_via": "seed: provider cost-optimization guides",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "openai-cost-optimization",
+  "title": "Cost optimization",
+  "authors": [
+   "OpenAI"
+  ],
+  "year": null,
+  "venue_or_source": "OpenAI API docs",
+  "source_type": "docs",
+  "url": "https://platform.openai.com/docs/guides/cost-optimization",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "OpenAI models"
+  ],
+  "production_evidence": false,
+  "summary": "Provider guide listing levers: fewer requests, fewer input/output tokens, smaller models where accuracy allows, Batch API and flex processing. No quantitative claims.",
+  "key_idea": "Provider checklist of cost levers.",
+  "relevance_score": 2,
+  "relevance_rationale": "Seed; baseline provider guidance.",
+  "found_via": "seed: provider cost-optimization guides",
+  "cites_or_cited_by": [
+   "openai-batch-api",
+   "openai-flex-processing"
+  ]
+ },
+ {
+  "id": "openai-model-selection",
+  "title": "Model selection",
+  "authors": [
+   "OpenAI"
+  ],
+  "year": null,
+  "venue_or_source": "OpenAI API docs",
+  "source_type": "docs",
+  "url": "https://platform.openai.com/docs/guides/model-selection",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "OpenAI models"
+  ],
+  "production_evidence": false,
+  "summary": "Provider guidance on choosing models by balancing accuracy, latency and cost, starting from accuracy targets and then optimizing.",
+  "key_idea": "Accuracy-first then optimize cost.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background provider guidance.",
+  "found_via": "seed: provider cost-optimization guides",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "anthropic-2024-prompt-caching",
+  "title": "Prompt caching with Claude",
+  "authors": [
+   "Anthropic"
+  ],
+  "year": 2024,
+  "venue_or_source": "Anthropic news",
+  "source_type": "blog",
+  "url": "https://www.anthropic.com/news/prompt-caching",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "(vendor-reported) Up to 90% cost and 79% latency reduction (100K-token book chat); 53% cost / 75% latency for 10-turn conversation",
+  "benchmarks": [],
+  "models_studied": [
+   "Claude 3.5 Sonnet",
+   "Claude 3 Opus",
+   "Claude 3 Haiku"
+  ],
+  "production_evidence": false,
+  "summary": "Launch post for explicit prompt caching, with cache writes priced above and cache reads far below base input price, and use-case latency and cost reductions; Notion quoted as an early user. Docs at docs.anthropic.com/en/docs/build-with-claude/prompt-caching (5-minute or 1-hour TTL).",
+  "key_idea": "Explicit prefix caching with priced writes and cheap reads.",
+  "relevance_score": 3,
+  "relevance_rationale": "Seed; major provider cost lever for agents.",
+  "found_via": "seed: provider cost-optimization guides",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "anthropic-message-batches",
+  "title": "Batch processing (Message Batches API)",
+  "authors": [
+   "Anthropic"
+  ],
+  "year": null,
+  "venue_or_source": "Claude Platform docs",
+  "source_type": "docs",
+  "url": "https://docs.anthropic.com/en/docs/build-with-claude/batch-processing",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C11"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "(vendor-reported) 50% cost reduction for asynchronous batches",
+  "benchmarks": [],
+  "models_studied": [
+   "Claude models"
+  ],
+  "production_evidence": false,
+  "summary": "Asynchronous Messages batches at half price with higher throughput; launched via the Message Batches API announcement (anthropic.com/news/message-batches-api).",
+  "key_idea": "Async batch at 50% price.",
+  "relevance_score": 3,
+  "relevance_rationale": "Seed; batch API cost lever.",
+  "found_via": "seed: provider batch APIs",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "anthropic-choosing-a-model",
+  "title": "Choosing the right model",
+  "authors": [
+   "Anthropic"
+  ],
+  "year": null,
+  "venue_or_source": "Claude Platform docs",
+  "source_type": "docs",
+  "url": "https://docs.anthropic.com/en/docs/about-claude/models/choosing-a-model",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Claude models"
+  ],
+  "production_evidence": false,
+  "summary": "Provider guidance on balancing capability, speed and cost when picking a Claude model, including starting points and how to test the choice.",
+  "key_idea": "Model choice guidance.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background provider guidance.",
+  "found_via": "seed: provider cost-optimization guides",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "anthropic-2024-building-effective-agents",
+  "title": "Building Effective AI Agents",
+  "authors": [
+   "Anthropic"
+  ],
+  "year": 2024,
+  "venue_or_source": "Anthropic engineering blog",
+  "source_type": "blog",
+  "url": "https://www.anthropic.com/engineering/building-effective-agents",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C12"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Claude models"
+  ],
+  "production_evidence": false,
+  "summary": "Practitioner guidance distinguishing workflows from agents and recommending the simplest composable patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer), including routing easy queries to smaller models.",
+  "key_idea": "Prefer simple workflows; add agent complexity only when it pays.",
+  "relevance_score": 3,
+  "relevance_rationale": "Architecture-level cost guidance including routing pattern.",
+  "found_via": "seed list: Anthropic engineering blog",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "google-gemini-context-caching",
+  "title": "Context caching (Gemini API)",
+  "authors": [
+   "Google"
+  ],
+  "year": null,
+  "venue_or_source": "Google AI for Developers docs",
+  "source_type": "docs",
+  "url": "https://ai.google.dev/gemini-api/docs/caching",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Gemini models"
+  ],
+  "production_evidence": false,
+  "summary": "Documentation for explicit and implicit context caching in the Gemini API, letting repeated large contexts be billed at a reduced cached rate.",
+  "key_idea": "Explicit context caching.",
+  "relevance_score": 2,
+  "relevance_rationale": "Seed; provider caching lever.",
+  "found_via": "seed: provider cost-optimization guides",
+  "cites_or_cited_by": [
+   "kilpatrick-2025-gemini-implicit-caching"
+  ]
+ },
+ {
+  "id": "kilpatrick-2025-gemini-implicit-caching",
+  "title": "Gemini 2.5 Models now support implicit caching",
+  "authors": [
+   "Logan Kilpatrick"
+  ],
+  "year": 2025,
+  "venue_or_source": "Google Developers Blog",
+  "source_type": "blog",
+  "url": "https://developers.googleblog.com/en/gemini-2-5-models-now-support-implicit-caching/",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "shared prompt prefix"
+  ],
+  "cost_reduction_reported": "(vendor-reported) 75% token discount on implicit cache hits (min 1,024 tokens Flash, 2,048 Pro)",
+  "benchmarks": [],
+  "models_studied": [
+   "Gemini 2.5 Flash",
+   "Gemini 2.5 Pro"
+  ],
+  "production_evidence": false,
+  "summary": "Announces automatic prefix-based caching on Gemini 2.5 with the same discount as explicit caching and no setup.",
+  "key_idea": "Automatic prefix caching discount.",
+  "relevance_score": 3,
+  "relevance_rationale": "Provider cost lever.",
+  "found_via": "seed: provider cost-optimization guides",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "google-gemini-batch-api",
+  "title": "Batch API (Gemini API)",
+  "authors": [
+   "Google"
+  ],
+  "year": null,
+  "venue_or_source": "Google AI for Developers docs",
+  "source_type": "docs",
+  "url": "https://ai.google.dev/gemini-api/docs/batch-mode",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C11"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "(vendor-reported) 50% of standard cost, 24-hour target turnaround",
+  "benchmarks": [],
+  "models_studied": [
+   "Gemini models"
+  ],
+  "production_evidence": false,
+  "summary": "Gemini batch mode for large non-urgent jobs at half price with a 24-hour turnaround target.",
+  "key_idea": "Async batch at 50% price.",
+  "relevance_score": 2,
+  "relevance_rationale": "Seed; batch API cost lever.",
+  "found_via": "seed: provider batch APIs",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "together-2025-batch-api",
+  "title": "Introducing the Together AI Batch API: Process Thousands of LLM Requests at 50% Lower Cost",
+  "authors": [
+   "Alay Dilipbhai Shah",
+   "Rajas Bansal",
+   "Mark Jones",
+   "Yogish Baliga",
+   "Ted Cui",
+   "Ameen Patel",
+   "Derek Dowling",
+   "Jordan Kail",
+   "Justin Foutts",
+   "Bryan Wade",
+   "Will Van Eaton",
+   "Anirudh Jain"
+  ],
+  "year": 2025,
+  "venue_or_source": "Together AI blog",
+  "source_type": "blog",
+  "url": "https://www.together.ai/blog/batch-api",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C11"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "(vendor-reported) 50% lower cost than real-time API, best-effort 24h completion",
+  "benchmarks": [],
+  "models_studied": [
+   "DeepSeek-R1",
+   "DeepSeek-V3",
+   "Llama 8B-405B",
+   "Qwen3-235B",
+   "Mixtral"
+  ],
+  "production_evidence": false,
+  "summary": "Batch API for open models at half price, up to 50,000 requests per file and separate rate limits.",
+  "key_idea": "Open-model batch inference at 50% price.",
+  "relevance_score": 2,
+  "relevance_rationale": "Batch lever for open-weight models.",
+  "found_via": "seed: Together blogs on cost",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "aws-bedrock-prompt-caching",
+  "title": "Prompt caching for faster model inference (Amazon Bedrock)",
+  "authors": [
+   "Amazon Web Services"
+  ],
+  "year": null,
+  "venue_or_source": "Amazon Bedrock User Guide",
+  "source_type": "docs",
+  "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-caching.html",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Claude and Nova models on Bedrock"
+  ],
+  "production_evidence": false,
+  "summary": "Bedrock documentation for prompt caching to cut latency and inference cost for repeated prefixes.",
+  "key_idea": "Cloud-platform prompt caching.",
+  "relevance_score": 2,
+  "relevance_rationale": "Provider caching lever.",
+  "found_via": "snowball: related work of aws-2025-bedrock-intelligent-prompt-routing",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "aws-bedrock-model-distillation",
+  "title": "Amazon Bedrock Model Distillation",
+  "authors": [
+   "Amazon Web Services"
+  ],
+  "year": null,
+  "venue_or_source": "AWS product page",
+  "source_type": "product",
+  "url": "https://aws.amazon.com/bedrock/model-distillation/",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C8"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "teacher responses",
+   "production prompts"
+  ],
+  "cost_reduction_reported": "(vendor-reported) Distilled models up to 500% faster and up to 75% less expensive with <2% accuracy loss for use cases like RAG",
+  "benchmarks": [
+   "RAG (vendor-stated)"
+  ],
+  "models_studied": [
+   "teacher/student model pairs on Bedrock"
+  ],
+  "production_evidence": false,
+  "summary": "Managed distillation that generates teacher responses on customer prompts and fine-tunes a smaller student model.",
+  "key_idea": "Managed teacher-student distillation.",
+  "relevance_score": 3,
+  "relevance_rationale": "Production-data distillation product.",
+  "found_via": "snowball: related work of aws-2025-bedrock-intelligent-prompt-routing",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "github-copilot-auto-model-selection",
+  "title": "About Copilot auto model selection",
+  "authors": [
+   "GitHub"
+  ],
+  "year": null,
+  "venue_or_source": "GitHub Docs",
+  "source_type": "docs",
+  "url": "https://docs.github.com/en/copilot/concepts/auto-model-selection",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C1",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "task complexity",
+   "real-time model health",
+   "cache boundaries",
+   "conversation complexity drift"
+  ],
+  "cost_reduction_reported": "(vendor-reported) 10% discount on model costs when using auto selection on paid plans",
+  "benchmarks": [],
+  "models_studied": [
+   "Copilot-supported models"
+  ],
+  "production_evidence": true,
+  "summary": "Copilot's auto mode combines a system that tracks model health and availability with one that estimates task complexity, and switches models at natural cache boundaries or large complexity shifts in a conversation, subject to admin policies.",
+  "key_idea": "Cache-boundary-aware model switching in a coding assistant.",
+  "relevance_score": 4,
+  "relevance_rationale": "Production router explicitly aligning switches with cache boundaries.",
+  "found_via": "seed list: automatic model selection",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "vllm-2025-semantic-router",
+  "title": "vLLM Semantic Router: Next Phase in LLM inference",
+  "authors": [
+   "vLLM Semantic Router Team"
+  ],
+  "year": 2025,
+  "venue_or_source": "vLLM blog",
+  "source_type": "blog",
+  "url": "https://blog.vllm.ai/2025/09/11/semantic-router.html",
+  "code_url": "https://github.com/vllm-project/semantic-router",
+  "topic_clusters": [
+   "C14",
+   "C1",
+   "C9"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "ModernBERT intent classification"
+  ],
+  "cost_reduction_reported": "(vendor-reported) ~10% higher accuracy, ~50% lower latency, ~50% fewer tokens in trials (no benchmark or baseline disclosed)",
+  "benchmarks": [],
+  "models_studied": [
+   "open models served on vLLM"
+  ],
+  "production_evidence": false,
+  "summary": "Open-source router (Red Hat, IBM Research, Tencent contributors) that classifies intent with a ModernBERT classifier and chooses a fast path or chain-of-thought reasoning path and a model, deployed on Kubernetes. Claims lack disclosed methodology; an independent evaluation found no task-specific advantage over blind allocation.",
+  "key_idea": "Classifier-based reasoning-mode and model selection in the serving layer.",
+  "relevance_score": 3,
+  "relevance_rationale": "Widely adopted OSS router; independent evaluation is skeptical.",
+  "found_via": "seed list: model router product",
+  "cites_or_cited_by": [
+   "kumar-2026-task-session-routing-eval"
+  ]
+ },
+ {
+  "id": "nvidia-llm-router-blueprint",
+  "title": "NVIDIA AI Blueprint: LLM Router",
+  "authors": [
+   "NVIDIA"
+  ],
+  "year": null,
+  "venue_or_source": "GitHub (NVIDIA-AI-Blueprints)",
+  "source_type": "repo",
+  "url": "https://github.com/NVIDIA-AI-Blueprints/llm-router",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "intent classification by small LLM",
+   "CLIP embeddings + trained NN"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-5-Chat",
+   "Nemotron VLM 12B",
+   "Nemotron 9B",
+   "Qwen 1.7B (router)"
+  ],
+  "production_evidence": false,
+  "summary": "Reference router offering training-free intent routing with a small LLM and a learned auto-router using CLIP embeddings and a neural network, returning model recommendations through an OpenAI-compatible endpoint.",
+  "key_idea": "Reference architecture for intent and learned routing.",
+  "relevance_score": 2,
+  "relevance_rationale": "Vendor reference implementation.",
+  "found_via": "seed list: model router product",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "katanemo-plano-archgw",
+  "title": "Plano (formerly archgw): AI-native proxy and data plane for agentic apps",
+  "authors": [
+   "Katanemo"
+  ],
+  "year": null,
+  "venue_or_source": "GitHub",
+  "source_type": "repo",
+  "url": "https://github.com/katanemo/archgw",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "domain-action preference"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Arch-Router-1.5B"
+  ],
+  "production_evidence": false,
+  "summary": "Open-source proxy for agent apps providing LLM routing (via Arch-Router), observability, agent orchestration and guardrails.",
+  "key_idea": "Gateway with preference-aligned router model.",
+  "relevance_score": 2,
+  "relevance_rationale": "OSS gateway embedding a router model.",
+  "found_via": "snowball: related work of tran-2025-arch-router",
+  "cites_or_cited_by": [
+   "tran-2025-arch-router"
+  ]
+ },
+ {
+  "id": "cloudflare-ai-gateway",
+  "title": "Cloudflare AI Gateway",
+  "authors": [
+   "Cloudflare"
+  ],
+  "year": null,
+  "venue_or_source": "Cloudflare docs",
+  "source_type": "docs",
+  "url": "https://developers.cloudflare.com/ai-gateway/",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Managed gateway providing analytics, response caching, rate limiting and model fallback for AI applications.",
+  "key_idea": "Edge gateway with caching and fallback.",
+  "relevance_score": 2,
+  "relevance_rationale": "Gateway plumbing for cost control.",
+  "found_via": "seed list: AI gateway",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "vercel-ai-gateway",
+  "title": "Vercel AI Gateway",
+  "authors": [
+   "Vercel"
+  ],
+  "year": null,
+  "venue_or_source": "Vercel docs",
+  "source_type": "docs",
+  "url": "https://vercel.com/docs/ai-gateway",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Managed gateway offering access to many models with routing, fallbacks and observability.",
+  "key_idea": "Managed multi-model gateway.",
+  "relevance_score": 2,
+  "relevance_rationale": "Gateway plumbing.",
+  "found_via": "seed list: AI gateway",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "kong-ai-gateway",
+  "title": "Kong AI Gateway",
+  "authors": [
+   "Kong Inc."
+  ],
+  "year": null,
+  "venue_or_source": "Kong product page",
+  "source_type": "product",
+  "url": "https://konghq.com/products/kong-ai-gateway",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "API-gateway extension for LLM and MCP traffic offering centralized security, routing, observability and cost control.",
+  "key_idea": "Enterprise API gateway for LLM traffic.",
+  "relevance_score": 2,
+  "relevance_rationale": "Gateway plumbing.",
+  "found_via": "seed list: AI gateway",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "helicone-observability",
+  "title": "Helicone: open-source LLM observability platform",
+  "authors": [
+   "Helicone"
+  ],
+  "year": null,
+  "venue_or_source": "GitHub",
+  "source_type": "repo",
+  "url": "https://github.com/Helicone/helicone",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C6"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "request logs",
+   "cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Open-source proxy-based platform for logging, monitoring, evaluating and experimenting on LLM calls, including cost tracking.",
+  "key_idea": "Logging layer that yields data for offline routing analysis.",
+  "relevance_score": 2,
+  "relevance_rationale": "Source of production logs for offline optimization.",
+  "found_via": "seed list: LLMOps cost",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "requesty-router",
+  "title": "Requesty: AI Gateway and LLM Router",
+  "authors": [
+   "Requesty"
+  ],
+  "year": null,
+  "venue_or_source": "Requesty website",
+  "source_type": "product",
+  "url": "https://www.requesty.ai",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "600+ models"
+  ],
+  "production_evidence": false,
+  "summary": "Commercial OpenAI-compatible gateway with smart routing, caching, failover, observability and EU data residency.",
+  "key_idea": "Commercial router-gateway.",
+  "relevance_score": 2,
+  "relevance_rationale": "Gateway product landscape.",
+  "found_via": "seed list: LLM gateway",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "databricks-ai-gateway",
+  "title": "AI governance with Unity Gateway (Mosaic AI Gateway)",
+  "authors": [
+   "Databricks"
+  ],
+  "year": null,
+  "venue_or_source": "Databricks docs",
+  "source_type": "docs",
+  "url": "https://docs.databricks.com/aws/en/ai-gateway/",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Databricks gateway documentation for governing model endpoints with usage tracking, rate limits, guardrails and traffic management.",
+  "key_idea": "Platform-level governance gateway.",
+  "relevance_score": 2,
+  "relevance_rationale": "Gateway with usage logging for cost attribution.",
+  "found_via": "seed list: Databricks blogs",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2024-uber-genai-gateway",
+  "title": "Navigating the LLM Landscape: Uber's Innovation with GenAI Gateway",
+  "authors": [
+   "Tse-Chi Wang",
+   "Roopansh Bansal"
+  ],
+  "year": 2024,
+  "venue_or_source": "Uber engineering blog",
+  "source_type": "blog",
+  "url": "https://www.uber.com/blog/genai-gateway/",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "OpenAI",
+   "Vertex AI",
+   "Uber-hosted models"
+  ],
+  "production_evidence": true,
+  "summary": "Uber's internal OpenAI-compatible gateway unifies external and self-hosted models with PII redaction, auth, audit logs for cost attribution and quality evaluation; about 30 teams and 16M queries per month at the time.",
+  "key_idea": "Central gateway for multi-vendor access and cost attribution.",
+  "relevance_score": 3,
+  "relevance_rationale": "Production gateway at scale; foundation for routing.",
+  "found_via": "seed list: Uber case study",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "bottaro-2024-linkedin-genai-product",
+  "title": "Musings on Building a Generative AI Product",
+  "authors": [
+   "Juan Pablo Bottaro",
+   "Karthik R."
+  ],
+  "year": 2024,
+  "venue_or_source": "LinkedIn engineering blog",
+  "source_type": "blog",
+  "url": "https://www.linkedin.com/blog/engineering/generative-ai/musings-on-building-a-generative-ai-product",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "smaller and larger LLMs (unnamed)"
+  ],
+  "production_evidence": true,
+  "summary": "Describes LinkedIn's premium AI assistant: a router picks a specialized agent, then retrieval and generation, with smaller models for routing/retrieval and larger ones for generation. Discusses GPU capacity limits, streaming and async pipelines, and daily evaluation of up to 500 conversations; quality reached 80% quickly then took months to reach 95%.",
+  "key_idea": "Small models for routing/retrieval, large for generation.",
+  "relevance_score": 4,
+  "relevance_rationale": "Production role-level model assignment.",
+  "found_via": "seed list: LinkedIn case study",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "klarna-2024-ai-assistant",
+  "title": "Klarna AI assistant handles two-thirds of customer service chats in its first month",
+  "authors": [
+   "Klarna"
+  ],
+  "year": 2024,
+  "venue_or_source": "Klarna press release",
+  "source_type": "blog",
+  "url": "https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "(vendor-reported) 2.3M chats (two-thirds of volume), work of ~700 FTE, resolution time 11 to <2 minutes, estimated $40M 2024 profit improvement",
+  "benchmarks": [],
+  "models_studied": [
+   "OpenAI-powered assistant"
+  ],
+  "production_evidence": true,
+  "summary": "Company press release on its customer-service assistant's first month, claiming resolution speed, repeat-inquiry and satisfaction parity with humans. Press-release claims, not an engineering study.",
+  "key_idea": "Business-impact claims of a support agent.",
+  "relevance_score": 2,
+  "relevance_rationale": "Production scale context; vendor/company-reported.",
+  "found_via": "seed list: Klarna case study",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2024-airbnb-automation-platform-v2",
+  "title": "Automation Platform v2: Improving conversational AI at Airbnb",
+  "authors": [
+   "Chutian Wang",
+   "Zhiheng Xu",
+   "Paul Lou",
+   "Ziyi Wang",
+   "Jiayu Lou",
+   "Liuming Zhang",
+   "Jingwen Qiang",
+   "Clint Kelly",
+   "Lei Shi",
+   "Dan Zhao",
+   "Xu Hu",
+   "Jianqi Liao",
+   "Zecheng Xu",
+   "Tong Chen"
+  ],
+  "year": 2024,
+  "venue_or_source": "Airbnb Tech Blog (Medium)",
+  "source_type": "blog",
+  "url": "https://medium.com/airbnb-engineering/automation-platform-v2-improving-conversational-ai-at-airbnb-d86c9386e0cb",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Airbnb's platform for LLM-driven support workflows with chain-of-thought loops, context retrievers, tool execution and parallel guardrails; qualitative, notes latency and hallucination concerns.",
+  "key_idea": "Production conversational-AI platform design.",
+  "relevance_score": 2,
+  "relevance_rationale": "Production context; no cost data.",
+  "found_via": "seed list: Airbnb case study",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "mcnamara-2025-shopify-sidekick",
+  "title": "Building production-ready agentic systems: Lessons from Shopify Sidekick",
+  "authors": [
+   "Andrew McNamara"
+  ],
+  "year": 2025,
+  "venue_or_source": "Shopify Engineering blog",
+  "source_type": "blog",
+  "url": "https://shopify.engineering/building-production-ready-agentic-systems",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C7",
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "LLM judges calibrated to humans",
+   "user simulator"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Lessons from Shopify's merchant assistant: just-in-time instructions returned with tool results, evaluation on ground-truth sets built from production conversations, LLM judges calibrated to human labels (Cohen's kappa from 0.02 to 0.61 vs 0.69 human), a merchant simulator for pre-release testing and gated rewards against reward hacking.",
+  "key_idea": "Production-grounded judges and simulators for agent evaluation.",
+  "relevance_score": 3,
+  "relevance_rationale": "Evaluation methodology from real traffic, needed to validate cheaper configs.",
+  "found_via": "seed list: Shopify case study",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "baranowski-2025-instacart-maple",
+  "title": "Simplifying Large-Scale LLM Processing across Instacart with Maple",
+  "authors": [
+   "Paul Baranowski"
+  ],
+  "year": 2025,
+  "venue_or_source": "Instacart tech blog",
+  "source_type": "blog",
+  "url": "https://tech.instacart.com/simplifying-large-scale-llm-processing-across-instacart-with-maple-63df4508d5be",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C11"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "Company-reported: up to 50% LLM cost savings vs real-time calls; some processes cut from hundreds of thousands to thousands of dollars per year",
+  "benchmarks": [],
+  "models_studied": [
+   "provider batch APIs"
+  ],
+  "production_evidence": true,
+  "summary": "Instacart's internal service that wraps provider batch APIs for jobs of 10M+ prompts, handling batching, retries, file management and cost tracking on Temporal and S3.",
+  "key_idea": "Internal platform to route offline workloads to batch APIs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Production cost reduction via batch lever.",
+  "found_via": "seed list: Instacart case study",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "liu-2024-grab-llm-data-classification",
+  "title": "LLM-powered data classification for data entities at scale",
+  "authors": [
+   "Hualin Liu",
+   "Stefan Jaro",
+   "Harvey Li",
+   "Jerome Tong",
+   "Andrew Lam",
+   "Chamal Sapumohotti",
+   "Feng Cheng",
+   "Aaqib Kufran"
+  ],
+  "year": 2024,
+  "venue_or_source": "Grab engineering blog",
+  "source_type": "blog",
+  "url": "https://engineering.grab.com/llm-powered-data-classification",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "Company-reported: ~360 man-days per year saved; cost described as extremely affordable",
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-3.5 (Azure OpenAI)"
+  ],
+  "production_evidence": true,
+  "summary": "Grab's production pipeline tagging sensitive data columns with GPT-3.5, scanning 20K+ entities in its first month, with prompt techniques for schema enforcement.",
+  "key_idea": "Cheap model sufficient for high-volume classification.",
+  "relevance_score": 2,
+  "relevance_rationale": "Production example of choosing a small model.",
+  "found_via": "seed list: Grab case study",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "phu-2024-discord-genai",
+  "title": "Developing Rapidly with Generative AI",
+  "authors": [
+   "Shannon Phu"
+  ],
+  "year": 2024,
+  "venue_or_source": "Discord blog",
+  "source_type": "blog",
+  "url": "https://discord.com/blog/developing-rapidly-with-generative-ai",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C8"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "GPT-4 critic evaluation"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-4",
+   "self-hosted smaller models"
+  ],
+  "production_evidence": false,
+  "summary": "Discord's process: prototype with frontier APIs, use GPT-4 as an automated critic, then consider smaller self-hosted models for cost once validated.",
+  "key_idea": "Prototype big, then move to smaller self-hosted models.",
+  "relevance_score": 2,
+  "relevance_rationale": "Practitioner cost workflow.",
+  "found_via": "seed list: engineering case studies",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "godaddy-2024-llm-from-the-trenches",
+  "title": "LLM From the Trenches: 10 Lessons Learned Operationalizing Models at GoDaddy",
+  "authors": [
+   "GoDaddy"
+  ],
+  "year": 2024,
+  "venue_or_source": "GoDaddy blog",
+  "source_type": "blog",
+  "url": "https://www.godaddy.com/resources/news/llm-from-the-trenches-10-lessons-learned-operationalizing-models-at-godaddy",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-3.5 Turbo",
+   "GPT-4"
+  ],
+  "production_evidence": true,
+  "summary": "Lessons from production support bots: prompts do not transfer across models, GPT-4 latency of 3-5s with 30s outliers, ~1% provider failures, structured-output failure rates by model, deterministic human-handoff, and interest in adaptive model selection.",
+  "key_idea": "Operational realities of multi-model production.",
+  "relevance_score": 2,
+  "relevance_rationale": "Production reliability and latency data.",
+  "found_via": "seed list: engineering case studies",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "honeycomb-2023-hard-stuff-llm",
+  "title": "All the Hard Stuff Nobody Talks About when Building Products with LLMs",
+  "authors": [
+   "Honeycomb"
+  ],
+  "year": 2023,
+  "venue_or_source": "Honeycomb blog",
+  "source_type": "blog",
+  "url": "https://www.honeycomb.io/blog/hard-stuff-nobody-talks-about-llm",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Practitioner write-up of building Honeycomb's Query Assistant, covering context-window limits, latency, prompt injection and evaluation difficulties. Author listed on the page by first name only.",
+  "key_idea": "Early production LLM pitfalls.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background production experience.",
+  "found_via": "seed list: engineering case studies",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "ivanovici-2025-intercom-cost-of-serving",
+  "title": "Cost of Serving LLMs",
+  "authors": [
+   "Stefan Ivanovici"
+  ],
+  "year": 2025,
+  "venue_or_source": "Fin.ai research blog (Intercom)",
+  "source_type": "blog",
+  "url": "https://fin.ai/research/cost-of-serving-llms/",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C11"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "throughput per dollar"
+  ],
+  "cost_reduction_reported": "Company-reported: self-hosted Qwen3 14B ~0.05x GPT-4.1 cost; Gemma 3 4B ~0.04x; Llama-70B distill ~1.7x GPT-4.1",
+  "benchmarks": [],
+  "models_studied": [
+   "Gemma 3 4B/27B",
+   "Qwen3 14B",
+   "DeepSeek Llama 70B",
+   "GPT-4.1",
+   "Sonnet 3.7"
+  ],
+  "production_evidence": true,
+  "summary": "Intercom compares self-hosting open models under production latency targets to commercial API pricing and finds sub-30B models far cheaper per token.",
+  "key_idea": "Self-hosting small models is much cheaper under latency SLOs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Production cost analysis for downscaling.",
+  "found_via": "seed list: Intercom case study",
+  "cites_or_cited_by": [
+   "joglekar-2025-intercom-small-llms"
+  ]
+ },
+ {
+  "id": "joglekar-2025-intercom-small-llms",
+  "title": "David vs Goliath: are small LLMs any good?",
+  "authors": [
+   "Sagar Joglekar",
+   "Ramil Yarullin"
+  ],
+  "year": 2025,
+  "venue_or_source": "Fin.ai research blog (Intercom)",
+  "source_type": "blog",
+  "url": "https://fin.ai/research/david-vs-goliath-are-small-llms-any-good/",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C8"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "production conversations"
+  ],
+  "cost_reduction_reported": "Company-reported: fine-tuned Qwen3 14B matched GPT-4.1 answer rate (63.4%); 5% and 12.5% cost reductions on two components",
+  "benchmarks": [
+   "internal issue detection and extraction tasks"
+  ],
+  "models_studied": [
+   "Qwen3 8B/14B",
+   "Gemma 8B",
+   "GPT-4.1",
+   "ModernBERT"
+  ],
+  "production_evidence": true,
+  "summary": "Intercom fine-tunes small open models on consented, PII-redacted production conversations to replace GPT-4.1 in issue classification and extraction, reaching parity on answer rate with modest per-transaction savings.",
+  "key_idea": "Fine-tune small models on production data to replace a frontier model per component.",
+  "relevance_score": 4,
+  "relevance_rationale": "Production component-level downscaling with measured outcomes.",
+  "found_via": "seed list: Intercom case study",
+  "cites_or_cited_by": [
+   "yarullin-2025-intercom-escalation"
+  ]
+ },
+ {
+  "id": "yarullin-2025-intercom-escalation",
+  "title": "To escalate, or not to escalate, that is the question",
+  "authors": [
+   "Ramil Yarullin"
+  ],
+  "year": 2025,
+  "venue_or_source": "Fin.ai research blog (Intercom)",
+  "source_type": "blog",
+  "url": "https://fin.ai/research/to-escalate-or-not-to-escalate-that-is-the-question/",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C8",
+   "C2"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "conversation history",
+   "escalation guidelines",
+   "LLM-generated labels"
+  ],
+  "cost_reduction_reported": "Company-reported: custom ModernBERT handles 90% of cases with LLM fallback for 10%; >98% escalation accuracy; latency -0.5s; cost per resolution ~-3%",
+  "benchmarks": [
+   "production A/B test"
+  ],
+  "models_studied": [
+   "ModernBERT multi-head encoder",
+   "LLM fallback"
+  ],
+  "production_evidence": true,
+  "summary": "Intercom replaced an LLM escalation decision in Fin with a multi-head ModernBERT trained on 4M production examples with LLM labels, falling back to the LLM on uncertain cases, and reports higher resolution rate in an A/B test.",
+  "key_idea": "Distill a step of the agent into a small classifier with LLM fallback.",
+  "relevance_score": 5,
+  "relevance_rationale": "Production step-level downscaling with cascade fallback and A/B evidence.",
+  "found_via": "seed list: Intercom case study",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "intercom-2024-fin-2-claude",
+  "title": "Fin 2: Powered by Anthropic's Claude LLM",
+  "authors": [
+   "Intercom"
+  ],
+  "year": 2024,
+  "venue_or_source": "Intercom blog",
+  "source_type": "blog",
+  "url": "https://www.intercom.com/blog/fin-2/",
+  "code_url": null,
+  "topic_clusters": [
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Claude"
+  ],
+  "production_evidence": true,
+  "summary": "Announcement that Intercom's Fin 2 support agent runs on Anthropic's Claude, citing performance and reliability.",
+  "key_idea": "Production model-provider switch.",
+  "relevance_score": 2,
+  "relevance_rationale": "Production context.",
+  "found_via": "seed list: Intercom case study",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "ibm-2024-llm-routers-blog",
+  "title": "LLM routing for quality, low-cost responses",
+  "authors": [
+   "Tal Shnitzer",
+   "Mikhail Yurochkin"
+  ],
+  "year": 2024,
+  "venue_or_source": "IBM Research blog",
+  "source_type": "blog",
+  "url": "https://research.ibm.com/blog/LLM-routers",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "benchmark-derived correctness predictors"
+  ],
+  "cost_reduction_reported": "Vendor-reported: router saves about 5 cents per query vs GPT-4 at comparable performance on RouterBench",
+  "benchmarks": [
+   "RouterBench",
+   "HELM"
+  ],
+  "models_studied": [
+   "GPT-4",
+   "Llama-2 family",
+   "13B models"
+  ],
+  "production_evidence": false,
+  "summary": "IBM Research blog on routing learned from benchmark data (companion to the COLM paper \"Large Language Model Routing with Benchmark Datasets\"), used in IBM products.",
+  "key_idea": "Benchmark-trained correctness predictors for routing.",
+  "relevance_score": 3,
+  "relevance_rationale": "Industrial research router blog.",
+  "found_via": "seed list: model router product",
+  "cites_or_cited_by": [
+   "hu-2024-routerbench"
+  ]
+ },
+ {
+  "id": "huggingface-llm-perf-leaderboard",
+  "title": "LLM-Perf Leaderboard",
+  "authors": [
+   "Hugging Face (optimum)"
+  ],
+  "year": null,
+  "venue_or_source": "Hugging Face Spaces",
+  "source_type": "benchmark",
+  "url": "https://huggingface.co/spaces/optimum/llm-perf-leaderboard",
+  "code_url": "https://github.com/huggingface/optimum-benchmark",
+  "topic_clusters": [
+   "C13",
+   "C11"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "latency",
+   "throughput",
+   "memory",
+   "energy"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "single-GPU generation benchmark"
+  ],
+  "models_studied": [
+   "open LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Leaderboard of LLM latency, throughput, memory and energy across hardware, backends and quantization, built on optimum-benchmark.",
+  "key_idea": "Efficiency leaderboard for open models.",
+  "relevance_score": 2,
+  "relevance_rationale": "Efficiency benchmark background.",
+  "found_via": "seed list: LLM-Perf/efficiency leaderboards",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "artificial-analysis",
+  "title": "Artificial Analysis: AI Model and API Providers Analysis",
+  "authors": [
+   "Artificial Analysis"
+  ],
+  "year": null,
+  "venue_or_source": "Artificial Analysis website",
+  "source_type": "benchmark",
+  "url": "https://artificialanalysis.ai",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "quality",
+   "price",
+   "speed",
+   "latency"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "independent benchmarks"
+  ],
+  "models_studied": [
+   "commercial and open models"
+  ],
+  "production_evidence": false,
+  "summary": "Independent benchmarking site comparing model quality, price, output speed and latency across API providers.",
+  "key_idea": "Price-quality-speed comparisons across providers.",
+  "relevance_score": 2,
+  "relevance_rationale": "Useful for building cost-quality frontiers.",
+  "found_via": "seed list: efficiency leaderboards",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "ghosh-2026-eval-costs-bottleneck",
+  "title": "AI evals are becoming the new compute bottleneck",
+  "authors": [
+   "Avijit Ghosh",
+   "Yifan Mai",
+   "Georgia Channing",
+   "Leshem Choshen"
+  ],
+  "year": 2026,
+  "venue_or_source": "Hugging Face blog (EvalEval Coalition)",
+  "source_type": "blog",
+  "url": "https://huggingface.co/blog/evaleval/eval-costs-bottleneck",
+  "code_url": null,
+  "topic_clusters": [
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "evaluation cost"
+  ],
+  "cost_reduction_reported": "Reports HAL ~$40K for 21,730 rollouts; one frontier GAIA run $2,829 before caching; 33x cost spread across scaffolds on identical tasks",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Argues evaluation cost is a growing bottleneck, compiling costs for agent benchmarks and noting that repeated runs for statistical reliability multiply spend (e.g., 8 runs would take HAL to ~$320K).",
+  "key_idea": "Reliable agent evaluation is expensive; scaffold drives cost.",
+  "relevance_score": 3,
+  "relevance_rationale": "Informs budgeting for cost-aware evaluation of configurations.",
+  "found_via": "web search: AI Agents That Matter cost accuracy Pareto",
+  "cites_or_cited_by": [
+   "kapoor-2025-hal"
+  ]
+ }
+]

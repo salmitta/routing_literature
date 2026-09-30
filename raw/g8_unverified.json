@@ -1,0 +1,34 @@
+[
+ {
+  "_unverified": "DoorDash LLM-based Dasher support automation blog",
+  "note": "Known URL careersatdoordash.com/blog/large-language-modules-based-dasher-support-automation/ returned HTTP 403 to both curl and WebFetch; content not seen, so excluded."
+ },
+ {
+  "_unverified": "Martian model router product page",
+  "note": "withmartian.com now shows interpretability research; docs.withmartian.com describes only a Gateway API; /martian-model-router returned 404. Recorded docs page and RouterBench only."
+ },
+ {
+  "_unverified": "Not Diamond as the engine behind OpenRouter auto-router",
+  "note": "Current OpenRouter docs describe a market-spend-based router and do not mention Not Diamond; Not Diamond site quotes OpenRouter CEO. Relationship not confirmed."
+ },
+ {
+  "_unverified": "Databricks blog posts on LLM routing/cost",
+  "note": "WebSearch budget for the session was exhausted before searching; only Databricks AI Gateway docs verified."
+ },
+ {
+  "_unverified": "Together AI blog on routing/cost (beyond Batch API)",
+  "note": "WebSearch budget exhausted; only the Together Batch API post verified."
+ },
+ {
+  "_unverified": "Unify routing-era blog/benchmarks",
+  "note": "unify.ai has pivoted to continual post-training; no routing documentation found on current site."
+ },
+ {
+  "_unverified": "Hugging Face posts on routing",
+  "note": "WebSearch budget exhausted; only the EvalEval eval-costs post and LLM-Perf leaderboard verified."
+ },
+ {
+  "_unverified": "Google Vertex AI Model Optimizer (auto routing)",
+  "note": "Known docs URL redirected to a generic Agent Platform models overview; feature not confirmed."
+ }
+]

@@ -1,0 +1,1871 @@
+[
+ {
+  "id": "yan-2025-dont-build-multi-agents",
+  "title": "Don't Build Multi-Agents",
+  "authors": [
+   "Walden Yan"
+  ],
+  "year": 2025,
+  "venue_or_source": "Cognition blog",
+  "source_type": "blog",
+  "url": "https://cognition.ai/blog/dont-build-multi-agents",
+  "code_url": null,
+  "topic_clusters": [
+   "C12",
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Cognition (Devin) argues from production agent-building experience that parallel multi-agent decompositions are fragile because subagents lack shared context and make conflicting implicit decisions. It proposes two principles (share full traces; actions carry implicit decisions), recommends single-threaded linear agents, and for very long tasks a dedicated model that compresses history. Claude Code's read-only subagents and edit-apply models are discussed as examples.",
+  "key_idea": "Context sharing, not agent count, determines reliability; prefer single-threaded agents plus history compression over parallel subagents.",
+  "relevance_score": 3,
+  "relevance_rationale": "Widely cited practitioner position on when multi-agent architectures are not worth it; qualitative, no numbers.",
+  "found_via": "direct: cognition.ai blog",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "anthropic-2025-code-execution-with-mcp",
+  "title": "Code execution with MCP: building more efficient AI agents",
+  "authors": [
+   "Anthropic"
+  ],
+  "year": 2025,
+  "venue_or_source": "Anthropic engineering blog",
+  "source_type": "blog",
+  "url": "https://www.anthropic.com/engineering/code-execution-with-mcp",
+  "code_url": null,
+  "topic_clusters": [
+   "C10",
+   "C12"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [],
+  "cost_reduction_reported": "Example workflow: tool-related context reduced from 150,000 tokens to 2,000 tokens (98.7% saving) by loading tool definitions on demand as code files (vendor-reported, illustrative example)",
+  "benchmarks": [],
+  "models_studied": [
+   "Claude"
+  ],
+  "production_evidence": false,
+  "summary": "Anthropic describes how directly exposing all MCP tool definitions and routing every intermediate tool result through the model inflates context and cost. Instead, agents write code that calls MCP servers as a code API in a sandbox, loading only needed tool definitions and filtering data in the execution environment before it reaches the model. Cloudflare's similar 'Code Mode' is cited.",
+  "key_idea": "Present tools as code APIs and let the agent execute code so tool definitions and intermediate results stay out of the context window.",
+  "relevance_score": 3,
+  "relevance_rationale": "Concrete context/token-cost lever for tool-heavy agents; single illustrative number.",
+  "found_via": "direct: anthropic.com/engineering",
+  "cites_or_cited_by": [
+   "anthropic-2025-advanced-tool-use"
+  ]
+ },
+ {
+  "id": "anthropic-2025-advanced-tool-use",
+  "title": "Introducing advanced tool use on the Claude Developer Platform",
+  "authors": [
+   "Anthropic"
+  ],
+  "year": 2025,
+  "venue_or_source": "Anthropic engineering blog",
+  "source_type": "blog",
+  "url": "https://www.anthropic.com/engineering/advanced-tool-use",
+  "code_url": null,
+  "topic_clusters": [
+   "C10",
+   "C12",
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [],
+  "cost_reduction_reported": "Tool Search Tool: ~85% reduction in upfront tool-definition tokens (~77K to ~8.7K for 50+ MCP tools); MCP-eval accuracy Opus 4 49%->74%, Opus 4.5 79.5%->88.1%. Programmatic tool calling: average tokens 43,588->27,297 (37% reduction) on complex research tasks. Tool use examples: 72%->90% on complex parameter handling (all vendor-reported internal testing)",
+  "benchmarks": [
+   "internal MCP evaluations",
+   "GIA",
+   "internal knowledge retrieval"
+  ],
+  "models_studied": [
+   "Claude Opus 4",
+   "Claude Opus 4.5",
+   "Claude Sonnet 4.5"
+  ],
+  "production_evidence": false,
+  "summary": "Anthropic introduces three beta features: a Tool Search Tool that discovers tools on demand instead of loading all definitions, Programmatic Tool Calling in which Claude orchestrates tools via code so intermediate results skip the context, and Tool Use Examples. It reports token and accuracy numbers from internal evaluations and gives guidance on when each feature pays off (e.g., tool definitions over 10K tokens).",
+  "key_idea": "Deferred tool loading and code-orchestrated tool calls cut agent context tokens while improving tool-selection accuracy.",
+  "relevance_score": 3,
+  "relevance_rationale": "Quantified context-efficiency levers for large-toolset agents; vendor internal numbers.",
+  "found_via": "direct: anthropic.com/engineering",
+  "cites_or_cited_by": [
+   "anthropic-2025-code-execution-with-mcp"
+  ]
+ },
+ {
+  "id": "anthropic-2025-context-management",
+  "title": "Managing context on the Claude Developer Platform (context editing and memory tool)",
+  "authors": [
+   "Anthropic"
+  ],
+  "year": 2025,
+  "venue_or_source": "Claude blog; Claude Platform docs (Context editing)",
+  "source_type": "product",
+  "url": "https://claude.com/blog/context-management",
+  "code_url": null,
+  "topic_clusters": [
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "token-count threshold"
+  ],
+  "cost_reduction_reported": "Memory tool + context editing improved performance 39% over baseline; context editing alone 29%; in a 100-turn web-search evaluation, context editing cut token consumption by 84% (vendor-reported internal evaluation)",
+  "benchmarks": [
+   "internal agentic search evaluation (100-turn web search)"
+  ],
+  "models_studied": [
+   "Claude Sonnet 4.5"
+  ],
+  "production_evidence": false,
+  "summary": "Announces server-side context editing, which automatically clears stale tool results (and later thinking blocks) as a conversation approaches limits, and a file-based memory tool that persists information outside the context window. The docs (platform.claude.com/docs/en/build-with-claude/context-editing) describe configurable clearing strategies and position server-side compaction as the primary strategy for long conversations.",
+  "key_idea": "Rule-based clearing of old tool results plus external memory keeps long agent loops within context at far lower token cost.",
+  "relevance_score": 3,
+  "relevance_rationale": "Production API lever for long-horizon agent token cost with quantified internal results.",
+  "found_via": "direct: claude.com/blog",
+  "cites_or_cited_by": [
+   "anthropic-2026-compaction-docs"
+  ]
+ },
+ {
+  "id": "anthropic-2026-compaction-docs",
+  "title": "Compaction overview (Claude Platform docs)",
+  "authors": [
+   "Anthropic"
+  ],
+  "year": 2026,
+  "venue_or_source": "Claude Platform documentation",
+  "source_type": "docs",
+  "url": "https://platform.claude.com/docs/en/build-with-claude/compaction",
+  "code_url": null,
+  "topic_clusters": [
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "input-token threshold"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Claude"
+  ],
+  "production_evidence": false,
+  "summary": "Documents server-side compaction, where the API replaces older turns with a model-written summary either on demand or when input tokens cross a configured trigger, optionally keeping recent turns verbatim and running in the background. It contrasts this with client-side summarizers and with rule-based context editing.",
+  "key_idea": "Provider-managed summarization of history keeps long agent tasks within a small active context.",
+  "relevance_score": 3,
+  "relevance_rationale": "Directly usable context-cost mechanism for long-horizon agents; no numbers.",
+  "found_via": "direct: platform.claude.com docs",
+  "cites_or_cited_by": [
+   "anthropic-2025-context-management",
+   "openai-2026-compaction-docs"
+  ]
+ },
+ {
+  "id": "openai-2026-compaction-docs",
+  "title": "Compaction (OpenAI API guide)",
+  "authors": [
+   "OpenAI"
+  ],
+  "year": 2026,
+  "venue_or_source": "OpenAI API documentation",
+  "source_type": "docs",
+  "url": "https://developers.openai.com/api/docs/guides/compaction",
+  "code_url": null,
+  "topic_clusters": [
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "rendered token count threshold"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "OpenAI reasoning models"
+  ],
+  "production_evidence": false,
+  "summary": "OpenAI's Responses API guide to compaction: setting context_management with a compact_threshold makes the server run a compaction pass when the rendered context crosses the threshold, emitting an opaque encrypted compaction item that carries prior state and reasoning forward in fewer tokens. Items before the latest compaction item can then be dropped to cut request size and tail latency.",
+  "key_idea": "Threshold-triggered server-side compaction of agent history into an opaque state item.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background API feature for context cost control; no numbers.",
+  "found_via": "direct: developers.openai.com docs",
+  "cites_or_cited_by": [
+   "anthropic-2026-compaction-docs"
+  ]
+ },
+ {
+  "id": "openai-reasoning-effort-docs",
+  "title": "Reasoning models: reasoning effort (OpenAI API guide)",
+  "authors": [
+   "OpenAI"
+  ],
+  "year": 2026,
+  "venue_or_source": "OpenAI API documentation",
+  "source_type": "docs",
+  "url": "https://developers.openai.com/api/docs/guides/reasoning",
+  "code_url": null,
+  "topic_clusters": [
+   "C9",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-6 family",
+   "OpenAI reasoning models"
+  ],
+  "production_evidence": false,
+  "summary": "Documents the reasoning.effort parameter (model-dependent values from none/minimal through low, medium, high, xhigh and max) that trades reasoning-token usage and latency against answer quality, noting that models also adapt reasoning length to task difficulty within a level. Covers reasoning-token accounting and context handling for reasoning items.",
+  "key_idea": "A per-request effort knob is the main production control for reasoning-token spend.",
+  "relevance_score": 3,
+  "relevance_rationale": "The concrete API knob that step-level effort routing research (e.g., adaptive effort selection) targets.",
+  "found_via": "direct: developers.openai.com docs",
+  "cites_or_cited_by": [
+   "anthropic-effort-docs",
+   "google-gemini-thinking-docs"
+  ]
+ },
+ {
+  "id": "anthropic-effort-docs",
+  "title": "Effort (Claude Platform docs)",
+  "authors": [
+   "Anthropic"
+  ],
+  "year": 2026,
+  "venue_or_source": "Claude Platform documentation",
+  "source_type": "docs",
+  "url": "https://platform.claude.com/docs/en/build-with-claude/effort",
+  "code_url": null,
+  "topic_clusters": [
+   "C9",
+   "C14"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Claude Opus 5.5",
+   "Claude models"
+  ],
+  "production_evidence": false,
+  "summary": "Describes output_config.effort, which controls how many tokens Claude spends (thinking, text and tool calls) on a single model, from low up to max; most models default to high while Opus 5.5 defaults to medium. A per-message effort setting is in beta, allowing effort to vary across turns of an agent loop, and effort is the recommended control for thinking depth where adaptive thinking is available.",
+  "key_idea": "Single-model effort levels, settable per message, as a substitute for switching models to save cost.",
+  "relevance_score": 3,
+  "relevance_rationale": "Per-step effort control is a direct alternative lever to step-level model routing.",
+  "found_via": "direct: platform.claude.com docs",
+  "cites_or_cited_by": [
+   "anthropic-task-budgets-docs",
+   "anthropic-extended-thinking-docs"
+  ]
+ },
+ {
+  "id": "anthropic-task-budgets-docs",
+  "title": "Task budgets (Claude Platform docs, beta)",
+  "authors": [
+   "Anthropic"
+  ],
+  "year": 2026,
+  "venue_or_source": "Claude Platform documentation",
+  "source_type": "docs",
+  "url": "https://platform.claude.com/docs/en/build-with-claude/task-budgets",
+  "code_url": null,
+  "topic_clusters": [
+   "C9",
+   "C3",
+   "C14"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "remaining token budget"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Claude Opus 5.5"
+  ],
+  "production_evidence": false,
+  "summary": "A beta feature giving Claude an advisory token budget for an entire agentic loop (thinking, tool calls, tool results, output); the model sees a running countdown and prioritises work, wrapping up gracefully as the budget is consumed. Positioned as complementary to effort: effort sets per-step thoroughness, task budgets cap total work across the trajectory.",
+  "key_idea": "Expose a trajectory-level token budget to the model so it self-regulates spend on long-horizon tasks.",
+  "relevance_score": 4,
+  "relevance_rationale": "Trajectory-level budget control inside agents is close to the premise's step-level cost lever.",
+  "found_via": "direct: platform.claude.com docs",
+  "cites_or_cited_by": [
+   "anthropic-effort-docs"
+  ]
+ },
+ {
+  "id": "anthropic-extended-thinking-docs",
+  "title": "Extended thinking (Claude Platform docs)",
+  "authors": [
+   "Anthropic"
+  ],
+  "year": 2026,
+  "venue_or_source": "Claude Platform documentation",
+  "source_type": "docs",
+  "url": "https://platform.claude.com/docs/en/build-with-claude/extended-thinking",
+  "code_url": null,
+  "topic_clusters": [
+   "C9",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Claude 4.x models"
+  ],
+  "production_evidence": false,
+  "summary": "Documents manual extended thinking with a fixed budget_tokens thinking budget, now legacy: deprecated on Claude 4.6 models and rejected on 4.7 and later in favour of adaptive thinking controlled by effort. Useful as a record of how providers moved from explicit per-request thinking budgets to model-adaptive thinking.",
+  "key_idea": "Fixed thinking-token budgets are being replaced by adaptive thinking plus effort levels.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background on reasoning-budget controls available in production.",
+  "found_via": "direct: platform.claude.com docs",
+  "cites_or_cited_by": [
+   "anthropic-effort-docs"
+  ]
+ },
+ {
+  "id": "google-gemini-thinking-docs",
+  "title": "Gemini thinking (Gemini API docs: thinking levels and budgets)",
+  "authors": [
+   "Google"
+  ],
+  "year": 2026,
+  "venue_or_source": "Gemini API documentation",
+  "source_type": "docs",
+  "url": "https://ai.google.dev/gemini-api/docs/thinking",
+  "code_url": null,
+  "topic_clusters": [
+   "C9",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Gemini 3.x Flash",
+   "Gemini 2.5"
+  ],
+  "production_evidence": false,
+  "summary": "Explains that Gemini 3 and 2.5 models think dynamically by default, scaling reasoning to request complexity, and exposes a thinking_level parameter (minimal/low/medium/high depending on model; thinking budgets on 2.5) plus thought summaries and signatures for multi-turn tool use. Thinking tokens are billed as output.",
+  "key_idea": "Per-request thinking level/budget control on Gemini models.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background API control for reasoning-token cost.",
+  "found_via": "direct: ai.google.dev docs",
+  "cites_or_cited_by": [
+   "openai-reasoning-effort-docs"
+  ]
+ },
+ {
+  "id": "liu-2026-vllm-sr-session-aware-agentic-routing",
+  "title": "Session-Aware Agentic Routing: Continuity-Aware Model Selection for Long-Horizon LLM Agents",
+  "authors": [
+   "Xunzhuo Liu",
+   "Bowei He",
+   "Huamin Chen",
+   "Haichen Zhang",
+   "Andy Luo",
+   "vLLM Semantic Router Team"
+  ],
+  "year": 2026,
+  "venue_or_source": "vLLM blog",
+  "source_type": "blog",
+  "url": "https://blog.vllm.ai/blog/2026-06-02-session-aware-agentic-routing",
+  "code_url": "https://github.com/vllm-project/semantic-router",
+  "topic_clusters": [
+   "C3",
+   "C1",
+   "C10",
+   "C11",
+   "C14"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "semantic signals",
+   "session memory",
+   "tool-loop state",
+   "provider-state portability",
+   "task drift",
+   "prefix-cache warmth / switch cost"
+  ],
+  "cost_reduction_reported": "Across 21,600 deterministic turns: 79.29% fewer model switches, 3,836 unsafe switches eliminated, 78.71% estimated physical-model cost reduction vs single-turn routing (quality delta -0.0453); sticky sessions 98.65% cost reduction but -0.1433 quality. 2,896 live AMD ROCm requests with 0 continuity violations (project-reported)",
+  "benchmarks": [
+   "deterministic replay of 21,600 agent turns",
+   "live AMD ROCm requests"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Introduces SAAR in vLLM Semantic Router: per-turn semantic routing augmented with router-owned session memory, hard locks during tool loops and around non-portable provider state, safe reset boundaries (drift, idle), and prefix-cache-aware pricing of model switches. Ablations show each component's contribution to switch reduction, unsafe-switch elimination and cost.",
+  "key_idea": "Turn-level routing in agent sessions must price switches (lost cache, broken tool state), not just pick the best model per prompt.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly addresses step-level cost-aware routing inside long-horizon agents with ablations and cost numbers.",
+  "found_via": "direct: blog.vllm.ai index",
+  "cites_or_cited_by": [
+   "vllm-2026-agentx-agentic-serving"
+  ]
+ },
+ {
+  "id": "vllm-2026-agentx-agentic-serving",
+  "title": "vLLM x AgentX: Optimizing for Real-World Agentic Serving",
+  "authors": [
+   "vLLM Team",
+   "Inferact"
+  ],
+  "year": 2026,
+  "venue_or_source": "vLLM blog",
+  "source_type": "blog",
+  "url": "https://blog.vllm.ai/blog/2026-09-08-vllm-agentx",
+  "code_url": "https://github.com/vllm-project/vllm",
+  "topic_clusters": [
+   "C11",
+   "C10",
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "Up to 130K total tokens per GPU-second on DeepSeek V4 Pro; 14.6x-106x serving-cost advantage over Opus 5 API pricing across DeepSeek V4 Pro, MiniMax M3, Kimi K3 on SemiAnalysis AgentX (project-reported)",
+  "benchmarks": [
+   "SemiAnalysis AgentX"
+  ],
+  "models_studied": [
+   "DeepSeek V4 Pro",
+   "MiniMax M3",
+   "Kimi K3"
+  ],
+  "production_evidence": false,
+  "summary": "Characterises agentic coding traffic using AgentX, a public benchmark built from real agentic coding traces: median 43 turns per session, median 142K input vs 444 output tokens, prefix-cache hit rate above 96%, and 44% of sessions spawning subagents. Describes vLLM's KV-cache management, hierarchical offloading, context parallelism and prefill/decode disaggregation choices for this workload and reports tokens-per-dollar against interactivity.",
+  "key_idea": "Agentic workloads are prefill- and cache-dominated; serving must optimise the latency-cost frontier around prefix reuse.",
+  "relevance_score": 3,
+  "relevance_rationale": "Serving-layer cost lever with workload statistics from real traces; self-hosting cost comparison.",
+  "found_via": "direct: blog.vllm.ai index",
+  "cites_or_cited_by": [
+   "vllm-2026-tiered-kv-offloading"
+  ]
+ },
+ {
+  "id": "vllm-2025-vllm-router",
+  "title": "vLLM Router: A High-Performance and Prefill/Decode Aware Load Balancer for Large-scale Serving",
+  "authors": [
+   "vLLM Team"
+  ],
+  "year": 2025,
+  "venue_or_source": "vLLM blog",
+  "source_type": "blog",
+  "url": "https://blog.vllm.ai/blog/2025-12-13-vllm-router-release",
+  "code_url": "https://github.com/vllm-project/router",
+  "topic_clusters": [
+   "C11"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "KV-cache/prefix affinity",
+   "load"
+  ],
+  "cost_reduction_reported": "Llama 3.1 8B with 8 prefill + 8 decode pods: request throughput 25% higher than llm-d and 100% higher than the K8s-native load balancer (project-reported)",
+  "benchmarks": [
+   "project throughput/TTFT benchmarks"
+  ],
+  "models_studied": [
+   "Llama 3.1 8B",
+   "DeepSeek V3"
+  ],
+  "production_evidence": false,
+  "summary": "Introduces a Rust load balancer for vLLM fleets, forked from the SGLang model gateway, with cache-aware and prefill/decode-disaggregation-aware request placement. Benchmarks compare throughput and TTFT against llm-d and Kubernetes-native balancing.",
+  "key_idea": "Replica-level routing that is aware of KV-cache locality and P/D disaggregation raises throughput per GPU.",
+  "relevance_score": 2,
+  "relevance_rationale": "Serving infrastructure background (replica routing, not model routing).",
+  "found_via": "direct: blog.vllm.ai index",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "vllm-2025-halugate",
+  "title": "Token-Level Truth: Real-Time Hallucination Detection for Production LLMs (HaluGate)",
+  "authors": [
+   "vLLM Semantic Router Team"
+  ],
+  "year": 2025,
+  "venue_or_source": "vLLM blog",
+  "source_type": "blog",
+  "url": "https://blog.vllm.ai/blog/2025-12-14-halugate",
+  "code_url": "https://github.com/vllm-project/semantic-router",
+  "topic_clusters": [
+   "C7",
+   "C11"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "fact-check need classifier",
+   "token-level hallucination detector",
+   "NLI"
+  ],
+  "cost_reduction_reported": "Pre-classification skips detection for non-factual queries, a 72.2% efficiency gain where ~35% of queries are non-factual; detection ~125ms for typical RAG context, ~365ms at 16K tokens (project-reported)",
+  "benchmarks": [
+   "project evaluation"
+  ],
+  "models_studied": [
+   "ModernBERT-based classifiers"
+  ],
+  "production_evidence": false,
+  "summary": "HaluGate is a conditional pipeline in the vLLM Semantic Router: a small classifier (96.4% validation accuracy, ~12ms) decides whether a response needs fact-checking, then a token-level detector plus an NLI explainer flag unsupported spans against tool/RAG context, with results surfaced in response headers. Token-level detection alone reached only 59% F1, which motivated the ensemble.",
+  "key_idea": "Cheap gated, non-LLM verifiers can provide per-response quality signals at the gateway without an LLM judge.",
+  "relevance_score": 3,
+  "relevance_rationale": "Low-cost quality signal usable as an escalation trigger in routing.",
+  "found_via": "direct: blog.vllm.ai index",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "vllm-2026-tiered-kv-offloading",
+  "title": "Tiered KV Cache Offloading in vLLM",
+  "authors": [
+   "Or Ozeri",
+   "Danny Harnik",
+   "Ronen Schaffer",
+   "Itay Etelis",
+   "Varun Sundar Rabindranath"
+  ],
+  "year": 2026,
+  "venue_or_source": "vLLM blog",
+  "source_type": "blog",
+  "url": "https://blog.vllm.ai/blog/2026-09-10-tiered-kv-offloading",
+  "code_url": "https://github.com/vllm-project/vllm",
+  "topic_clusters": [
+   "C11",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "multi-turn conversation benchmark on Qwen3.6-35B-A3B, 2x H100"
+  ],
+  "models_studied": [
+   "Qwen3.6-35B-A3B"
+  ],
+  "production_evidence": false,
+  "summary": "Describes vLLM's host-centric tiered KV offloading, where evicted KV blocks flow through CPU memory to filesystem, object storage or remote peers and are reloaded instead of recomputed, with KV events enabling cache-aware routing in llm-d and Dynamo. A multi-turn benchmark shows throughput holding as the number of concurrent conversations exceeds HBM, then host, capacity.",
+  "key_idea": "Reloading KV from cheaper tiers beats re-prefill for multi-turn and agentic sessions.",
+  "relevance_score": 2,
+  "relevance_rationale": "Serving-layer caching background for long agent sessions.",
+  "found_via": "direct: blog.vllm.ai index",
+  "cites_or_cited_by": [
+   "vllm-2026-agentx-agentic-serving"
+  ]
+ },
+ {
+  "id": "fireworks-2026-firerouter-with-opus",
+  "title": "Introducing FireRouter with Opus",
+  "authors": [
+   "Fireworks AI"
+  ],
+  "year": 2026,
+  "venue_or_source": "Fireworks AI blog",
+  "source_type": "product",
+  "url": "https://fireworks.ai/blog/introducing-firerouter-with-opus",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C1",
+   "C5",
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": null,
+  "signals_used": [
+   "per-turn task suitability estimate",
+   "estimated cost per model",
+   "prompt-cache loss cost"
+  ],
+  "cost_reduction_reported": "Internal A/B test (>1 month, sessions randomised to router vs Opus-only): cost per session $15.36 -> $6.63 (57% +/- 19 ppts lower); graded-turn accuracy 78.7% vs 80.2% (98.1% of Opus-only); cache hit rate 94.2% vs 97.8% (vendor-reported)",
+  "benchmarks": [
+   "internal coding traffic A/B test"
+  ],
+  "models_studied": [
+   "Claude Opus 5.5",
+   "GLM 5.3",
+   "GLM 5.3 Flash"
+  ],
+  "production_evidence": true,
+  "summary": "Fireworks releases a per-turn, cache-aware router for coding agents that routes each user turn among Claude Opus 5.5, GLM 5.3 and GLM 5.3 Flash, trading off estimated suitability against cost including the prompt-cache value lost by switching. It reports a randomised A/B test on internal coding traffic, scoring accuracy by task completion, correctness and whether the user corrected the next turn.",
+  "key_idea": "Turn-level routing in coding agents with explicit pricing of cache loss, validated by a randomised live-traffic A/B test.",
+  "relevance_score": 5,
+  "relevance_rationale": "Step-level cost-aware routing in a production agent with a controlled live-traffic experiment (vendor-run).",
+  "found_via": "direct: fireworks.ai/blog index",
+  "cites_or_cited_by": [
+   "fireworks-2026-frontier-is-a-router"
+  ]
+ },
+ {
+  "id": "fireworks-2026-frontier-is-a-router",
+  "title": "The frontier isn't a model. It's a router.",
+  "authors": [
+   "Fireworks AI"
+  ],
+  "year": 2026,
+  "venue_or_source": "Fireworks AI blog",
+  "source_type": "blog",
+  "url": "https://fireworks.ai/blog/the-frontier-isnt-a-model-its-a-router",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3",
+   "C13",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": null,
+  "signals_used": [
+   "task"
+  ],
+  "cost_reduction_reported": "DeepSWE v1.1 oracle over 18 models: 97.6% pass@1 at $1.88/task vs best single model GPT-6 Astra 74.1% at $6.52; open-models-only oracle 90.3% at $1.45; best pair +13.1 pts, best trio 91.2%. Production: FireRouter sessions $7.42 vs $15.81 for Opus 5 alone (53% reduction, 2,334 sessions over four weeks of internal coding traffic) (vendor-reported)",
+  "benchmarks": [
+   "DeepSWE v1.1"
+  ],
+  "models_studied": [
+   "GPT-6 Astra",
+   "Claude Opus 5",
+   "GPT-5.6 Sol",
+   "Claude Fable 5",
+   "DeepSeek V4 Flash/Pro",
+   "GLM-5.3",
+   "GLM-5.3 Flash",
+   "Kimi K3",
+   "Qwen3.8 Max"
+  ],
+  "production_evidence": true,
+  "summary": "Runs 18 models on every DeepSWE task to measure the per-task oracle routing ceiling, showing most of the gain comes from two or three complementary models and most oracle picks are cheap models. It stresses that oracle upside is upward-biased and that real routers fail on model recall (citing LLMRouterBench), then reports four weeks of internal production coding traffic through task-level, cache-aware FireRouter.",
+  "key_idea": "Complementary models give a large oracle headroom for task-level routing in coding agents, but capturing it requires predicting the winner before execution.",
+  "relevance_score": 5,
+  "relevance_rationale": "Agentic-task routing ceiling analysis plus production cost numbers.",
+  "found_via": "direct: fireworks.ai/blog index",
+  "cites_or_cited_by": [
+   "fireworks-2026-firerouter-with-opus",
+   "together-2026-deepswe-cascade-deepseek-gpt"
+  ]
+ },
+ {
+  "id": "together-2026-deepswe-cascade-deepseek-gpt",
+  "title": "DeepSeek V4 Pro 0813 vs GPT-5.6 Sol on DeepSWE: Cost, Coding, and Routing",
+  "authors": [
+   "Zain Hasan",
+   "Shobhit Dixit"
+  ],
+  "year": 2026,
+  "venue_or_source": "Together AI blog",
+  "source_type": "blog",
+  "url": "https://www.together.ai/blog/deepseek-v4-pro-0813-vs-gpt-5-6-sol-on-deepswe-cost-coding-and-routing",
+  "code_url": null,
+  "topic_clusters": [
+   "C2",
+   "C3",
+   "C13",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "unit-test pass/fail"
+  ],
+  "cost_reduction_reported": "Cascade (DeepSeek V4 Pro first, escalate to GPT-5.6 Sol on test failure): 83.0% of DeepSWE tasks at $3.35/task vs Sol alone 72.7% at $8.37 (10 pts better, 60% cheaper); 904 rollouts (vendor-reported)",
+  "benchmarks": [
+   "DeepSWE"
+  ],
+  "models_studied": [
+   "DeepSeek V4 Pro 0813",
+   "GPT-5.6 Sol"
+  ],
+  "production_evidence": false,
+  "summary": "Compares a cheap open model and a frontier closed model over 904 DeepSWE agent rollouts, reporting pass@k, cost, steps and regressions. The cheap model's pass@4 exceeds the frontier model's, and a test-gated cascade that escalates only on failing tests beats both in accuracy and cost; the frontier model's failures more often break already-passing tests.",
+  "key_idea": "For agentic coding, a verifier-gated cascade (cheap model, escalate on failing tests) dominates either model alone.",
+  "relevance_score": 4,
+  "relevance_rationale": "Quantified cascade on a long-horizon agent benchmark using an execution signal for deferral.",
+  "found_via": "direct: together.ai/blog index",
+  "cites_or_cited_by": [
+   "together-2026-deepswe-cascade-glm-flash"
+  ]
+ },
+ {
+  "id": "together-2026-deepswe-cascade-glm-flash",
+  "title": "GLM-5.3 vs. GLM-5.3 Flash on DeepSWE: Cost, Coding, and Routing",
+  "authors": [
+   "Zain Hasan",
+   "Shobhit Dixit"
+  ],
+  "year": 2026,
+  "venue_or_source": "Together AI blog",
+  "source_type": "blog",
+  "url": "https://www.together.ai/blog/glm-5-3-vs-glm-5-3-flash-on-deepswe-cost-coding-and-routing",
+  "code_url": null,
+  "topic_clusters": [
+   "C2",
+   "C8",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "unit-test pass/fail"
+  ],
+  "cost_reduction_reported": "Cascade (GLM-5.3 Flash first, escalate to GLM-5.3 when tests reject): 80.9% of DeepSWE tasks at $1.70 vs GLM-5.3 alone 69.0% at $3.99 (57% lower cost); Flash 17x cheaper per rollout (vendor-reported)",
+  "benchmarks": [
+   "DeepSWE"
+  ],
+  "models_studied": [
+   "GLM-5.3",
+   "GLM-5.3 Flash"
+  ],
+  "production_evidence": false,
+  "summary": "Evaluates a distilled Flash model against its parent on DeepSWE: the gap is mainly first-try reliability (5.6 pts at pass@1, 2.6 pts at pass@4), the Flash solves 93 of the parent's 99 solved tasks, but breaks passing tests slightly more often. A test-gated cascade from Flash to the parent beats both.",
+  "key_idea": "Distillation mostly costs consistency, which retries and verifier-gated escalation can buy back cheaply.",
+  "relevance_score": 4,
+  "relevance_rationale": "Cascade plus distillation evidence on an agentic benchmark.",
+  "found_via": "direct: together.ai/blog index",
+  "cites_or_cited_by": [
+   "together-2026-deepswe-cascade-deepseek-gpt"
+  ]
+ },
+ {
+  "id": "together-2026-ab-test-models-in-production",
+  "title": "A/B test models in production",
+  "authors": [
+   "Zain Hasan",
+   "Zarni Phyo",
+   "Nikitha Suryadevara",
+   "Ted Cui"
+  ],
+  "year": 2026,
+  "venue_or_source": "Together AI blog",
+  "source_type": "product",
+  "url": "https://www.together.ai/blog/a-b-test-models-in-production",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "fixed traffic split"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Describes endpoint-level A/B experiments that split live traffic into one control and up to 20 variants with fixed percentage shares independent of replica counts, a ramp schedule (95/5, 80/20, 50/50), blue-green promotion and one-call rollback. The walkthrough verifies observed traffic shares on a live endpoint.",
+  "key_idea": "Serving-layer traffic splitting for evaluating cheaper candidate models on real users.",
+  "relevance_score": 2,
+  "relevance_rationale": "Infrastructure for online evaluation of model swaps; fixed splits rather than adaptive bandits.",
+  "found_via": "direct: together.ai/blog index",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "together-2025-atlas-adaptive-speculator",
+  "title": "AdapTive-LeArning Speculator System (ATLAS): A New Paradigm in LLM Inference via Runtime-Learning Accelerators",
+  "authors": [
+   "Junxiong Wang",
+   "Shirley Wu",
+   "Zelei Shao",
+   "Vikranth Srivatsa",
+   "Jue Wang",
+   "Roy Yuan",
+   "Qingyang Wu",
+   "Alpay Ariyak",
+   "Rupert Wu",
+   "Wai Tong Chung",
+   "Chenfeng Xu",
+   "Yonatan Oren",
+   "Pragaash Ponnusamy",
+   "Yineng Zhang",
+   "Avner May",
+   "Leon Song",
+   "Tri Dao",
+   "Percy Liang",
+   "Ce Zhang",
+   "Ben Athiwaratkun"
+  ],
+  "year": 2025,
+  "venue_or_source": "Together AI blog",
+  "source_type": "blog",
+  "url": "https://www.together.ai/blog/adaptive-learning-speculator-system-atlas",
+  "code_url": null,
+  "topic_clusters": [
+   "C11",
+   "C5"
+  ],
+  "routing_granularity": "token",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "live traffic token distribution",
+   "draft acceptance rate"
+  ],
+  "cost_reduction_reported": "Up to 500 TPS on DeepSeek-V3.1 and 460 TPS on Kimi-K2 when fully adapted, 2.65x faster than standard decoding; RL rollouts: acceptance rate rose from <10% to >80% over 1.4k steps (vendor-reported)",
+  "benchmarks": [
+   "Together internal throughput benchmarks"
+  ],
+  "models_studied": [
+   "DeepSeek-V3.1",
+   "Kimi-K2"
+  ],
+  "production_evidence": false,
+  "summary": "ATLAS pairs a static speculator with a lightweight speculator that keeps learning from live traffic, plus a confidence-aware controller that chooses between them and adjusts lookahead. The adaptive component tracks workload drift, which the authors also apply to RL rollouts where the policy distribution shifts.",
+  "key_idea": "Speculative-decoding drafters that adapt online to the serving workload.",
+  "relevance_score": 2,
+  "relevance_rationale": "Serving-cost lever with online adaptation to traffic.",
+  "found_via": "direct: together.ai/blog index",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "together-2026-cache-aware-pd-disaggregation",
+  "title": "Cache-aware prefill-decode disaggregation (CPD) for up to 40% faster long-context LLM serving",
+  "authors": [
+   "Jiejing Zhang",
+   "Yubo Wang",
+   "Yinghui Liu",
+   "Mourya Vangala Srinivasa",
+   "Chenxi Li",
+   "Jue Wang",
+   "Yineng Zhang",
+   "Shuaiwen Leon Song",
+   "Ce Zhang"
+  ],
+  "year": 2026,
+  "venue_or_source": "Together AI blog",
+  "source_type": "blog",
+  "url": "https://www.together.ai/blog/cache-aware-disaggregated-inference",
+  "code_url": null,
+  "topic_clusters": [
+   "C11",
+   "C10"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "prefix-cache hit rate"
+  ],
+  "cost_reduction_reported": "Up to 35-40% higher sustainable QPS than existing disaggregated designs (~1.1-1.15 QPS per GPU) with lower TTFT on long-context mixed traffic (vendor-reported)",
+  "benchmarks": [
+   "Together long-context serving benchmark"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Separates cold (low cache-hit, heavy prefill) from warm (high cache-hit) requests into different prefill paths backed by a distributed KV cache, so context reuse in multi-turn, coding and agent workloads is served fast while cold long prompts do not block it.",
+  "key_idea": "Route requests to prefill pools by cache warmth to exploit context reuse.",
+  "relevance_score": 2,
+  "relevance_rationale": "Serving background relevant to agentic context reuse.",
+  "found_via": "direct: together.ai/blog index",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "gola-2026-langsmith-fine-tuning",
+  "title": "Introducing LangSmith Fine-Tuning",
+  "authors": [
+   "Ankush Gola",
+   "Jake Broekhuizen",
+   "Vivek Trivedy"
+  ],
+  "year": 2026,
+  "venue_or_source": "LangChain blog",
+  "source_type": "product",
+  "url": "https://www.langchain.com/blog/langsmith-fine-tuning",
+  "code_url": null,
+  "topic_clusters": [
+   "C8",
+   "C6",
+   "C14"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "curated successful trajectories",
+   "trace review"
+  ],
+  "cost_reduction_reported": "Engine agent: Kimi K3 + SFT 96.0 vs Kimi K3 90.0 vs GPT-5.6 Sol 87.0 on internal IssueBench subset; OpenSWE Review: Qwen-3.8-27B + SFT F1 48.9%->53.7% with 29.8% fewer model calls and 29.4% fewer tool requests per review (vendor-reported, internal agents)",
+  "benchmarks": [
+   "IssueBench (internal)",
+   "internal PR review set"
+  ],
+  "models_studied": [
+   "Kimi K3",
+   "Qwen-3.8-27B",
+   "GPT-5.6 Sol"
+  ],
+  "production_evidence": true,
+  "summary": "LangChain launches smithtune, a CLI that turns agent trajectories stored in LangSmith into SFT datasets, trains on Fireworks or Baseten, evaluates and deploys. Applied to two of LangChain's own production agents, fine-tuned open models beat a frontier model on issue detection and matched review quality with about 30% fewer model and tool calls; a less selective first dataset lowered F1, prompting a trace-review curation stage. Baseten's companion posts describe the training infrastructure (Baseten Loops).",
+  "key_idea": "Curated production agent traces can be distilled into open models that are both better and cheaper per task.",
+  "relevance_score": 4,
+  "relevance_rationale": "Distillation from production agent logs with cost-per-task effects, from real internal agents.",
+  "found_via": "direct: langchain.com/blog index; baseten.co/blog",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "databricks-2025-tao",
+  "title": "TAO: Using test-time compute to train efficient LLMs without labeled data",
+  "authors": [
+   "Databricks AI Research Team"
+  ],
+  "year": 2025,
+  "venue_or_source": "Databricks blog",
+  "source_type": "blog",
+  "url": "https://www.databricks.com/blog/tao-using-test-time-compute-train-efficient-llms-without-labeled-data",
+  "code_url": null,
+  "topic_clusters": [
+   "C8",
+   "C6",
+   "C7"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "unlabeled usage inputs",
+   "reward model (DBRM) scores"
+  ],
+  "cost_reduction_reported": "Brings Llama 3.1 8B and Llama 3.3 70B close to GPT-4o and o3-mini on FinanceBench, DB Enterprise Arena and BIRD-SQL without labels, at the base model's inference cost; multi-task TAO +2.4% for Llama 3.3 70B on a broad enterprise benchmark; notes o3-mini emits 5-10x more output tokens (vendor-reported)",
+  "benchmarks": [
+   "FinanceBench",
+   "DB Enterprise Arena",
+   "BIRD-SQL (Databricks dialect)"
+  ],
+  "models_studied": [
+   "Llama 3.1 8B",
+   "Llama 3.3 70B",
+   "GPT-4o",
+   "GPT-4o-mini",
+   "o3-mini"
+  ],
+  "production_evidence": false,
+  "summary": "TAO uses only unlabeled task inputs such as production prompts: it samples many candidate responses with test-time compute, scores them with an enterprise reward model, and trains the model with RL so the tuned model answers directly with no extra inference compute. It outperforms labeled fine-tuning on three enterprise tasks and scales with tuning compute budget.",
+  "key_idea": "Convert test-time compute plus a reward model into a cheaper specialised model using only unlabeled usage data.",
+  "relevance_score": 4,
+  "relevance_rationale": "Directly addresses learning cheaper models from customer usage data without labels.",
+  "found_via": "direct: databricks.com/blog",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "fu-hinthorn-2025-benchmarking-multi-agent-architectures",
+  "title": "Benchmarking Multi-Agent Architectures",
+  "authors": [
+   "Will Fu-Hinthorn"
+  ],
+  "year": 2025,
+  "venue_or_source": "LangChain blog",
+  "source_type": "blog",
+  "url": "https://www.langchain.com/blog/benchmarking-multi-agent-architectures",
+  "code_url": "https://github.com/langchain-ai/langgraph-supervisor-py",
+  "topic_clusters": [
+   "C12",
+   "C10",
+   "C13"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "Supervisor architecture improved by nearly 50% on the tau-bench variant after removing handoff messages and letting sub-agents respond directly; single agent's token use grows with distractor domains while supervisor and swarm stay flat (qualitative token comparison, vendor-reported)",
+  "benchmarks": [
+   "tau-bench retail (first 100 test examples) with added distractor domains"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Compares a single tool-calling agent, a swarm (peer handoffs) and a supervisor architecture on tau-bench retail with up to several distractor domains of 19 tools each, measuring score and tokens. The single agent degrades sharply with two or more distractor domains and uses more tokens; the supervisor loses accuracy and tokens to 'telephone' translation, fixed by removing handoff messages from sub-agent context and forwarding sub-agent responses directly.",
+  "key_idea": "Multi-agent decomposition pays off mainly when context grows; supervisor overhead comes from relaying messages.",
+  "relevance_score": 3,
+  "relevance_rationale": "Empirical architecture-level cost and quality comparison, small scale.",
+  "found_via": "direct: langchain.com/blog",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "redis-langcache",
+  "title": "Redis LangCache (semantic caching service)",
+  "authors": [
+   "Redis"
+  ],
+  "year": 2025,
+  "venue_or_source": "Redis documentation",
+  "source_type": "product",
+  "url": "https://redis.io/docs/latest/develop/ai/context-engine/langcache/",
+  "code_url": null,
+  "topic_clusters": [
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "prompt embedding similarity threshold"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "A managed or self-hosted semantic cache that embeds incoming prompts, returns a stored response when a semantically similar prompt was answered before, and otherwise stores the new LLM result. It exposes similarity thresholds, TTLs and eviction policies, supports caching intermediate results in multi-step agent workflows, and reports hit rates and savings.",
+  "key_idea": "Managed semantic caching with tunable similarity thresholds in front of LLM calls.",
+  "relevance_score": 2,
+  "relevance_rationale": "Productised caching lever; no quantitative results on the page.",
+  "found_via": "direct: redis.io docs",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "notdiamond-2026-interactive-benchmarks-routing",
+  "title": "Interactive benchmarks: a new methodology for evaluating model routing",
+  "authors": [
+   "Not Diamond"
+  ],
+  "year": 2026,
+  "venue_or_source": "Not Diamond blog",
+  "source_type": "blog",
+  "url": "https://www.notdiamond.ai/blog/interactive-benchmarks-a-new-methodology-for-evaluating-model-routing",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C13",
+   "C1",
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": null,
+  "signals_used": [
+   "session state",
+   "message and token counts",
+   "task complexity",
+   "KV-cache state",
+   "intermediate and final rewards",
+   "reasoning effort"
+  ],
+  "cost_reduction_reported": "Approximates or exceeds Opus 5 xhigh quality at 20-80% cost reduction; SWE-Interact 50.7% at $4.28/attempt, SWE-Together 67.6% at $4.16, Dialogue SWE-Bench-Pro 57.6% at $3.00; adding GLM 5.2 and DeepSeek V4 Flash raised accuracy 3.6% and savings from 39% to 66% vs Opus xhigh. Companion 'Not Diamond Code' post: 39% (Poly-SWE-Bench Verified) and 61% (LongCodeQA) cost reduction vs Opus 4.8 xhigh, >20% savings in enterprise early access (all vendor-reported)",
+  "benchmarks": [
+   "SWE-Interact",
+   "SWE-Together",
+   "Dialogue SWE-Bench-Pro",
+   "Poly-SWE-Bench Verified",
+   "LongCodeQA"
+  ],
+  "models_studied": [
+   "Claude Opus 5",
+   "Claude Sonnet 5",
+   "Claude Haiku 4.5",
+   "GLM 5.2",
+   "DeepSeek V4 Flash"
+  ],
+  "production_evidence": false,
+  "summary": "Argues that single-turn routing breaks the KV cache and first-turn routing is brittle to mid-session shifts, and describes Not Diamond Code, which predicts future reward and cost for each (model, reasoning effort) pair at every agent step in a cache-aware way. Because static benchmarks miss long sessions and cache expiry (a 10-20x input-cost jump), it evaluates on interactive benchmarks with simulated users built on the Harbor framework and releases a benchmark repo so clients can reproduce comparisons.",
+  "key_idea": "Evaluate agent routers on interactive, simulated-user sessions where cache dynamics and session length drive cost.",
+  "relevance_score": 5,
+  "relevance_rationale": "Step-level (model, effort) routing inside coding agents plus an evaluation methodology tailored to agent cost.",
+  "found_via": "direct: notdiamond.ai/blog index",
+  "cites_or_cited_by": [
+   "fireworks-2026-firerouter-with-opus",
+   "liu-2026-vllm-sr-session-aware-agentic-routing"
+  ]
+ },
+ {
+  "id": "notdiamond-2024-reduce-own-inference-costs",
+  "title": "Using Not Diamond to reduce Not Diamond's inference costs by 51% (with one line of code)",
+  "authors": [
+   "Not Diamond"
+  ],
+  "year": 2024,
+  "venue_or_source": "Not Diamond blog",
+  "source_type": "blog",
+  "url": "https://www.notdiamond.ai/blog/using-not-diamond-to-reduce",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C14",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "prompt",
+   "user preference feedback",
+   "cost tradeoff parameter"
+  ],
+  "cost_reduction_reported": "Enabling the cost-tradeoff parameter on Not Diamond's consumer chatbot cut inference cost 51% on average (~$750,000 annualised); power-user median messages fell from 5 to 4/day while week-over-week message growth was 43% vs 16% the prior week (vendor-reported, before/after on live traffic)",
+  "benchmarks": [
+   "live chatbot traffic before/after"
+  ],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Not Diamond reports switching its own consumer chatbot's router from quality-maximising to a cost-tradeoff setting and compares cost and engagement metrics before and after the change on live traffic. Costs roughly halved with a small drop in power-user messaging.",
+  "key_idea": "A single cost-quality tradeoff knob on a learned router halved production inference cost with small engagement impact.",
+  "relevance_score": 4,
+  "relevance_rationale": "Production evidence for query-level routing, though an uncontrolled before/after comparison.",
+  "found_via": "direct: notdiamond.ai/blog index",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "notdiamond-2025-prompt-adaptation-weaker-models",
+  "title": "Weaker models, stronger results: How prompt adaptation levels the field, part 2",
+  "authors": [
+   "Not Diamond"
+  ],
+  "year": 2025,
+  "venue_or_source": "Not Diamond blog",
+  "source_type": "blog",
+  "url": "https://www.notdiamond.ai/blog/weaker-models-stronger-results",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C14"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "task eval accuracy"
+  ],
+  "cost_reduction_reported": "clinc150 intent classification: Gemini 2.5 Flash with adapted prompt 97.5% vs 86.75% with the original prompt and 93% for Gemini 2.5 Pro with the original prompt (~30 minutes background optimisation; vendor-reported)",
+  "benchmarks": [
+   "clinc150"
+  ],
+  "models_studied": [
+   "Gemini 2.5 Pro",
+   "Gemini 2.5 Flash"
+  ],
+  "production_evidence": false,
+  "summary": "Shows that a prompt written for a stronger model loses accuracy on a cheaper model, and that automatic per-model prompt adaptation recovers and exceeds the stronger model's score on an intent-classification task. Part of a series on prompt adaptation for model migration.",
+  "key_idea": "Re-optimising prompts per target model is a prerequisite for downgrading to cheaper models.",
+  "relevance_score": 3,
+  "relevance_rationale": "Supporting technique for model downscaling; single dataset.",
+  "found_via": "direct: notdiamond.ai/blog index",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wood-2025-martian-up-and-to-the-left",
+  "title": "Up and to the left! How Martian Uses Routing to Push the Pareto Frontier",
+  "authors": [
+   "Adam Michael Wood"
+  ],
+  "year": 2025,
+  "venue_or_source": "Martian blog",
+  "source_type": "blog",
+  "url": "https://withmartian.com/post/up-and-to-the-left",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "predicted (request, model) score",
+   "user feedback"
+  ],
+  "cost_reduction_reported": "Customer help chat: 52.4% lower error rate and 92% lower cost; RAG system on GPT-4: +20% quality at 1/80 the cost; user-facing system: router responses preferred 79.2% of the time at 1/300 of GPT-4 cost, 13->113 tokens/s (vendor-reported customer deployments, no methodology)",
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-4"
+  ],
+  "production_evidence": true,
+  "summary": "An explainer on routing as Pareto-frontier expansion that lists approaches Martian explores (learned (request, model)->score predictors, chain-of-thought inspection, self-assessment, response-similarity prediction) and their data problems. It reports aggregate results from customer-specific routers trained on customer data.",
+  "key_idea": "Customer-specific routers trained on customer data can beat the single-model cost-quality frontier.",
+  "relevance_score": 3,
+  "relevance_rationale": "Production claims for customer-data-trained routing, but without methodology.",
+  "found_via": "direct: withmartian.com/blog index",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "lenton-2026-distilling-repeated-work-into-code",
+  "title": "Distilling repeated work into code",
+  "authors": [
+   "Dan Lenton"
+  ],
+  "year": 2026,
+  "venue_or_source": "Unify blog",
+  "source_type": "blog",
+  "url": "https://unify.ai/blog/distilling-repeated-work-into-code",
+  "code_url": null,
+  "topic_clusters": [
+   "C8",
+   "C10",
+   "C12"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "execution exceptions"
+  ],
+  "cost_reduction_reported": "Hourly triage task, 8 runs x 12 inquiries: first run 6 model calls and ~251,000 tokens; each later run one call of ~645 tokens (~390x fewer), all 96 inquiries correct; one-off setup and review cost 1.2M tokens (vendor-reported)",
+  "benchmarks": [
+   "internal hourly triage task"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Argues that agents repeating a task should distil it into a stored function with fixed control flow and narrow model calls only where judgement is needed, rather than reasoning afresh each time or freezing a brittle script. The function is repaired in place by a bounded loop that sees the exception, the source and a read-only probe of the external interface.",
+  "key_idea": "Compile recurring agent trajectories into code with targeted model calls and self-repair.",
+  "relevance_score": 3,
+  "relevance_rationale": "Concrete cost lever for recurring agent workloads with measured token reduction.",
+  "found_via": "direct: unify.ai/blog index",
+  "cites_or_cited_by": [
+   "lenton-2026-continual-arc"
+  ]
+ },
+ {
+  "id": "lenton-2026-continual-arc",
+  "title": "Why we built Continual-ARC",
+  "authors": [
+   "Dan Lenton"
+  ],
+  "year": 2026,
+  "venue_or_source": "Unify blog",
+  "source_type": "benchmark",
+  "url": "https://unify.ai/blog/why-we-built-continual-arc",
+  "code_url": null,
+  "topic_clusters": [
+   "C10",
+   "C13"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "Pooled over 600 instances: persistent memory changed prime-agent's budget use by +0.4/+0.1/-0.1 points (low/medium/high effort); hermes-agent's memory cost ~6 points at low effort; none beat a bare model with a demo-cache floor (vendor-reported)",
+  "benchmarks": [
+   "Continual-ARC (ARC-AGI-1/2/3 streams)"
+  ],
+  "models_studied": [
+   "prime-agent",
+   "openclaw",
+   "hermes-agent"
+  ],
+  "production_evidence": false,
+  "summary": "Introduces a benchmark streaming recurring ARC tasks with fresh inputs, where agents pay budget for extra examples, and compares three open agent harnesses with memory on vs wiped. Memory yielded essentially no savings; a floor that simply caches worked examples matched them, and a one-program-per-task library did far better.",
+  "key_idea": "Agent memory features often fail to reduce cost on recurring work; simple example caches or stored programs do better.",
+  "relevance_score": 2,
+  "relevance_rationale": "Evidence on whether memory/context reuse actually cuts cost; niche benchmark.",
+  "found_via": "direct: unify.ai/blog index",
+  "cites_or_cited_by": [
+   "lenton-2026-distilling-repeated-work-into-code"
+  ]
+ },
+ {
+  "id": "openai-agents-sdk-handoffs",
+  "title": "Handoffs (OpenAI Agents SDK documentation)",
+  "authors": [
+   "OpenAI"
+  ],
+  "year": 2025,
+  "venue_or_source": "OpenAI Agents SDK documentation",
+  "source_type": "docs",
+  "url": "https://openai.github.io/openai-agents-python/handoffs/",
+  "code_url": "https://github.com/openai/openai-agents-python",
+  "topic_clusters": [
+   "C3",
+   "C12",
+   "C10"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "LLM tool-call choice"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Documents handoffs, in which an agent delegates to a specialised agent through a transfer_to_<agent> tool. Each agent can use its own model, and input filters, nested handoff history and history mappers control how much prior conversation the receiving agent sees, which is the SDK's lever for per-subagent model choice and context size.",
+  "key_idea": "LLM-driven delegation as tool calls, with configurable history passed to each specialist (and its model).",
+  "relevance_score": 2,
+  "relevance_rationale": "Framework primitive for subagent-level model assignment and context control; no results.",
+  "found_via": "direct: openai.github.io docs",
+  "cites_or_cited_by": [
+   "google-adk-agent-model-routing"
+  ]
+ },
+ {
+  "id": "google-adk-agent-model-routing",
+  "title": "Model routing and agent routing (Google Agent Development Kit docs: RoutedLlm, RoutedAgent)",
+  "authors": [
+   "Google"
+  ],
+  "year": 2026,
+  "venue_or_source": "Agent Development Kit (ADK) documentation",
+  "source_type": "docs",
+  "url": "https://adk.dev/agents/models/routing/",
+  "code_url": "https://github.com/google/adk-js",
+  "topic_clusters": [
+   "C3",
+   "C14"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "developer-defined router function",
+   "error context"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Gemini Flash",
+   "Gemini Pro"
+  ],
+  "production_evidence": false,
+  "summary": "ADK's experimental RoutedLlm lets an LlmAgent choose a model per request through a routing function (for fallback on error, A/B tests between models, or auto-routing by input complexity), and RoutedAgent does the same across whole agents (https://adk.dev/agents/routing/). Failover re-calls the router only if the chosen model or agent fails before emitting output. These sit alongside ADK's workflow agents (sequential, parallel, loop) and LLM-driven delegation for multi-agent apps.",
+  "key_idea": "First-class per-request model/agent routing hooks inside an agent framework.",
+  "relevance_score": 2,
+  "relevance_rationale": "Framework support for step-level model routing; no evaluation.",
+  "found_via": "direct: adk.dev docs (google.github.io/adk-docs redirects here)",
+  "cites_or_cited_by": [
+   "openai-agents-sdk-handoffs"
+  ]
+ },
+ {
+  "id": "google-vertex-data-driven-prompt-optimizer",
+  "title": "Data-driven prompt optimizer (Vertex AI / Gemini Enterprise Agent Platform docs)",
+  "authors": [
+   "Google Cloud"
+  ],
+  "year": 2026,
+  "venue_or_source": "Google Cloud documentation",
+  "source_type": "docs",
+  "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/prompts/data-driven-optimizer",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C8",
+   "C14"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "evaluation metrics",
+   "source-model reference outputs"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "Gemini models"
+  ],
+  "production_evidence": false,
+  "summary": "A managed optimiser that iteratively rewrites system instructions and selects few-shot examples to maximise chosen evaluation metrics for a target model. For model upgrades or migrations, setting source_model runs the sample prompts on the old model to produce reference responses, so prompts can be re-tuned for a cheaper or newer target without hand-labelled ground truth.",
+  "key_idea": "Use the incumbent model's outputs as labels to re-optimise prompts for a replacement model.",
+  "relevance_score": 3,
+  "relevance_rationale": "Productised support for migrating workloads to cheaper models; no numbers.",
+  "found_via": "direct: docs.cloud.google.com (searching for Vertex model optimizer)",
+  "cites_or_cited_by": [
+   "notdiamond-2025-prompt-adaptation-weaker-models"
+  ]
+ },
+ {
+  "id": "okeefe-2026-cursor-router",
+  "title": "How Cursor Router chooses the right model for the task",
+  "authors": [
+   "Connor O'Keefe",
+   "Yuri Volkov"
+  ],
+  "year": 2026,
+  "venue_or_source": "Cursor blog",
+  "source_type": "blog",
+  "url": "https://cursor.com/blog/how-cursor-router-works",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C1",
+   "C6",
+   "C5",
+   "C7",
+   "C14"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "task category",
+   "recent tool calls",
+   "conversation state",
+   "Compass complexity score (predicted user satisfaction)",
+   "learned task/domain/modifier taxonomy",
+   "implicit user feedback (moves on vs corrects)",
+   "per-turn cost incl. cache misses"
+  ],
+  "cost_reduction_reported": "Auto Intelligence: above Fable-level user satisfaction at 68% lower cost; Auto Balance: outperforms Opus 4.8 at 41% lower cost with +3% satisfaction (relative to frontier models, measured on live traffic; vendor-reported). Compass top-rated turns got positive signal 96% of the time vs 71% for lowest-rated",
+  "benchmarks": [
+   "live Cursor traffic",
+   "held-out offline split of production turns"
+  ],
+  "models_studied": [
+   "Grok",
+   "GPT-5.6 Sol",
+   "Claude Opus 4.8",
+   "Claude Opus 5",
+   "Claude Fable"
+  ],
+  "production_evidence": true,
+  "summary": "Cursor's per-turn router is trained on hundreds of thousands of production agent turns labelled with implicit satisfaction (user moves on vs corrects the agent) and actual cost including switch-induced cache misses. A complexity predictor (Compass) thresholds turns to a cheap model or to a taxonomy router, which admits a frontier model for a task label only if it beats the cheap model with 75% one-sided confidence, then chooses a traffic-weighted mix within a per-mode cost budget. Policies are tuned by cross-validation, checked on held-out logs, and validated on live traffic before launch.",
+  "key_idea": "Learn step-level routing from implicit feedback in production logs, with offline-to-online validation and budgeted confidence-gated upgrades.",
+  "relevance_score": 5,
+  "relevance_rationale": "Production step-level routing learned from customer interaction logs with offline and online evaluation: close to the premise.",
+  "found_via": "direct: cursor.com/blog index",
+  "cites_or_cited_by": [
+   "katz-2026-cursor-token-efficiency",
+   "lin-2026-cursor-agent-swarm-economics"
+  ]
+ },
+ {
+  "id": "katz-2026-cursor-token-efficiency",
+  "title": "Improved token efficiency for longer agent runs",
+  "authors": [
+   "Jediah Katz",
+   "Connor O'Keefe",
+   "Calvin Yee"
+  ],
+  "year": 2026,
+  "venue_or_source": "Cursor blog",
+  "source_type": "blog",
+  "url": "https://cursor.com/blog/improved-token-efficiency",
+  "code_url": null,
+  "topic_clusters": [
+   "C10",
+   "C12",
+   "C3",
+   "C14"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "Harness changes cut user token costs 7% with no quality loss: system prompt trimmed ~66%; MCP tools moved to dynamic context (-46.9% total tokens in sessions calling an MCP tool); offloading built-in tools cut static tool-description tokens 60%; cold cache misses -20%; line numbers every 10th line cut cache-read tokens 1.6% (vendor-reported, production traffic)",
+  "benchmarks": [
+   "Cursor production traffic"
+  ],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Breaks down where agent inference spend goes in production (output, uncached and cached input by context source) and reports harness changes: trimming instructions models now follow natively, loading rarely needed tools on demand, reordering static context for cache reuse, compressing file-read line numbers, and restraining subagent spawning and subagent model switching. Notes the coordination tax of context-isolated subagents.",
+  "key_idea": "Many small harness-level context changes compound into measurable production token savings without quality loss.",
+  "relevance_score": 4,
+  "relevance_rationale": "Production evidence on context and subagent levers in a large agent product.",
+  "found_via": "direct: cursor.com/blog index",
+  "cites_or_cited_by": [
+   "katz-2026-cursor-dynamic-context-discovery",
+   "okeefe-2026-cursor-router"
+  ]
+ },
+ {
+  "id": "katz-2026-cursor-dynamic-context-discovery",
+  "title": "Dynamic context discovery",
+  "authors": [
+   "Jediah Katz"
+  ],
+  "year": 2026,
+  "venue_or_source": "Cursor blog",
+  "source_type": "blog",
+  "url": "https://cursor.com/blog/dynamic-context-discovery",
+  "code_url": null,
+  "topic_clusters": [
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "A/B test: loading only needed MCP tools reduced total agent tokens by 46.9% in runs that called an MCP tool (statistically significant, high variance by number of MCPs installed; vendor-reported)",
+  "benchmarks": [
+   "Cursor production A/B test"
+  ],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Describes providing less context upfront and letting the agent pull what it needs: long tool outputs written to files, chat history referenced during summarisation, Agent Skills, lazily loaded MCP tools and terminal sessions as files. Reports an A/B test of lazy MCP tool loading.",
+  "key_idea": "Replace static context with files the agent discovers on demand.",
+  "relevance_score": 3,
+  "relevance_rationale": "Production A/B evidence for a context-efficiency lever.",
+  "found_via": "direct: cursor.com/blog index",
+  "cites_or_cited_by": [
+   "katz-2026-cursor-token-efficiency"
+  ]
+ },
+ {
+  "id": "lin-2026-cursor-agent-swarm-economics",
+  "title": "Agent swarms and the new model economics",
+  "authors": [
+   "Wilson Lin"
+  ],
+  "year": 2026,
+  "venue_or_source": "Cursor blog",
+  "source_type": "blog",
+  "url": "https://cursor.com/blog/agent-swarm-model-economics",
+  "code_url": "https://github.com/cursor/minisqlite",
+  "topic_clusters": [
+   "C3",
+   "C12"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "role (planner vs worker)"
+  ],
+  "cost_reduction_reported": "Building SQLite in Rust from docs: model mixes reached similar quality but cost ranged from $1,339 (Opus 4.8 planner + Composer 2.5 workers) to $10,565 (GPT-5.5 for all roles); workers carried >=69% (usually >90%) of tokens; worker fleet cost $411 vs $9,373 (vendor-reported)",
+  "benchmarks": [
+   "held-out SQL test suite (SQLite-from-scratch task)"
+  ],
+  "models_studied": [
+   "Claude Opus 4.8",
+   "Composer 2.5",
+   "GPT-5.5",
+   "Claude Fable 5",
+   "Grok 4.5"
+  ],
+  "production_evidence": false,
+  "summary": "Cursor's planner/worker swarm recursively decomposes a goal, with frontier planners and cheaper, faster workers. On a long-running build-SQLite task, the redesigned swarm beat the old one in every model configuration, and mixing a frontier planner with a cheap worker matched single-frontier quality at a fraction of the cost because workers dominate tokens. A more expensive planner that used fewer tokens still raised total cost by inducing more worker tokens.",
+  "key_idea": "Role-level model assignment (frontier planner, cheap workers) captures most savings in long-horizon multi-agent runs.",
+  "relevance_score": 5,
+  "relevance_rationale": "Direct evidence on subagent-level model assignment economics in a long-horizon multi-agent system.",
+  "found_via": "direct: cursor.com/blog/topic/research",
+  "cites_or_cited_by": [
+   "okeefe-2026-cursor-router"
+  ]
+ },
+ {
+  "id": "jackson-2025-cursor-tab-online-rl",
+  "title": "Improving Cursor Tab with online RL",
+  "authors": [
+   "Jacob Jackson",
+   "Phillip Kravtsov",
+   "Shomil Jain"
+  ],
+  "year": 2025,
+  "venue_or_source": "Cursor blog",
+  "source_type": "blog",
+  "url": "https://cursor.com/blog/tab-rl",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C7",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "RL-online",
+  "signals_used": [
+   "suggestion accept/reject"
+  ],
+  "cost_reduction_reported": "New Tab model makes 21% fewer suggestions with a 28% higher accept rate (production, >400M requests/day; vendor-reported)",
+  "benchmarks": [
+   "Cursor production traffic"
+  ],
+  "models_studied": [
+   "Cursor Tab model"
+  ],
+  "production_evidence": true,
+  "summary": "Cursor trains its completion model with on-policy policy-gradient RL from live accept/reject feedback, rolling out new checkpoints to users frequently throughout the day (about 1.5-2 hours from checkpoint rollout to data for the next step) to keep data on-policy. The reward is shaped so the policy shows a suggestion only when its implied acceptance probability exceeds a target, replacing a separate filter model.",
+  "key_idea": "Frequent on-policy deployment turns live user feedback into an RL signal that also learns when not to act.",
+  "relevance_score": 3,
+  "relevance_rationale": "Rare production example of online RL from implicit feedback; transferable to learning abstention/escalation.",
+  "found_via": "direct: cursor.com/blog",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "litellm-2026-auto-routing",
+  "title": "[Beta] Auto Routing (LiteLLM proxy docs: complexity, semantic and adaptive routing)",
+  "authors": [
+   "LiteLLM (BerriAI)"
+  ],
+  "year": 2026,
+  "venue_or_source": "LiteLLM documentation",
+  "source_type": "docs",
+  "url": "https://docs.litellm.ai/docs/proxy/auto_routing",
+  "code_url": "https://github.com/BerriAI/litellm",
+  "topic_clusters": [
+   "C1",
+   "C5",
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "heuristic complexity score",
+   "LLM classifier",
+   "keyword/semantic rules",
+   "custom classifier plugin",
+   "reward feedback (Thompson sampling)",
+   "session id / cacheable prefix"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "LiteLLM's beta auto router classifies each request into tiers (e.g., SIMPLE/MEDIUM/COMPLEX/REASONING) with a sub-millisecond heuristic scorer, a small LLM classifier, keyword rules or a custom plugin, then serves a pinned model, a random pool, or a Thompson-sampled pool per tier that learns from reward feedback. Optional session affinity and prefix-keyed deployment pinning preserve prompt caches, and per-decision cause markers plus classifier-cost accounting support spend attribution. It replaces the deprecated embedding-based semantic auto router.",
+  "key_idea": "Open-source gateway combining tiered complexity classification with per-tier bandits and cache-preserving session pinning.",
+  "relevance_score": 3,
+  "relevance_rationale": "Widely deployed OSS gateway implementing query-level routing with online bandits; no evaluation.",
+  "found_via": "direct: docs.litellm.ai",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "varda-2025-cloudflare-code-mode",
+  "title": "Code Mode: the better way to use MCP",
+  "authors": [
+   "Kenton Varda",
+   "Sunil Pai"
+  ],
+  "year": 2025,
+  "venue_or_source": "Cloudflare blog",
+  "source_type": "blog",
+  "url": "https://blog.cloudflare.com/code-mode/",
+  "code_url": null,
+  "topic_clusters": [
+   "C10",
+   "C12"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Cloudflare converts MCP tools into a TypeScript API and has the LLM write code against it, run in a sandboxed isolate, rather than emitting tool-call tokens. Chained calls no longer route every intermediate result back through the model, saving tokens and time, and models handle more and more complex tools because they have seen far more code than tool-call examples.",
+  "key_idea": "Agents call tools more efficiently by writing code against a generated API than by emitting tool calls.",
+  "relevance_score": 2,
+  "relevance_rationale": "Architecture-level context lever (cited by Anthropic's code-execution post); qualitative.",
+  "found_via": "snowball: cited by anthropic-2025-code-execution-with-mcp",
+  "cites_or_cited_by": [
+   "anthropic-2025-code-execution-with-mcp"
+  ]
+ },
+ {
+  "id": "furman-2026-replit-free-the-models",
+  "title": "Free the models: Harness design at the frontier",
+  "authors": [
+   "Daniel Furman",
+   "Jacky Zhao",
+   "Vaibhav Kumar",
+   "Ed Sioufi",
+   "Michele Catasta"
+  ],
+  "year": 2026,
+  "venue_or_source": "Replit blog",
+  "source_type": "blog",
+  "url": "https://replit.com/blog/free-the-models",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C9",
+   "C12",
+   "C14"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "main-agent (LLM) judgement of subtask difficulty",
+   "effort level",
+   "subagent tier"
+  ],
+  "cost_reduction_reported": "DeepSWE v1.1: Replit Agent 72% at $2.11/task vs GPT-6 Astra (mini-swe-agent) 67% at $1.60 (low effort) and 74% at $4.43 (xhigh); sidekick architecture 61% at $1.34. Terminal-Bench 4.0: 49% at $2.53 vs Astra 42% at $2.25 (low) and 60% at $5.86 (xhigh); sidekick 33% at $1.84 (means of 4 runs; vendor-reported). Production delegation rates: 21-36% of turns dispatch a subagent",
+  "benchmarks": [
+   "DeepSWE v1.1",
+   "Terminal-Bench 4.0",
+   "Replit Agent production traffic (delegation statistics)"
+  ],
+  "models_studied": [
+   "GPT-6 Astra",
+   "Claude Fable 5",
+   "Claude Fable 5.1"
+  ],
+  "production_evidence": true,
+  "summary": "Replit argues that an external router is always less capable than the model it routes for, and instead lets the main agent choose at each step its own effort (changed mid-turn without cache loss on GPT-6), whether to delegate, and which subagent tier (small/standard/large), effort and specialist to use, including reusing already-briefed subagents. It reports production delegation statistics per model and a Pareto comparison against single-model baselines and a one-worker sidekick design.",
+  "key_idea": "Let the frontier orchestrator itself assign tiers and effort to subagents rather than routing externally.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly addresses step/subagent-level downscaling in production agents with cost-quality results; useful counter-position to external routers.",
+  "found_via": "direct: replit.com/blog index",
+  "cites_or_cited_by": [
+   "okeefe-2026-cursor-router",
+   "lin-2026-cursor-agent-swarm-economics",
+   "amp-2026-subagent-model-assignment"
+  ]
+ },
+ {
+  "id": "amp-2026-subagent-model-assignment",
+  "title": "A Faster Librarian (and related Amp notes on per-role subagent models)",
+  "authors": [
+   "Amp (Sourcegraph)"
+  ],
+  "year": 2026,
+  "venue_or_source": "Amp news (ampcode.com)",
+  "source_type": "blog",
+  "url": "https://ampcode.com/news/a-faster-librarian",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C9",
+   "C14"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "role"
+  ],
+  "cost_reduction_reported": "Librarian subagent moved from Sonnet 4.6 (medium) to GPT-5.5 (no reasoning): mean latency 237s->81s, F1 0.47->0.48, average cost $1.21->$0.69 (43% cheaper) on internal eval; search subagent on Gemini 3 Flash vs Haiku 4.5: 3x faster at same quality (~8 vs ~2.5 parallel calls, ~3 vs ~9 turns); summarisation/compaction model switch 4-6x faster and ~30x cheaper (vendor-reported)",
+  "benchmarks": [
+   "Amp internal subagent evals"
+  ],
+  "models_studied": [
+   "Claude Sonnet 4.6",
+   "GPT-5.5",
+   "Gemini 3 Flash",
+   "Claude Haiku 4.5",
+   "GLM-5.2",
+   "GPT-5.6 Sol",
+   "GPT-5.6 Terra",
+   "Claude Fable"
+  ],
+  "production_evidence": true,
+  "summary": "A series of short Amp product notes documents a production coding agent that assigns different models per role: main agent, oracle, thread reader, code reviewer, codebase search subagent, GitHub 'Librarian' subagent and summariser, each swapped independently as cheaper models improve. The Librarian note gives an eval breakdown of the gains from a non-reasoning model plus websocket transport; 'A Dial for You' (https://ampcode.com/news/a-dial-for-you) lists the role-to-model mapping per mode and reports that swapping the default model overnight drew no complaints.",
+  "key_idea": "Role-specific subagent model choices in a shipping agent, tuned with small internal evals.",
+  "relevance_score": 4,
+  "relevance_rationale": "Production evidence of subagent-level downscaling with per-role numbers, albeit brief.",
+  "found_via": "direct: ampcode.com/chronicle",
+  "cites_or_cited_by": [
+   "furman-2026-replit-free-the-models"
+  ]
+ },
+ {
+  "id": "furman-2026-replit-closing-the-loop-evals",
+  "title": "Closing the loop: Evaluating and improving Replit Agent at scale",
+  "authors": [
+   "Daniel Furman",
+   "Peter Zhong",
+   "Zhen Li",
+   "Michele Catasta"
+  ],
+  "year": 2026,
+  "venue_or_source": "Replit blog",
+  "source_type": "blog",
+  "url": "https://replit.com/blog/evaluating-and-improving-agent-at-scale",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C7",
+   "C13",
+   "C14"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "offline benchmark (ViBench) spec-conformance judge",
+   "online A/B user behaviour, sentiment and cost",
+   "production trace clustering",
+   "human review"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "ViBench",
+   "Replit production A/B tests"
+  ],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Describes Replit Agent's evaluation loop: an offline benchmark (ViBench) of product-requirement documents drawn from anonymised production traces, graded by an eval agent that checks whether the built app meets the spec; concurrent online A/B tests for most agent-affecting changes including model swaps, tracking user continuation, sentiment and cost; and clustering of production traces to explain failures, all feeding back into evals and shipping decisions.",
+  "key_idea": "Pair offline spec-grounded agent evals with live A/B tests and trace clustering to validate changes such as model swaps.",
+  "relevance_score": 3,
+  "relevance_rationale": "Production methodology for validating cost-saving model and harness changes; no cost numbers.",
+  "found_via": "direct: replit.com/blog index",
+  "cites_or_cited_by": [
+   "furman-2026-replit-free-the-models"
+  ]
+ },
+ {
+  "id": "openai-model-optimization-distillation-track",
+  "title": "Model optimization track: fine-tuning, distillation and evals (OpenAI developer docs)",
+  "authors": [
+   "OpenAI"
+  ],
+  "year": 2025,
+  "venue_or_source": "OpenAI developer documentation",
+  "source_type": "docs",
+  "url": "https://developers.openai.com/tracks/model-optimization",
+  "code_url": null,
+  "topic_clusters": [
+   "C8",
+   "C6",
+   "C14"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "stored production inputs/outputs",
+   "graders/evals"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "OpenAI models"
+  ],
+  "production_evidence": false,
+  "summary": "OpenAI's guidance on its built-in distillation workflow: store production inputs and outputs (default in the Responses API), build an eval with graders, tune prompts on the large model, fine-tune a smaller student on the larger model's outputs, and re-evaluate the student before switching. It sets distillation alongside SFT, DPO and RFT as ways to cut latency and cost.",
+  "key_idea": "Platform-native loop from logged frontier-model traffic to an evaluated smaller student model.",
+  "relevance_score": 3,
+  "relevance_rationale": "Productised distillation from production logs; no numbers.",
+  "found_via": "direct: developers.openai.com/llms.txt",
+  "cites_or_cited_by": [
+   "gola-2026-langsmith-fine-tuning"
+  ]
+ },
+ {
+  "id": "nvidia-dynamo-repo",
+  "title": "NVIDIA Dynamo: A Datacenter Scale Distributed Inference Serving Framework",
+  "authors": [
+   "NVIDIA"
+  ],
+  "year": 2025,
+  "venue_or_source": "GitHub (ai-dynamo/dynamo)",
+  "source_type": "repo",
+  "url": "https://github.com/ai-dynamo/dynamo",
+  "code_url": "https://github.com/ai-dynamo/dynamo",
+  "topic_clusters": [
+   "C11",
+   "C10"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "worker load",
+   "KV-cache overlap"
+  ],
+  "cost_reduction_reported": "Repo-listed results: 2x faster TTFT with KV-aware routing (Qwen3-Coder 480B, Baseten benchmark); 80% fewer SLA breaches from Planner autoscaling at 5% lower TCO (Alibaba, APSARA 2025); 7x higher throughput per GPU for DeepSeek R1 on GB200 NVL72 vs B200 without Dynamo (vendor/partner-reported)",
+  "benchmarks": [
+   "InferenceX",
+   "partner benchmarks"
+  ],
+  "models_studied": [
+   "DeepSeek R1",
+   "DeepSeek-V3",
+   "Qwen3-Coder 480B"
+  ],
+  "production_evidence": true,
+  "summary": "Open-source serving layer over vLLM, SGLang and TensorRT-LLM providing KV-cache-overlap-aware request routing, a KV block manager offloading GPU->CPU->SSD->remote, prefill/decode disaggregation, fast weight streaming for cold starts and an SLA-driven autoscaling planner. The repo lists partner deployment results, including Alibaba's autoscaling outcome.",
+  "key_idea": "Cache-aware routing and disaggregated serving to cut the cost of prefill-heavy multi-turn traffic.",
+  "relevance_score": 2,
+  "relevance_rationale": "Serving infrastructure background; companion to the index's Dynamo agentic-inference blog.",
+  "found_via": "direct: github.com/ai-dynamo/dynamo",
+  "cites_or_cited_by": [
+   "vllm-2026-tiered-kv-offloading"
+  ]
+ }
+]

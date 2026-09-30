@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Searchable literature database on reducing the cost of production multi-agent LLM systems: routing, cascades, step-level model assignment, config optimization, online and offline policy learning, caching, distillation and serving.">
+<title>Cost-Efficient Agents Literature</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: a lab-notebook index — sticky query bar over a filter rail and a single column of record cards. */
+:root {
+  --bg: #f5f7f8;
+  --surface: #ffffff;
+  --ink: #16212b;
+  --muted: #5a6975;
+  --line: #d9e0e5;
+  --accent: #0d6b66;      /* deep teal: links, active filters */
+  --accent-soft: #e0efed;
+  --signal: #9a5b00;      /* amber: cost/quality numbers */
+  --signal-soft: #fbf0dd;
+  --prod: #3b4fa8;        /* indigo: production evidence */
+  --prod-soft: #e6e9f7;
+  --warn: #a3342b;
+  --mark: #fff2b3;
+  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --radius: 6px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1519; --surface: #161e24; --ink: #e3eaee; --muted: #93a3ae; --line: #28343d;
+    --accent: #5cc4bc; --accent-soft: #173331; --signal: #e8b25e; --signal-soft: #33271a;
+    --prod: #9fb0f5; --prod-soft: #1f2644; --warn: #f08a80; --mark: #5a4b12;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1519; --surface: #161e24; --ink: #e3eaee; --muted: #93a3ae; --line: #28343d;
+  --accent: #5cc4bc; --accent-soft: #173331; --signal: #e8b25e; --signal-soft: #33271a;
+  --prod: #9fb0f5; --prod-soft: #1f2644; --warn: #f08a80; --mark: #5a4b12;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--font-body); margin: 0; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; }
+@media (max-width: 520px) { .wrap { padding-inline: 16px; } }
+
+header.top { padding-block: 28px 18px; }
+.eyebrow { font: 500 12px/1.2 var(--font-data); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 700 clamp(26px, 4vw, 38px)/1.1 var(--font-display); margin: 6px 0 8px; text-wrap: balance; letter-spacing: -.01em; }
+.lede { max-width: 72ch; color: var(--muted); margin: 0; }
+.lede b { color: var(--ink); font-weight: 600; }
+
+.querybar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); padding-block: 12px; }
+.qrow { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.qbox { flex: 1 1 320px; min-width: 0; position: relative; }
+#q { width: 100%; font: 16px var(--font-body); padding: 11px 14px 11px 38px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); }
+#q::placeholder { color: var(--muted); }
+.qbox svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; stroke: var(--muted); fill: none; }
+select, .btn { font: 14px var(--font-body); padding: 9px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); }
+.btn { cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.examples { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: 13px; color: var(--muted); align-items: baseline; }
+.examples button { font: 13px var(--font-data); background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; text-align: left; }
+
+.layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 28px; padding-block: 20px 60px; }
+@media (max-width: 820px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 12px; } }
+
+aside.filters { display: flex; flex-direction: column; gap: 18px; align-self: start; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 96px); max-height: calc(100vh - 110px); overflow: auto; padding-right: 4px; }
+@media (max-width: 820px) { aside.filters { position: static; max-height: none; overflow: visible; } }
+.fgroup h3 { font: 600 12px/1.2 var(--font-data); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: 13px/1.2 var(--font-body); padding: 5px 9px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.chip .n { font: 11px var(--font-data); color: var(--muted); margin-left: 3px; }
+.chip[aria-pressed="true"] .n { color: var(--surface); opacity: .85; }
+.clist { display: flex; flex-direction: column; gap: 4px; }
+.clist label { display: grid; grid-template-columns: auto 34px 1fr auto; gap: 8px; align-items: baseline; font-size: 13.5px; cursor: pointer; padding: 3px 4px; border-radius: 4px; }
+.clist label:hover { background: var(--accent-soft); }
+.clist .code { font: 500 12px var(--font-data); color: var(--accent); }
+.clist .n, .tick .n { font: 11px var(--font-data); color: var(--muted); }
+.clist label.tick { display: flex; gap: 8px; align-items: center; font-size: 13.5px; cursor: pointer; }
+.tick .n { margin-left: auto; }
+.fgroup select { width: 100%; }
+.yr { display: flex; gap: 8px; align-items: center; }
+.yr select { width: auto; flex: 1; }
+#reset { width: 100%; }
+
+.status { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+#count { font: 500 14px var(--font-data); }
+#count b { font-size: 18px; }
+.sort { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); }
+
+.note { border: 1px solid var(--line); border-left: 3px solid var(--signal); background: var(--surface); padding: 10px 14px; border-radius: var(--radius); font-size: 13.5px; color: var(--muted); margin-bottom: 14px; }
+.note summary { cursor: pointer; color: var(--ink); font-weight: 500; }
+.note ul { margin: 8px 0 2px; padding-left: 18px; }
+.note code { font: 12px var(--font-data); color: var(--signal); }
+
+ol.results { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.rec { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; min-width: 0; }
+.rec h2 { font: 600 17px/1.3 var(--font-body); margin: 0; text-wrap: pretty; }
+.rec h2 a { color: var(--ink); text-decoration: none; }
+.rec h2 a:hover { color: var(--accent); text-decoration: underline; }
+.meta { font-size: 13px; color: var(--muted); margin-top: 3px; overflow-wrap: anywhere; }
+.meta .venue { color: var(--ink); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; align-items: center; }
+.tag { font: 11.5px/1.3 var(--font-data); padding: 2px 7px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); }
+.tag.plain { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+.tag.prod { background: var(--prod-soft); color: var(--prod); }
+.rel { display: inline-flex; gap: 2px; align-items: center; margin-right: 2px; }
+.rel i { width: 7px; height: 11px; border-radius: 1px; background: var(--line); display: block; }
+.rel i.on { background: var(--accent); }
+.kidea { margin: 8px 0 0; max-width: 80ch; font-weight: 500; }
+.tldr { margin: 4px 0 0; max-width: 80ch; color: var(--ink); }
+.eff { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; font-size: 13.5px; background: var(--signal-soft); border-radius: 4px; padding: 6px 9px; }
+.eff .m { font: 500 11px var(--font-data); text-transform: uppercase; letter-spacing: .05em; color: var(--signal); }
+.eff .v { font-family: var(--font-data); font-size: 13px; overflow-wrap: anywhere; min-width: 0; }
+.links { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 9px; font-size: 13px; }
+.links .id { font: 12px var(--font-data); color: var(--muted); }
+.rec details { margin-top: 8px; font-size: 13px; }
+.rec details summary { cursor: pointer; color: var(--muted); }
+.rec dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 12px; margin: 8px 0 0; }
+.rec dt { color: var(--muted); font: 12px var(--font-data); }
+.rec dd { margin: 0; overflow-wrap: anywhere; }
+.rec dd button.relid { font: 12px var(--font-data); background: none; border: 0; padding: 0 6px 0 0; color: var(--accent); cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+@media (max-width: 520px) { .rec dl { grid-template-columns: minmax(0, 1fr); } .rec dt { margin-top: 4px; } }
+mark { background: var(--mark); color: inherit; border-radius: 2px; padding: 0 1px; }
+.empty { padding: 30px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: var(--radius); }
+#more { margin: 16px auto 0; display: block; }
+.semtoggle { display: flex; gap: 7px; align-items: center; font-size: 13.5px; cursor: pointer; white-space: nowrap; }
+#sem-status { font: 12px var(--font-data); color: var(--muted); }
+#sem-status.on { color: var(--accent); }
+
+.overview { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 14px; }
+.overview[hidden] { display: none; }
+.ov-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: baseline; }
+.ov-head h2 { font: 600 16px/1.2 var(--font-display); margin: 0; letter-spacing: .01em; }
+.ov-head p { margin: 0; font-size: 12.5px; color: var(--muted); }
+.ov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px 22px; }
+.ov-grid > div { min-width: 0; }
+.ov-grid h3 { font: 600 11.5px/1.2 var(--font-data); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin: 0 0 7px; }
+.bars { display: flex; align-items: flex-end; gap: 3px; height: 64px; }
+.bars div { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; min-width: 0; height: 100%; }
+.bars b { display: block; width: 100%; background: var(--accent); border-radius: 2px 2px 0 0; min-height: 2px; }
+.bars span { font: 10px var(--font-data); color: var(--muted); margin-top: 3px; }
+.cnt { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; font-size: 13px; }
+.cnt li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: baseline; }
+.cnt li > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cnt .n { font: 12px var(--font-data); color: var(--muted); font-variant-numeric: tabular-nums; }
+.cnt button { font: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.effgrp { display: flex; flex-direction: column; gap: 8px; }
+.effgrp .g { font-size: 13px; }
+.effgrp .g .m { font: 500 11px var(--font-data); text-transform: uppercase; letter-spacing: .05em; color: var(--signal); }
+.effgrp .g ul { margin: 3px 0 0; padding-left: 16px; }
+.effgrp .g li { overflow-wrap: anywhere; }
+.effgrp .v { font: 12.5px var(--font-data); }
+.ai { border-top: 1px solid var(--line); padding-top: 12px; display: flex; flex-direction: column; gap: 10px; }
+.ai-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.ai-row select { max-width: 100%; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 500; }
+.btn.primary:disabled { opacity: .6; cursor: progress; }
+#ai-status { font: 12px var(--font-data); color: var(--muted); }
+#ai-out { font-size: 14.5px; max-width: 82ch; }
+#ai-out p { margin: 0 0 8px; }
+#ai-out ul { margin: 0 0 8px; padding-left: 20px; }
+#ai-out h4 { font: 600 13px var(--font-body); margin: 10px 0 4px; }
+#ai-out a.cite { font: 500 12px var(--font-data); text-decoration: none; background: var(--accent-soft); padding: 0 4px; border-radius: 3px; }
+.ai-refs { font-size: 12.5px; color: var(--muted); margin: 0; padding-left: 22px; }
+.ai-refs li { margin-bottom: 2px; }
+.ai-warn { font-size: 12px; color: var(--muted); margin: 0; }
+#ai-constraints { width: 100%; font: 14px var(--font-body); padding: 8px 11px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); }
+#ai-out h4.idea { font: 600 15px/1.3 var(--font-display); margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--line); }
+#ai-out .uncited { font-size: 12.5px; color: var(--warn); margin: -2px 0 8px; }
+.ai-signals { font-size: 12.5px; color: var(--muted); }
+.ai-signals summary { cursor: pointer; }
+.ai-signals pre { white-space: pre-wrap; font: 12px/1.5 var(--font-data); margin: 6px 0 0; overflow-wrap: anywhere; }
+footer { font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); padding-block: 16px 30px; }
+@media (prefers-reduced-motion: no-preference) { .rec { transition: border-color .15s; } .rec:hover { border-color: var(--accent); } }
+</style>
+</head>
+<body>
+
+<header class="top wrap">
+  <div class="eyebrow">Literature database · Cost-efficient multi-agent LLM systems</div>
+  <h1>Cost-Efficient Agents Literature</h1>
+  <p class="lede">A searchable index of <b id="total">…</b> papers, preprints, docs, blogs and repos on cutting the cost of production multi-agent LLM systems without losing quality: query- and step-level routing, cascades, config optimization, learning policies from logs and live traffic, quality signals, distillation, caching and serving. Snapshot of <b>__SNAPSHOT__</b>.</p>
+</header>
+
+<div class="querybar">
+  <div class="wrap">
+    <div class="qrow">
+      <div class="qbox">
+        <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search by topic, method, author, benchmark… or describe what you need" aria-label="Search the database">
+      </div>
+      <label class="semtoggle" title="Also match by meaning, using a small embedding model that runs in your browser"><input type="checkbox" id="sem" checked> Match by meaning <span id="sem-status">starts on first search</span></label>
+    </div>
+    <div class="examples"><span>Try:</span>
+      <button type="button" data-q="switch to a cheaper model at each agent step">switch to a cheaper model at each agent step</button>
+      <button type="button" data-q="learn a router from production logs">learn a router from production logs</button>
+      <button type="button" data-q="bandit routing under a budget">bandit routing under a budget</button>
+      <button type="button" data-q="off-policy evaluation">off-policy evaluation</button>
+      <button type="button" data-q="prompt caching agents">prompt caching agents</button>
+      <button type="button" data-q="when is multi-agent worth the cost">when is multi-agent worth the cost</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap layout">
+  <aside class="filters" aria-label="Filters">
+    <div class="fgroup"><h3>Cluster</h3><div class="clist" id="f-cluster"></div></div>
+    <div class="fgroup"><h3>Minimum relevance</h3><div class="chips" id="f-rel"></div></div>
+    <div class="fgroup"><h3>Routing granularity</h3><div class="chips" id="f-gran"></div></div>
+    <div class="fgroup"><h3>Learning regime</h3>
+      <select id="f-regime" aria-label="Learning regime"><option value="">Any</option></select>
+    </div>
+    <div class="fgroup"><h3>Year</h3>
+      <div class="yr"><select id="f-y0" aria-label="From year"></select><span>to</span><select id="f-y1" aria-label="To year"></select></div>
+    </div>
+    <div class="fgroup"><h3>Type</h3><div class="chips" id="f-type"></div></div>
+    <div class="fgroup"><h3>Evidence</h3>
+      <div class="clist">
+        <label class="tick"><input type="checkbox" id="f-cost"> Reports cost/quality numbers <span class="n" data-n="cost"></span></label>
+        <label class="tick"><input type="checkbox" id="f-prod"> Production evidence <span class="n" data-n="prod"></span></label>
+        <label class="tick"><input type="checkbox" id="f-code"> Has code <span class="n" data-n="code"></span></label>
+      </div>
+    </div>
+    <button class="btn" id="reset" type="button">Clear search and filters</button>
+  </aside>
+
+  <main>
+    <details class="note">
+      <summary>How to read relevance, granularity and cost numbers</summary>
+      <ul>
+        <li><b>Relevance 1–5</b> rates how central an item is to the premise, not paper quality. 5 = cost-aware routing or config optimization in agentic or multi-agent systems; 4 = query-level routing or cascades, clearly transferable; 3 = supporting technique (caching, compression, distillation, judges); 2 = background. Scores come from the curating agent's reading; treat one-point differences as noise.</li>
+        <li><b>Routing granularity</b> says where the decision is made: <code>query</code> (once per request), <code>step</code> (per turn or action inside a trajectory), <code>subagent</code> (per role or agent), <code>token</code> (inside decoding), or <code>none</code> for non-routing work.</li>
+        <li><b>Cost numbers are only comparable on the same benchmark, baseline and price sheet.</b> "2x cheaper at 95% of GPT-4 quality on MT-Bench" and "72% lower cost on SWE-bench" are different quantities. Numbers are as the authors state them; nothing was re-measured. Vendor posts are marked vendor-reported.</li>
+        <li><b>Production evidence</b> is set only when real deployment or real traffic data is described.</li>
+      </ul>
+    </details>
+    <section class="overview" id="overview" hidden aria-label="Topic overview">
+      <div class="ov-head"><h2>Topic overview</h2><p id="ov-note"></p></div>
+      <div class="ov-grid" id="ov-grid"></div>
+      <div class="ai">
+        <div class="ai-row">
+          <button class="btn primary" id="ai-go" type="button">Summarize this topic</button>
+          <button class="btn primary" id="ai-ideas" type="button">Propose research ideas</button>
+          <select id="ai-model" aria-label="AI model">
+            <option value="Qwen2.5-1.5B-Instruct-q4f16_1-MLC">Qwen2.5 1.5B · faster, about 1 GB download</option>
+            <option value="Qwen2.5-3B-Instruct-q4f16_1-MLC">Qwen2.5 3B · better, recommended for ideas, about 2 GB download</option>
+          </select>
+          <span id="ai-status"></span>
+        </div>
+        <input id="ai-constraints" type="text" autocomplete="off" placeholder="Constraints for ideas (optional), e.g. only offline logs, no online exploration; must keep one frontier model for the planner" aria-label="Constraints for research ideas">
+        <p class="ai-warn">Runs a small open model inside your browser (WebGPU; recent Chrome, Edge or Safari). Nothing is sent to a server. The model is downloaded once and cached. It only sees the top results below, and it can still make mistakes, so check the cited items.</p>
+        <div id="ai-out" aria-live="polite"></div>
+      </div>
+    </section>
+    <div class="status">
+      <div id="count" aria-live="polite"></div>
+      <label class="sort">Sort
+        <select id="sort" aria-label="Sort results">
+          <option value="best">Best match</option>
+          <option value="rel">Relevance, then newest</option>
+          <option value="new">Newest first</option>
+          <option value="old">Oldest first</option>
+        </select>
+      </label>
+    </div>
+    <ol class="results" id="results"></ol>
+    <button class="btn" id="more" type="button" hidden>Show more</button>
+  </main>
+</div>
+
+<footer class="wrap">
+  Built from <code>literature_db.json</code> (<span id="total2">…</span> records). Every record traces to a fetched source or verified search result; arXiv IDs were batch-checked against the arXiv API and withdrawn papers removed. Summaries are paraphrased by the curating agents, not copied from abstracts. Download: <a href="literature_db.csv">CSV</a> · <a href="literature_db.json">JSON</a> · <a href="literature_db.jsonl">JSONL</a>__EXTRA_LINKS__.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/minisearch/7.1.2/umd/index.min.js"></script>
+<script id="db" type="application/json">__DATA__</script>
+<script>
+(function () {
+  "use strict";
+  const CL = __CLUSTERS__;
+  const D = JSON.parse(document.getElementById("db").textContent);
+  const R = D.map((a, i) => ({ i, id:a[0], t:a[1], au:a[2], y:a[3], v:a[4], ty:a[5], u:a[6], code:a[7], c:a[8], gr:a[9], lr:a[10],
+    sig:a[11], cost:a[12], bm:a[13], mdl:a[14], prod:a[15], sum:a[16], ki:a[17], rel:a[18], why:a[19], via:a[20], rl:a[21] }));
+  const byId = new Map(R.map(r => [r.id, r]));
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+  $("#total").textContent = R.length.toLocaleString();
+  $("#total2").textContent = R.length.toLocaleString();
+
+  // ---- search index (MiniSearch; falls back to token matching if the CDN is unreachable) ----
+  let ms = null;
+  const docs = R.map(r => ({ id:r.i, t:r.t, tl:r.ki + " " + r.sum, kw:r.sig.join(" "), au:r.au.join(" "),
+    x:[r.v, r.id, r.cost, r.gr, r.lr, r.bm.join(" "), r.mdl.join(" ")].join(" ") }));
+  const STOP = new Set("a an and are as at be but by can do does for from how i if in into is it its me my of on or our should so something that the their them then there these this to use using want was we what when where which while who why will with without would you your goes go get make makes".split(" "));
+  const processTerm = t => { t = t.toLowerCase(); return STOP.has(t) ? null : t; };
+  if (window.MiniSearch) {
+    ms = new MiniSearch({ fields:["t","tl","kw","au","x"], idField:"id", processTerm,
+      searchOptions:{ boost:{ t:3, kw:2, tl:1.3, au:1.2 }, prefix:true, fuzzy:0.18, processTerm } });
+    ms.addAll(docs);
+  }
+  const norm = s => s.toLowerCase().normalize("NFKD").replace(/[^\w\s.-]/g, " ");
+  const hay = docs.map(d => norm([d.t, d.tl, d.kw, d.au, d.x].join(" ")));
+  function keywordScores(q) {
+    if (ms) {
+      let hits = ms.search(q, { combineWith:"AND" });
+      if (!hits.length) {  // no item has every word: keep only strong partial matches
+        hits = ms.search(q, { combineWith:"OR" });
+        const cut = hits.length ? hits[0].score * 0.35 : 0;
+        hits = hits.filter(h => h.score >= cut).slice(0, 300);
+      }
+      return new Map(hits.map(h => [h.id, h.score]));
+    }
+    const toks = norm(q).split(/\s+/).filter(t => t && !STOP.has(t)), m = new Map();
+    hay.forEach((h, i) => { const s = toks.filter(t => h.includes(t)).length; if (s === toks.length) m.set(i, s + (norm(R[i].t).includes(norm(q)) ? 5 : 0)); });
+    return m;
+  }
+
+  // ---- semantic search: bge-small embeddings, documents precomputed (embeddings.bin), query embedded in the browser ----
+  const DIM = 384, QPREFIX = "Represent this sentence for searching relevant passages: ";
+  const SEM = { on:true, ready:false, loading:false, E:null, embed:null };
+  const semStatus = (msg, on) => { const el = $("#sem-status"); el.textContent = msg; el.classList.toggle("on", !!on); };
+  async function loadSemantic() {
+    if (SEM.ready || SEM.loading || !SEM.on) return;
+    SEM.loading = true; semStatus("loading…");
+    try {
+      const [buf, tf] = await Promise.all([
+        fetch("embeddings.bin").then(r => { if (!r.ok) throw new Error("index missing"); return r.arrayBuffer(); }),
+        import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@__TFJS__/dist/transformers.min.js")]);
+      SEM.E = new Int8Array(buf);
+      if (SEM.E.length !== R.length * DIM) throw new Error("index out of date");
+      SEM.embed = await tf.pipeline("feature-extraction", "Xenova/bge-small-en-v1.5", { dtype:"q8",
+        progress_callback: p => { if (p.status === "progress" && /\.onnx$/.test(p.file || "")) semStatus(`downloading model ${Math.round(p.progress)}%`); } });
+      SEM.ready = true; semStatus("on", true);
+      if (state.q.trim()) run();
+    } catch (e) {
+      SEM.on = false; $("#sem").checked = false;
+      semStatus(location.protocol === "file:" ? "needs the hosted site" : "unavailable, using keywords");
+    }
+    SEM.loading = false;
+  }
+  const qcache = new Map();
+  async function semScores(q) {
+    if (!qcache.has(q)) {
+      const v = (await SEM.embed(QPREFIX + q, { pooling:"cls", normalize:true })).data, E = SEM.E, out = new Float32Array(R.length);
+      for (let i = 0; i < R.length; i++) { let d = 0; const o = i * DIM; for (let k = 0; k < DIM; k++) d += v[k] * E[o + k]; out[i] = d / 127; }
+      qcache.set(q, out);
+    }
+    return qcache.get(q);
+  }
+  // Hybrid: short queries (names, acronyms) lean on keywords; longer descriptive queries lean on meaning.
+  async function search(q) {
+    q = q.trim();
+    if (!q) return null;
+    const kw = keywordScores(q);
+    if (!(SEM.on && SEM.ready) || byId.has(q)) return kw;
+    const sim = await semScores(q);
+    const nTerms = norm(q).split(/\s+/).filter(t => t && !STOP.has(t)).length;
+    const wk = nTerms <= 2 ? 0.6 : 0.25;
+    let mx = -1; for (let i = 0; i < sim.length; i++) if (sim[i] > mx) mx = sim[i];
+    let kmax = 1; kw.forEach(v => { if (v > kmax) kmax = v; });
+    const scored = [];
+    for (let i = 0; i < sim.length; i++) {
+      const k = (kw.get(i) || 0) / kmax, sN = Math.min(1, Math.max(0, (sim[i] - (mx - 0.2)) / 0.2));
+      if (sim[i] >= mx - 0.09 || k >= 0.5) scored.push([i, (1 - wk) * sN + wk * k]);
+    }
+    scored.sort((a, b) => b[1] - a[1]);
+    return new Map(scored.slice(0, 250));
+  }
+
+  // ---- filters ----
+  const GR = { query:"query", step:"step", subagent:"subagent", token:"token", none:"none", "n/a":"n/a" };
+  const state = { q:"", cl:new Set(), rel:0, gr:new Set(), lr:"", y0:0, y1:9999, ty:new Set(), cost:false, prod:false, code:false, sort:"best", shown:40 };
+  const count = f => R.filter(f).length;
+  $("#f-cluster").innerHTML = Object.entries(CL).map(([k, v]) =>
+    `<label><input type="checkbox" value="${k}"><span class="code">${k}</span><span>${esc(v)}</span><span class="n">${count(r => r.c.includes(k))}</span></label>`).join("");
+  $("#f-rel").innerHTML = [[0,"Any"],[3,"3+"],[4,"4+"],[5,"5"]].map(([v, l]) =>
+    `<button type="button" class="chip" data-v="${v}" aria-pressed="${v === 0}">${l}<span class="n">${count(r => (r.rel || 0) >= v)}</span></button>`).join("");
+  const grs = Object.keys(GR).filter(g => count(r => r.gr === g));
+  $("#f-gran").innerHTML = grs.map(g => `<button type="button" class="chip" data-v="${esc(g)}" aria-pressed="false">${esc(g)}<span class="n">${count(r => r.gr === g)}</span></button>`).join("");
+  const lrs = [...new Set(R.map(r => r.lr).filter(Boolean))].sort((a, b) => count(r => r.lr === b) - count(r => r.lr === a));
+  $("#f-regime").innerHTML += lrs.map(l => `<option value="${esc(l)}">${esc(l)} (${count(r => r.lr === l)})</option>`).join("");
+  const types = [...new Set(R.map(r => r.ty || "unknown"))].sort((a, b) => count(r => (r.ty || "unknown") === b) - count(r => (r.ty || "unknown") === a));
+  $("#f-type").innerHTML = types.map(t => `<button type="button" class="chip" data-v="${esc(t)}" aria-pressed="false">${esc(t)}<span class="n">${count(r => (r.ty || "unknown") === t)}</span></button>`).join("");
+  const years = [...new Set(R.map(r => r.y).filter(Boolean))].sort();
+  $("#f-y0").innerHTML = years.map(y => `<option${y === years[0] ? " selected" : ""}>${y}</option>`).join("");
+  $("#f-y1").innerHTML = years.map(y => `<option${y === years[years.length - 1] ? " selected" : ""}>${y}</option>`).join("");
+  const nset = { cost:r => !!r.cost, prod:r => r.prod, code:r => !!r.code };
+  document.querySelectorAll("[data-n]").forEach(el => el.textContent = count(nset[el.dataset.n]));
+
+  function pass(r) {
+    if (state.cl.size && !r.c.some(c => state.cl.has(c))) return false;
+    if ((r.rel || 0) < state.rel) return false;
+    if (state.gr.size && !state.gr.has(r.gr)) return false;
+    if (state.lr && r.lr !== state.lr) return false;
+    if (r.y && (r.y < state.y0 || r.y > state.y1)) return false;
+    if (state.ty.size && !state.ty.has(r.ty || "unknown")) return false;
+    if (state.cost && !r.cost) return false;
+    if (state.prod && !r.prod) return false;
+    if (state.code && !r.code) return false;
+    return true;
+  }
+
+  // ---- rendering ----
+  let terms = [];
+  function hl(s) {
+    s = esc(s);
+    if (!terms.length) return s;
+    const re = new RegExp("(" + terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")", "gi");
+    return s.replace(re, "<mark>$1</mark>");
+  }
+  const relBar = n => `<span class="rel" title="Relevance ${n || "?"} of 5" aria-label="Relevance ${n || "unrated"} of 5">${[1,2,3,4,5].map(k => `<i class="${k <= (n || 0) ? "on" : ""}"></i>`).join("")}</span>`;
+  function card(r) {
+    const au = r.au.length > 6 ? r.au.slice(0, 6).join(", ") + " et al." : r.au.join(", ");
+    const title = r.u ? `<a href="${esc(r.u)}" target="_blank" rel="noopener">${hl(r.t)}</a>` : hl(r.t);
+    const tags = [relBar(r.rel)]
+      .concat(r.c.map(c => `<span class="tag" title="${esc(CL[c])}">${c}</span>`))
+      .concat(r.gr && r.gr !== "none" && r.gr !== "n/a" ? [`<span class="tag plain" title="Routing granularity">${esc(r.gr)}-level</span>`] : [])
+      .concat(r.lr && r.lr !== "n/a" ? [`<span class="tag plain" title="Learning regime">${esc(r.lr)}</span>`] : [])
+      .concat(r.prod ? [`<span class="tag prod" title="Describes real deployment or real traffic">production evidence</span>`] : []);
+    const eff = r.cost ? `<div class="eff"><span class="m">cost / quality</span><span class="v">${hl(r.cost)}</span></div>` : "";
+    const links = [r.code ? `<a href="${esc(r.code)}" target="_blank" rel="noopener">Code</a>` : "", `<span class="id">${esc(r.id)}</span>`].filter(Boolean).join("");
+    const rel = r.rl.filter(id => byId.has(id));
+    const rows = [["Signals used", r.sig.join(", ")], ["Benchmarks", r.bm.join(", ")], ["Models", r.mdl.join(", ")],
+      ["Why relevant", r.why], ["Found via", r.via]].filter(x => x[1]).map(([k, v]) => [k, hl(v)]);
+    if (rel.length) rows.push(["Related in DB", rel.map(id => `<button type="button" class="relid" data-id="${esc(id)}" title="${esc(byId.get(id).t)}">${esc(id)}</button>`).join("")]);
+    return `<li class="rec" id="r-${r.i}"><h2>${title}</h2>
+      <div class="meta">${hl(au)}${r.y ? ` · ${r.y}` : ""}${r.v ? ` · <span class="venue">${hl(r.v)}</span>` : ""}${r.ty ? ` · ${esc(r.ty)}` : ""}</div>
+      <div class="tags">${tags.join("")}</div>
+      ${r.ki ? `<p class="kidea">${hl(r.ki)}</p>` : ""}${r.sum ? `<p class="tldr">${hl(r.sum)}</p>` : ""}${eff}
+      <div class="links">${links}</div>
+      ${rows.length ? `<details><summary>Details</summary><dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl></details>` : ""}</li>`;
+  }
+
+  // ---- topic overview (deterministic aggregation over the best-matching items) ----
+  const tally = arr => { const m = new Map(); arr.forEach(x => { if (x) m.set(x, (m.get(x) || 0) + 1); }); return [...m].sort((a, b) => b[1] - a[1]); };
+  const cntList = (pairs, n, click) => `<ul class="cnt">${pairs.slice(0, n).map(([k, v]) =>
+    `<li><span>${click ? `<button type="button" data-q="${esc(k)}">${esc(k)}</button>` : esc(k)}</span><span class="n">${v}</span></li>`).join("")}</ul>`;
+  let current = [];
+  function overview(list, active) {
+    const box = $("#overview");
+    box.hidden = !active || !list.length;
+    if (box.hidden) return;
+    const top = list.slice(0, 150);
+    $("#ov-note").textContent = `Aggregated from the ${top.length} best-matching of ${list.length.toLocaleString()} items`;
+    const yrs = tally(top.map(r => r.y)).sort((a, b) => a[0] - b[0]), ymax = Math.max(...yrs.map(x => x[1]));
+    const bars = `<div class="bars">${yrs.map(([y, n]) => `<div title="${y}: ${n}"><b style="height:${Math.max(3, n / ymax * 100)}%"></b><span>${String(y).slice(2)}</span></div>`).join("")}</div>`;
+    const cl = tally(top.flatMap(r => r.c)).map(([c, n]) => [`${c} ${CL[c]}`, n]);
+    const sig = tally(top.flatMap(r => r.sig.map(t => t.toLowerCase().trim())));
+    const bm = tally(top.flatMap(r => r.bm.map(t => t.trim())));
+    const gr = tally(top.map(r => r.gr).filter(g => g && g !== "n/a" && g !== "none"));
+    const lr = tally(top.map(r => r.lr).filter(g => g && g !== "n/a"));
+    const eff = top.filter(r => r.cost), groups = tally(eff.map(r => r.gr && r.gr !== "n/a" && r.gr !== "none" ? r.gr + "-level" : "other"));
+    const effHtml = groups.length ? `<div class="effgrp">${groups.map(([m, n]) => `<div class="g"><span class="m">${esc(m)}</span> · ${n} item${n > 1 ? "s" : ""}<ul>${
+      eff.filter(r => (r.gr && r.gr !== "n/a" && r.gr !== "none" ? r.gr + "-level" : "other") === m).slice(0, 3).map(r => `<li><a href="#r-${r.i}">${esc(r.t.length > 60 ? r.t.slice(0, 58) + "…" : r.t)}</a>: <span class="v">${esc(r.cost.length > 130 ? r.cost.slice(0, 128) + "…" : r.cost)}</span></li>`).join("")}</ul></div>`).join("")}</div>`
+      : `<p class="ai-warn">None of these items report cost/quality numbers.</p>`;
+    const share = (f, label) => `<li><span>${label}</span><span class="n">${top.filter(f).length} / ${top.length}</span></li>`;
+    $("#ov-grid").innerHTML = `
+      <div><h3>By year</h3>${bars}</div>
+      <div><h3>Clusters</h3>${cntList(cl, 9)}</div>
+      <div><h3>Top signals used</h3>${sig.length ? cntList(sig, 10, true) : "<p class='ai-warn'>None recorded.</p>"}</div>
+      <div><h3>Evidence</h3><ul class="cnt">${share(r => r.rel >= 4, "Relevance 4–5")}${share(r => r.prod, "Production evidence")}${share(r => r.cost, "Report cost/quality numbers")}${share(r => r.code, "Have code")}</ul>
+        ${gr.length ? `<h3 style="margin-top:12px">Routing granularity</h3>${cntList(gr, 5)}` : ""}</div>
+      <div><h3>Learning regime</h3>${lr.length ? cntList(lr, 7) : "<p class='ai-warn'>None recorded.</p>"}
+        ${bm.length ? `<h3 style="margin-top:12px">Top benchmarks</h3>${cntList(bm, 6, true)}` : ""}</div>
+      <div style="grid-column:1/-1"><h3>Reported cost/quality numbers, grouped by routing granularity (not comparable across benchmarks or baselines)</h3>${effHtml}</div>`;
+  }
+
+  // ---- AI topic summary: WebLLM runs an open model in the browser via WebGPU ----
+  const AI = { engine:null, model:"", busy:false };
+  const aiStatus = t => { $("#ai-status").textContent = t; };
+  function mdLite(text, refs) {
+    text = normCites(text);
+    const lines = esc(text).split(/\n/);
+    let html = "", inList = false;
+    const inline = s => s.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\[(\d{1,2}(?:\s*,\s*\d{1,2})*)\]/g, (m, g) =>
+      g.split(/\s*,\s*/).map(n => refs[+n - 1] ? `<a class="cite" href="#r-${refs[+n - 1].i}" title="${esc(refs[+n - 1].t)}">${n}</a>` : `[${n}]`).join(" "));
+    for (const raw of lines) {
+      const l = raw.trim();
+      if (/^([-*•]|\d+\.)\s+/.test(l)) { if (!inList) { html += "<ul>"; inList = true; } html += `<li>${inline(l.replace(/^([-*•]|\d+\.)\s+/, ""))}</li>`; continue; }
+      if (inList) { html += "</ul>"; inList = false; }
+      if (!l) continue;
+      if (/^#{1,4}\s/.test(l) || /^\*\*[^*]+\*\*:?$/.test(l)) html += `<h4>${inline(l.replace(/^#{1,4}\s/, "").replace(/^\*\*|\*\*:?$/g, ""))}</h4>`;
+      else html += `<p>${inline(l)}</p>`;
+    }
+    return html + (inList ? "</ul>" : "");
+  }
+  // Deterministic evidence about what the matching literature does and does not cover; fed to the idea proposer.
+  const KEY_QS = [
+    "Can step- or subagent-level model routing inside long-horizon trajectories cut cost without lowering task success?",
+    "How can a routing or configuration policy be learned from offline customer logs where only the chosen model's outcome is observed?",
+    "How can a router explore safely on live enterprise traffic under budget and quality constraints, and handle drift and new models?",
+    "Which quality signals (judges, verifiers, probes, uncertainty) are cheap and reliable enough to drive escalation inside agents?",
+    "How do routing, prompt caching, context management and distillation interact in total cost per solved task?"];
+  function gapSignals(list) {
+    const top = list.slice(0, 80), n = top.length || 1;
+    const pct = f => Math.round(100 * top.filter(f).length / n);
+    const gr = tally(top.map(r => r.gr || "n/a"));
+    const lr = tally(top.map(r => r.lr || "n/a"));
+    const cl = new Map(tally(top.flatMap(r => r.c)));
+    const thin = Object.keys(CL).filter(c => (cl.get(c) || 0) <= Math.max(1, n * 0.04)).map(c => `${c} ${CL[c]}`);
+    const bm = tally(top.flatMap(r => r.bm.map(x => x.trim()))).slice(0, 6).map(([k, v]) => `${k} (${v})`);
+    return [
+      `${top.length} best-matching items considered; ${pct(r => r.y >= 2026)}% are from 2026, ${pct(r => r.y && r.y <= 2023)}% from 2023 or earlier.`,
+      `Production evidence: ${pct(r => r.prod)}%. Report cost/quality numbers: ${pct(r => r.cost)}%. Released code: ${pct(r => r.code)}%.`,
+      `Routing granularity: ${gr.map(([k, v]) => `${k} (${v})`).join(", ")}.`,
+      `Learning regime: ${lr.map(([k, v]) => `${k} (${v})`).join(", ")}.`,
+      `Clusters barely represented in this set: ${thin.join("; ") || "none"}.`,
+      `Most used benchmarks: ${bm.join(", ") || "none recorded"}.`];
+  }
+
+  const normCites = text => text
+    .replace(/\(?\b(?:Records?|Refs?\.?|Items?)\s+(\d{1,2}(?:\s*(?:,|and|&)\s*\d{1,2})*)\)?/gi, (m, g) => "[" + g.split(/\s*(?:,|and|&)\s*/).join(", ") + "]")
+    .replace(/\b(?:Records?|Refs?\.?|Items?)\s*(?=\[\d)/gi, "")
+    .replace(/\s*\[n\]/gi, "");
+  const recLine = (r, n, max) => {
+    let s = `[${n + 1}] ${r.t} (${r.y || "n.d."}${r.v ? ", " + r.v : ""}). ${r.ki} ${r.sum}`;
+    if (r.gr && r.gr !== "n/a") s += ` Granularity: ${r.gr}; regime: ${r.lr || "n/a"}.`;
+    if (r.cost) s += ` Reported: ${r.cost}.`;
+    if (r.prod) s += " Production evidence.";
+    if (r.bm.length) s += ` Benchmarks: ${r.bm.slice(0, 4).join(", ")}.`;
+    return s.length > max ? s.slice(0, max - 1) + "…" : s;
+  };
+  const RULES = "Use only the numbered records provided. Cite records inline with their bracketed numbers, for example: 'Per-step routers escalate only on uncertain turns [2][5].' Never write the word 'Record'. Never invent papers, results or numbers. Cost and quality numbers from different benchmarks, baselines or price sheets are not comparable, so never rank or compare numbers across them.";
+
+  function buildPrompt(kind, refs, topic) {
+    if (kind === "summary") {
+      const ctx = refs.map((r, n) => recLine(r, n, 560)).join("\n");
+      return { max_tokens:650, temperature:0.3, messages:[
+        { role:"system", content:"You summarize ML systems research literature for researchers building cost-efficient multi-agent LLM systems. " + RULES + " Be concise and concrete." },
+        { role:"user", content:`Topic: "${topic}"\n\nRecords:\n${ctx}\n\nWrite four short sections with these headings:\n### Overview\n2-3 sentences.\n### Main approaches\nBullets, each with citations.\n### Reported results\nBullets; for each number say the benchmark and the baseline it is measured against.\n### Gaps\nOpen problems visible in these records.\nStay under 330 words.` }] };
+    }
+    const ctx = refs.map((r, n) => recLine(r, n, 460)).join("\n");
+    const cons = $("#ai-constraints").value.trim();
+    return { max_tokens:900, temperature:0.6, messages:[
+      { role:"system", content:"You are a research advisor to an ML researcher who is cutting the cost of a production multi-agent LLM system in which every step currently calls one frontier model. You propose concrete, testable research ideas grounded in the literature you are given. " + RULES + " When you mention a record, describe only what that record's own line says about it. Each idea must build on or contrast with specific records, and must target a gap shown by the records or the evidence statistics. Prefer ideas a small team could test on logged traffic or a public agent benchmark." },
+      { role:"user", content:`Topic: "${topic}"\n${cons ? `Constraints from the researcher: ${cons}\n` : ""}\nRecords:\n${ctx}\n\nEvidence about this set of papers (computed from the database):\n- ${gapSignals(current).join("\n- ")}\n\nKey questions:\n- ${KEY_QS.join("\n- ")}\n\nPropose 3 research ideas. Use exactly this format for each, replacing TITLE with your own 5-10 word title:\n### Idea 1: TITLE\n- **Idea:** 2 sentences.\n- **Builds on:** which records and how, with citations.\n- **Gap addressed:** what is missing, citing records or the evidence above.\n- **First experiment:** data (offline logs, live traffic or benchmark), models, and the metric (e.g. cost per solved task at fixed success rate).\n- **Risk:** the main way it could fail.\nStay under 480 words.` }] };
+  }
+
+  const aiButtons = on => { $("#ai-go").disabled = !on; $("#ai-ideas").disabled = !on; };
+  async function runAI(kind) {
+    if (AI.busy) return;
+    if (!navigator.gpu) { aiStatus("This browser has no WebGPU. Try a recent desktop Chrome or Edge."); return; }
+    const refs = current.slice(0, kind === "summary" ? 16 : 12);
+    if (!refs.length) return;
+    AI.busy = true; aiButtons(false);
+    const topic = state.q.trim() || "the currently filtered set of items";
+    try {
+      const model = $("#ai-model").value;
+      if (!AI.engine || AI.model !== model) {
+        aiStatus("Loading the AI library…");
+        const webllm = await import("https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.85/+esm");
+        if (AI.engine) await AI.engine.unload();
+        AI.engine = await webllm.CreateMLCEngine(model, { initProgressCallback: p => aiStatus(p.text.replace(/\s*\[.*?\]\s*/g, " ").slice(0, 110)) },
+          { context_window_size: 8192 });
+        AI.model = model;
+      }
+      aiStatus(kind === "summary" ? "Writing the summary…" : "Drafting research ideas…");
+      const { messages, max_tokens, temperature } = buildPrompt(kind, refs, topic);
+      let text = "";
+      const render = () => {
+        let html = mdLite(kind === "ideas" ? text.replace(/(#{1,4}\s*Idea\s*\d+)\s*:\s*(?:<[^>\n]*>|TITLE|\[[^\]\n]*title[^\]\n]*\])\s*$/gim, "$1") : text, refs);
+        if (kind === "ideas") html = html.replace(/<h4>/g, '<h4 class="idea">');
+        return html;
+      };
+      const stream = await AI.engine.chat.completions.create({ messages, stream:true, temperature, max_tokens });
+      for await (const c of stream) { text += c.choices[0]?.delta?.content || ""; $("#ai-out").innerHTML = render(); }
+      let html = render();
+      if (kind === "ideas") {
+        // Flag ideas that cite none of the retrieved papers.
+        const parts = normCites(text).split(/^\s*(?:#{1,4}\s+.*|\*\*[^*\n]+\*\*:?)\s*$/m).slice(1).filter(p => p.trim());
+        const bad = parts.map((p, k) => /\[\d/.test(p) ? 0 : k + 1).filter(Boolean);
+        if (bad.length) html += `<p class="uncited">Idea ${bad.join(" and ")} cites none of the retrieved papers. Treat it as speculative.</p>`;
+        html += `<details class="ai-signals"><summary>Evidence given to the model</summary><pre>${esc(gapSignals(current).join("\n"))}</pre></details>`;
+      }
+      $("#ai-out").innerHTML = html + `<ol class="ai-refs">${refs.map(r => `<li><a href="${esc(r.u || "#r-" + r.i)}" target="_blank" rel="noopener">${esc(r.t)}</a>${r.y ? ` (${r.y})` : ""}</li>`).join("")}</ol>`;
+      aiStatus(kind === "summary" ? `Summary of the top ${refs.length} results for “${topic.slice(0, 60)}”. AI-generated; check the sources.`
+        : `Research ideas grounded in the top ${refs.length} results for “${topic.slice(0, 60)}”. AI-generated starting points, not vetted proposals.`);
+    } catch (e) {
+      aiStatus("The AI run failed: " + (e && e.message ? e.message.slice(0, 140) : "unknown error") + ". Try the smaller model, or a desktop browser with WebGPU.");
+    }
+    AI.busy = false; aiButtons(true);
+  }
+
+  let runId = 0;
+  async function run(keepShown) {
+    if (!keepShown) state.shown = 40;
+    const my = ++runId;
+    const q = state.q.trim();
+    const scores = byId.has(q) ? new Map([[byId.get(q).i, 1]]) : await search(state.q);
+    if (my !== runId) return;
+    terms = q && !byId.has(q) ? q.split(/\s+/).filter(t => t.length > 1) : [];
+    let list = R.filter(r => pass(r) && (!scores || scores.has(r.i)));
+    const byRel = (a, b) => (b.rel || 0) - (a.rel || 0) || (b.y || 0) - (a.y || 0);
+    const s = state.sort === "best" && !scores ? "rel" : state.sort;
+    if (s === "best") list.sort((a, b) => scores.get(b.i) - scores.get(a.i));
+    else if (s === "rel") list.sort(byRel);
+    else if (s === "new") list.sort((a, b) => (b.y || 0) - (a.y || 0) || byRel(a, b));
+    else list.sort((a, b) => (a.y || 9999) - (b.y || 9999) || byRel(a, b));
+    $("#count").innerHTML = `<b>${list.length.toLocaleString()}</b> of ${R.length.toLocaleString()} items`;
+    $("#results").innerHTML = list.length ? list.slice(0, state.shown).map(card).join("")
+      : `<li class="empty">No items match. Try fewer words, or clear some filters.</li>`;
+    current = list;
+    const filtered = state.cl.size || state.rel || state.gr.size || state.lr || state.ty.size || state.cost || state.prod || state.code
+      || state.y0 !== +years[0] || state.y1 !== +years[years.length - 1];
+    if (!keepShown) { overview(list, (!!q && !byId.has(q)) || filtered); $("#ai-out").innerHTML = ""; if (!AI.busy) aiStatus(""); }
+    $("#more").hidden = list.length <= state.shown;
+    $("#more").textContent = `Show more (${(list.length - state.shown).toLocaleString()} left)`;
+  }
+
+  const setQuery = q => { $("#q").value = q; state.q = q; run(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  let timer;
+  $("#q").addEventListener("input", e => { loadSemantic(); clearTimeout(timer); timer = setTimeout(() => { state.q = e.target.value; run(); }, 180); });
+  $("#q").addEventListener("focus", loadSemantic, { once:true });
+  $("#sem").addEventListener("change", e => { SEM.on = e.target.checked; if (SEM.on) { if (SEM.ready) semStatus("on", true); else loadSemantic(); } else semStatus("off"); run(); });
+  $("#ai-go").addEventListener("click", () => runAI("summary"));
+  $("#ai-ideas").addEventListener("click", () => runAI("ideas"));
+  $("#ov-grid").addEventListener("click", e => { const b = e.target.closest("button[data-q]"); if (b) setQuery(b.dataset.q); });
+  $("#results").addEventListener("click", e => { const b = e.target.closest("button.relid"); if (b) setQuery(b.dataset.id); });
+  document.querySelectorAll(".examples button").forEach(b => b.addEventListener("click", () => { loadSemantic(); state.sort = "best"; $("#sort").value = "best"; setQuery(b.dataset.q); }));
+  $("#f-cluster").addEventListener("change", e => { e.target.checked ? state.cl.add(e.target.value) : state.cl.delete(e.target.value); run(); });
+  $("#f-rel").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return;
+    state.rel = +b.dataset.v; $("#f-rel").querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", x === b)); run(); });
+  const toggleChips = (sel, set) => $(sel).addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return;
+    const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on);
+    on ? set.add(b.dataset.v) : set.delete(b.dataset.v); run(); });
+  toggleChips("#f-gran", state.gr);
+  toggleChips("#f-type", state.ty);
+  $("#f-regime").addEventListener("change", e => { state.lr = e.target.value; run(); });
+  $("#f-y0").addEventListener("change", e => { state.y0 = +e.target.value; run(); });
+  $("#f-y1").addEventListener("change", e => { state.y1 = +e.target.value; run(); });
+  ["cost", "prod", "code"].forEach(k => $("#f-" + k).addEventListener("change", e => { state[k] = e.target.checked; run(); }));
+  $("#sort").addEventListener("change", e => { state.sort = e.target.value; run(); });
+  $("#more").addEventListener("click", () => { state.shown += 40; run(true); });
+  $("#reset").addEventListener("click", () => {
+    Object.assign(state, { q:"", rel:0, lr:"", y0:+years[0], y1:+years[years.length - 1], cost:false, prod:false, code:false });
+    state.cl.clear(); state.ty.clear(); state.gr.clear(); $("#q").value = "";
+    document.querySelectorAll(".filters input[type=checkbox]").forEach(x => x.checked = false);
+    document.querySelectorAll("#f-type .chip, #f-gran .chip").forEach(x => x.setAttribute("aria-pressed", "false"));
+    document.querySelectorAll("#f-rel .chip").forEach(x => x.setAttribute("aria-pressed", x.dataset.v === "0"));
+    $("#f-y0").value = years[0]; $("#f-y1").value = years[years.length - 1]; $("#f-regime").value = ""; run();
+  });
+  state.y0 = +years[0]; state.y1 = +years[years.length - 1];
+  run();
+})();
+</script>
+
+</body>
+</html>

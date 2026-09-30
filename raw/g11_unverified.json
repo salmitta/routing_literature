@@ -1,0 +1,11 @@
+[
+{"_unverified":"Google Cloud Vertex AI Model Optimizer","note":"Old docs URLs (cloud.google.com/vertex-ai/generative-ai/docs/model-reference/vertex-ai-model-optimizer and variants) now redirect to the generic Gemini Enterprise Agent Platform models overview or return 404; no current optimizer/router page found in its link list. Added the data-driven prompt optimizer docs instead."},
+{"_unverified":"Predibase case studies (e.g., LoRA Land blog, Checkr)","note":"predibase.com now redirects to rubrik.com, which returns 403 Access Denied to curl. LoRA Land paper already in index (zhao-2024-lora-land)."},
+{"_unverified":"OpenPipe case studies / blog","note":"openpipe.ai/blog, /case-studies and /blog/art-e-mail-agent return an empty JS shell (title 'OpenPipe', no content). ART already in index (openpipe-2025-art)."},
+{"_unverified":"Modal blog cost posts","note":"modal.com/blog index only exposed /blog/how-to-price-serverless and the atom feed; no substantive LLM cost post found without search."},
+{"_unverified":"Baseten blog cost posts","note":"Index showed only product/news posts; Baseten Loops posts lacked numbers and were folded into gola-2026-langsmith-fine-tuning."},
+{"_unverified":"Anyscale blog (LLM router)","note":"anyscale.com/blog renders empty to curl; the Anyscale router post is already in the index (almahairi-2024-anyscale-router)."},
+{"_unverified":"Hugging Face blog routing/cost posts","note":"Current blog index had no routing, caching or distillation-for-cost posts; no older URL known without search."},
+{"_unverified":"OpenAI API model distillation announcement (openai.com/index/api-model-distillation)","note":"openai.com returns 403 (JS/cookie challenge) to curl; used developers.openai.com model-optimization track instead."},
+{"_unverified":"Skipped as duplicates/companions (not unverified)","note":"LMSYS RouteLLM blog (paper ong-2024 in index, no production data); Google Research speculative cascades blog (narasimhan-2024 in index); LMSYS SGLang/RadixAttention blog (zheng-2023-sglang in index); vLLM signal-decision blog (companion to liu-2026-vllm-semantic-router); AWS Bedrock distillation blogs (aws-bedrock-model-distillation in index); Anthropic context engineering, Manus, GPTCache, LiteLLM router, Portkey, Martian docs, NVIDIA router blueprint, Azure model router, Bedrock prompt routing already in index."}
+]

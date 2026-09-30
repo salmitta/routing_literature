@@ -1,0 +1,7 @@
+[
+ {"_unverified": "Learning from Naturally Occurring Feedback (Don-Yehiya et al., implicit feedback in chat logs)", "note": "OpenAlex title search returned no match; arXiv API rate-limited (429) and WebSearch budget exhausted, so could not confirm ID/authors. Left out."},
+ {"_unverified": "BARouter: A Budget-adaptive Online Large Language Model Router Framework", "note": "Appears in Semantic Scholar cited-by list of C2MAB-V and MetaLLM without arXiv ID or venue; no abstract seen. Left out."},
+ {"_unverified": "Uncertainty-Aware Adaptive Routing for Large Language Models using Constrained Thompson Sampling (Patel et al., 2026)", "note": "Found only as Zenodo/Research Square deposits via OpenAlex; no peer-reviewed or arXiv version seen. Excluded on rigor grounds."},
+ {"_unverified": "Industry blogs on A/B testing, shadow deployment and online routing (Martian, Not Diamond, OpenRouter, LMSYS RouteLLM blog)", "note": "WebSearch budget for the session was exhausted (200/200) before blog searches; only academic APIs (OpenAlex, arXiv, Semantic Scholar via WebFetch) were usable. Not searched."},
+ {"_unverified": "Contextual Bandit Routing for LoRA Experts", "note": "Listed in Semantic Scholar cited-by of C2MAB-V with no year or ID; not verifiable. Left out."}
+]

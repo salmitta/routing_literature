@@ -1,0 +1,5450 @@
+[
+ {
+  "id": "ong-2024-routellm",
+  "title": "RouteLLM: Learning to Route LLMs with Preference Data",
+  "authors": [
+   "Isaac Ong",
+   "Amjad Almahairi",
+   "Vincent Wu",
+   "Wei-Lin Chiang",
+   "Tianhao Wu",
+   "Joseph E. Gonzalez",
+   "M Waleed Kadous",
+   "Ion Stoica"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv (later ICLR 2025 per authors; venue not verified here)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2406.18665",
+  "code_url": "https://github.com/lm-sys/RouteLLM",
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "query embedding",
+   "human preference labels (Chatbot Arena)",
+   "matrix factorization",
+   "BERT classifier",
+   "similarity-weighted ranking"
+  ],
+  "cost_reduction_reported": "Reduces costs by over 2 times in certain cases without compromising response quality (abstract; strong vs weak LLM pair)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Trains binary routers that pick between a strong and a weak LLM per query using Chatbot Arena human preference data plus augmentation. Compares matrix factorization, BERT classifier, causal-LLM classifier and similarity-weighted ranking routers, and shows they transfer when the model pair is swapped at test time.",
+  "key_idea": "Learn strong-vs-weak routing from pairwise human preference data with a tunable threshold.",
+  "relevance_score": 4,
+  "relevance_rationale": "Canonical open-source query-level router with threshold control; a baseline every routing study compares against.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "ding-2024-hybrid-llm",
+  "title": "Hybrid LLM: Cost-Efficient and Quality-Aware Query Routing",
+  "authors": [
+   "Dujian Ding",
+   "Ankur Mallick",
+   "Chi Wang",
+   "Robert Sim",
+   "Subhabrata Mukherjee",
+   "Victor Ruhle",
+   "Laks V. S. Lakshmanan",
+   "Ahmed Hassan Awadallah"
+  ],
+  "year": 2024,
+  "venue_or_source": "ICLR 2024",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2404.14618",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "difficulty estimate",
+   "predicted quality gap",
+   "desired quality threshold"
+  ],
+  "cost_reduction_reported": "Up to 40% fewer calls to the large model with no drop in response quality (abstract)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Proposes a hybrid inference setup where a lightweight router predicts, per query, whether a small edge-deployable model will match the large model's quality. The quality threshold is tunable at test time to trade quality for cost.",
+  "key_idea": "Route to small vs large model by predicting the quality gap, with a test-time tunable threshold.",
+  "relevance_score": 4,
+  "relevance_rationale": "Foundational difficulty-aware two-model router; directly transferable to per-call downscaling.",
+  "found_via": "seed",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "lu-2023-zooter",
+  "title": "Routing to the Expert: Efficient Reward-guided Ensemble of Large Language Models",
+  "authors": [
+   "Keming Lu",
+   "Hongyi Yuan",
+   "Runji Lin",
+   "Junyang Lin",
+   "Zheng Yuan",
+   "Chang Zhou",
+   "Jingren Zhou"
+  ],
+  "year": 2023,
+  "venue_or_source": "arXiv",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2311.08692",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "reward model scores (distilled)",
+   "query tags",
+   "query embedding"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "benchmark collection of 26 subsets"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Zooter distills reward-model scores on training queries into a routing function that sends each query to the LLM with relevant expertise, avoiding the cost of generating from every model and ranking. Tag-based label enhancement reduces noise from silver reward supervision; across 26 subsets it beats the best single model on average.",
+  "key_idea": "Distill off-the-shelf reward-model rankings into a cheap pre-generation router.",
+  "relevance_score": 4,
+  "relevance_rationale": "Early reward-guided router showing routing can replace expensive output reranking.",
+  "found_via": "seed",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "hari-2023-tryage",
+  "title": "Tryage: Real-time, intelligent Routing of User Prompts to Large Language Models",
+  "authors": [
+   "Surya Narayanan Hari",
+   "Matt Thomson"
+  ],
+  "year": 2023,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2308.11601",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "predicted per-model loss",
+   "user constraint flags (size, recency)"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Tryage uses a language-model 'perceptive router' to predict downstream performance of expert models from a library on each prompt, then combines these predictions with user-specified constraints such as model size or recency. Users can move along a Pareto front between accuracy and secondary objectives.",
+  "key_idea": "Predict per-expert performance on a prompt and optimize a constraint-aware objective over a model library.",
+  "relevance_score": 3,
+  "relevance_rationale": "Early model-library router; less relevant to frontier API cost but introduces the Pareto framing.",
+  "found_via": "seed",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhuang-2024-embedllm",
+  "title": "EmbedLLM: Learning Compact Representations of Large Language Models",
+  "authors": [
+   "Richard Zhuang",
+   "Tianhao Wu",
+   "Zhaojin Wen",
+   "Andrew Li",
+   "Jiantao Jiao",
+   "Kannan Ramchandran"
+  ],
+  "year": 2024,
+  "venue_or_source": "ICLR (per Semantic Scholar)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2410.02223",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "learned model embeddings",
+   "query embedding",
+   "correctness labels"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "EmbedLLM learns compact vector representations of LLMs with an encoder-decoder trained on query-level correctness data. The embeddings support routing and forecasting benchmark performance without running the model, and outperform prior methods on routing accuracy and latency.",
+  "key_idea": "Matrix-factorization-style LLM embeddings reused across routing and performance prediction.",
+  "relevance_score": 4,
+  "relevance_rationale": "Scalable model representation for routing over large and changing pools.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "hu-2024-routerbench",
+  "title": "RouterBench: A Benchmark for Multi-LLM Routing System",
+  "authors": [
+   "Qitian Jason Hu",
+   "Jacob Bieker",
+   "Xiuyu Li",
+   "Nan Jiang",
+   "Benjamin Keigwin",
+   "Gaurav Ranganath",
+   "Kurt Keutzer",
+   "Shriyash Kaustubh Upadhyay"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "benchmark",
+  "url": "https://arxiv.org/abs/2403.12031",
+  "code_url": "https://github.com/withmartian/routerbench",
+  "topic_clusters": [
+   "C1",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "precomputed per-model outcomes",
+   "cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "RouterBench (405k inference outcomes)"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "RouterBench provides over 405k precomputed inference outcomes across a set of representative LLMs and tasks, so routers can be evaluated offline without calling models. It also gives a theoretical framing of routing on the cost-quality plane and compares routing approaches.",
+  "key_idea": "Standard offline benchmark of per-model outcomes and costs for evaluating routers.",
+  "relevance_score": 4,
+  "relevance_rationale": "De facto evaluation substrate for query routers (by Martian).",
+  "found_via": "seed",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "somerstep-2025-carrot",
+  "title": "CARROT: A Cost Aware Rate Optimal Router",
+  "authors": [
+   "Seamus Somerstep",
+   "Felipe Maia Polo",
+   "Allysson Flavio Melo de Oliveira",
+   "Prattyush Mangal",
+   "Mírian Silva",
+   "Onkar Bhardwaj",
+   "Mikhail Yurochkin",
+   "Subha Maity"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.03261",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C15",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "predicted accuracy",
+   "predicted cost",
+   "query embedding"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "SPROUT",
+   "RouterBench",
+   "Open LLM Leaderboard v2"
+  ],
+  "models_studied": [
+   "o3-mini"
+  ],
+  "production_evidence": false,
+  "summary": "Provides a minimax analysis of routing and shows a router that separately estimates each model's cost and accuracy can be rate-optimal. Introduces CARROT based on this principle and releases the SPROUT dataset spanning recent frontier LLMs with price-aware routing labels.",
+  "key_idea": "Estimate both cost and accuracy per model and plug into a linear utility: minimax-optimal routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "Theory-backed simple router plus the SPROUT dataset (seed 'SPROUT' is released here).",
+  "found_via": "seed",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "chen-2024-routerdc",
+  "title": "RouterDC: Query-Based Router by Dual Contrastive Learning for Assembling Large Language Models",
+  "authors": [
+   "Shuhao Chen",
+   "Weisen Jiang",
+   "Baijiong Lin",
+   "James T. Kwok",
+   "Yu Zhang"
+  ],
+  "year": 2024,
+  "venue_or_source": "NeurIPS 2024",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2409.19886",
+  "code_url": "https://github.com/shuhao02/RouterDC",
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "query embedding",
+   "learned LLM embeddings",
+   "contrastive losses"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "RouterDC trains a query encoder and per-LLM embeddings with two contrastive losses (sample-LLM and sample-sample) so that queries where several LLMs do well are handled gracefully. It outperforms individual top models and prior routers in and out of distribution (+2.76% and +1.90%).",
+  "key_idea": "Dual contrastive learning of query and LLM embeddings for routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "Widely used learned-router baseline.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "feng-2024-graphrouter",
+  "title": "GraphRouter: A Graph-based Router for LLM Selections",
+  "authors": [
+   "Tao Feng",
+   "Yanzhen Shen",
+   "Jiaxuan You"
+  ],
+  "year": 2024,
+  "venue_or_source": "ICLR (per Semantic Scholar)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2410.03834",
+  "code_url": "https://github.com/ulab-uiuc/GraphRouter",
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "task-query-LLM heterogeneous graph",
+   "edge prediction of effect and cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "GraphRouter builds a heterogeneous graph of task, query and LLM nodes and predicts edge attributes (response quality and cost) inductively. This lets it adapt to newly introduced LLMs without retraining; it reports at least 12.3% improvement over prior routers across three effect-cost weightings.",
+  "key_idea": "Inductive graph edge prediction for LLM selection that generalizes to new models.",
+  "relevance_score": 4,
+  "relevance_rationale": "Key seed; handles changing model pools.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "wang-2025-mixllm",
+  "title": "MixLLM: Dynamic Routing in Mixed Large Language Models",
+  "authors": [
+   "Xinyuan Wang",
+   "Yanchi Liu",
+   "Wei Cheng",
+   "Xujiang Zhao",
+   "Zhengzhang Chen",
+   "Wenchao Yu",
+   "Yanjie Fu",
+   "Haifeng Chen"
+  ],
+  "year": 2025,
+  "venue_or_source": "NAACL 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2502.18482",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "query embedding with tags",
+   "predicted quality",
+   "predicted cost",
+   "latency",
+   "user feedback"
+  ],
+  "cost_reduction_reported": "97.25% of GPT-4's quality at 24.18% of the cost under the time constraint (abstract)",
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-4"
+  ],
+  "production_evidence": false,
+  "summary": "MixLLM is a contextual-bandit routing system that augments query embeddings with tags, predicts quality and cost per candidate, and uses a meta-decision maker trading off quality, cost and latency. It supports continual training from feedback and changes in the candidate set.",
+  "key_idea": "Contextual-bandit router with continual learning and dynamic candidate pools.",
+  "relevance_score": 4,
+  "relevance_rationale": "Seed; combines offline prediction with online adaptation.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "song-2025-irt-router",
+  "title": "IRT-Router: Effective and Interpretable Multi-LLM Routing via Item Response Theory",
+  "authors": [
+   "Wei Song",
+   "Zhenya Huang",
+   "Cheng Cheng",
+   "Weibo Gao",
+   "Bihan Xu",
+   "GuanHao Zhao",
+   "Fei Wang",
+   "Runze Wu"
+  ],
+  "year": 2025,
+  "venue_or_source": "ACL 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2506.01048",
+  "code_url": "https://github.com/Mercidaiha/IRT-Router",
+  "topic_clusters": [
+   "C1",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "item response theory ability/difficulty",
+   "query embedding",
+   "semantic warm-up"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "12 datasets"
+  ],
+  "models_studied": [
+   "20 LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "IRT-Router borrows item response theory to jointly model LLM abilities and query difficulty/attributes, giving both accurate performance prediction and interpretable parameters. An online warm-up based on semantic similarity helps cold-start queries; experiments span 20 LLMs and 12 datasets.",
+  "key_idea": "Psychometric IRT model of model ability vs query difficulty for routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "Seed; interpretable difficulty estimation useful for enterprise auditing.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "tran-2025-arch-router",
+  "title": "Arch-Router: Aligning LLM Routing with Human Preferences",
+  "authors": [
+   "Co Tran",
+   "Salman Paracha",
+   "Adil Hafeez",
+   "Shuguang Chen"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2506.16655",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "user-defined domain/action policies",
+   "1.5B router LM"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "conversational datasets"
+  ],
+  "models_studied": [
+   "Arch-Router-1.5B"
+  ],
+  "production_evidence": false,
+  "summary": "Arch-Router is a 1.5B model that maps queries to user-defined domain or action preferences, which are then bound to specific models. New models can be added by editing the policy mapping without retraining; the authors report state-of-the-art preference matching against proprietary models.",
+  "key_idea": "Route by matching queries to human-written policy descriptions rather than benchmark scores.",
+  "relevance_score": 4,
+  "relevance_rationale": "Seed; practical preference-aligned router from the Arch gateway team.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "ding-2025-best-route",
+  "title": "BEST-Route: Adaptive LLM Routing with Test-Time Optimal Compute",
+  "authors": [
+   "Dujian Ding",
+   "Ankur Mallick",
+   "Shaokun Zhang",
+   "Chi Wang",
+   "Daniel Madrigal",
+   "Mirian Del Carmen Hipolito Garcia",
+   "Menglin Xia",
+   "Laks V. S. Lakshmanan",
+   "Qingyun Wu",
+   "Victor Rühle"
+  ],
+  "year": 2025,
+  "venue_or_source": "ICML 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2506.22716",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C9"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "difficulty estimate",
+   "quality threshold",
+   "best-of-n sampling count"
+  ],
+  "cost_reduction_reported": "Reduces costs by up to 60% with less than 1% performance drop (abstract)",
+  "benchmarks": [
+   "real-world datasets"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "BEST-Route chooses both the model and how many responses to sample from it (best-of-n), based on query difficulty and a quality threshold. Sampling multiple answers from a small model often beats one answer from a large model at lower cost.",
+  "key_idea": "Jointly route over model choice and test-time sample count.",
+  "relevance_score": 4,
+  "relevance_rationale": "Seed; bridges routing with test-time compute allocation.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "zhang-2025-router-r1",
+  "title": "Router-R1: Teaching LLMs Multi-Round Routing and Aggregation via Reinforcement Learning",
+  "authors": [
+   "Haozhen Zhang",
+   "Tao Feng",
+   "Jiaxuan You"
+  ],
+  "year": 2025,
+  "venue_or_source": "NeurIPS 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2506.09033",
+  "code_url": "https://github.com/ulab-uiuc/Router-R1",
+  "topic_clusters": [
+   "C1",
+   "C3"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "router LLM reasoning",
+   "model descriptors (price, latency, example performance)",
+   "cost reward"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "seven general and multi-hop QA benchmarks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Router-R1 makes the router itself an LLM trained with RL to interleave internal reasoning with calls to other models, aggregating their responses over multiple rounds. The rule-based reward includes format, outcome and a cost term, and conditioning on simple model descriptors lets it generalize to unseen models.",
+  "key_idea": "RL-trained LLM router that performs multi-round routing and aggregation with a cost reward.",
+  "relevance_score": 5,
+  "relevance_rationale": "Seed; moves routing from one-shot classification to sequential decision-making, close to agentic routing.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "huang-2025-routereval",
+  "title": "RouterEval: A Comprehensive Benchmark for Routing LLMs to Explore Model-level Scaling Up in LLMs",
+  "authors": [
+   "Zhongzhan Huang",
+   "Guoming Ling",
+   "Yupei Lin",
+   "Yandong Chen",
+   "Shanshan Zhong",
+   "Hefeng Wu",
+   "Liang Lin"
+  ],
+  "year": 2025,
+  "venue_or_source": "EMNLP 2025",
+  "source_type": "benchmark",
+  "url": "https://arxiv.org/abs/2503.10657",
+  "code_url": "https://github.com/MilkThink-Lab/RouterEval",
+  "topic_clusters": [
+   "C1",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "precomputed performance records"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "RouterEval (12 LLM evaluations)"
+  ],
+  "models_studied": [
+   "8,500+ LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "RouterEval releases over 200 million performance records from more than 8,500 LLMs on 12 evaluations and reports a model-level scaling phenomenon: a capable router improves as the candidate pool grows, sometimes beating the best single model. Most existing routers leave large headroom on this benchmark.",
+  "key_idea": "Massive routing benchmark revealing model-level scaling with candidate count.",
+  "relevance_score": 4,
+  "relevance_rationale": "Seed benchmark.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "chen-2023-frugalgpt",
+  "title": "FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance",
+  "authors": [
+   "Lingjiao Chen",
+   "Matei Zaharia",
+   "James Zou"
+  ],
+  "year": 2023,
+  "venue_or_source": "arXiv",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2305.05176",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C2"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "answer quality scorer",
+   "cascade thresholds"
+  ],
+  "cost_reduction_reported": "Matches best individual LLM (e.g. GPT-4) with up to 98% cost reduction, or +4% accuracy over GPT-4 at the same cost (abstract)",
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-4",
+   "ChatGPT",
+   "J1-Jumbo"
+  ],
+  "production_evidence": false,
+  "summary": "Surveys cost reduction strategies for LLM APIs (prompt adaptation, LLM approximation, cascades) and proposes FrugalGPT, a learned cascade that decides which LLM combinations to query per input. It reports large cost reductions on classification-style tasks.",
+  "key_idea": "Learned LLM cascade with a scorer deciding when to stop.",
+  "relevance_score": 4,
+  "relevance_rationale": "Foundational cost-reduction paper that framed routing/cascades for API LLMs.",
+  "found_via": "snowball: related work of ong-2024-routellm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "aggarwal-2023-automix",
+  "title": "AutoMix: Automatically Mixing Language Models",
+  "authors": [
+   "Pranjal Aggarwal",
+   "Aman Madaan",
+   "Ankit Anand",
+   "Srividya Pranavi Potharaju",
+   "Swaroop Mishra",
+   "Pei Zhou",
+   "Aditya Gupta",
+   "Dheeraj Rajagopal",
+   "Karthik Kappaganthu",
+   "Yiming Yang",
+   "Shyam Upadhyay",
+   "Manaal Faruqui",
+   "Mausam"
+  ],
+  "year": 2023,
+  "venue_or_source": "NeurIPS 2024",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2310.12963",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C2",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "few-shot self-verification",
+   "POMDP router over confidence"
+  ],
+  "cost_reduction_reported": "Reduces computational cost by over 50% for comparable performance (abstract)",
+  "benchmarks": [
+   "five datasets"
+  ],
+  "models_studied": [
+   "five language models"
+  ],
+  "production_evidence": false,
+  "summary": "AutoMix lets a small model answer, estimates correctness through few-shot self-verification, and uses a POMDP-based router to decide whether to escalate to larger models given noisy verification. Across five models and datasets it cuts cost by over half at comparable quality.",
+  "key_idea": "Self-verification plus POMDP escalation policy.",
+  "relevance_score": 4,
+  "relevance_rationale": "Widely cited cascade/router hybrid with a sequential decision formulation.",
+  "found_via": "snowball: related work of ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "shnitzer-2023-routing-benchmark-datasets",
+  "title": "Large Language Model Routing with Benchmark Datasets",
+  "authors": [
+   "Tal Shnitzer",
+   "Anthony Ou",
+   "Mírian Silva",
+   "Kate Soule",
+   "Yuekai Sun",
+   "Justin Solomon",
+   "Neil Thompson",
+   "Mikhail Yurochkin"
+  ],
+  "year": 2023,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2309.15789",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "per-model correctness classifiers",
+   "query embedding (kNN)"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Recasts benchmark datasets as training data for a router that picks the best LLM for new tasks, reducing the problem to a collection of binary correctness classifiers. It shows consistent gains over any single model and discusses limits of transferring from benchmarks.",
+  "key_idea": "Reuse benchmark outcomes to train per-model correctness predictors for routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "Early principled formulation of learned routing from benchmark logs.",
+  "found_via": "snowball: related work of ong-2024-routellm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "nguyen-2024-metallm",
+  "title": "MetaLLM: A High-performant and Cost-efficient Dynamic Framework for Wrapping LLMs",
+  "authors": [
+   "Quang H. Nguyen",
+   "Thinh Dao",
+   "Duy C. Hoang",
+   "Juliette Decugis",
+   "Saurav Manchanda",
+   "Nitesh V. Chawla",
+   "Khoa D. Doan"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2407.10834",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "query embedding",
+   "bandit reward (accuracy minus cost)"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "classification and multiple-choice QA tasks"
+  ],
+  "models_studied": [
+   "OpenAI models",
+   "Together AI models"
+  ],
+  "production_evidence": false,
+  "summary": "MetaLLM frames per-query LLM selection for classification and multiple-choice QA as a multi-armed bandit balancing accuracy and cost. Experiments on OpenAI, Together AI and open-source models show improved accuracy-cost trade-offs.",
+  "key_idea": "Bandit formulation of cost-aware LLM wrapping.",
+  "relevance_score": 4,
+  "relevance_rationale": "Online-learning baseline for routing.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "frick-2025-p2l",
+  "title": "Prompt-to-Leaderboard",
+  "authors": [
+   "Evan Frick",
+   "Connor Chen",
+   "Joseph Tennyson",
+   "Tianle Li",
+   "Wei-Lin Chiang",
+   "Anastasios N. Angelopoulos",
+   "Ion Stoica"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.14855",
+  "code_url": "https://github.com/lmarena/p2l",
+  "topic_clusters": [
+   "C1",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "prompt-conditioned Bradley-Terry coefficients",
+   "human preference votes (Chatbot Arena)"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "Chatbot Arena"
+  ],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Prompt-to-Leaderboard trains an LLM to output prompt-specific Bradley-Terry coefficients over models, producing a per-prompt leaderboard usable for routing and evaluation. A router built this way reached #1 on Chatbot Arena in January 2025, and performance scales with a power law.",
+  "key_idea": "Predict a per-prompt leaderboard from preference data and route to its top model.",
+  "relevance_score": 4,
+  "relevance_rationale": "Uses real Arena traffic/votes; strong preference-based router from LMSYS.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "li-2025-llm-bandit",
+  "title": "LLM Bandit: Cost-Efficient LLM Generation via Preference-Conditioned Dynamic Routing",
+  "authors": [
+   "Yang Li"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.02743",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "query embedding",
+   "user preference vector",
+   "model identity vectors"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Formulates LLM selection as a multi-armed bandit with preference-conditioned dynamic routing so users can set accuracy-cost preferences at inference time. The policy is designed to generalize to unseen LLMs.",
+  "key_idea": "Preference-conditioned bandit router generalizing to new models.",
+  "relevance_score": 4,
+  "relevance_rationale": "Tunable online router.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wei-2025-barp",
+  "title": "Learning to Route LLMs from Bandit Feedback: One Policy, Many Trade-offs",
+  "authors": [
+   "Wang Wei",
+   "Tiankai Yang",
+   "Hongjie Chen",
+   "Yue Zhao",
+   "Franck Dernoncourt",
+   "Ryan A. Rossi",
+   "Hoda Eldardiry"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.07429",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "prompt features",
+   "user preference vector",
+   "partial (bandit) feedback"
+  ],
+  "cost_reduction_reported": "Outperforms strong offline routers by at least 12.46% and the largest LLM by at least 2.45% (abstract)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "BaRP trains a router under the same partial-feedback restriction as deployment, where only the chosen model's outcome is observed, framed as a contextual bandit over prompt features and a preference vector. Operators can adjust the performance/cost trade-off at test time without retraining.",
+  "key_idea": "Train routers with bandit feedback and a preference-conditioned policy.",
+  "relevance_score": 4,
+  "relevance_rationale": "Matches the deployment regime where only one model's outcome is logged.",
+  "found_via": "search: learning to route bandit feedback",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2025-icl-router",
+  "title": "ICL-Router: In-Context Learned Model Representations for LLM Routing",
+  "authors": [
+   "Chenxu Wang",
+   "Hao Li",
+   "Yiqun Zhang",
+   "Linyao Chen",
+   "Jianhao Chen",
+   "Ping Jian",
+   "Peng Ye",
+   "Qiaosheng Zhang",
+   "Shuyue Hu"
+  ],
+  "year": 2025,
+  "venue_or_source": "AAAI 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2510.09719",
+  "code_url": "https://github.com/lalalamdbf/ICL-Router",
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "in-context vectors of model performance",
+   "query embedding projector"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "ICL-Router represents each candidate model through in-context vectors built from its performance on a profiling query set, and trains an LLM-based router to predict whether a model will answer a new query correctly. New models can be integrated without retraining.",
+  "key_idea": "In-context model capability vectors for retrain-free router extension.",
+  "relevance_score": 4,
+  "relevance_rationale": "Addresses model-pool churn.",
+  "found_via": "search: ICL-Router",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "jitkrittum-2025-unirouter",
+  "title": "Universal Model Routing for Efficient LLM Inference",
+  "authors": [
+   "Wittawat Jitkrittum",
+   "Harikrishna Narasimhan",
+   "Ankit Singh Rawat",
+   "Jeevesh Juneja",
+   "Congchao Wang",
+   "Zifeng Wang",
+   "Alec Go",
+   "Chen-Yu Lee",
+   "Pradeep Shenoy",
+   "Rina Panigrahy",
+   "Aditya Krishna Menon",
+   "Sanjiv Kumar"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.08773",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "model feature vector from predictions on representative prompts",
+   "prompt clusters"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "public benchmarks (30+ unseen LLMs)"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "UniRoute (Google) handles dynamic routing where new LLMs appear at test time by representing each model as a vector of its errors on a small representative prompt set. Cluster-based and learned-cluster-map instantiations are shown to estimate a theoretically optimal rule, with an excess-risk bound.",
+  "key_idea": "Represent LLMs by prediction profiles on anchor prompts to route among unseen models.",
+  "relevance_score": 4,
+  "relevance_rationale": "Theory plus practicality for evolving model pools.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "dekoninck-2024-cascade-routing",
+  "title": "A Unified Approach to Routing and Cascading for LLMs",
+  "authors": [
+   "Jasper Dekoninck",
+   "Maximilian Baader",
+   "Martin Vechev"
+  ],
+  "year": 2024,
+  "venue_or_source": "ICML (per Semantic Scholar)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2410.10347",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C2",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "quality estimator",
+   "cost estimator"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Derives an optimal cascading strategy, proves optimality of an existing routing strategy, and unifies them as cascade routing, which can route and then escalate. Analysis identifies quality-estimator accuracy as the key factor for success of any model selection scheme.",
+  "key_idea": "Cascade routing: provably optimal unification of routing and cascading.",
+  "relevance_score": 5,
+  "relevance_rationale": "Theory and practice; mentions agentic systems and finds quality estimation is the bottleneck.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "stripelis-2024-to-router",
+  "title": "TensorOpera Router: A Multi-Model Router for Efficient LLM Inference",
+  "authors": [
+   "Dimitris Stripelis",
+   "Zijian Hu",
+   "Jipeng Zhang",
+   "Zhaozhuo Xu",
+   "Alay Dilipbhai Shah",
+   "Han Jin",
+   "Yuhang Yao",
+   "Salman Avestimehr",
+   "Chaoyang He"
+  ],
+  "year": 2024,
+  "venue_or_source": "EMNLP 2024 (per Semantic Scholar)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2408.12320",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "query embedding",
+   "expert performance labels"
+  ],
+  "cost_reduction_reported": "Up to 40% improvement in query efficiency and up to 30% cost reduction while maintaining or improving performance by up to 10% vs standalone experts (abstract)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "TensorOpera Router integrates multiple LLM experts behind one interface and routes each query to the best expert for its requirements. It reports efficiency and cost gains versus standalone experts.",
+  "key_idea": "Commercial multi-expert query router behind a single API.",
+  "relevance_score": 4,
+  "relevance_rationale": "Industry router with reported cost/efficiency gains.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "chuang-2024-self-ref",
+  "title": "Learning to Route LLMs with Confidence Tokens",
+  "authors": [
+   "Yu-Neng Chuang",
+   "Prathusha Kameswara Sarma",
+   "Parikshit Gopalan",
+   "John Boccio",
+   "Sara Bolouki",
+   "Xia Hu",
+   "Helen Zhou"
+  ],
+  "year": 2024,
+  "venue_or_source": "ICML (per Semantic Scholar)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2410.13284",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "learned confidence tokens"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Self-REF fine-tunes LLMs to emit confidence tokens indicating whether an answer is correct, from which a confidence score is extracted. These scores outperform verbalized confidence and token probabilities for routing to another model or rejecting.",
+  "key_idea": "Train the model to emit calibrated confidence tokens for routing/deferral.",
+  "relevance_score": 4,
+  "relevance_rationale": "Quality signal for escalation decisions.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "srivatsa-2024-lessons-routing",
+  "title": "Harnessing the Power of Multiple Minds: Lessons Learned from LLM Routing",
+  "authors": [
+   "KV Aditya Srivatsa",
+   "Kaushal Kumar Maurya",
+   "Ekaterina Kochmar"
+  ],
+  "year": 2024,
+  "venue_or_source": "Insights from Negative Results in NLP Workshop 2024",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2405.00467",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "query embedding classifier"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Studies whether each reasoning query can be directed to a single most suitable LLM. Finds that routing shows promise but is not feasible in all scenarios, arguing for more robust approaches.",
+  "key_idea": "Negative-results study on classifier routing for reasoning tasks.",
+  "relevance_score": 3,
+  "relevance_rationale": "Useful caution about router generalization.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "dai-2024-c2mab-v",
+  "title": "Cost-Effective Online Multi-LLM Selection with Versatile Reward Models",
+  "authors": [
+   "Xiangxiang Dai",
+   "Jin Li",
+   "Xutong Liu",
+   "Anqi Yu",
+   "John C. S. Lui"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2405.16587",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "combinatorial bandit rewards",
+   "cost",
+   "reward models per task type"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "C2MAB-V is a cost-aware combinatorial multi-armed bandit for selecting multiple LLMs per query across collaborative task types with different reward models. It uses online feedback and confidence bounds to balance exploration, exploitation and cost.",
+  "key_idea": "Combinatorial bandit selection of LLM subsets under cost.",
+  "relevance_score": 3,
+  "relevance_rationale": "Online multi-LLM selection.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "zhao-2024-eagle",
+  "title": "Eagle: Efficient Training-Free Router for Multi-LLM Inference",
+  "authors": [
+   "Zesen Zhao",
+   "Shuowei Jin",
+   "Z. Morley Mao"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2409.15518",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "global and local ELO ratings",
+   "query embedding neighbors"
+  ],
+  "cost_reduction_reported": "Up to 23.52% AUC improvement; 1/20 of baseline initialization time and 100-200x faster incremental updates (abstract)",
+  "benchmarks": [
+   "RouterBench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Eagle is a training-free router combining global ELO rankings with local ELO computed over similar past queries. It improves routing AUC and supports very fast incremental updates for high-volume online serving.",
+  "key_idea": "Training-free ELO-based routing with fast online updates.",
+  "relevance_score": 4,
+  "relevance_rationale": "Cheap to maintain in production.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "mei-2025-omnirouter",
+  "title": "OmniRouter: Budget and Performance Controllable Multi-LLM Routing",
+  "authors": [
+   "Kai Mei",
+   "Wujiang Xu",
+   "Minghao Guo",
+   "Shuhang Lin",
+   "Yongfeng Zhang"
+  ],
+  "year": 2025,
+  "venue_or_source": "SIGKDD Explorations 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2502.20576",
+  "code_url": "https://github.com/dongyuanjushi/OmniRouter",
+  "topic_clusters": [
+   "C1",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "retrieval-augmented performance predictor",
+   "cost predictor",
+   "Lagrangian dual multipliers"
+  ],
+  "cost_reduction_reported": "Up to 6.30% accuracy improvement while reducing computational costs by at least 10.15% vs router baselines (abstract)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "OmniRouter treats routing as a global constrained optimization that minimizes total cost subject to a performance level, rather than per-query greedy choices. A retrieval-augmented predictor estimates capabilities and costs, and Lagrangian dual decomposition finds allocations under capacity constraints.",
+  "key_idea": "Batch-level constrained optimization for budget-controllable routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "Explicit global budget control.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "li-2026-llmrouterbench",
+  "title": "LLMRouterBench: A Massive Benchmark and Unified Framework for LLM Routing",
+  "authors": [
+   "Hao Li",
+   "Yiqun Zhang",
+   "Zhaoyan Guo",
+   "Chenxu Wang",
+   "Shengji Tang",
+   "Qiaosheng Zhang",
+   "Yang Chen",
+   "Biqing Qi",
+   "Peng Ye",
+   "Lei Bai",
+   "Zhen Wang",
+   "Shuyue Hu"
+  ],
+  "year": 2026,
+  "venue_or_source": "ACL 2026",
+  "source_type": "benchmark",
+  "url": "https://arxiv.org/abs/2601.07206",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "precomputed outcomes",
+   "cost",
+   "latency"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "LLMRouterBench (21 datasets)"
+  ],
+  "models_studied": [
+   "33 models"
+  ],
+  "production_evidence": false,
+  "summary": "LLMRouterBench unifies 400K+ instances from 21 datasets and 33 models with 10 baselines. Under unified evaluation, many routers perform similarly and several recent and commercial routers fail to beat a simple baseline, while a large oracle gap remains due to model-recall failures.",
+  "key_idea": "Large unified re-evaluation showing most routers are not reliably better than simple baselines.",
+  "relevance_score": 4,
+  "relevance_rationale": "Important sober benchmark for choosing a router.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "mohammadshahi-2024-routoo",
+  "title": "Routoo: Learning to Route to Large Language Models Effectively",
+  "authors": [
+   "Alireza Mohammadshahi",
+   "Arshad Rafiq Shaikh",
+   "Majid Yazdani"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2401.13979",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "LLM-based performance predictor",
+   "cost/latency constraints"
+  ],
+  "cost_reduction_reported": "Matches Mixtral 8x7b on MMLU at one-third lower inference cost; with GPT-4 in pool nearly matches GPT-4 at half the cost (abstract)",
+  "benchmarks": [
+   "MMLU"
+  ],
+  "models_studied": [
+   "Mixtral-8x7B",
+   "GPT-4"
+  ],
+  "production_evidence": false,
+  "summary": "Routoo uses a lightweight LLM performance predictor and a cost-aware selector to choose among LLMs per prompt under cost and latency constraints. On MMLU it matches Mixtral at a third lower cost and nearly matches GPT-4 at half the cost.",
+  "key_idea": "Performance predictor plus cost-aware selector.",
+  "relevance_score": 4,
+  "relevance_rationale": "Clear cost numbers vs frontier baseline.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "tsiourvas-2025-causal-routing",
+  "title": "Causal LLM Routing: End-to-End Regret Minimization from Observational Data",
+  "authors": [
+   "Asterios Tsiourvas",
+   "Wei Sun",
+   "Georgia Perakis"
+  ],
+  "year": 2025,
+  "venue_or_source": "NeurIPS 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2505.16037",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "observational (logged) outcomes",
+   "regret surrogate losses"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "public benchmarks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Learns routing policies end-to-end from observational data where only the deployed model's outcome is logged, by minimizing decision regret with two surrogate objectives. It avoids requiring full-feedback evaluation of all models and handles heterogeneous cost preferences.",
+  "key_idea": "Causal, regret-minimizing router trained from logged single-model outcomes.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly addresses learning a router from production logs.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "zhang-2025-model-sat",
+  "title": "Capability Instruction Tuning: A New Paradigm for Dynamic LLM Routing",
+  "authors": [
+   "Yi-Kai Zhang",
+   "De-Chuan Zhan",
+   "Han-Jia Ye"
+  ],
+  "year": 2025,
+  "venue_or_source": "AAAI 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2502.17282",
+  "code_url": "https://github.com/Now-Join-Us/CIT-LLM-Routing",
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "model capability representation (aptitude test)",
+   "instruction"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "50 tasks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Model-SAT builds capability instructions from a model's aptitude-test results and trains a lightweight LLM to predict whether each candidate can handle an instruction. New models are onboarded by running a quick 50-task aptitude test, without candidate inference at routing time.",
+  "key_idea": "Capability instruction tuning: route by aptitude-test profiles.",
+  "relevance_score": 4,
+  "relevance_rationale": "Fast onboarding of new models.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "panda-2025-pilot",
+  "title": "Adaptive LLM Routing under Budget Constraints",
+  "authors": [
+   "Pranoy Panda",
+   "Raghav Magazine",
+   "Chaitanya Devaguptapu",
+   "Sho Takemori",
+   "Vishal Sharma"
+  ],
+  "year": 2025,
+  "venue_or_source": "EMNLP 2025 (Findings)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2508.21141",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "shared query-LLM embedding",
+   "offline human preference prior",
+   "LinUCB bandit feedback",
+   "budget knapsack"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "PILOT treats routing as a contextual bandit, initializing a shared query-model embedding space from offline human preference data and refining it online with LinUCB. An online cost policy based on a multi-choice knapsack enforces user budgets.",
+  "key_idea": "Preference-prior LinUCB with knapsack budget control.",
+  "relevance_score": 4,
+  "relevance_rationale": "Offline-to-online routing under budgets.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "zhang-2025-confidence-driven-router",
+  "title": "Leveraging Uncertainty Estimation for Efficient LLM Routing",
+  "authors": [
+   "Tuo Zhang",
+   "Asal Mehradfar",
+   "Dimitrios Dimitriadis",
+   "Salman Avestimehr"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.11021",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "uncertainty estimate",
+   "LLM-as-a-judge ratings"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MT-Bench",
+   "GSM8K",
+   "MMLU"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Proposes a confidence-driven router for edge-cloud deployments that uses uncertainty estimation to decide routing, and evaluates response quality with LLM-as-a-judge as a proxy for human preference. Reports better quality than prior routers at similar cost.",
+  "key_idea": "Uncertainty-based edge-cloud routing evaluated by judges.",
+  "relevance_score": 3,
+  "relevance_rationale": "Signal choice for routing.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "pan-2025-route-to-reason",
+  "title": "Route to Reason: Adaptive Routing for LLM and Reasoning Strategy Selection",
+  "authors": [
+   "Zhihong Pan",
+   "Kai Zhang",
+   "Yuze Zhao",
+   "Yupeng Han"
+  ],
+  "year": 2025,
+  "venue_or_source": "The Web Conference (per Semantic Scholar)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2505.19435",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C9"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "model and strategy embeddings",
+   "query complexity",
+   "budget"
+  ],
+  "cost_reduction_reported": "Higher accuracy than best single model while reducing token usage by over 60% (abstract)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Route-To-Reason jointly selects the LLM and the reasoning strategy (e.g. CoT variants) for each query under a user budget, using learned embeddings of model-strategy pairs and a routing table of predicted cost and performance.",
+  "key_idea": "Joint model plus reasoning-strategy routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "Extends routing to configuration choices.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "lu-2025-routerarena",
+  "title": "RouterArena: An Open Platform for Comprehensive Comparison of LLM Routers",
+  "authors": [
+   "Yifan Lu",
+   "Rixin Liu",
+   "Jiayi Yuan",
+   "Xingqi Cui",
+   "Shenrun Zhang",
+   "Hongyi Liu",
+   "Jiarong Xing"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "benchmark",
+  "url": "https://arxiv.org/abs/2510.00202",
+  "code_url": "https://github.com/RouteWorks/RouterArena",
+  "topic_clusters": [
+   "C1",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "router outputs",
+   "cost",
+   "difficulty levels"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "RouterArena"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "RouterArena is an open platform and leaderboard for comparing LLM routers, with a dataset covering broad knowledge domains at graded difficulty, multiple metrics and automated leaderboard updates.",
+  "key_idea": "Open router leaderboard.",
+  "relevance_score": 4,
+  "relevance_rationale": "Router comparison including commercial routers.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "shirkavand-2025-cscr",
+  "title": "Cost-Aware Contrastive Routing for LLMs",
+  "authors": [
+   "Reza Shirkavand",
+   "Shangqian Gao",
+   "Peiran Yu",
+   "Heng Huang"
+  ],
+  "year": 2025,
+  "venue_or_source": "NeurIPS 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2508.12491",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "logit footprints",
+   "perplexity fingerprints",
+   "contrastive cost bands",
+   "FAISS kNN"
+  ],
+  "cost_reduction_reported": "Improves accuracy-cost tradeoff by up to 25% (abstract)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "CSCR maps prompts and models into a shared embedding space, using logit footprints for open models and perplexity fingerprints for API models, and trains a contrastive encoder to favor the cheapest accurate model within cost bands. Routing reduces to one kNN lookup with microsecond latency and no retraining when the pool changes.",
+  "key_idea": "Cost-spectrum contrastive embeddings with kNN routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "Fast, pool-agnostic router.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "li-2025-knn-routing",
+  "title": "Rethinking Predictive Modeling for LLM Routing: When Simple kNN Beats Complex Learned Routers",
+  "authors": [
+   "Yang Li"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2505.12601",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "query embedding kNN"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "standardized routing benchmarks incl. multimodal"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Shows that a well-tuned k-nearest-neighbors router matches or beats complex learned routers across instruction-following, QA and reasoning benchmarks, explained by locality of model performance in embedding space. Introduces standardized routing benchmarks including a multimodal one.",
+  "key_idea": "Simple kNN is a strong router baseline.",
+  "relevance_score": 4,
+  "relevance_rationale": "Practical guidance: start with kNN.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "sikeridis-2024-pickllm",
+  "title": "PickLLM: Context-Aware RL-Assisted Large Language Model Routing",
+  "authors": [
+   "Dimitrios Sikeridis",
+   "Dennis Ramdass",
+   "Pranay Pareek"
+  ],
+  "year": 2024,
+  "venue_or_source": "Workshop on Scalable and Efficient AI (per arXiv comments)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2412.12170",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "RL-online",
+  "signals_used": [
+   "weighted reward (cost, latency, accuracy)",
+   "learning automaton / Q-learning"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "four LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "PickLLM routes queries with lightweight RL (a learning automaton or stateless epsilon-greedy Q-learning) using a customizable reward over cost, latency and accuracy. It converges to a single LLM for a session and improves cost and latency.",
+  "key_idea": "Session-level RL router with customizable reward.",
+  "relevance_score": 3,
+  "relevance_rationale": "Simple online RL routing.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "wu-2025-training-free-online-routing",
+  "title": "Efficient Training-Free Online Routing for High-Volume Multi-LLM Serving",
+  "authors": [
+   "Fangzhou Wu",
+   "Sandeep Silwal"
+  ],
+  "year": 2025,
+  "venue_or_source": "NeurIPS 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2509.02718",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "approximate nearest neighbor features",
+   "one-time LP on initial queries",
+   "token budget"
+  ],
+  "cost_reduction_reported": "Average 3.55x improvement in overall performance, 1.85x in cost efficiency and ~4.25x throughput vs 8 baselines (abstract)",
+  "benchmarks": [
+   "3 benchmark datasets"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Presents the first training-free algorithm for online routing under high query volume and token budgets, estimating query features via ANN search and solving a one-time optimization on initial queries. Provides a 1-o(1) competitive ratio guarantee.",
+  "key_idea": "Online budgeted routing with competitive-ratio guarantees.",
+  "relevance_score": 4,
+  "relevance_rationale": "Theory for online budget-constrained routing.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "chen-2025-tagrouter",
+  "title": "TagRouter: Learning Route to LLMs through Tags for Open-Domain Text Generation Tasks",
+  "authors": [
+   "Zhou Chen",
+   "Zhiqiang Wei",
+   "Yuqi Bai",
+   "Xue Xiong",
+   "Jianmin Wu"
+  ],
+  "year": 2025,
+  "venue_or_source": "ACL 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2506.12473",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "query tags",
+   "tag-model performance statistics"
+  ],
+  "cost_reduction_reported": "Increases system accept rate by 6.15% and reduces costs by 17.20% vs 13 baselines (abstract)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "TagRouter is a training-free routing method for open-domain text generation that routes via tags derived from queries and model performance per tag. It outperforms 13 baselines on accept rate and cost.",
+  "key_idea": "Tag-based training-free routing for open-ended generation.",
+  "relevance_score": 4,
+  "relevance_rationale": "Production-oriented (industry authors).",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "behera-2025-multi-llm-inference-survey",
+  "title": "Towards Efficient Multi-LLM Inference: Characterization and Analysis of LLM Routing and Hierarchical Techniques",
+  "authors": [
+   "Adarsh Prasad Behera",
+   "Jaya Prakash Champati",
+   "Roberto Morabito",
+   "Sasu Tarkoma",
+   "James Gross"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2506.06579",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C2",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "query complexity",
+   "confidence"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey characterizing routing and cascading (hierarchical inference) for efficient multi-LLM inference, especially for edge and cost-sensitive settings. Compares approaches that use light models for easy queries and escalate only when needed.",
+  "key_idea": "Survey of routing vs hierarchical inference.",
+  "relevance_score": 3,
+  "relevance_rationale": "Survey for C15.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "qian-2025-xrouter",
+  "title": "xRouter: Training Cost-Aware LLMs Orchestration System via Reinforcement Learning",
+  "authors": [
+   "Cheng Qian",
+   "Zuxin Liu",
+   "Shirley Kokane",
+   "Akshara Prabhakar",
+   "Jielin Qiu",
+   "Haolin Chen",
+   "Zhiwei Liu",
+   "Heng Ji",
+   "Weiran Yao",
+   "Shelby Heinecke",
+   "Silvio Savarese",
+   "Caiming Xiong",
+   "Huan Wang"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.08439",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "router LLM tool calls",
+   "cost-aware reward"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "diverse benchmarks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "xRouter (Salesforce) trains a tool-calling router LLM with RL and an explicit cost-aware reward; it can answer directly or invoke one or more external models. The paper reports substantial cost reductions at comparable completion rates and shares lessons about what helps learned routing.",
+  "key_idea": "RL-trained orchestrator that decides whether and which external models to call.",
+  "relevance_score": 5,
+  "relevance_rationale": "Cost-aware orchestration trained end-to-end; transferable to agent subcalls.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "kassem-2025-router-robustness",
+  "title": "How Robust Are Router-LLMs? Analysis of the Fragility of LLM Routing Capabilities",
+  "authors": [
+   "Aly M. Kassem",
+   "Bernhard Schölkopf",
+   "Zhijing Jin"
+  ],
+  "year": 2025,
+  "venue_or_source": "EACL (per Semantic Scholar)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2504.07113",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "preference-based routers",
+   "commercial routers"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "DSC benchmark"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Introduces the DSC benchmark to test routers by query category, including privacy and safety. Finds preference-trained routers make category-driven choices, e.g. a BERT router sends all code and math to the strongest model and jailbreaks to weaker models.",
+  "key_idea": "Routers are fragile and category-biased; safety risks.",
+  "relevance_score": 3,
+  "relevance_rationale": "Evaluation caveat.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "jin-2025-radialrouter",
+  "title": "RadialRouter: Structured Representation for Efficient and Robust Large Language Models Routing",
+  "authors": [
+   "Ruihan Jin",
+   "Pengpeng Shao",
+   "Zhengqi Wen",
+   "Jinyang Wu",
+   "Mingkuan Feng",
+   "Shuai Zhang",
+   "Jianhua Tao"
+  ],
+  "year": 2025,
+  "venue_or_source": "EMNLP 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2506.03880",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "RadialFormer query-LLM representation",
+   "KL + contrastive loss"
+  ],
+  "cost_reduction_reported": "Outperforms existing routers by 9.2% (Balance) and 5.8% (Cost First) on RouterBench (abstract)",
+  "benchmarks": [
+   "RouterBench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "RadialRouter uses a lightweight radial-structured Transformer to model query-LLM relationships and selects the model from its final states, trained with KL plus query-query contrastive loss.",
+  "key_idea": "Radial Transformer backbone for robust routing.",
+  "relevance_score": 3,
+  "relevance_rationale": "Incremental learned router.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "woisetschlager-2025-mess-plus",
+  "title": "MESS+: Dynamically Learned Inference-Time LLM Routing in Model Zoos with Service Level Guarantees",
+  "authors": [
+   "Herbert Woisetschläger",
+   "Ryan Zhang",
+   "Shiqiang Wang",
+   "Hans-Arno Jacobsen"
+  ],
+  "year": 2025,
+  "venue_or_source": "NeurIPS 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2505.19947",
+  "code_url": "https://github.com/laminair/mess-plus",
+  "topic_clusters": [
+   "C1",
+   "C5",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "learned request satisfaction probability",
+   "virtual queues",
+   "SLA constraint"
+  ],
+  "cost_reduction_reported": "Average 2x cost savings vs existing LLM routing techniques (abstract)",
+  "benchmarks": [
+   "LLM benchmarks"
+  ],
+  "models_studied": [
+   "open-weight model zoo"
+  ],
+  "production_evidence": false,
+  "summary": "MESS+ is a stochastic-optimization router for model zoos that learns satisfaction probabilities online and solves per-request optimization with virtual queues to meet SLA quality guarantees while minimizing cost. Includes theory on cost optimality and constraint satisfaction.",
+  "key_idea": "Lyapunov-style virtual queues for SLA-guaranteed cost-optimal routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "SLA framing matches enterprise needs.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "lai-2026-routing-collapse",
+  "title": "When Routing Collapses: On the Degenerate Convergence of LLM Routers",
+  "authors": [
+   "Guannan Lai",
+   "Han-Jia Ye"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.03478",
+  "code_url": "https://github.com/AIGNLAI/EquiRouter",
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "learned model rankings"
+  ],
+  "cost_reduction_reported": "Reduces cost by about 17% at GPT-4-level performance vs strongest prior router on RouterBench (abstract)",
+  "benchmarks": [
+   "RouterBench"
+  ],
+  "models_studied": [
+   "GPT-4"
+  ],
+  "production_evidence": false,
+  "summary": "Identifies 'routing collapse': as budgets rise, routers default to the most expensive model even when cheaper ones suffice, due to training on scalar score prediction. EquiRouter learns rankings directly to restore use of small models.",
+  "key_idea": "Decision-aware ranking objective fixes routers over-selecting the strongest model.",
+  "relevance_score": 4,
+  "relevance_rationale": "Explains a common production failure mode.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "maurya-2024-selectllm",
+  "title": "SelectLLM: Query-Aware Efficient Selection Algorithm for Large Language Models",
+  "authors": [
+   "Kaushal Kumar Maurya",
+   "KV Aditya Srivatsa",
+   "Ekaterina Kochmar"
+  ],
+  "year": 2024,
+  "venue_or_source": "ACL (per Semantic Scholar)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2408.08545",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "multi-label classifier",
+   "confidence scores"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "SelectLLM uses a multi-label classifier and confidence-based policy to pick a small subset of LLMs per query whose combined answers are accurate, reducing latency relative to large ensembles.",
+  "key_idea": "Query-aware subset selection of LLMs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Subset routing.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "shen-2025-sater",
+  "title": "SATER: A Self-Aware and Token-Efficient Approach to Routing and Cascading",
+  "authors": [
+   "Yuanzhe Shen",
+   "Yide Liu",
+   "Zisu Huang",
+   "Ruicheng Yin",
+   "Xiaoqing Zheng",
+   "Xuanjing Huang"
+  ],
+  "year": 2025,
+  "venue_or_source": "EMNLP 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2510.05164",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C2"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "self-aware rejection",
+   "shortest-response preference optimization"
+  ],
+  "cost_reduction_reported": "Comparable performance while reducing computational costs by over 50% and cascade latency by over 80% (abstract)",
+  "benchmarks": [
+   "six datasets"
+  ],
+  "models_studied": [
+   "three SLMs"
+  ],
+  "production_evidence": false,
+  "summary": "SATER fine-tunes small models with shortest-response preference optimization and a confidence-aware rejection mechanism so they work in both pre-generation routing and cascade modes. It cuts redundant output and latency.",
+  "key_idea": "Train the SLM to know when to refuse and escalate.",
+  "relevance_score": 4,
+  "relevance_rationale": "Dual routing/cascade efficiency.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "zheng-2025-disrouter",
+  "title": "DiSRouter: Distributed Self-Routing for LLM Selections",
+  "authors": [
+   "Hang Zheng",
+   "Hongshen Xu",
+   "Yongkai Lin",
+   "Shuai Fan",
+   "Lu Chen",
+   "Kai Yu"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.19208",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "LLM self-awareness"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "DiSRouter replaces a centralized router with a network of LLM agents that each decide to answer or forward a query based on trained self-awareness of their competence.",
+  "key_idea": "Distributed self-routing via self-awareness training.",
+  "relevance_score": 3,
+  "relevance_rationale": "Alternative to external routers.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "chiang-2025-dueling-routing",
+  "title": "LLM Routing with Dueling Feedback",
+  "authors": [
+   "Chao-Kai Chiang",
+   "Takashi Ishida",
+   "Masashi Sugiyama"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.00841",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "pairwise preference feedback",
+   "category-calibrated model embeddings"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "RouterBench",
+   "MixInstruct"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Formulates routing as contextual dueling bandits learning from pairwise preferences, with model embeddings derived by category-calibrated contrastive fine-tuning and Feel-Good Thompson Sampling. Achieves lower regret and better cost-performance balance.",
+  "key_idea": "Contextual dueling bandits for preference-feedback routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "Online learning from pairwise feedback.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "fernandez-2025-radar",
+  "title": "RADAR: Reasoning-Ability and Difficulty-Aware Routing for Reasoning LLMs",
+  "authors": [
+   "Nigel Fernandez",
+   "Branislav Kveton",
+   "Ryan A. Rossi",
+   "Andrew S. Lan",
+   "Zichao Wang"
+  ],
+  "year": 2025,
+  "venue_or_source": "ICLR 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2509.25426",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C9"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "IRT query difficulty",
+   "model-budget ability"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "8 reasoning benchmarks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "RADAR fits an item response model over model and reasoning-budget pairs, then routes harder queries to higher-ability configurations. It generalizes out of distribution and can add models using a small adaptive query set.",
+  "key_idea": "Psychometric routing over (model, reasoning budget) configurations.",
+  "relevance_score": 4,
+  "relevance_rationale": "Relevant to reasoning-effort selection.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "xie-2025-gmtrouter",
+  "title": "GMTRouter: Personalized LLM Router over Multi-turn User Interactions",
+  "authors": [
+   "Yihang Sun",
+   "Encheng Xie",
+   "Tao Feng",
+   "Jiaxuan You"
+  ],
+  "year": 2025,
+  "venue_or_source": "EMNLP 2025 (Findings)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2511.08590",
+  "code_url": "https://github.com/ulab-uiuc/GMTRouter",
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "user-query-response-turn heterogeneous graph",
+   "few-shot user preferences"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "GMTRouter personalizes routing by modeling multi-turn user-LLM interactions as a heterogeneous graph and learning user preferences from few-shot data.",
+  "key_idea": "Personalized graph router over multi-turn interactions.",
+  "relevance_score": 3,
+  "relevance_rationale": "Personalization.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "patel-2025-proxrouter",
+  "title": "ProxRouter: Proximity-Weighted LLM Query Routing for Improved Robustness to Outliers",
+  "authors": [
+   "Shivam Patel",
+   "Neharika Jali",
+   "Ankur Mallick",
+   "Gauri Joshi"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.09852",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "query embedding similarity",
+   "exponentially tilted aggregation"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "ProxRouter improves nonparametric kNN-style routers on outlier queries via exponentially tilted aggregation that balances bias and variance.",
+  "key_idea": "Robust nonparametric routing for outliers.",
+  "relevance_score": 3,
+  "relevance_rationale": "Robustness of simple routers.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "pulishetty-2025-cross-attention-router",
+  "title": "One Head, Many Models: Cross-Attention Routing for Cost-Aware LLM Selection",
+  "authors": [
+   "Roshini Pulishetty",
+   "Mani Kishan Ghantasala",
+   "Keerthy Kaushik Dasoju",
+   "Niti Mangwani",
+   "Vishal Garimella",
+   "Aditya Mate",
+   "Somya Chatterjee",
+   "Yue Kang",
+   "Ehi Nosakhare",
+   "Sadid Hasan",
+   "Soundar Srinivasan"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2509.09782",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "query and model embeddings cross-attention",
+   "predicted quality and cost"
+  ],
+  "cost_reduction_reported": "Up to 6.6% improvement in AIQ and 2.9% in max performance over existing routers on RouterBench (abstract)",
+  "benchmarks": [
+   "RouterBench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Uses a single-head cross-attention between query and model embeddings to predict response quality and cost, with an exponential reward to stabilize trade-offs across preferences.",
+  "key_idea": "Cross-attention query-model router.",
+  "relevance_score": 3,
+  "relevance_rationale": "Incremental.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "feng-2025-ipr",
+  "title": "IPR: Intelligent Prompt Routing with User-Controlled Quality-Cost Trade-offs",
+  "authors": [
+   "Aosong Feng",
+   "Balasubramaniam Srinivasan",
+   "Yun Zhou",
+   "Zhichao Xu",
+   "Kang Zhou",
+   "Sheng Guan",
+   "Yueyan Chen",
+   "Xian Wu",
+   "Ninad Kulkarni",
+   "Yi Zhang",
+   "Zhengyuan Shen",
+   "Dmitriy Bespalov",
+   "Soumya Smruti Mishra",
+   "Yifei Teng",
+   "Darren Yow-Bang Wang",
+   "Haibo Ding",
+   "Lin Lee Cheong"
+  ],
+  "year": 2025,
+  "venue_or_source": "EMNLP 2025 (Industry)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2509.06274",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "lightweight quality estimators",
+   "user tolerance parameter"
+  ],
+  "cost_reduction_reported": "Deployed on a major cloud platform: 43.9% cost reduction at quality parity with the strongest Claude-family model, sub-150ms latency (abstract)",
+  "benchmarks": [
+   "IPRBench (1.5M prompts, 11 LLMs)"
+  ],
+  "models_studied": [
+   "Claude family"
+  ],
+  "production_evidence": true,
+  "summary": "IPR (AWS) trains quality estimators on 1.5M annotated prompts and routes to the cheapest model within a user-specified quality tolerance. Frozen encoders with model-specific adapters speed onboarding; the system is deployed in production.",
+  "key_idea": "Tolerance-controlled quality-estimator routing in a production cloud service.",
+  "relevance_score": 5,
+  "relevance_rationale": "Rare production evidence for query routing with frontier models.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "hao-2026-racer",
+  "title": "RACER: Risk-Aware Calibrated Efficient Routing for Large Language Models",
+  "authors": [
+   "Sai Hao",
+   "Hao Zeng",
+   "Hongxin Wei",
+   "Bingyi Jing"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.06616",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C15",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "router scores",
+   "conformal calibration"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "RACER extends base routers to output model sets with distribution-free misrouting risk control, calibrating thresholds with finite-sample bounds and allowing abstention.",
+  "key_idea": "Conformal set-valued routing with risk guarantees.",
+  "relevance_score": 3,
+  "relevance_rationale": "Theory for safe routing.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "wu-2026-routerxbench",
+  "title": "Towards Fair and Comprehensive Evaluation of Routers in Collaborative LLM Systems",
+  "authors": [
+   "Wanxing Wu",
+   "He Zhu",
+   "Yixia Li",
+   "Lei Yang",
+   "Jiehui Zhao",
+   "Hongru Wang",
+   "Jian Yang",
+   "Benyou Wang",
+   "Bingyi Jing",
+   "Guanhua Chen"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.11877",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C13",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "hidden states",
+   "Dirichlet probe"
+  ],
+  "cost_reduction_reported": "16.68% and 18.86% relative improvements over best baselines in router ability and high-accuracy scenarios (abstract)",
+  "benchmarks": [
+   "RouterXBench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Proposes RouterXBench for evaluating local-vs-cloud routers on ability, scenario alignment and robustness, and ProbeDirichlet, which routes from internal hidden states aggregated with learnable Dirichlet distributions.",
+  "key_idea": "Hidden-state probe routers and a fairer benchmark.",
+  "relevance_score": 3,
+  "relevance_rationale": "Evaluation and signals.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "askin-2026-federated-router",
+  "title": "Federate the Router: Learning Language Model Routers with Sparse and Decentralized Evaluations",
+  "authors": [
+   "Baris Askin",
+   "Shivam Patel",
+   "Anupam Nayak",
+   "Andrea Vigano",
+   "Jiin Woo",
+   "Gauri Joshi",
+   "Carlee Joe-Wong"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.22318",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "local offline evaluations",
+   "federated MLP / K-means router"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "two benchmarks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Introduces federated learning of LLM routers so clients with private, sparse query-model evaluations can learn a shared routing policy.",
+  "key_idea": "Federated router training across clients.",
+  "relevance_score": 3,
+  "relevance_rationale": "Relevant for multi-tenant enterprise data.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "bhatti-2026-proteus",
+  "title": "PROTEUS: SLA-Aware Routing via Lagrangian RL for Multi-LLM Serving Systems",
+  "authors": [
+   "Amit Singh Bhatti",
+   "Vishal Vaddina",
+   "Dagnachew Birru"
+  ],
+  "year": 2026,
+  "venue_or_source": "EuroMLSys 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2601.19402",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "Lagrangian dual variable",
+   "accuracy target as input"
+  ],
+  "cost_reduction_reported": "90.1% accuracy on RouterBench within 1.3% of oracle; cost savings up to 89.8% vs best fixed model (abstract)",
+  "benchmarks": [
+   "RouterBench",
+   "SPROUT"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "PROTEUS accepts an accuracy target at runtime and uses Lagrangian RL with a learned dual variable so a single router satisfies the full range of accuracy floors. OmniRouter meets floors only 22% of the time in comparison.",
+  "key_idea": "SLA-conditioned router via Lagrangian RL.",
+  "relevance_score": 4,
+  "relevance_rationale": "Operator-facing accuracy targets.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "markovic-voronov-2026-batch-routing",
+  "title": "Robust Batch-Level Query Routing for Large Language Models under Cost and Capacity Constraints",
+  "authors": [
+   "Jelena Markovic-Voronov",
+   "Kayhan Behdin",
+   "Yuanda Xu",
+   "Zhengze Zhou",
+   "Zhipeng Wang",
+   "Rahul Mazumder"
+  ],
+  "year": 2026,
+  "venue_or_source": "CAIS 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2603.26796",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C11"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "predicted performance",
+   "GPU capacity",
+   "robust optimization"
+  ],
+  "cost_reduction_reported": "Batch-level routing outperforms per-query methods by up to 24% under adversarial batching (abstract)",
+  "benchmarks": [
+   "two multi-task benchmarks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Routes batches of queries jointly under cost, GPU and concurrency constraints, with a robust variant accounting for predictor uncertainty and an offline instance-allocation step.",
+  "key_idea": "Robust batch-level routing under capacity constraints.",
+  "relevance_score": 3,
+  "relevance_rationale": "Serving-aware routing (LinkedIn authors).",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "taberner-miller-2026-paretobandit",
+  "title": "ParetoBandit: Budget-Paced Adaptive Routing for Non-Stationary LLM Serving",
+  "authors": [
+   "Annette Taberner-Miller"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2604.00136",
+  "code_url": "https://github.com/ParetoBandit/ParetoBandit",
+  "topic_clusters": [
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "contextual bandit",
+   "primal-dual budget pacer",
+   "geometric forgetting"
+  ],
+  "cost_reduction_reported": "Budget compliance within 0.4%; up to +0.071 quality lift under shifts (abstract)",
+  "benchmarks": [
+   "1,824 benchmark prompts"
+  ],
+  "models_studied": [
+   "three-model portfolio"
+  ],
+  "production_evidence": false,
+  "summary": "ParetoBandit is an open-source cost-aware contextual-bandit router with an online primal-dual pacer enforcing a dollar cost ceiling and forgetting to track price/quality drift, plus hot-swappable models.",
+  "key_idea": "Budget-paced non-stationary bandit routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "Addresses drift and budgets in live traffic.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "yan-2026-zerorouter",
+  "title": "Breaking Model Lock-in: Cost-Efficient Zero-Shot LLM Routing via a Universal Latent Space",
+  "authors": [
+   "Cheng Yan",
+   "Wuyang Zhang",
+   "Zhiyuan Ning",
+   "Fan Xu",
+   "Ziyang Tao",
+   "Lu Zhang",
+   "Bing Yin",
+   "Yanyong Zhang"
+  ],
+  "year": 2026,
+  "venue_or_source": "AAAI 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2601.06220",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "universal latent difficulty space",
+   "context-aware predictor"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "ZeroRouter decouples query characterization from model profiling via a model-agnostic latent difficulty space, allowing zero-shot onboarding of new models without full retraining, and optimizes accuracy, cost and latency.",
+  "key_idea": "Universal latent query-difficulty space for zero-shot model onboarding.",
+  "relevance_score": 3,
+  "relevance_rationale": "Model-pool churn.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "barrak-2025-cargo",
+  "title": "CARGO: A Framework for Confidence-Aware Routing of Large Language Models",
+  "authors": [
+   "Amine Barrak",
+   "Yosr Fourati",
+   "Michael Olchawa",
+   "Emna Ksontini",
+   "Khalil Zoghlami"
+  ],
+  "year": 2025,
+  "venue_or_source": "CASCON 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2509.14899",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "embedding regressor on LLM-judged pairwise comparisons",
+   "uncertainty-triggered classifier"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-4o",
+   "Claude 3.5 Sonnet",
+   "DeepSeek V3",
+   "Perplexity Sonar"
+  ],
+  "production_evidence": false,
+  "summary": "CARGO trains an embedding regressor on LLM-judged pairwise comparisons, calling a binary classifier only when uncertain, with optional category-specific regressors. It routes among four frontier APIs with 76.4% top-1 accuracy.",
+  "key_idea": "Judge-supervised two-stage confidence-aware router.",
+  "relevance_score": 3,
+  "relevance_rationale": "Uses judges instead of human labels.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "bell-2026-continual-model-routing",
+  "title": "Continual Model Routing in Evolving Model Hubs",
+  "authors": [
+   "Jack Bell",
+   "Giacomo Carfì",
+   "Gerlando Gramaglia",
+   "Vincenzo Lomonaco"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.28577",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "contrastive embeddings",
+   "replay"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "CMRBench (2,000+ models)"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Formalizes continual model routing as model hubs grow, releases CMRBench with over 2,000 candidates, and proposes CARvE contrastive embeddings with replay.",
+  "key_idea": "Continual routing over growing model hubs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Pool growth.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "xu-2026-seqroute",
+  "title": "SeqRoute: Global Budget-Aware Sequential LLM Routing via Offline Reinforcement Learning",
+  "authors": [
+   "Zhongling Xu",
+   "Shunan Zheng",
+   "Wei Wang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.25424",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5",
+   "C6",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "remaining session budget",
+   "Conservative Q-Learning",
+   "hindsight budget relabeling"
+  ],
+  "cost_reduction_reported": "Reduces operational costs by 6.0-73.5% while maintaining or improving quality; bankruptcy under 1% (abstract)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "SeqRoute formulates multi-turn session routing under a global budget as a finite-horizon MDP solved with offline RL (CQL), using hindsight budget relabeling to expand 10,000 sessions into 2.38M transitions.",
+  "key_idea": "MDP/offline-RL routing across a session with a global budget.",
+  "relevance_score": 5,
+  "relevance_rationale": "MDP formulation over sequential calls; transferable to agent trajectories.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "mahmood-2026-routing-user-choice",
+  "title": "Routing, Cascades, and User Choice for LLMs",
+  "authors": [
+   "Rafid Mahmood"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.09902",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C2",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "Stackelberg game",
+   "user re-prompt/abandon behavior"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Models a provider routing between a standard and a reasoning model and a user who may re-prompt or abandon as a Stackelberg game. The optimal policy is usually static with no cascading, and provider-optimal routing can be misaligned with users.",
+  "key_idea": "Game-theoretic analysis of routing with user behavior.",
+  "relevance_score": 3,
+  "relevance_rationale": "Theory.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "zhang-2025-meta-router",
+  "title": "Meta-Router: Bridging Gold-standard and Preference-based Evaluations in Large Language Model Routing",
+  "authors": [
+   "Yichi Zhang",
+   "Fangzheng Xie",
+   "Shu Yang",
+   "Chong Wu"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2509.25535",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C6",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "gold-standard labels",
+   "preference/judge labels",
+   "causal CATE correction"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Meta-Router casts training with combined gold-standard and preference-based labels as causal inference, correcting bias in cheap judge/crowd labels via a conditional average treatment effect estimate.",
+  "key_idea": "Causal debiasing of judge-labeled routing supervision.",
+  "relevance_score": 4,
+  "relevance_rationale": "Directly relevant to training routers on judge-labeled logs.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "chen-2026-co-failure-ceiling",
+  "title": "When Does Combining Language Models Help? A Co-Failure Ceiling on Routing, Voting, and Mixture-of-Agents Across 67 Frontier Models",
+  "authors": [
+   "Josef Chen"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.27288",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C15",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "all-model co-failure rate"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "mathematics",
+   "code"
+  ],
+  "models_studied": [
+   "67 models from 21 providers"
+  ],
+  "production_evidence": false,
+  "summary": "Proves that any policy outputting one member's answer (routing, voting, cascades) is capped at one minus the rate at which all models fail together, and gives a finite-sample certificate for this ceiling. Empirically the tail is underestimated by correlation models.",
+  "key_idea": "Co-failure ceiling bounds achievable router gains.",
+  "relevance_score": 3,
+  "relevance_rationale": "Useful headroom diagnostic before building a router.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "zhou-2026-agent-as-a-router",
+  "title": "Agent-as-a-Router: Agentic Model Routing for Coding Tasks",
+  "authors": [
+   "Pengfei Zhou",
+   "Zhiwei Tang",
+   "Yixing Ma",
+   "Jiasheng Tang",
+   "Yizeng Han",
+   "Zhenglin Wan",
+   "Fanqing Meng",
+   "Wei Wang",
+   "Bohan Zhuang",
+   "Wangbo Zhao",
+   "Yang You"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.22902",
+  "code_url": "https://github.com/LanceZPF/agent-as-a-router",
+  "topic_clusters": [
+   "C1",
+   "C3",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "task-dimension performance statistics",
+   "verifier",
+   "memory of execution feedback"
+  ],
+  "cost_reduction_reported": "Augmenting a vanilla LLM router with dimension-level performance statistics yields 15.3% relative gain (abstract)",
+  "benchmarks": [
+   "CodeRouterBench (~10K tasks)"
+  ],
+  "models_studied": [
+   "8 frontier LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Argues router bottlenecks come from information deficit and proposes a Context-Action-Feedback loop router (orchestrator, verifier, memory) that accumulates execution-grounded experience during deployment on coding tasks.",
+  "key_idea": "Agentic router that learns from execution feedback.",
+  "relevance_score": 5,
+  "relevance_rationale": "Deployment-time learning for coding agents.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "son-2026-swe-router",
+  "title": "SWE-Router: Routing in Multi-turn Agentic Software Engineering Tasks",
+  "authors": [
+   "Seongho Son",
+   "Sangwoong Yoon",
+   "Jiahua Tang",
+   "Shuhan Wang",
+   "Lorenz Wolf",
+   "Ilija Bogunovic"
+  ],
+  "year": 2026,
+  "venue_or_source": "ICML 2026 Workshop (DL4Code)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2607.00053",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3",
+   "C2"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "partial trajectory of cheap model",
+   "value-based estimate"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "SWE-bench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "SWE-Router lets a cheap model run a few exploratory turns on a software engineering task, then reads the partial trajectory to decide whether to continue cheaply or escalate. A Bayes-optimality theorem shows conditioning on the trajectory never hurts.",
+  "key_idea": "Route agentic tasks after a short cheap exploration.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly about cost-aware routing in long-horizon agents.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "yang-2026-twinrouterbench",
+  "title": "TwinRouterBench: Fast Static and Live Dynamic Evaluation for Realistic Agentic LLM Routing",
+  "authors": [
+   "Pei Yang",
+   "Wanyi Chen",
+   "Tongyun Yang",
+   "Pengbin Feng",
+   "Jiarong Xing",
+   "Wentao Guo",
+   "Yuhang Yao",
+   "Yuhang Han",
+   "Hanchen Li",
+   "Xu Wang",
+   "Zeyu Wang",
+   "Jie Xiao",
+   "Anjie Yang",
+   "Liang Tian",
+   "Lynn Ai",
+   "Eric Yang",
+   "Tianyu Shi"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "benchmark",
+  "url": "https://arxiv.org/abs/2605.18859",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3",
+   "C13"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "router-visible prefix",
+   "execution-verified tier labels"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "SWE-bench",
+   "BFCL",
+   "mtRAG",
+   "QMSum",
+   "PinchBench",
+   "SWE-bench Verified"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "TwinRouterBench evaluates step-level routing in agents with a static track of 970 router-visible prefixes with verified target tiers and a dynamic track that runs routers inside a SWE-bench harness, avoiding online judges.",
+  "key_idea": "Step-level agentic routing benchmark.",
+  "relevance_score": 5,
+  "relevance_rationale": "Benchmark for per-call routing in agents.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "feng-2026-llmrouter",
+  "title": "LLMRouter: Unified Infrastructure for Developing, Evaluating, and Deploying LLM Routers",
+  "authors": [
+   "Tao Feng",
+   "Fangxu Yu",
+   "Haozhen Zhang",
+   "Zhongjie Dai",
+   "Liangqi Yuan",
+   "Zijie Lei",
+   "Weizhi Zhang",
+   "Kunlun Zhu",
+   "Haodong Yue",
+   "Keyang Xuan",
+   "Ge Liu",
+   "Jiaxuan You"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "repo",
+  "url": "https://arxiv.org/abs/2608.06867",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "context/model encoders",
+   "scoring functions",
+   "decision rules"
+  ],
+  "cost_reduction_reported": "Learned routers outperform strongest fixed-model baseline by 14.6% relative (abstract)",
+  "benchmarks": [
+   "xRouteBench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Unifies routing as a sequential decision process with five components and releases LLMRouter, an open-source library of 16+ routers, plus xRouteBench across generic, memory, vision, time-series and personalized routing.",
+  "key_idea": "Unified router infrastructure and benchmark.",
+  "relevance_score": 4,
+  "relevance_rationale": "Practical toolkit.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "liu-2026-trouter",
+  "title": "Task-Aware LLM Routing with Multi-Level Task-Profile-Guided Data Synthesis for Cold-Start Scenarios",
+  "authors": [
+   "Hui Liu",
+   "Bin Zou",
+   "Kecheng Chen",
+   "Jie Liu",
+   "Wenya Wang",
+   "Haoliang Li"
+  ],
+  "year": 2026,
+  "venue_or_source": "ACL 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2604.09377",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "latent task types",
+   "synthesized task taxonomy data"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Addresses cold-start routing without in-domain data by synthesizing QA pairs from a hierarchical task taxonomy and training TRouter with latent task-type variables.",
+  "key_idea": "Taxonomy-guided data synthesis for cold-start routing.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cold start is common in enterprise.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "zhang-2026-budget-aware-agentic-routing",
+  "title": "Budget-Aware Agentic Routing via Boundary-Guided Training",
+  "authors": [
+   "Caiqi Zhang",
+   "Menglin Xia",
+   "Xuchao Zhang",
+   "Daniel Madrigal",
+   "Ankur Mallick",
+   "Samuel Kessler",
+   "Victor Ruehle",
+   "Saravan Rajmohan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.21227",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "boundary policies (always-small/always-large)",
+   "per-task budget",
+   "RL rewards"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Budget-Aware Agentic Routing (Microsoft) chooses cheap vs expensive model at each agent step under strict per-task budgets, using boundary-guided SFT data and Boundary-Guided Policy Optimization to handle sparse rewards.",
+  "key_idea": "Per-step cheap/expensive routing trained with boundary-guided RL.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly addresses step-level cost in agents.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "garg-2026-unsolvability-ceiling",
+  "title": "Unsolvability Ceiling in Multi-LLM Routing: An Empirical Study of Evaluation Artifacts",
+  "authors": [
+   "Saloni Garg",
+   "Amit Sagtani"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.07395",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C13",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "judge vs exact-match labels"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MMLU",
+   "MedQA",
+   "HumanEval",
+   "MBPP",
+   "Alpaca",
+   "ShareGPT"
+  ],
+  "models_studied": [
+   "Gemma 4",
+   "Llama 3.1"
+  ],
+  "production_evidence": false,
+  "summary": "Shows much of the reported 'unsolvability' in routing studies comes from evaluation artifacts such as judge verbosity bias, truncation and format mismatch, which also distort router labels and cause collapse to the majority class.",
+  "key_idea": "Evaluation artifacts corrupt router training signals.",
+  "relevance_score": 3,
+  "relevance_rationale": "Label quality caution.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "lai-2026-dars",
+  "title": "From Sampled Outcomes to Capability Distributions: Rethinking Supervision for LLM Routing",
+  "authors": [
+   "Guannan Lai",
+   "Haoran Hu",
+   "Long Chen",
+   "Zhenguo Li",
+   "Han-Jia Ye"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.06924",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "repeated sampling",
+   "query rewrites",
+   "variance"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "DARS builds routing supervision from repeated observations over rewrites and decoding, summarizing expected quality, cost and variability, which improves routing over single-sample labels.",
+  "key_idea": "Distribution-aware routing labels.",
+  "relevance_score": 3,
+  "relevance_rationale": "Label construction.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "huang-2025-thriftllm",
+  "title": "ThriftLLM: On Cost-Effective Selection of Large Language Models for Classification Queries",
+  "authors": [
+   "Keke Huang",
+   "Yimin Shi",
+   "Dujian Ding",
+   "Yifei Li",
+   "Yang Fei",
+   "Laks Lakshmanan",
+   "Xiaokui Xiao"
+  ],
+  "year": 2025,
+  "venue_or_source": "VLDB 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2501.04901",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "correctness probability",
+   "budget"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "classification queries"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "ThriftLLM selects an ensemble of LLMs for classification queries that maximizes correctness probability under a cost budget, with guarantees.",
+  "key_idea": "Budgeted ensemble selection with guarantees.",
+  "relevance_score": 3,
+  "relevance_rationale": "Theory for budget selection.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "liu-2026-vllm-semantic-router",
+  "title": "vLLM Semantic Router: Signal Driven Decision Routing for Mixture-of-Modality Models",
+  "authors": [
+   "Xunzhuo Liu",
+   "Huamin Chen",
+   "Samzong Lu",
+   "Yossi Ovadia",
+   "Guohong Wen",
+   "Hao Wu",
+   "Zhengda Tan",
+   "Jintao Zhang",
+   "Senan Zedan",
+   "Yehudit Kerido",
+   "Liav Weiss",
+   "Haichen Zhang",
+   "Bishen Yu",
+   "Asaad Balum",
+   "Noa Limoy",
+   "Abdallah Samara",
+   "Baofa Fan",
+   "Brent Salisbury",
+   "Ryan Cook",
+   "Zhijie Wang",
+   "Qiping Pan",
+   "Rehan Khan",
+   "Avishek Goswami",
+   "Houston H. Zhang",
+   "Shuyi Wang",
+   "Ziang Tang",
+   "Fang Han",
+   "Zohaib Hassan",
+   "Jianqiao Zheng",
+   "Avinash Changrani",
+   "Xue",
+   "Liu",
+   "Bowei He"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "product",
+  "url": "https://arxiv.org/abs/2603.04444",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C14",
+   "C11"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "13 signal types",
+   "Boolean decision rules",
+   "neural classifiers"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Technical report of vLLM Semantic Router, which composes heterogeneous signals (heuristics, classifiers for semantics, safety, modality) via configurable Boolean rules into deployment-specific routing policies, with plugin chains for hallucination detection and memory.",
+  "key_idea": "Composable signal-driven routing for production gateways.",
+  "relevance_score": 4,
+  "relevance_rationale": "Open-source production-oriented router.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "wang-2025-when-to-reason",
+  "title": "When to Reason: Semantic Router for vLLM",
+  "authors": [
+   "Chen Wang",
+   "Xunzhuo Liu",
+   "Yuhan Liu",
+   "Yue Zhu",
+   "Xiangxi Mo",
+   "Junchen Jiang",
+   "Huamin Chen"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.08731",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C9"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "reasoning-need classifier"
+  ],
+  "cost_reduction_reported": "+10.2 pp accuracy on MMLU-Pro while reducing latency 47.1% and tokens 48.5% vs direct inference with vLLM (abstract)",
+  "benchmarks": [
+   "MMLU-Pro"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "A semantic router classifies whether a query needs reasoning mode and enables chain-of-thought only when beneficial, integrated with vLLM.",
+  "key_idea": "Route reasoning on/off per query.",
+  "relevance_score": 4,
+  "relevance_rationale": "Cheap reasoning-mode control.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "lai-2026-routefm",
+  "title": "Pretrain Once, Route Anywhere: Towards a Foundation Model for LLM Routing",
+  "authors": [
+   "Guannan Lai",
+   "Han-Jia Ye"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.37362",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "behavioral context of anonymous models",
+   "episodic pretraining"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "RouteFM pretrains a reusable routing model across many environments so it characterizes anonymous candidates from behavioral context and adapts to new pools through context alone.",
+  "key_idea": "Foundation model for routing.",
+  "relevance_score": 3,
+  "relevance_rationale": "Very recent.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "kwartler-2026-harness-tokenomics",
+  "title": "Harness Tokenomics: A Router for the Enterprise Agentic Control Plane",
+  "authors": [
+   "Ted Kwartler",
+   "Alan Aqrawi",
+   "Arian Abbasi"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.28919",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3",
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "calibrated prompt classifier",
+   "prompt-cache state",
+   "price sheet"
+  ],
+  "cost_reduction_reported": "Recovers 13-21% of model spend ($3.3M-$5.1M/yr) in an emulated 10,000-seat enterprise at Anthropic list prices (abstract)",
+  "benchmarks": [
+   "~10,000 real sessions from public datasets"
+  ],
+  "models_studied": [
+   "Claude models"
+  ],
+  "production_evidence": false,
+  "summary": "Builds a cache-aware router for enterprise coding-agent harnesses that routes at session start, side lanes and subagent launch while avoiding cache rebuilds, and derives when mid-task model switches pay back.",
+  "key_idea": "Prompt-cache-aware routing inside agent harnesses.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly about enterprise agent cost, caching and subagent routing.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "kumar-2026-task-session-routing-eval",
+  "title": "Task- and Session-Level Model Routing: A Common-Interface Hybrid Evaluation of Four Open-Source Routers Across Four Benchmarks",
+  "authors": [
+   "Kiran N. Kumar",
+   "Santhosh K. Saminathan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.14641",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "router tier outputs"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "RouterBench",
+   "BFCL v4",
+   "tau2-bench",
+   "WebArena"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Evaluates four open-source routers under a common protocol on agentic benchmarks and finds most emit near-constant tiers; gains track tier composition rather than task-specific targeting, so fixed-tier baselines are essential controls.",
+  "key_idea": "Routers often do no better than share-matched fixed tiers.",
+  "relevance_score": 4,
+  "relevance_rationale": "Evaluation hygiene for agent routers.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "manoharan-2026-t2mo",
+  "title": "Task-to-Model Optimization for Enterprise LLM Coding Assistants: A Data-Driven Framework for Cost-Optimal Routing",
+  "authors": [
+   "Srinivasan Manoharan",
+   "Junhua Zhao",
+   "Fangbo Tu",
+   "Haifeng Wu",
+   "Jian Wan",
+   "Maliah Rajan M",
+   "Ashwin Hegde",
+   "Mithun Sasidharan",
+   "Kalyan Chakravarthi Podamekala"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.08528",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C14",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "telemetry",
+   "task taxonomy",
+   "difficulty grading",
+   "cost per completed task"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Describes a nine-stage methodology for cost-optimal model routing in enterprise coding assistants, optimizing cost per completed task including escalations, with shadow-mode deployment and governance.",
+  "key_idea": "Cost-per-completed-task objective for enterprise routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "Enterprise methodology (no empirical results reported).",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "liu-2026-harness-native-routing",
+  "title": "Agentic Routing: The Harness-Native Data Flywheel",
+  "authors": [
+   "Xinchen Liu",
+   "Hang Zhou",
+   "Yingjie Zong",
+   "Yuchuan Tian",
+   "Liuyang Song",
+   "Shuo Zhang",
+   "Yulong Li",
+   "Wei He",
+   "Mengyu Zheng",
+   "Runke Liu",
+   "Siyang Cheng",
+   "Xiang Kuang",
+   "Hailin Hu",
+   "Kai Han",
+   "Yunhe Wang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.11399",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3",
+   "C6"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "full harness state",
+   "structured routing records"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Proposes step-level agentic routing conditioned on harness state that picks one model or an ensemble per step, with each decision generating a data record that feeds a data flywheel.",
+  "key_idea": "Harness-native step routing with data flywheel.",
+  "relevance_score": 5,
+  "relevance_rationale": "Maps to learning from agent logs.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "chen-2025-concur",
+  "title": "CONCUR: A Framework for Continual Constrained and Unconstrained Routing",
+  "authors": [
+   "Peter Baile Chen",
+   "Weiyue Li",
+   "Dan Roth",
+   "Michael Cafarella",
+   "Samuel Madden",
+   "Jacob Andreas"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2512.09386",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C9"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "per-strategy predictors",
+   "multiple task representations"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "CONCUR routes tasks to computation strategies (model plus decoding method) with separate per-strategy predictors, supporting budgeted and unbudgeted routing and continual addition of strategies.",
+  "key_idea": "Modular continual routing over strategies.",
+  "relevance_score": 3,
+  "relevance_rationale": "Strategy-level routing.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "lin-2025-router-vulnerabilities",
+  "title": "Life-Cycle Routing Vulnerabilities of LLM Router",
+  "authors": [
+   "Qiqi Lin",
+   "Xiaoyang Ji",
+   "Shengfang Zhai",
+   "Qingni Shen",
+   "Zhi Zhang",
+   "Yuejian Fang",
+   "Yansong Gao"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2503.08704",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "adversarial/backdoor attacks"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Studies adversarial and backdoor robustness of LLM routers across their lifecycle, finding DNN-based routers weakest and training-free routers most robust.",
+  "key_idea": "Security of routers.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background risk.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "patel-2026-locus",
+  "title": "LOCUS: Low-Dimensional Model Embeddings for Efficient Model Exploration, Comparison, and Selection",
+  "authors": [
+   "Shivam Patel",
+   "William Cocke",
+   "Gauri Joshi"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.21082",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "attention-based model embeddings",
+   "correctness predictor"
+  ],
+  "cost_reduction_reported": "Needs up to 4.8x fewer query evaluation samples than baselines to produce informative embeddings (abstract)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "LOCUS produces low-dimensional model embeddings via a forward pass over query encodings and scores, enabling retrain-free addition of models and state-of-the-art routing accuracy.",
+  "key_idea": "Sample-efficient model embeddings.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cheaper model profiling.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "sridhar-2026-correlated-bandits-routing",
+  "title": "Correlation-Aware Contextual Bandits with Surrogate Rewards for LLM Routing",
+  "authors": [
+   "Ajay Narayanan Sridhar",
+   "Ronak Singh",
+   "Mehrdad Mahdavi",
+   "Vijaykrishnan Narayanan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.09015",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "surrogate reward model",
+   "inter-arm correlation"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Contextual bandit algorithms for routing that exploit correlated arms and noisy surrogate rewards (e.g. judge predictions), with regret guarantees robust to surrogate misspecification.",
+  "key_idea": "Bandits with surrogate (judge) rewards for routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "Online routing with proxy quality signals.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "guha-2024-smoothie",
+  "title": "Smoothie: Label Free Language Model Routing",
+  "authors": [
+   "Neel Guha",
+   "Mayee F. Chen",
+   "Trevor Chow",
+   "Ishan S. Khare",
+   "Christopher Ré"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2412.04692",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "embedding agreement across model outputs",
+   "latent-variable graphical model"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "14 tasks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Smoothie performs label-free routing by fitting a weak-supervision latent variable model over embeddings of multiple LLM outputs, estimating per-sample model quality. Outperforms baselines by up to 10 points.",
+  "key_idea": "Unsupervised routing from output agreement.",
+  "relevance_score": 3,
+  "relevance_rationale": "No ground truth needed, but requires generating from all models.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "ramirez-2024-two-tier",
+  "title": "Optimising Calls to Large Language Models with Uncertainty-Based Two-Tier Selection",
+  "authors": [
+   "Guillem Ramírez",
+   "Alexandra Birch",
+   "Ivan Titov"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2405.02134",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C2",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "small-model generation uncertainty"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "nine tasks"
+  ],
+  "models_studied": [
+   "three small/large LLM pairs"
+  ],
+  "production_evidence": false,
+  "summary": "Uses only the uncertainty of the small LLM's generation to decide whether to call the large model, and beats routing and cascading methods requiring extra neural models in 25 of 27 setups.",
+  "key_idea": "Small-model uncertainty as a simple escalation criterion.",
+  "relevance_score": 4,
+  "relevance_rationale": "Strong simple baseline.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "zhang-2025-avengers",
+  "title": "The Avengers: A Simple Recipe for Uniting Smaller Language Models to Challenge Proprietary Giants",
+  "authors": [
+   "Yiqun Zhang",
+   "Hao Li",
+   "Chenxu Wang",
+   "Linyao Chen",
+   "Qiaosheng Zhang",
+   "Peng Ye",
+   "Shi Feng",
+   "Daling Wang",
+   "Zhen Wang",
+   "Xinrun Wang",
+   "Jia Xu",
+   "Lei Bai",
+   "Wanli Ouyang",
+   "Shuyue Hu"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2505.19797",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C12"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "query embedding clusters",
+   "per-cluster model scores",
+   "repeated sampling voting"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "15 datasets"
+  ],
+  "models_studied": [
+   "10 ~7B open models",
+   "GPT-4o",
+   "GPT-4.1",
+   "GPT-4.5"
+  ],
+  "production_evidence": false,
+  "summary": "The Avengers embeds and clusters queries, scores each model per cluster, and routes to top models with repeated sampling and voting; ten ~7B open models surpass GPT-4.1 on average across 15 datasets.",
+  "key_idea": "Cluster-based routing plus voting over small models.",
+  "relevance_score": 3,
+  "relevance_rationale": "Shows small-model pools can replace frontier on many tasks.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "feng-2025-fusionfactory",
+  "title": "FusionFactory: Fusing LLM Capabilities with Multi-LLM Log Data",
+  "authors": [
+   "Tao Feng",
+   "Haozhen Zhang",
+   "Zijie Lei",
+   "Pengrui Han",
+   "Mostofa Patwary",
+   "Mohammad Shoeybi",
+   "Bryan Catanzaro",
+   "Jiaxuan You"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2507.10540",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C6",
+   "C8"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "multi-LLM log data",
+   "routers",
+   "reasoning templates",
+   "distillation"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "LLMFusionBench (14 tasks)"
+  ],
+  "models_studied": [
+   "20 open LLMs (8B-671B)"
+  ],
+  "production_evidence": false,
+  "summary": "FusionFactory uses multi-LLM log data to fuse models at three levels: query-level routing, thought-level template reuse, and model-level distillation, outperforming the best single model on all 14 tasks.",
+  "key_idea": "Exploit multi-LLM logs for routing and distillation.",
+  "relevance_score": 4,
+  "relevance_rationale": "Learning from logged data.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "lee-2023-orchestrallm",
+  "title": "OrchestraLLM: Efficient Orchestration of Language Models for Dialogue State Tracking",
+  "authors": [
+   "Chia-Hsuan Lee",
+   "Hao Cheng",
+   "Mari Ostendorf"
+  ],
+  "year": 2023,
+  "venue_or_source": "NAACL 2024",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2311.09758",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "kNN exemplar retrieval",
+   "majority vote"
+  ],
+  "cost_reduction_reported": "Reduces computational costs by over 50% while improving performance vs LLM only (abstract)",
+  "benchmarks": [
+   "dialogue state tracking"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "OrchestraLLM routes dialogue state tracking instances between a small and large LM by retrieving nearest exemplars from pools where each model was reliable and taking a majority vote.",
+  "key_idea": "Exemplar-retrieval SLM/LLM routing.",
+  "relevance_score": 3,
+  "relevance_rationale": "Simple kNN routing in a structured task.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "tang-2026-jisi",
+  "title": "Beyond Gemini-3-Pro: Revisiting LLM Routing and Aggregation at Scale",
+  "authors": [
+   "Shengji Tang",
+   "Weihao Lin",
+   "Peng Ye",
+   "Jingqi Ye",
+   "Hao Li",
+   "Yiqun Zhang",
+   "Xiaosong Wang",
+   "Bo Zhang",
+   "Shuyue Hu",
+   "Tao Chen",
+   "Lei Bai",
+   "Wanli Ouyang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.01330",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C12"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "query-response mixed routing",
+   "support-set aggregator selection"
+  ],
+  "cost_reduction_reported": "Surpasses Gemini-3-Pro with only 47% of the cost by orchestrating ten open-source LLMs (abstract)",
+  "benchmarks": [
+   "nine benchmarks"
+  ],
+  "models_studied": [
+   "Gemini-3-Pro",
+   "ten open-source LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "JiSi combines routing that uses both semantics and difficulty, support-set-based aggregator selection, and an adaptive switch between routing and aggregation to beat Gemini-3-Pro with open models.",
+  "key_idea": "Adaptive routing-aggregation switch.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cost vs frontier comparison.",
+  "found_via": "search: query difficulty LLM routing",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "varshney-2026-prefill-activation-router",
+  "title": "LLM Router: Rethinking Routing with Prefill Activations",
+  "authors": [
+   "Tanay Varshney",
+   "Annie Surla",
+   "Michelle Xu",
+   "Gomathy Venkata Krishnan",
+   "Maximilian Jeblick",
+   "David Austin",
+   "Neal Vaidya",
+   "Davide Onofrio"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.20895",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "prefill residual-stream activations of an open encoder model"
+  ],
+  "cost_reduction_reported": "Closes 45.58% of gap to oracle with 74.31% cost savings relative to most expensive model (abstract)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Routes using internal activations of an open-weight encoder model to predict correctness of target models including closed ones, with a shared multi-output MLP (NVIDIA authors).",
+  "key_idea": "Prefill activations as routing features.",
+  "relevance_score": 3,
+  "relevance_rationale": "New signal type.",
+  "found_via": "search: query difficulty LLM routing",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "lai-2026-saverouter",
+  "title": "Routing Should Pay for Itself: Sparse Supervision for Economical LLM Routing",
+  "authors": [
+   "Guannan Lai",
+   "Gelin Bian",
+   "Hao-Xuan Ma",
+   "Jun-Peng Jiang",
+   "Long Chen",
+   "Jian-Dong Liu",
+   "Zhi-Hao Tan",
+   "Han-Jia Ye"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.37402",
+  "code_url": "https://github.com/LAMDA-Model-Reuse/SaveRouter",
+  "topic_clusters": [
+   "C1",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "sparse selectively-acquired feedback"
+  ],
+  "cost_reduction_reported": "Uses ~33-41% of training feedback at competitive quality; reduces break-even deployment volume ~1.9-9.5x (abstract)",
+  "benchmarks": [
+   "four routing benchmarks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "SaveRouter accounts for the upfront cost of collecting query-model feedback, acquiring only informative labels and sharing capability information across queries so the router pays back sooner.",
+  "key_idea": "Account for supervision cost in router economics.",
+  "relevance_score": 4,
+  "relevance_rationale": "Enterprise ROI of building routers.",
+  "found_via": "search: LLM router",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "alballa-2026-comed",
+  "title": "COMED: The Missing Middle Between Routing and Collaboration in Multi-LLM Inference",
+  "authors": [
+   "Norah Alballa",
+   "Wenxuan Zhang",
+   "Salma Kharrat",
+   "Fares Fourati",
+   "Zafar Ayyub Qazi",
+   "Mohamed Elhoseiny",
+   "Marco Canini"
+  ],
+  "year": 2026,
+  "venue_or_source": "AACL-IJCNLP 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2609.26913",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C2",
+   "C12"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "anchor self-consistency",
+   "router margin",
+   "peer probe"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MedQA",
+   "HLE"
+  ],
+  "models_studied": [
+   "GPT-5.5"
+  ],
+  "production_evidence": false,
+  "summary": "COMED escalates to cross-model collaboration only when a post-anchor controller predicts rescued errors outweigh harms, improving routed anchors while using fewer calls than dense collaboration.",
+  "key_idea": "Selective escalation between routing and full collaboration.",
+  "relevance_score": 3,
+  "relevance_rationale": "Selective multi-model use.",
+  "found_via": "search: multi-LLM selection",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "moslem-2026-routing-cascading-survey",
+  "title": "Dynamic Model Routing and Cascading for Efficient LLM Inference: A Survey",
+  "authors": [
+   "Yasmin Moslem",
+   "John D. Kelleher"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.04445",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C1",
+   "C2"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Systematic survey of multi-LLM routing and cascading across independently trained models, organized by paradigm (difficulty, preferences, clustering, uncertainty, RL, multimodality, cascading). Adds a conceptual framework for characterizing routing systems and discusses trade-offs.",
+  "key_idea": "Most up-to-date taxonomy of routing and cascading.",
+  "relevance_score": 4,
+  "relevance_rationale": "Core C15 survey for query-level routing.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "varangot-reille-2025-doing-more-with-less",
+  "title": "Doing More with Less: A Survey on Routing Strategies for Resource Optimisation in Large Language Model-Based Systems",
+  "authors": [
+   "Clovis Varangot-Reille",
+   "Christophe Bouvard",
+   "Antoine Gourru",
+   "Mathieu Ciancone",
+   "Marion Schaeffer",
+   "François Jacquenet"
+  ],
+  "year": 2025,
+  "venue_or_source": "Journal of Artificial Intelligence Research",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2502.00409",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of routing strategies in LLM-based systems covering when, why and how to route queries to smaller or specialized components to save cost and energy.",
+  "key_idea": "Survey of routing for resource optimization.",
+  "relevance_score": 4,
+  "relevance_rationale": "Core routing survey.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "chen-2025-llm-ensemble-survey",
+  "title": "Harnessing Multiple Large Language Models: A Survey on LLM Ensemble",
+  "authors": [
+   "Zhijun Chen",
+   "Xiaodong Lu",
+   "Jingzheng Li",
+   "Pengpeng Chen",
+   "Zhuoran Li",
+   "Kai Sun",
+   "Yuankai Luo",
+   "Qianren Mao",
+   "Ming Li",
+   "Likang Xiao",
+   "Dingqi Yang",
+   "Xiao Huang",
+   "Yikun Ban",
+   "Hailong Sun",
+   "Philip S. Yu"
+  ],
+  "year": 2025,
+  "venue_or_source": "IJCAI 2026 (per Semantic Scholar)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2502.18036",
+  "code_url": "https://github.com/junchenzhi/Awesome-LLM-Ensemble",
+  "topic_clusters": [
+   "C15",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Systematic review of LLM ensemble methods grouped as ensemble-before-inference (routing), during-inference and after-inference, with benchmarks and applications.",
+  "key_idea": "Taxonomy placing routing within LLM ensembling.",
+  "relevance_score": 3,
+  "relevance_rationale": "Seed survey on routing and ensembling.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "lu-2024-merge-ensemble-cooperate",
+  "title": "Merge, Ensemble, and Cooperate! A Survey on Collaborative Strategies in the Era of Large Language Models",
+  "authors": [
+   "Jinliang Lu",
+   "Ziliang Pang",
+   "Min Xiao",
+   "Yaochen Zhu",
+   "Rui Xia",
+   "Jiajun Zhang"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2407.06089",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C1"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of collaborative strategies among LLMs: merging in parameter space, ensembling outputs, and cooperation across models for specific tasks.",
+  "key_idea": "Merge/ensemble/cooperate taxonomy.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background survey.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "ashiga-2025-ensemble-survey",
+  "title": "Ensemble Learning for Large Language Models in Text and Code Generation: A Survey",
+  "authors": [
+   "Mari Ashiga",
+   "Wei Jie",
+   "Fan Wu",
+   "Vardan Voskanyan",
+   "Fateme Dinmohammadi",
+   "Paul Brookes",
+   "Jingzhi Gong",
+   "Zheng Wang"
+  ],
+  "year": 2025,
+  "venue_or_source": "IEEE TAI 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2503.13505",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C1",
+   "C2"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Reviews LLM ensemble techniques for text and code generation in seven categories including routing and cascading.",
+  "key_idea": "Ensemble survey with routing and cascading sections.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "sui-2025-stop-overthinking",
+  "title": "Stop Overthinking: A Survey on Efficient Reasoning for Large Language Models",
+  "authors": [
+   "Yang Sui",
+   "Yu-Neng Chuang",
+   "Guanchu Wang",
+   "Jiamu Zhang",
+   "Tianyi Zhang",
+   "Jiayi Yuan",
+   "Hongyi Liu",
+   "Andrew Wen",
+   "Shaochen Zhong",
+   "Na Zou",
+   "Hanjie Chen",
+   "Xia Hu"
+  ],
+  "year": 2025,
+  "venue_or_source": "TMLR 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2503.16419",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C9"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "First structured survey of efficient reasoning, grouping methods into model-based, reasoning-output-based and input-prompt-based approaches to curb overthinking in reasoning models.",
+  "key_idea": "Efficient reasoning survey.",
+  "relevance_score": 3,
+  "relevance_rationale": "Seed survey on efficient reasoning.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "qu-2025-efficient-reasoning-lrm-survey",
+  "title": "A Survey of Efficient Reasoning for Large Reasoning Models: Language, Multimodality, and Beyond",
+  "authors": [
+   "Xiaoye Qu",
+   "Yafu Li",
+   "Zhao-Chen Su",
+   "Weigao Sun",
+   "Jianhao Yan",
+   "Dongrui Liu",
+   "Ganqu Cui",
+   "Daizong Liu",
+   "Shuxian Liang",
+   "Junxian He",
+   "Peng Li",
+   "Wei Wei",
+   "Jing Shao",
+   "Chaochao Lu",
+   "Yue Zhang",
+   "Xian-Sheng Hua",
+   "Bowen Zhou",
+   "Yu Cheng"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2503.21614",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C9"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of reasoning-efficiency issues in large reasoning models across pretraining to inference, noting token economy matters in agent systems.",
+  "key_idea": "Efficient reasoning in LRMs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Seed-type survey.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "feng-2025-efficient-reasoning-models-survey",
+  "title": "Efficient Reasoning Models: A Survey",
+  "authors": [
+   "Sicheng Feng",
+   "Gongfan Fang",
+   "Xinyin Ma",
+   "Xinchao Wang"
+  ],
+  "year": 2025,
+  "venue_or_source": "TMLR 2025",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2504.10903",
+  "code_url": "https://github.com/fscdc/Awesome-Efficient-Reasoning-Models",
+  "topic_clusters": [
+   "C15",
+   "C9",
+   "C8"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey organizing efficient reasoning into shorter (compressed CoT), smaller (distillation, compression, RL) and faster (efficient decoding) directions.",
+  "key_idea": "Shorter/smaller/faster taxonomy.",
+  "relevance_score": 3,
+  "relevance_rationale": "Efficient reasoning survey.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "wang-2025-reasoning-economy",
+  "title": "Harnessing the Reasoning Economy: A Survey of Efficient Reasoning for Large Language Models",
+  "authors": [
+   "Rui Wang",
+   "Hongru Wang",
+   "Boyang Xue",
+   "Yixia Li",
+   "Jianhui Pang",
+   "Shudong Liu",
+   "Yi Chen",
+   "Jiahao Qiu",
+   "Derek Fai Wong",
+   "Guanhua Chen",
+   "Heng Ji",
+   "Kam-Fai Wong"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2503.24377",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C9"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of 'reasoning economy': balancing System 1 and System 2 costs across post-training and test-time, covering causes of inefficiency and solutions.",
+  "key_idea": "Reasoning economy survey.",
+  "relevance_score": 3,
+  "relevance_rationale": "Budget control background.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "liu-2025-efficient-inference-lrm-survey",
+  "title": "Efficient Inference for Large Reasoning Models: A Survey",
+  "authors": [
+   "Yue Liu",
+   "Jiaying Wu",
+   "Yufei He",
+   "Ruihan Gong",
+   "Jun Xia",
+   "Liang Li",
+   "Hongcheng Gao",
+   "Hongyu Chen",
+   "Baolong Bi",
+   "Jiaheng Zhang",
+   "Zhiqi Huang",
+   "Bryan Hooi",
+   "Stan Z. Li",
+   "Keqin Li"
+  ],
+  "year": 2025,
+  "venue_or_source": "IEEE TPAMI (per Semantic Scholar)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2503.23077",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C9"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of efficient inference for large reasoning models, dividing methods into explicit compact CoT and implicit latent CoT, with empirical analysis.",
+  "key_idea": "Token-efficient LRM inference survey.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "alomrani-2025-reasoning-on-a-budget",
+  "title": "Reasoning on a Budget: A Survey of Adaptive and Controllable Test-Time Compute in LLMs",
+  "authors": [
+   "Mohammad Ali Alomrani",
+   "Yingxue Zhang",
+   "Derek Li",
+   "Qianyi Sun",
+   "Soumyasundar Pal",
+   "Zhanguang Zhang",
+   "Yaochen Hu",
+   "Rohan Deepak Ajwani",
+   "Antonios Valkanas",
+   "Raika Karimi",
+   "Peng Cheng",
+   "Yunzhou Wang",
+   "Pengyi Liao",
+   "Hanrui Huang",
+   "Bin Wang",
+   "Jianye Hao",
+   "Mark Coates"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2507.02076",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C9"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of adaptive and controllable test-time compute, distinguishing fixed-budget control from difficulty- or confidence-adaptive scaling, and benchmarking proprietary LLMs on performance vs token use.",
+  "key_idea": "L1-controllability vs L2-adaptiveness taxonomy.",
+  "relevance_score": 3,
+  "relevance_rationale": "Budget control survey.",
+  "found_via": "search: survey efficiency LLM agents",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "yue-2025-dont-overthink-survey",
+  "title": "Don't Overthink It: A Survey of Efficient R1-style Large Reasoning Models",
+  "authors": [
+   "Linan Yue",
+   "Yichao Du",
+   "Yizhi Wang",
+   "Weibo Gao",
+   "Fangzhou Yao",
+   "Li Wang",
+   "Ye Liu",
+   "Ziyu Xu",
+   "Qi Liu",
+   "Shimin Di",
+   "Min-Ling Zhang"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2508.02120",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C9"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of efficient reasoning methods for R1-style large reasoning models aimed at shortening reasoning paths without losing accuracy.",
+  "key_idea": "R1-style efficiency survey.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "zhu-2025-concise-adaptive-thinking-survey",
+  "title": "Towards Concise and Adaptive Thinking in Large Reasoning Models: A Survey",
+  "authors": [
+   "Jason Zhu",
+   "Hongyu Li"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2507.09662",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C9"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of concise and adaptive thinking in LRMs, including methods to switch between fast and slow thinking based on input difficulty.",
+  "key_idea": "Adaptive thinking survey.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "zhou-2024-efficient-inference-survey",
+  "title": "A Survey on Efficient Inference for Large Language Models",
+  "authors": [
+   "Zixuan Zhou",
+   "Xuefei Ning",
+   "Ke Hong",
+   "Tianyu Fu",
+   "Jiaming Xu",
+   "Shiyao Li",
+   "Yuming Lou",
+   "Luning Wang",
+   "Zhihang Yuan",
+   "Xiuhong Li",
+   "Shengen Yan",
+   "Guohao Dai",
+   "Xiao-Ping Zhang",
+   "Yuhan Dong",
+   "Yu Wang"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2404.14294",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C11"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Comprehensive survey of efficient LLM inference organized into data-level, model-level and system-level optimizations, with comparative experiments.",
+  "key_idea": "Efficient inference taxonomy.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background for serving-level levers.",
+  "found_via": "search: efficient LLM inference survey",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wan-2023-efficient-llms-survey",
+  "title": "Efficient Large Language Models: A Survey",
+  "authors": [
+   "Zhongwei Wan",
+   "Xin Wang",
+   "Che Liu",
+   "Samiul Alam",
+   "Yu Zheng",
+   "Jiachen Liu",
+   "Zhongnan Qu",
+   "Shen Yan",
+   "Yi Zhu",
+   "Quanlu Zhang",
+   "Mosharaf Chowdhury",
+   "Mi Zhang"
+  ],
+  "year": 2023,
+  "venue_or_source": "TMLR",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2312.03863",
+  "code_url": "https://github.com/AIoT-MLSys-Lab/Efficient-LLMs-Survey",
+  "topic_clusters": [
+   "C15",
+   "C11"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of efficient LLM research from model-centric, data-centric and framework-centric perspectives.",
+  "key_idea": "Broad efficiency survey.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background.",
+  "found_via": "search: efficient LLM inference survey",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "li-2024-serving-survey",
+  "title": "LLM Inference Serving: Survey of Recent Advances and Opportunities",
+  "authors": [
+   "Baolin Li",
+   "Yankai Jiang",
+   "Vijay Gadepally",
+   "Devesh Tiwari"
+  ],
+  "year": 2024,
+  "venue_or_source": "IEEE HPEC 2024 (per Semantic Scholar)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2407.12391",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C11"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of LLM serving system advances since 2023 that improve efficiency without changing decoding.",
+  "key_idea": "Serving systems survey.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background for C11.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "chen-2024-small-models-survey",
+  "title": "What is the Role of Small Models in the LLM Era: A Survey",
+  "authors": [
+   "Lihu Chen",
+   "Gaël Varoquaux"
+  ],
+  "year": 2024,
+  "venue_or_source": "Computational Linguistics",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2409.06857",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C1",
+   "C8"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Surveys the role of small models alongside LLMs from collaboration and competition perspectives, including using small models for routing, cascades and cheap substitutes.",
+  "key_idea": "Small models in the LLM era.",
+  "relevance_score": 3,
+  "relevance_rationale": "Supports downscaling arguments.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "yadav-2024-moerging-survey",
+  "title": "A Survey on Model MoErging: Recycling and Routing Among Specialized Experts for Collaborative Learning",
+  "authors": [
+   "Prateek Yadav",
+   "Colin Raffel",
+   "Mohammed Muqeeth",
+   "Lucas Caccia",
+   "Haokun Liu",
+   "Tianlong Chen",
+   "Mohit Bansal",
+   "Leshem Choshen",
+   "Alessandro Sordoni"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2408.07057",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of MoErging methods that recycle specialized expert models and route inputs among them, with a taxonomy of design choices.",
+  "key_idea": "Routing among specialized experts.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "chen-2025-llm-slm-collab-survey",
+  "title": "A Survey on Collaborative Mechanisms Between Large and Small Language Models",
+  "authors": [
+   "Yi Chen",
+   "JiaHao Zhao",
+   "HaoHao Han"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2505.07460",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C1",
+   "C2"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of large-small LM collaboration mechanisms (pipeline, routing, auxiliary, distillation, fusion), mostly motivated by on-device constraints.",
+  "key_idea": "LLM-SLM collaboration taxonomy.",
+  "relevance_score": 3,
+  "relevance_rationale": "Covers routing/cascades.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "wang-2025-slm-llm-collab-survey",
+  "title": "A Survey on Collaborating Small and Large Language Models for Performance, Cost-effectiveness, Cloud-edge Privacy, and Trustworthiness",
+  "authors": [
+   "Fali Wang",
+   "Jihai Chen",
+   "Shuhua Yang",
+   "Ali Al-Lawati",
+   "Linli Tang",
+   "Hui Liu",
+   "Suhang Wang"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.13890",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C1"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Systematic survey of SLM-LLM collaboration organized by goals: performance, cost-effectiveness, cloud-edge privacy and trustworthiness.",
+  "key_idea": "Goal-based SLM-LLM survey.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cost-effectiveness section relevant.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "li-2025-edge-cloud-survey",
+  "title": "Collaborative Inference and Learning between Edge SLMs and Cloud LLMs: A Survey of Algorithms, Execution, and Open Challenges",
+  "authors": [
+   "Senyao Li",
+   "Haozhao Wang",
+   "Wenchao Xu",
+   "Rui Zhang",
+   "Song Guo",
+   "Jingling Yuan",
+   "Xian Zhong",
+   "Tianwei Zhang",
+   "Ruixuan Li"
+  ],
+  "year": 2025,
+  "venue_or_source": "ACM Computing Surveys (per Semantic Scholar)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2507.16731",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C1",
+   "C11"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of edge SLM and cloud LLM collaboration for inference and training, covering task assignment, division and mixture at task and token levels.",
+  "key_idea": "Edge-cloud collaboration taxonomy.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm",
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "sharma-2025-slm-agentic-survey",
+  "title": "Small Language Models for Agentic Systems: A Survey of Architectures, Capabilities, and Deployment Trade offs",
+  "authors": [
+   "Raghav Sharma",
+   "Manan Mehta"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.03847",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C3",
+   "C8"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "uncertainty-aware routing",
+   "verifier cascades"
+  ],
+  "cost_reduction_reported": "Claims SLMs with guided decoding can match or surpass LLMs on tool use, function calling and RAG at 10x-100x lower token cost (abstract, synthesized from literature)",
+  "benchmarks": [
+   "BFCL v3/v4",
+   "StableToolBench"
+  ],
+  "models_studied": [
+   "Phi-4-Mini",
+   "Qwen-2.5-7B",
+   "Gemma-2-9B",
+   "Llama-3.2",
+   "Ministral"
+  ],
+  "production_evidence": false,
+  "summary": "Survey arguing small language models suffice for many schema-constrained agentic workloads and formalizing SLM-default, LLM-fallback designs with uncertainty-aware routing and verifier cascades. Proposes metrics such as cost per successful task.",
+  "key_idea": "SLM-default, LLM-fallback agent design.",
+  "relevance_score": 4,
+  "relevance_rationale": "Directly about downscaling agent calls.",
+  "found_via": "search: survey LLM routing",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "chen-2026-agentic-energy-survey",
+  "title": "Networking-Aware Energy Efficiency in Agentic AI Inference: A Survey",
+  "authors": [
+   "Xiaojing Chen",
+   "Haiqi Yu",
+   "Wei Ni",
+   "Dusit Niyato",
+   "Ruichen Zhang",
+   "Xin Wang",
+   "Shunqing Zhang",
+   "Shugong Xu"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2604.07857",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C11"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Survey of energy efficiency in agentic AI inference with an accounting framework for compute and communication costs across the perception-reasoning-action loop.",
+  "key_idea": "Energy accounting for agentic inference.",
+  "relevance_score": 2,
+  "relevance_rationale": "Background.",
+  "found_via": "search: efficient agents survey",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2025-efficient-agents",
+  "title": "Efficient Agents: Building Effective Agents While Reducing Cost",
+  "authors": [
+   "Ningning Wang",
+   "Xavier Hu",
+   "Pai Liu",
+   "He Zhu",
+   "Yue Hou",
+   "Heyuan Huang",
+   "Shengyu Zhang",
+   "Jian Yang",
+   "Jiaheng Liu",
+   "Ge Zhang",
+   "Changwang Zhang",
+   "Jun Wang",
+   "Yuchen Eleanor Jiang",
+   "Wangchunshu Zhou"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2508.02694",
+  "code_url": "https://github.com/OPPO-PersonalAI/OAgents",
+  "topic_clusters": [
+   "C15",
+   "C12",
+   "C3"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "cost-of-pass"
+  ],
+  "cost_reduction_reported": "Efficient Agents retains 96.7% of OWL's performance while reducing cost from $0.398 to $0.228, a 28.4% improvement in cost-of-pass on GAIA (abstract)",
+  "benchmarks": [
+   "GAIA"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Systematic empirical study of efficiency-effectiveness trade-offs in agent systems, varying LLM backbone, framework modules and test-time scaling on GAIA with a cost-of-pass metric. Proposes an Efficient Agents framework sized to task needs.",
+  "key_idea": "Measure agent cost-of-pass and prune unnecessary complexity.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly on cost of agent systems.",
+  "found_via": "search: efficient agents survey",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zeng-2025-pac-efficient-routing",
+  "title": "A note on conditional PAC-efficient reasoning in large language model routing",
+  "authors": [
+   "Hao Zeng",
+   "Bingyi Jing"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2512.03057",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C1",
+   "C2"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "conditioning sets",
+   "PAC risk control"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Shows pointwise conditional PAC efficiency for model routing forces a near-impossible router, and proposes a restricted setwise conditional formulation with an explicit router achieving finite-sample validity and near-oracle expert usage.",
+  "key_idea": "Limits of distribution-free conditional guarantees for routing.",
+  "relevance_score": 3,
+  "relevance_rationale": "Theory of safe routing.",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "fisch-2026-pandoras-router",
+  "title": "Pandora's AI Model Routing Box: Efficient Allocation with Costly Value Estimation",
+  "authors": [
+   "Adam Fisch",
+   "Shubhendu Trivedi",
+   "Fantine Huot",
+   "William W. Cohen",
+   "Michael Kaisers",
+   "Mirella Lapata",
+   "Kate Larson",
+   "Jacob Eisenstein"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.20316",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "costly value estimation",
+   "value of information"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Formalizes routing with costly value estimation as Pandora's Box optimal search, giving closed-form value-of-information rules for whether refining an estimate for a specialist is worth it, with centralized and decentralized (bidding) variants.",
+  "key_idea": "Optimal search theory for when to pay for better routing estimates.",
+  "relevance_score": 4,
+  "relevance_rationale": "Principled theory for routing with expensive signals (e.g. partial traces).",
+  "found_via": "snowball: cited-by ong-2024-routellm",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "bouchard-2026-escalation-decision-theory",
+  "title": "Is Escalation Worth It? A Decision-Theoretic Characterization of LLM Cascades",
+  "authors": [
+   "Dylan Bouchard"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.06350",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C2"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "confidence",
+   "shadow prices"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MATH",
+   "MMLU",
+   "TriviaQA",
+   "SimpleQA",
+   "LiveCodeBench"
+  ],
+  "models_studied": [
+   "eight models from five providers"
+  ],
+  "production_evidence": false,
+  "summary": "Decision-theoretic analysis of LLM cascades via constrained optimization and duality: characterizes the cost-quality frontier of two-model and k-model threshold cascades and finds long fixed chains underperform the pairwise envelope.",
+  "key_idea": "Duality-based frontier characterization for cascades.",
+  "relevance_score": 4,
+  "relevance_rationale": "Constrained optimization theory for escalation.",
+  "found_via": "search: LLM routing constrained optimization",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "mao-2025-multi-expert-deferral-thesis",
+  "title": "Theory and Algorithms for Learning with Multi-Class Abstention and Multi-Expert Deferral",
+  "authors": [
+   "Anqi Mao"
+  ],
+  "year": 2025,
+  "venue_or_source": "Ph.D. dissertation, New York University",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2512.22886",
+  "code_url": null,
+  "topic_clusters": [
+   "C15",
+   "C2"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "surrogate losses",
+   "H-consistency"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "CIFAR-10",
+   "CIFAR-100",
+   "SVHN"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Thesis on learning with abstention and multi-expert deferral, providing surrogate losses with H-consistency guarantees for single-stage and two-stage deferral, motivated by routing LLM queries to experts.",
+  "key_idea": "Consistency theory for multi-expert deferral.",
+  "relevance_score": 3,
+  "relevance_rationale": "Theoretical base for learned routing/deferral.",
+  "found_via": "search: learning to defer large language models",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "shi-2025-inferencedynamics",
+  "title": "INFERENCEDYNAMICS: Efficient Routing Across LLMs through Structured Capability and Knowledge Profiling",
+  "authors": [
+   "Hao-Chen Shi",
+   "Tianshi ZHENG",
+   "Weiqi Wang",
+   "Baixuan Xu",
+   "Chunyang Li",
+   "Chunkit Chan",
+   "Tao Fan",
+   "Yangqiu Song",
+   "Qiang Yang"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2505.16303",
+  "code_url": null,
+  "topic_clusters": [
+   "C1"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "structured capability and knowledge profiles"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MMLU-Pro",
+   "GPQA",
+   "BigGenBench",
+   "LiveBench",
+   "RouteMix"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "InferenceDynamics models each LLM's capabilities and knowledge along multiple dimensions to route queries across large pools of specialized models, evaluated on the RouteMix dataset with group-level routing.",
+  "key_idea": "Multi-dimensional capability/knowledge profiling for scalable routing.",
+  "relevance_score": 3,
+  "relevance_rationale": "Scales to large model pools.",
+  "found_via": "snowball: cited-by ding-2024-hybrid-llm",
+  "cites_or_cited_by": [
+   "ding-2024-hybrid-llm"
+  ]
+ },
+ {
+  "id": "notdiamond-2024-rorf",
+  "title": "RoRF - Routing on Random Forests",
+  "authors": [
+   "Not Diamond"
+  ],
+  "year": 2024,
+  "venue_or_source": "GitHub (Not Diamond)",
+  "source_type": "repo",
+  "url": "https://github.com/Not-Diamond/RoRF",
+  "code_url": "https://github.com/Not-Diamond/RoRF",
+  "topic_clusters": [
+   "C1",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "query embedding (jina-embeddings-v3, voyage-large-2-instruct)",
+   "random forest classifier"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "llama-3.1-405b-instruct",
+   "llama-3.1-70b-instruct",
+   "claude-3.5-sonnet"
+  ],
+  "production_evidence": false,
+  "summary": "Not Diamond's open-source framework for training and serving random-forest routers over embedding features for pairs of models, with 12 pretrained routers across 6 model pairs. The README states strong/weak routing cuts cost while keeping the strong model's performance and strong/strong routing can beat both; it reuses RouteLLM's Controller interface (companion blog at notdiamond.ai/blog/rorf).",
+  "key_idea": "Random forests on text embeddings as cheap pairwise routers.",
+  "relevance_score": 3,
+  "relevance_rationale": "Seed; practitioner router from a routing vendor, but no quantitative claims verified here.",
+  "found_via": "seed",
+  "cites_or_cited_by": [
+   "ong-2024-routellm"
+  ]
+ },
+ {
+  "id": "openai-2025-gpt5-system-card",
+  "title": "GPT-5 System Card",
+  "authors": [
+   "OpenAI"
+  ],
+  "year": 2025,
+  "venue_or_source": "OpenAI (system card)",
+  "source_type": "docs",
+  "url": "https://cdn.openai.com/gpt-5-system-card.pdf",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C14",
+   "C9"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "conversation type",
+   "complexity",
+   "tool needs",
+   "explicit user intent",
+   "user model switches",
+   "preference rates",
+   "measured correctness"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "gpt-5-main",
+   "gpt-5-thinking",
+   "mini variants"
+  ],
+  "production_evidence": true,
+  "summary": "Describes GPT-5 as a unified system with a fast model, a deeper reasoning model, and a real-time router that picks between them using conversation type, complexity, tool needs and explicit intent. The router is continuously trained on real signals such as user model switches, response preference rates and measured correctness, and mini models handle traffic once usage limits are hit.",
+  "key_idea": "Production query-level router between fast and reasoning models trained on live user signals.",
+  "relevance_score": 4,
+  "relevance_rationale": "Largest publicly documented production deployment of query-level routing with online learning from traffic.",
+  "found_via": "search: GPT-5 system card real-time router",
+  "cites_or_cited_by": []
+ }
+]
