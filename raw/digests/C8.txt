@@ -1,0 +1,993 @@
+# C8: 182 records (full detail for rel>=4; one-liners for rel<=3)
+
+[alazraki-2026-sale-strategy-auctions] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C3,C8)
+  title: Scaling Small Agents Through Strategy Auctions
+  key_idea: Auction among differently sized agents for per-task routing.
+  cost: Reduces reliance on the largest agent by 53% and overall cost by 35%
+  summary: Shows small agents lag on complex tasks and proposes SALE, where agents of different sizes bid short strategic plans scored by a cost-value mechanism, enabling per-task routing and self-improvement without a separate router.
+  benchmarks: deep search, coding tasks
+  signals: strategy bids, cost-value scoring, auction memory
+
+[cai-2026-think-big-search-small] (2026, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C8,C12)
+  title: Think Big, Search Small: Where Capacity Matters in Hierarchical Search Agents?
+  key_idea: Put capacity in the planner/delegator and downsize the executor.
+  cost: Scaling delegation backbone improves EM ~11 points vs ~2.6 for execution; a 1.7B distilled executor matches a frontier sub-agent with 37% fewer sub-agent tokens
+  summary: The authors factor hierarchical search agents into delegation, execution and answer-generation roles and sweep model capacity per role. Decomposition is the capacity bottleneck, while execution can be downsized; a 1.7B executor trained by quality-filtered trajectory distillation matches a frontier executor.
+  benchmarks: five multi-hop QA benchmarks
+  signals: role capacity sweep
+
+[dennis-2026-compiling-workflows-into-weights] (2026, arXiv, rel=5, gran=none, regime=supervised-offline, prod=N, clusters=C8,C12)
+  title: Compiling Agentic Workflows into LLM Weights: Near-Frontier Quality at Two Orders of Magnitude Less Cost
+  key_idea: Compile agent workflows into a small model's weights.
+  cost: Title claims near-frontier quality at two orders of magnitude less cost; evaluated on travel booking, Zoom support and insurance-claims workflows
+  summary: Argues external orchestration frameworks can be replaced by fine-tuning procedures into model weights, testing across procedural tasks such as travel booking against frontier models with procedures in the system prompt.
+  benchmarks: travel booking and other procedural tasks
+  signals: procedural workflow data
+
+[gandhi-2026-steer-dont-solve-critic] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C3,C7,C8)
+  title: Steer, Don't Solve: Training Small Critic Models for Large Code Agents
+  key_idea: A small trained critic steers a large agent cheaply.
+  cost: 30-92x lower critic cost than a strong teacher; on Qwen3-Next-80B-A3B both more accurate (25.2% vs 20.8%) and cheaper ($0.04 vs $0.11)
+  summary: Freezes the code agent and trains a small critic on agent trajectories to steer strategy-level reasoning; the critic transfers to unseen agents and improves accuracy at lower cost.
+  benchmarks: SWE-bench Verified
+  signals: small critic model
+
+[guo-2026-routenlp] (2026, ACL 2026 Industry Track, rel=5, gran=query, regime=hybrid, prod=Y, clusters=C1,C2,C8,C14)
+  title: RouteNLP: Closed-Loop LLM Routing with Conformal Cascading and Distillation Co-Optimization
+  key_idea: Route, cascade, and distil on escalation failures in a closed loop.
+  cost: 8-week enterprise pilot (~5K queries/day): 58% lower inference cost at 91% response acceptance, p99 latency 1,847 ms to 387 ms; 40-85% cost reduction retaining 96-100% quality on a six-task benchmark
+  summary: Closed-loop framework combining a difficulty-aware router, conformal cascading and a loop that clusters escalation failures, distils cheaper models on them and retrains the router. Reports an 8-week enterprise customer-service pilot.
+  benchmarks: six-task finance/customer-service/legal benchmark
+  signals: difficulty-aware router, conformal confidence thresholds, quality signals, escalation failure clusters
+
+[hemadri-2026-r2v-agent] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C7,C8)
+  title: R2V Agent: Teaching SLMs When to Ask for Help
+  key_idea: Calibrated per-step risk router decides when a distilled SLM should hand off to an LLM.
+  cost: 94.3% HumanEval+ success with 0.60% LLM escalation; TextWorld 64.6% to 98.2% at 41.7% escalation; 93.3% TerminalBench at 33.9% LLM calls, about half heuristic-router cost
+  summary: R2V-Agent distills an SLM policy from a teacher LLM (behavior cloning then verifier-guided DPO), then trains a calibrated step-level router on the SLM's residual failures with a CVaR-constrained objective. The router escalates to the LLM only when failure risk warrants, improving the reliability-cost frontier.
+  benchmarks: HumanEval+, TextWorld, TerminalBench
+  signals: process verifier scores, Brier-calibrated failure risk, CVaR objective
+
+[kon-2026-swe-protege] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C2,C3,C8)
+  title: SWE-Prot\'eg\'e: Learning to Selectively Collaborate With an Expert Unlocks Small Language Models as Software Engineering Agents
+  key_idea: Train the small agent to decide when to consult a large expert.
+  cost: Qwen2.5-Coder-7B reaches 42.4% Pass@1 on SWE-bench Verified (+25.4% over prior SLM SOTA) using ~4 expert calls per task and 11% of tokens
+  summary: SWE-Protege post-trains a 7B coding model to remain the decision-maker while learning when to ask a strong expert model for help and how to follow its advice, using SFT on expert-augmented trajectories and RL that penalizes looping and unhelpful consultations. It reaches 42.4% on SWE-bench Verified with sparse expert use.
+  benchmarks: SWE-bench Verified
+  signals: stall detection (learned), selective expert calls
+
+[li-2026-rsi-router] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C3,C4,C8)
+  title: RSI-Router: Evolving Subtask-Level LLM Routing and Skills for Cost-Efficient Agents
+  key_idea: Recursive self-improvement of subtask-level routing and skills.
+  cost: Surpasses DeepSeek-only baseline at about 48.3% of the cost across five agentic benchmarks; 74.7-82.2% cost cuts with better performance on ALFWorld, ScienceWorld, WebShop; +16.7% relative on Terminal-Bench 2.0 at 18.0% lower cost
+  summary: RSI-Router mines subtask definitions from trajectories, evolves subtask-to-model assignments, develops model-specific skills by comparing routed and large-only runs, and keeps a Pareto population of routers across iterations. Routing between a large and a 9B model halves cost while improving performance.
+  benchmarks: ALFWorld, ScienceWorld, WebShop, Terminal-Bench 2.0
+  signals: mined subtask definitions, trajectory comparisons
+
+[yang-2026-harness-adaptation-slm] (2026, arXiv, rel=5, gran=none, regime=training-free, prod=N, clusters=C3,C4,C8,C10,C12)
+  title: Better Harnesses, Smaller Models: Building 90% Cheaper Agents via Automated Harness Adaptation
+  key_idea: Lift task difficulty into the harness so small models suffice.
+  cost: best small-model agent recovered 89.7% of LLM performance at 4% of the cost; optimized harnesses improved 16 of 21 task-SLM pairs, closing the gap in seven
+  summary: Shows that SLM agents can match frontier agents on many routine business tasks at about 90% lower cost if the harness (instructions, tools, orchestration loops) is adapted, and builds a meta-agent that discovers adaptations from failure trajectories. Works best on repetitive workflows and capable-enough SLMs.
+  benchmarks: seven business-oriented agentic tasks, routine business tasks (21 task-SLM pairs)
+  signals: failure trajectories, automated harness adaptation
+
+[yao-2026-mera] (2026, arXiv (preliminary version in CAIS RL-Eval), rel=5, gran=step, regime=hybrid, prod=N, clusters=C3,C6,C8)
+  title: MERA: Model Evolution and Routing with Skill Adaptation for Agentic Systems at Scale
+  key_idea: Continually distill the cheap model from its routed failures.
+  cost: Deployed policy retains 88.3% pass at 60.8% of always-teacher cost on HumanEval+MBPP; Qwen2.5-Coder-1.5B improves 28.7% to 49.7% after four cycles
+  summary: MERA improves the small model behind a step-level router rather than only routing: it replays failed student invocations to get verified teacher demonstrations, distills a SkillBook, fine-tunes a LoRA student, and serves it behind a cost-calibrated router with verifier fallback, admitting changes only when replay preserves quality.
+  benchmarks: HumanEval+, MBPP, TAU-2
+  signals: replayed failed invocations, verifier-backed fallback, cost-calibrated router
+
+[yuan-2026-coca-capability-allocation] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C3,C8)
+  title: Learning What to Activate: Combinatorial Capability Allocation for Long-Horizon Multimodal Agents
+  key_idea: Per-stage combinatorial selection of which specialist modules to run, trading success against activation cost.
+  summary: CoCA learns to activate a cost-sensitive subset of specialized capabilities (perception, retrieval, reasoning, verification, execution) at each stage of a long-horizon multimodal agent. A stronger teacher compares marginal capability values on student-visited states; the policy is distilled on-policy and refined with trajectory RL on success and activation cost.
+  signals: teacher conditional comparisons, activation cost
+
+[belcak-2025-slms-future-agentic-ai] (2025, arXiv (position paper), rel=5, gran=subagent, regime=n/a, prod=N, clusters=C3,C8,C12,C15)
+  title: Small Language Models are the Future of Agentic AI
+  key_idea: Most agent calls should go to SLMs; convert LLM agents to SLMs using logged usage.
+  summary: NVIDIA's position paper argues that small language models are capable enough, better suited and far cheaper for most repetitive, narrow invocations inside agentic systems, and that heterogeneous agents mixing SLMs and LLMs are the natural design. Outlines an LLM-to-SLM conversion algorithm from agent usage logs.
+
+[su-2025-toolorchestra] (2025, arXiv, rel=5, gran=step, regime=RL-offline, prod=N, clusters=C1,C3,C8)
+  title: ToolOrchestra: Elevating Intelligence via Efficient Model and Tool Orchestration
+  key_idea: A small RL-trained orchestrator decides when to call expensive models and tools.
+  cost: On HLE 37.1% vs GPT-5 35.1% while 2.5x more efficient; on tau2-Bench and FRAMES surpasses GPT-5 using about 30% of the cost
+  summary: NVIDIA's ToolOrchestra trains a small 8B orchestrator with RL to coordinate tools and other models, including larger LLMs, with rewards for outcome, efficiency and user tool preferences. The Orchestrator beats GPT-5 on HLE at 2.5x better efficiency and on tau2-Bench and FRAMES at about 30% of the cost.
+  benchmarks: Humanity's Last Exam, tau2-Bench, FRAMES, HLE
+  signals: outcome, efficiency and user-preference rewards, outcome, efficiency and preference rewards
+
+[yarullin-2025-intercom-escalation] (2025, Fin.ai research blog (Intercom), rel=5, gran=step, regime=supervised-offline, prod=Y, clusters=C2,C8,C14)
+  title: To escalate, or not to escalate, that is the question
+  key_idea: Distill a step of the agent into a small classifier with LLM fallback.
+  cost: Company-reported: custom ModernBERT handles 90% of cases with LLM fallback for 10%; >98% escalation accuracy; latency -0.5s; cost per resolution ~-3%
+  summary: Intercom replaced an LLM escalation decision in Fin with a multi-head ModernBERT trained on 4M production examples with LLM labels, falling back to the LLM on uncertain cases, and reports higher resolution rate in an A/B test.
+  benchmarks: production A/B test
+  signals: conversation history, escalation guidelines, LLM-generated labels
+
+[boisvert-2024-workarena-plus-plus] (2024, NeurIPS 2024 Datasets and Benchmarks, rel=5, gran=none, regime=n/a, prod=N, clusters=C8,C13)
+  title: WorkArena++: Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks
+  key_idea: Harder compositional enterprise workflows plus trace generation for training.
+  summary: Adds 682 compositional workflows on ServiceNow that need planning, arithmetic and logical reasoning, retrieval and context understanding, and compares agents with human workers. It also provides a mechanism to generate large numbers of ground-truth observation/action traces for fine-tuning.
+  benchmarks: WorkArena++ (682 tasks)
+  signals: task validators
+
+[chen-2024-optima] (2024, arXiv, rel=5, gran=none, regime=hybrid, prod=N, clusters=C3,C4,C8,C12)
+  title: Optima: Optimizing Effectiveness and Efficiency for LLM-Based Multi-Agent System
+  key_idea: Train MAS agents with a reward that penalizes tokens to get efficient communication.
+  cost: Up to 2.8x performance gain with less than 10% of tokens on information-heavy tasks vs vanilla MAS (Llama 3 8B)
+  summary: Optima trains the agents of a multi-agent system with an iterative generate-rank-select-train loop (SFT, DPO and hybrids) whose reward balances task success, token efficiency and readability, using MCTS-style data generation. The trained MAS communicates far more tersely and outperforms both single-agent and vanilla MAS baselines.
+  benchmarks: information-asymmetric QA, complex reasoning tasks
+  signals: reward: task score + token count + readability, task reward, token efficiency, readability
+
+[nie-2024-online-cascade-learning] (2024, ICML 2024, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C8)
+  title: Online Cascade Learning for Efficient Inference over Streams
+  key_idea: Cascade learned online by imitating LLM demonstrations.
+  cost: Parallels LLM accuracy while cutting inference costs by as much as 90% across four benchmarks
+  summary: Learns a cascade online from a stream, from logistic regression up to an LLM, treating it as imitation learning where small models imitate LLM outputs over time. Provides a no-regret algorithm and robustness to distribution shift.
+  benchmarks: four stream benchmarks, four stream-processing text benchmarks
+  signals: deferral policy, LLM demonstrations, deferral policy confidence
+
+[chen-2026-da-grpo-cloud-offloading] (2026, arXiv, rel=4, gran=step, regime=RL-online, prod=N, clusters=C3,C5,C8)
+  title: Joint Continual Learning of Local Language Models and Cloud Offloading Decisions with Budget Constraints
+  key_idea: Budget-constrained RL teaches a local model when to offload to the cloud.
+  summary: DA-GRPO lets a local SLM jointly learn task skill and when to request cloud LLM help during continual learning, building a cloud-usage budget directly into GRPO advantages. It reduces forgetting and keeps cloud usage stable.
+  benchmarks: math reasoning, code generation
+  signals: cloud-usage budget in advantage
+
+[chen-2026-signals-trajectory-triage] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C6,C7,C8)
+  title: Signals: Trajectory Sampling and Triage for Agentic Interactions
+  key_idea: Cheap signals to triage production trajectories.
+  cost: Signal-based sampling: 82% informativeness vs 54% random, 1.52x efficiency per informative trajectory on tau-bench
+  summary: Computes cheap signals from live agent interactions and attaches them as attributes to triage which trajectories are worth reviewing, without affecting online behavior.
+  benchmarks: tau-bench
+  signals: cheap interaction signals
+
+[gola-2026-langsmith-fine-tuning] (2026, LangChain blog, rel=4, gran=n/a, regime=supervised-offline, prod=Y, clusters=C6,C8,C14)
+  title: Introducing LangSmith Fine-Tuning
+  key_idea: Curated production agent traces can be distilled into open models that are both better and cheaper per task.
+  cost: Engine agent: Kimi K3 + SFT 96.0 vs Kimi K3 90.0 vs GPT-5.6 Sol 87.0 on internal IssueBench subset; OpenSWE Review: Qwen-3.8-27B + SFT F1 48.9%->53.7% with 29.8% fewer model calls and 29.4% fewer tool requests per review (vendor-reported, internal agents)
+  summary: LangChain launches smithtune, a CLI that turns agent trajectories stored in LangSmith into SFT datasets, trains on Fireworks or Baseten, evaluates and deploys. Applied to two of LangChain's own production agents, fine-tuned open models beat a frontier model on issue detection and matched review quality with about 30% fewer model and tool calls; a less selective first dataset lowered F1, prompting a trace-review curation stage. Baseten's companion posts describe the training infrastructure (Baseten Loops).
+  benchmarks: IssueBench (internal), internal PR review set
+  signals: curated successful trajectories, trace review
+
+[guo-2026-sciorch] (2026, arXiv, rel=4, gran=subagent, regime=RL-offline, prod=N, clusters=C3,C8)
+  title: SciOrch: Learning to Orchestrate Expert LLMs for Solving Frontier Multimodal Scientific Reasoning Tasks
+  key_idea: Small trained orchestrator delegating sub-problems to frontier APIs.
+  summary: SciOrch trains an 8B orchestrator to decompose scientific questions, delegate sub-problems to selected commercial frontier models via API, and synthesize the answer. Because each action is an expensive API call, the authors replace online RL rollouts with MCTS-based data collection.
+  benchmarks: frontier multimodal scientific reasoning
+  signals: MCTS-based offline rollouts, API cost
+
+[kabeer-2026-pearl] (2026, ICCBI 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C3,C8)
+  title: PEARL: Performance-Efficient Agentic Retrieval-Augmented Generation Through Learned Orchestration
+  key_idea: Distill the LLM orchestrator into a tiny classifier from its own traces.
+  cost: Distilled Flan-T5-small (80M) orchestrator achieves Routing Accuracy Score 0.942 on Indian legal queries
+  summary: PEARL replaces a GPT-4 orchestrator in a multi-agent RAG system with an 80M Flan-T5 trained on 12,000 GPT-4 routing traces, classifying queries into one of four agent pipeline configurations.
+  benchmarks: Indian legal queries
+  signals: GPT-4 routing traces
+
+[kim-2026-agent-memory-distillation] (2026, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C8,C10)
+  title: Agent Memory Distillation: Empowering Small LLM Agents with Hierarchical Teacher Memory
+  key_idea: Memory-based distillation for small agents.
+  cost: Average accuracy gains of 27.2, 11.2 and 3.4 points on AppWorld, BFCL V3 and ToolSandbox for 4B-8B students with GPT-5-mini teacher
+  summary: Distills a teacher's successful experience into hierarchical memory (task, subtask) that small agents retrieve, rather than updating weights.
+  benchmarks: AppWorld, BFCL V3, ToolSandbox
+  signals: hierarchical teacher memory
+
+[luo-2026-agentark] (2026, arXiv, rel=4, gran=none, regime=supervised-offline, prod=N, clusters=C8,C12)
+  title: AgentArk: Distilling Multi-Agent Intelligence into a Single LLM Agent
+  key_idea: Single agent inherits multi-agent intelligence.
+  summary: Distills multi-agent debate dynamics into a single LLM agent, shifting computation from inference to training while keeping reasoning and self-correction benefits.
+  signals: multi-agent debate traces
+
+[malik-2026-progressive-crystallization] (2026, arXiv, rel=4, gran=none, regime=supervised-offline, prod=Y, clusters=C8,C12,C14)
+  title: Progressive Crystallization: Turning Agent Exploration into Deterministic, Lower-Cost Workflows in Production
+  key_idea: Graduate agent trajectories into deterministic workflows to remove LLM calls.
+  cost: Deterministic execution rose 0% to 45% over eight months; per-incident agent cost reduced >70% despite doubling incident volume (production cloud-networking AIOps)
+  summary: Progressive crystallization promotes repeatedly validated agent behaviors in a production IT-ops system into deterministic workflows, and demotes them on regression. Over eight months on tens of thousands of incidents per month it shifted executions off the LLM.
+  signals: repeated validated agent behaviors
+
+[rajput-2026-cheap-verifiers-blind-spots] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7,C8)
+  title: Cheap Verifiers, Large Blind Spots: Measuring the Reliability Cost of Cost-Saving Cascades
+  key_idea: Metrics computed through a cheap verifier cannot certify a cascade.
+  cost: Frontier verifier drives blind spot to ~0.05 but escalates 46% of hard-MATH queries vs a 39% true error rate; cascade dashboard shows flat 3% error while true error swings up to 32%
+  summary: Measures self-improving cascades where the cheap model is fine-tuned on verifier rejections. Finds verifier blind spots grow with student capability, corrective fine-tuning collapses the student, and in-loop metrics hide real degradation.
+  benchmarks: MATH
+  signals: verifier acceptance
+
+[selvaraj-2026-adept] (2026, International Conference on Artificial Intelligence, Automation, and Algorithms (SPIE) 2026, rel=4, gran=query, regime=hybrid, prod=Y, clusters=C3,C8,C14)
+  title: ADEPT: adaptive delegation of expert prompts to trained SLMs for agentic AI use cases
+  key_idea: Progressive LLM-to-SLM delegation trained on the LLM's own production outputs.
+  cost: 41.5% reduction in LLM calls and 39.8% cost savings over two months in ITOps and cybersecurity
+  summary: ADEPT starts with LLMs answering novel prompts and progressively fine-tunes SLMs on expert outputs to take over repetitive, well-understood tasks, with routing between them. It was evaluated over two months in IT operations and cybersecurity.
+  signals: novelty/complexity of prompt
+
+[srivastava-2026-effgen] (2026, ICML 2026, rel=4, gran=query, regime=training-free, prod=N, clusters=C3,C8,C10)
+  title: EffGen: Enabling Small Language Models as Capable Autonomous Agents
+  key_idea: Agent framework engineered for SLMs with complexity routing.
+  cost: Prompt compression of 70-80% (57% average); outperforms LangChain, AutoGen and Smolagents on 13 benchmarks
+  summary: EffGen is an open-source agent framework tuned for small models, combining prompt compression for tool calling, dependency-aware task decomposition, complexity-based routing and a unified memory system. Prompt optimization helps small models more while routing helps larger ones more.
+  benchmarks: 13 benchmarks
+  signals: five-factor complexity score
+
+[taheri-2026-iffc-function-calling] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C8)
+  title: Small Reasoning Models are Instruction Followers in Function Calling
+  key_idea: Delegate tool-call formatting to a small instruction-following model.
+  summary: IFFC moves function-calling logic out of the main LLM into a dedicated smaller model that works in a plain instruction-following format. It beats native and prompt-based function calling, especially for reasoning models, and stays robust under aggressive quantization.
+
+[together-2026-deepswe-cascade-glm-flash] (2026, Together AI blog, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C8,C13)
+  title: GLM-5.3 vs. GLM-5.3 Flash on DeepSWE: Cost, Coding, and Routing
+  key_idea: Distillation mostly costs consistency, which retries and verifier-gated escalation can buy back cheaply.
+  cost: Cascade (GLM-5.3 Flash first, escalate to GLM-5.3 when tests reject): 80.9% of DeepSWE tasks at $1.70 vs GLM-5.3 alone 69.0% at $3.99 (57% lower cost); Flash 17x cheaper per rollout (vendor-reported)
+  summary: Evaluates a distilled Flash model against its parent on DeepSWE: the gap is mainly first-try reliability (5.6 pts at pass@1, 2.6 pts at pass@4), the Flash solves 93 of the parent's 99 solved tasks, but breaks passing tests slightly more often. A test-gated cascade from Flash to the parent beats both.
+  benchmarks: DeepSWE
+  signals: unit-test pass/fail
+
+[tsymboi-2026-production-traffic-post-training] (2026, arXiv, rel=4, gran=none, regime=RL-offline, prod=Y, clusters=C6,C8,C14)
+  title: From Production Traffic to Post-Training: Building a Self-Hosted LLM That Covers the Corporate Request Mix
+  key_idea: Production-traffic-driven post-training to replace a larger model fleet.
+  cost: model absorbs 50% of platform traffic (116M requests/month) at a fraction of the serving cost
+  summary: Consolidates traffic from over 200 internal applications onto one self-hosted model by analyzing production errors, training per-axis GRPO experts and merging them; benchmarks are stratified to production traffic.
+  benchmarks: in-house Arena, instruction following, function-calling
+  signals: production error analysis, verifiers, LLM judges
+
+[wang-2026-rethinking-scale-slm-agent-paradigms] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C8,C12,C13)
+  title: Rethinking Scale: Deployment Trade-offs of Small Language Models under Agent Paradigms
+  key_idea: For small models, single tool agents beat multi-agent setups on cost-effectiveness.
+  summary: A large study of sub-10B open models as base models, single tool-using agents and multi-agent systems. Single agents give the best performance-cost balance, while multi-agent setups add overhead with limited gains.
+
+[yuan-2026-clawtrace] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C6,C8)
+  title: ClawTrace: Cost-Aware Tracing for LLM Agent Skill Distillation
+  key_idea: Cost-aware traces for skill distillation.
+  summary: Tracing platform recording every LLM call, tool use and sub-agent spawn with per-step cost, compiling sessions into TraceCards that let skill-distillation pipelines prune expensive steps that did not matter.
+  signals: per-step USD cost, redundancy flags
+
+[yuan-2026-paramanager-small-orchestrator] (2026, arXiv, rel=4, gran=subagent, regime=hybrid, prod=N, clusters=C3,C8)
+  title: Small Model as Master Orchestrator: Learning Unified Agent-Tool Orchestration with Parallel Subtask Decomposition
+  key_idea: A small trained orchestrator delegates parallel subtasks to agents and tools.
+  summary: Agent-as-Tool unifies agents and tools into one learnable action space, and a lightweight orchestrator (ParaManager) trained with SFT and RL decomposes tasks into parallel subtasks and delegates them. It generalizes to unseen model pools.
+  benchmarks: multiple benchmarks
+  signals: state feedback, SFT with recovery, RL multi-objective
+
+[zeng-2026-mixture-of-roles-single-agent] (2026, arXiv, rel=4, gran=query, regime=hybrid, prod=N, clusters=C8,C12)
+  title: One Model, Many Minds: Unlocking Multi-Agent Synergy in a Single Agent via Mixture of Roles
+  key_idea: Compress multi-agent role diversity into a single steered forward pass.
+  cost: On par with MAS while reducing token cost by 20x; +2.2% over single-agent baselines
+  summary: MoRe composes several learned role steering vectors into one per query so a single frozen LLM gets multi-perspective specialization in one turn, matching multi-agent systems at a twentieth of the tokens.
+  benchmarks: reasoning and personality benchmarks
+  signals: query-aware router over steering-vector codebook
+
+[zhang-2026-agentfactory] (2026, arXiv, rel=4, gran=none, regime=hybrid, prod=N, clusters=C4,C8)
+  title: AgentFactory: Towards Automated Agentic System Design and Optimization
+  key_idea: Joint model and workflow optimization with multiple objectives.
+  summary: AgentFactory jointly optimizes foundation models (including fine-tuned ones) and workflow structures with LLM optimizers over multiple objectives including cost, gaining 9.1% on average over eight benchmarks.
+  benchmarks: MedQA, FinEval
+  signals: performance, cost, efficiency
+
+[ayala-2025-slm-vs-llm-low-code-workflows] (2025, arXiv, rel=4, gran=none, regime=supervised-offline, prod=Y, clusters=C8,C14)
+  title: Fine-Tune an SLM or Prompt an LLM? The Case of Generating Low-Code Workflows
+  key_idea: For structured enterprise outputs, fine-tuned SLMs beat prompted frontier LLMs.
+  cost: Fine-tuning an SLM improves quality by 10% on average over prompting GPT-4o
+  summary: ServiceNow study on generating structured low-code workflows: fine-tuned small models beat well-prompted GPT-4o by about 10% on average, with error analysis of remaining limits.
+  benchmarks: low-code workflow generation (JSON)
+  signals: task fine-tuning
+
+[bijoy-2025-prost-slm-multi-agent] (2025, arXiv, rel=4, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C8,C12)
+  title: ProST: Progressive Sub-task Training for Pareto-Optimal Multi-agent Systems Using Small Language Models
+  key_idea: Curriculum over subtasks to make SLM role agents Pareto-competitive.
+  cost: Progressive sub-task training improves effectiveness of SLM multi-agent systems at all configurations (Pareto analysis in paper)
+  summary: Compares single-agent LLM systems with multi-agent SLM systems on AppWorld for effectiveness and efficiency, finding SLMs struggle with long trajectories even with role specialization. Progressive sub-task training, a curriculum over subtasks, improves SLM multi-agent results.
+  benchmarks: AppWorld
+
+[chen-2025-netgpt-routing-synergy] (2025, arXiv, rel=4, gran=step, regime=hybrid, prod=N, clusters=C3,C5,C8)
+  title: Optimizing NetGPT via Routing-Based Synergy and Reinforcement Learning
+  key_idea: Edge/cloud routing of tool calls with self-improvement of the small edge agent from cloud traces.
+  summary: For edge-deployed network agents, structured tool-calling requests are routed to a cloud or edge agent by a scoring policy that provably reduces to a monotone fallback threshold in bandwidth and RTT. Cloud-routed data is then used for schema-preserving RL to improve the edge agent over time.
+  signals: bandwidth, RTT, scoring policy
+
+[choudhury-2025-agentprm-choudhury] (2025, arXiv, rel=4, gran=step, regime=RL-online, prod=N, clusters=C7,C8)
+  title: Process Reward Models for LLM Agents: Practical Framework and Directions
+  key_idea: Lightweight process reward models for agents, learned from rollouts or demonstrations.
+  cost: 3B models trained with AgentPRM/InversePRM outperform GPT-4o baselines on ALFWorld
+  summary: Presents AgentPRM, an actor-critic style framework where Monte Carlo rollouts produce process-reward targets used to train and improve LLM agents, plus InversePRM that learns process rewards from demonstrations. Small 3B models trained this way beat GPT-4o baselines on ALFWorld; the paper also analyzes test-time scaling and reward hacking.
+  benchmarks: ALFWorld
+  signals: process reward, Monte Carlo rollouts, inverse PRM
+
+[databricks-2025-tao] (2025, Databricks blog, rel=4, gran=n/a, regime=RL-offline, prod=N, clusters=C6,C7,C8)
+  title: TAO: Using test-time compute to train efficient LLMs without labeled data
+  key_idea: Convert test-time compute plus a reward model into a cheaper specialised model using only unlabeled usage data.
+  cost: Brings Llama 3.1 8B and Llama 3.3 70B close to GPT-4o and o3-mini on FinanceBench, DB Enterprise Arena and BIRD-SQL without labels, at the base model's inference cost; multi-task TAO +2.4% for Llama 3.3 70B on a broad enterprise benchmark; notes o3-mini emits 5-10x more output tokens (vendor-reported)
+  summary: TAO uses only unlabeled task inputs such as production prompts: it samples many candidate responses with test-time compute, scores them with an enterprise reward model, and trains the model with RL so the tuned model answers directly with no extra inference compute. It outperforms labeled fine-tuning on three enterprise tasks and scales with tuning compute budget.
+  benchmarks: FinanceBench, DB Enterprise Arena, BIRD-SQL (Databricks dialect)
+  signals: unlabeled usage inputs, reward model (DBRM) scores
+
+[feng-2025-fusionfactory] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C8,C13)
+  title: FusionFactory: Fusing LLM Capabilities with Multi-LLM Log Data
+  key_idea: Exploit multi-LLM logs for routing and distillation.
+  summary: FusionFactory uses multi-LLM log data to fuse models at three levels: query-level routing, thought-level template reuse, and model-level distillation, outperforming the best single model on all 14 tasks.
+  benchmarks: LLMFusionBench (14 tasks), LLMFusionBench (14 tasks, 20 LLMs), LLMFusionBench (14 tasks, 5 domains)
+  signals: multi-LLM log data, routers, reasoning templates, distillation, multi-LLM logs, query embedding
+
+[joglekar-2025-intercom-small-llms] (2025, Fin.ai research blog (Intercom), rel=4, gran=none, regime=supervised-offline, prod=Y, clusters=C8,C14)
+  title: David vs Goliath: are small LLMs any good?
+  key_idea: Fine-tune small models on production data to replace a frontier model per component.
+  cost: Company-reported: fine-tuned Qwen3 14B matched GPT-4.1 answer rate (63.4%); 5% and 12.5% cost reductions on two components
+  summary: Intercom fine-tunes small open models on consented, PII-redacted production conversations to replace GPT-4.1 in issue classification and extraction, reaching parity on answer rate with modest per-transaction savings.
+  benchmarks: internal issue detection and extraction tasks
+  signals: production conversations
+
+[kang-2025-acon] (2025, ICML 2026, rel=4, gran=step, regime=hybrid, prod=N, clusters=C8,C10)
+  title: ACON: Optimizing Context Compression for Long-horizon LLM Agents
+  key_idea: Optimize the compression prompt from failure cases, then distil the compressor.
+  cost: peak token usage reduced by 26-54% while improving task success over compression baselines; distilled compressors let smaller LMs gain up to 46% as long-horizon agents
+  summary: ACON compresses both interaction history and environment observations for long-horizon agents. It optimizes the compression guideline in natural language by contrasting failures under compressed vs full context, then distils the optimized compressor into smaller models to cut overhead.
+  benchmarks: AppWorld, OfficeBench, Multi-objective QA
+  signals: failure analysis of compressed vs full contexts, natural-language compression guidelines
+
+[kang-2025-agent-distillation-retrieval-code] (2025, arXiv, rel=4, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Distilling LLM Agent into Small Models with Retrieval and Code Tools
+  key_idea: Distill agent behavior, not just CoT, into small models.
+  cost: 0.5B-3B student agents competitive with next-tier larger models fine-tuned with CoT distillation
+  summary: Distills full tool-using agent behavior (retrieval and code) from LLM teachers into small models, improving teacher trajectories with a first-thought prefix and student robustness with self-consistent action generation.
+  signals: teacher trajectories, first-thought prefix, self-consistent actions
+
+[lee-2025-mapcoder-lite] (2025, arXiv, rel=4, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C8)
+  title: MapCoder-Lite: Distilling Multi-Agent Coding into a Single Small LLM
+  key_idea: Per-role LoRA adapters make a small multi-agent system work.
+  summary: Distills a four-agent coding system into a single 7B model with role-specific LoRA adapters, pass-based trajectory distillation and supervisor-guided correction.
+  signals: trajectory distillation, agent-wise LoRA
+
+[li-2025-chain-of-agents-afm] (2025, arXiv, rel=4, gran=none, regime=hybrid, prod=N, clusters=C8,C12)
+  title: Chain-of-Agents: End-to-End Agent Foundation Models via Multi-Agent Distillation and Agentic RL
+  key_idea: Distill a multi-agent system into one model.
+  summary: Distills multi-agent system trajectories into a single end-to-end agent foundation model that simulates multi-agent collaboration internally, then applies agentic RL.
+  signals: multi-agent distillation, agentic RL
+
+[liu-2025-structured-agent-distillation] (2025, arXiv, rel=4, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Structured Agent Distillation for Large Language Model
+  key_idea: Span-aware distillation of ReAct agents.
+  cost: Significant compression with minimal performance drop
+  summary: Segments ReAct trajectories into reasoning and action spans and applies span-specific distillation losses to align student and teacher, outperforming token-level and imitation baselines.
+  benchmarks: ALFWorld, HotPotQA-ReAct, WebShop
+  signals: span-level reasoning/action alignment
+
+[openpipe-2025-art] (2025, GitHub / OpenPipe blog, rel=4, gran=none, regime=RL-online, prod=N, clusters=C8,C14)
+  title: ART (Agent Reinforcement Trainer) and ART-E email agent
+  key_idea: RL-train small task agents with judge-based rewards to replace frontier models.
+  cost: README states a Qwen 2.5 14B email research agent (ART-E) trained with ART outperforms OpenAI o3 at email retrieval; serverless training claims 40% lower cost
+  summary: Open-source framework for RL fine-tuning of multi-step agents on custom tasks, using RULER (LLM-judge relative scoring) so no hand-labeled rewards are needed. The README links the ART-E case study (blog: openpipe.ai/blog/art-e-mail-agent) where a 14B Qwen email agent beats o3.
+  benchmarks: ART-E email search
+  signals: RULER LLM-judge reward
+
+[prabhakar-2025-apigen-mt] (2025, arXiv, rel=4, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: APIGen-MT: Agentic Pipeline for Multi-Turn Data Generation via Simulated Agent-Human Interplay
+  key_idea: Verified multi-turn synthetic data for customer-service style agents.
+  cost: xLAM-2-fc-r models outperform GPT-4o and Claude 3.5 on tau-bench and BFCL; smaller models surpass larger ones in multi-turn
+  summary: Generates verified multi-turn agent data via blueprint validation and simulated human-agent interplay, training xLAM-2 models that beat frontier models on tau-bench.
+  benchmarks: tau-bench, BFCL
+  signals: simulated agent-human interplay
+
+[qiu-2025-agentdistill-mcp] (2025, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C8)
+  title: AgentDistill: Training-Free Agent Distillation with Generalizable MCP Boxes
+  key_idea: Distill via reusable tool modules, no training.
+  cost: Small-LM student agents reach performance comparable to OctoTools (GPT-4o) on biomedical and math benchmarks
+  summary: Training-free agent distillation by reusing Model-Context-Protocol modules generated by teacher agents, letting small-model students approach teacher-level performance.
+  benchmarks: biomedical and math benchmarks
+  signals: teacher-generated MCP boxes
+
+[sharma-2025-slm-agentic-survey] (2025, arXiv, rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C8,C12,C15)
+  title: Small Language Models for Agentic Systems: A Survey of Architectures, Capabilities, and Deployment Trade offs
+  key_idea: SLM-default, LLM-fallback agent design.
+  cost: Claims SLMs with guided decoding can match or surpass LLMs on tool use, function calling and RAG at 10x-100x lower token cost (abstract, synthesized from literature)
+  summary: Survey arguing small language models suffice for many schema-constrained agentic workloads and formalizing SLM-default, LLM-fallback designs with uncertainty-aware routing and verifier cascades. Proposes metrics such as cost per successful task.
+  benchmarks: BFCL v3/v4, StableToolBench
+  signals: uncertainty-aware routing, verifier cascades, uncertainty, verifier checks
+
+[wu-2025-inter-cascade] (2025, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C8,C10)
+  title: From Deferral to Learning: Online In-Context Knowledge Distillation for LLM Cascades
+  key_idea: Strong model acts as an in-context teacher; stored strategies reduce future deferrals.
+  cost: Up to 33.06% weak-model and 6.35% system accuracy gain; up to 48.05% fewer strong-model calls and up to 49.63% fee savings vs standard cascades
+  summary: When the strong model resolves a deferred query, it also writes a reusable strategy that is stored and retrieved for similar future queries to help the weak model. The cascade thus learns online without fine-tuning.
+  benchmarks: multiple reasoning benchmarks
+  signals: weak-model confidence, similarity retrieval of stored strategies, deferral, strategy retrieval, retrieved strategies
+
+[zhang-2025-agentracer] (2025, arXiv, rel=4, gran=subagent, regime=RL-offline, prod=N, clusters=C7,C8)
+  title: AgenTracer: Who Is Inducing Failure in the LLM Agentic Systems?
+  key_idea: Small RL-trained tracer beats frontier LLMs at failure attribution.
+  cost: AgenTracer-8B outperforms Gemini-2.5-Pro and Claude-4-Sonnet by up to 18.18% on Who&When
+  summary: Builds annotated failure trajectories via counterfactual replay and fault injection, then trains an 8B failure tracer with multi-granular RL that outperforms large proprietary LLMs at failure attribution and improves agent systems via feedback.
+  benchmarks: Who&When
+  signals: failure tracer model
+
+[shen-2024-alpha-umi-multi-llm-agent] (2024, EMNLP 2024, rel=4, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C8)
+  title: Small LLMs Are Weak Tool Learners: A Multi-LLM Agent
+  key_idea: Split one agent into role-specialized small LLMs (planner/caller/summarizer).
+  summary: Alpha-UMi decomposes a tool-using agent into planner, caller and summarizer roles, each backed by its own small LLM, trained with a global-then-local progressive fine-tuning scheme. The modular multi-LLM agent outperforms a single fine-tuned LLM of the same backbone on tool-use benchmarks.
+  benchmarks: tool-use benchmarks
+  signals: role-specific fine-tuning
+
+[tang-2024-minicheck] (2024, arXiv, rel=4, gran=none, regime=supervised-offline, prod=N, clusters=C7,C8)
+  title: MiniCheck: Efficient Fact-Checking of LLMs on Grounding Documents
+  key_idea: Distill a frontier verifier into a tiny model.
+  cost: GPT-4-level fact-checking accuracy at 400x lower cost (MiniCheck-FT5, 770M)
+  summary: Trains small fact-checkers on GPT-4-generated synthetic errors, reaching GPT-4 accuracy on grounding verification at 400x lower cost.
+  benchmarks: LLM-AggreFact
+  signals: grounding fact-check
+
+[wang-2024-agent-workflow-memory] (2024, arXiv, rel=4, gran=step, regime=hybrid, prod=N, clusters=C8,C10)
+  title: Agent Workflow Memory
+  key_idea: Induce and reuse workflows so agents solve recurring tasks in fewer steps.
+  cost: 24.6% and 51.1% relative success-rate improvement on Mind2Web and WebArena, with fewer steps taken on successful WebArena tasks
+  summary: AWM induces reusable routines (workflows) from agent trajectories, offline from training examples or online from test queries, and adds the relevant ones to the agent's memory to guide later tasks. It improves success and reduces the number of steps needed.
+  benchmarks: Mind2Web, WebArena
+  signals: induced workflows from trajectories
+
+[zhao-2024-lora-land] (2024, arXiv, rel=4, gran=none, regime=supervised-offline, prod=Y, clusters=C8,C11,C14)
+  title: LoRA Land: 310 Fine-tuned LLMs that Rival GPT-4, A Technical Report
+  key_idea: Many small task-specific LoRAs beat GPT-4 and can be served cheaply together.
+  cost: 4-bit LoRA fine-tuned models beat base models by 34 points and GPT-4 by 10 points on average; 25 LoRA Mistral-7B models served on one A100
+  summary: Predibase technical report evaluating 310 LoRA fine-tuned models across 10 base models and 31 tasks, and LoRAX serving of many adapters on a single GPU (LoRA Land app).
+  benchmarks: 31 tasks
+  signals: task datasets
+
+[chen-2023-fireact] (2023, arXiv, rel=4, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: FireAct: Toward Language Agent Fine-tuning
+  key_idea: Fine-tune small agents on teacher trajectories instead of prompting large models.
+  cost: Fine-tuning Llama2-7B on 500 GPT-4 agent trajectories gives a 77% HotpotQA performance increase; paper discusses cost/efficiency gains versus prompting
+  summary: Fine-tunes smaller LMs on GPT-4-generated ReAct-style agent trajectories across multiple tasks and prompting methods, showing large gains in accuracy, robustness and efficiency versus few-shot prompting.
+  benchmarks: HotpotQA
+  signals: teacher trajectories (GPT-4)
+
+[lin-2023-swiftsage] (2023, NeurIPS 2023, rel=4, gran=step, regime=hybrid, prod=N, clusters=C3,C8)
+  title: SwiftSage: A Generative Agent with Fast and Slow Thinking for Complex Interactive Tasks
+  key_idea: Small imitation-learned policy acts by default; a large LLM is called only when heuristics detect difficulty.
+  summary: A dual-process agent pairs a small fine-tuned encoder-decoder that proposes actions quickly with a large LLM that is invoked for planning and grounding when heuristics signal trouble. The combination beats ReAct, Reflexion and SayCan on 30 ScienceWorld tasks while calling the expensive LLM less often.
+  benchmarks: ScienceWorld
+  signals: heuristic triggers (action failure, stagnation)
+
+[ramirez-2023-cache-and-distil] (2023, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C8,C10)
+  title: Cache & Distil: Optimising API Calls to Large Language Models
+  key_idea: Online student distillation with active-learning deferral.
+  summary: Neural caching: a student model is continuously trained on LLM responses and a policy decides which requests the student handles alone. Margin sampling and query-by-committee policies work best.
+  benchmarks: classification tasks
+  signals: active-learning criteria (margin sampling, query by committee), active learning criteria (margin, QBC)
+
+[stogiannidis-2023-cache-me-if-you-can] (2023, Conference on Empirical Methods in Natural Language Processing, rel=4, gran=query, regime=hybrid, prod=N, clusters=C5,C8,C10)
+  title: Cache me if you Can: an Online Cost-aware Teacher-Student framework to Reduce the Calls to Large Language Models
+  key_idea: Distill an LLM into a cheap student online from live calls and route to the student when it is confident.
+  cost: Reports significant operating-expense savings with only slightly lower performance on intent recognition and sentiment analysis (GPT-3.5/GPT-4 teachers)
+  summary: Proposes an online teacher-student framework in which a cheap local model is trained on LLM responses as they arrive and gradually answers more queries itself, calling the LLM only when needed. Gives a method to tune the call criteria and measure the cost-performance trade-off on business classification tasks.
+  signals: student confidence, LLM teacher labels
+
+[atreja-2026-pioneer-agent] (2026, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C8,C14)
+  title: Pioneer Agent: Continual Improvement of Small Language Models in Production
+  key_idea: Agent that continually specializes SLMs from production failures.
+
+[bengal-2026-marginal-contribution-pg] (2026, arXiv, rel=3, gran=subagent, regime=RL-online, prod=N, clusters=C3,C8)
+  title: Marginal-Contribution Policy Gradients under Filtered Feedback for Multi-Agent LLMs
+  key_idea: Marginal-contribution credit assignment for routed multi-agent LLMs.
+
+[chen-2026-coact] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C8,C10)
+  title: CoACT: Action-Preserving Observation Compression for Coding Agents
+  key_idea: Train a small compressor that keeps the agent's next action unchanged.
+  cost: average total token consumption reduced 33.0% on SWE-bench Verified with near-uncompressed task success
+
+[feng-2026-dr-mas] (2026, NeurIPS 2026, rel=3, gran=subagent, regime=RL-offline, prod=N, clusters=C3,C8)
+  title: Dr. MAS: Stable Reinforcement Learning for Multi-Agent LLM Systems
+  key_idea: Per-agent advantage normalization for stable MAS RL, supporting heterogeneous models.
+  cost: Heterogeneous agent-model assignment reported (in search summary) to cut latency 31.6% and API cost 41.8%; abstract states it remains effective under heterogeneous assignments while improving efficiency
+
+[google-vertex-data-driven-prompt-optimizer] (2026, Google Cloud documentation, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C4,C8,C14)
+  title: Data-driven prompt optimizer (Vertex AI / Gemini Enterprise Agent Platform docs)
+  key_idea: Use the incumbent model's outputs as labels to re-optimise prompts for a replacement model.
+
+[jiang-2026-cera-moa] (2026, arXiv, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C3,C8)
+  title: CERA-MoA: Co-Evolving Routing Mechanisms with Continually Learning LLM Agents
+  key_idea: Co-train router and agents; activate minimal subsets.
+
+[kondapalli-2026-slms-as-multi-agent-routers] (2026, arXiv, rel=3, gran=query, regime=hybrid, prod=N, clusters=C1,C3,C8)
+  title: SLMs as Multi-Agent Routers: A Progressive SFT and Reinforcement Learning Approach
+  key_idea: A small RL-trained model routes among retrieval agents.
+
+[kovacs-2026-squeez] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C8,C10)
+  title: Squeez: Task-Conditioned Tool-Output Pruning for Coding Agents
+  key_idea: A tiny fine-tuned model truncates tool outputs for the frontier agent.
+  cost: removes 92% of tool-output input tokens at 0.86 recall / 0.80 F1, beating zero-shot Qwen 3.5 35B-A3B by 11 recall points
+
+[lan-2026-searchswarm] (2026, arXiv, rel=3, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C8)
+  title: SearchSwarm: Towards Delegation Intelligence in Agentic LLMs for Long-Horizon Deep Research
+  key_idea: Learn delegation intelligence for main-agent/subagent splits.
+
+[lenton-2026-distilling-repeated-work-into-code] (2026, Unify blog, rel=3, gran=step, regime=training-free, prod=N, clusters=C8,C10,C12)
+  title: Distilling repeated work into code
+  key_idea: Compile recurring agent trajectories into code with targeted model calls and self-repair.
+  cost: Hourly triage task, 8 runs x 12 inquiries: first run 6 model calls and ~251,000 tokens; each later run one call of ~645 tokens (~390x fewer), all 96 inquiries correct; one-off setup and review cost 1.2M tokens (vendor-reported)
+
+[li-2026-morse] (2026, arXiv, rel=3, gran=subagent, regime=RL-offline, prod=N, clusters=C3,C8)
+  title: MoRSE: Task-Oriented Multi-Agent System with Mixture of Role-Subtask Experts
+  key_idea: Mixture of role-subtask LoRA experts on a shared backbone.
+
+[liu-2026-multi-agent-protocol-distillation] (2026, arXiv, rel=3, gran=none, regime=hybrid, prod=N, clusters=C8)
+  title: From Proprietary to Open-Source: Bridging the Distribution Gap via Multi-Agent Protocol Distillation in Agentic Search
+  key_idea: Protocol-based distillation of search agents.
+  cost: Average success 39.4% on Qwen3-1.7B and 44.4% on Qwen3-4B across seven QA benchmarks
+
+[liu-2026-search-do-not-guess] (2026, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Search, Do not Guess: Teaching Small Language Models to Be Effective Search Agents
+  key_idea: Train SLMs to search instead of guess.
+  cost: Improves 17.3 on Bamboogle and 15.3 on HotpotQA over agent distillation from LLMs
+
+[lyu-2026-agenticqwen] (2026, arXiv, rel=3, gran=n/a, regime=RL-offline, prod=Y, clusters=C8,C14)
+  title: AgenticQwen: Training Small Agentic Language Models with Dual Data Flywheels for Industrial-Scale Tool Use
+  key_idea: Small agent models trained with difficulty-escalating data flywheels.
+  cost: Closes the gap with much larger models on search and data-analysis tasks in an industrial agent system
+
+[nie-2026-rivet-internalizing-experts] (2026, arXiv, rel=3, gran=n/a, regime=RL-offline, prod=N, clusters=C3,C8)
+  title: From Collaboration to Capability: Internalizing Routed LLM Experts into Compact Reasoners
+  key_idea: Distill a router's expert consultations into the router itself.
+
+[rokon-2026-autorelannotator] (2026, SIGIR 2026 E-commerce workshop, rel=3, gran=query, regime=supervised-offline, prod=Y, clusters=C2,C8,C14)
+  title: AutoRelAnnotator: Calibrated Model Cascades for Cost-Efficient Relevance Evaluation in Sponsored Search
+  key_idea: Fine-tuning for accuracy, cascading for cost, calibration on top.
+  cost: Cascading is roughly accuracy-neutral but halves compute cost; production deployment across six use cases with 150M+ annotations
+
+[satija-2026-fastworkflow] (2026, CAIS 2026, rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C8,C13)
+  title: fastWorkflow: Closing the Performance Gap Between Small and Frontier Language Models for Conversational Agents
+  key_idea: Characterize and engineer around SLM failure modes in agent workflows.
+
+[tan-2026-atod] (2026, arXiv, rel=3, gran=none, regime=hybrid, prod=N, clusters=C8)
+  title: ATOD: Annealed Turn-aware On-policy Distillation for Multi-turn Autonomous Agents
+  key_idea: Schedule OPD then RL for small agents.
+
+[team-2026-dr-venus] (2026, arXiv, rel=3, gran=none, regime=hybrid, prod=N, clusters=C8)
+  title: DR-Venus: Towards Frontier Edge-Scale Deep Research Agents with Only 10K Open Data
+  key_idea: Strong small research agent from little data.
+
+[xu-2026-agent-skills-slm-industrial] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C3,C8)
+  title: Agent Skill Framework: Perspectives on the Potential of Small to Medium Language Models in Industrial Environments
+  key_idea: Skills need ~30B+ models; very small models fail at skill selection.
+
+[zhong-2026-sod-onpolicy-distillation] (2026, arXiv, rel=3, gran=step, regime=hybrid, prod=N, clusters=C8)
+  title: SOD: Step-wise On-policy Distillation for Small Language Model Agents
+  key_idea: Dense step-wise on-policy distillation for SLM agents.
+  cost: Up to 20.86% over second-best baseline; 0.6B student reaches 26.13% on AIME 2025
+
+[erdogan-2025-plan-and-act] (2025, arXiv, rel=3, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C8)
+  title: Plan-and-Act: Improving Planning of Agents for Long-Horizon Tasks
+  key_idea: Train a dedicated planner model separate from the executor.
+
+[fan-2025-agent-gspo] (2025, arXiv, rel=3, gran=none, regime=RL-offline, prod=N, clusters=C3,C8)
+  title: Agent-GSPO: Communication-Efficient Multi-Agent Systems via Group Sequence Policy Optimization
+  key_idea: RL with verbosity penalties for token-economical MAS.
+  cost: State-of-the-art on seven reasoning benchmarks with a fraction of existing methods' token consumption
+
+[feng-2025-efficient-reasoning-models-survey] (2025, TMLR 2025, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C8,C9,C15)
+  title: Efficient Reasoning Models: A Survey
+  key_idea: Shorter/smaller/faster taxonomy.
+
+[jhandi-2025-slm-agentic-tool-calling] (2025, AAAI 2026 Workshop, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C3,C8)
+  title: Small Language Models for Efficient Agentic Tool Calling: Outperforming Large Models with Targeted Fine-tuning
+  key_idea: A tiny fine-tuned SLM can handle tool-calling steps.
+
+[jiao-2025-weak-strong-collaboration] (2025, arXiv, rel=3, gran=subagent, regime=RL-offline, prod=N, clusters=C3,C8)
+  title: Synergistic Weak-Strong Collaboration by Aligning Preferences
+  key_idea: Weak drafter plus strong refiner, with the weak model tuned on collaboration feedback.
+
+[kadekodi-2025-dualtune] (2025, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C11)
+  title: AgentFlux: Decoupled Fine-Tuning & Inference for On-Device Agentic Systems
+  key_idea: Decoupled LoRAs for local tool agents.
+  cost: Qwen-2.5-7B tool-calling accuracy improves 46% on MCP-Bench
+
+[lan-2025-expert-failures-agent-tuning] (2025, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Exploring Expert Failures Improves LLM Agent Tuning
+  key_idea: Exploit failed teacher traces in agent SFT.
+
+[li-2025-small-model-learnability-gap] (2025, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Small Models Struggle to Learn from Strong Reasoners
+  key_idea: Small students need teachers matched to their capacity.
+
+[lu-2025-autoannotator] (2025, arXiv, rel=3, gran=subagent, regime=hybrid, prod=N, clusters=C3,C8)
+  title: From LLM-anation to LLM-orchestrator: Coordinating Small Models for Data Labeling
+  key_idea: LLM as orchestrator of cheap specialist SLMs.
+
+[luo-2025-agent-lightning] (2025, arXiv, rel=3, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: Agent Lightning: Train ANY AI Agents with Reinforcement Learning
+  key_idea: Train any existing agent with RL via decoupled traces.
+
+[muennighoff-2025-s1] (2025, arXiv, rel=3, gran=token, regime=supervised-offline, prod=N, clusters=C8,C9)
+  title: s1: Simple test-time scaling
+  key_idea: Budget forcing: hard-stop or extend thinking with "Wait".
+  cost: s1-32B exceeds o1-preview on competition math by up to 27% (MATH, AIME24); budget forcing extrapolates AIME24 from 50% to 57%
+
+[munkhbat-2025-self-training-concise] (2025, Findings of ACL 2025, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C9)
+  title: Self-Training Elicits Concise Reasoning in Large Language Models
+  key_idea: Self-distil concise reasoning.
+  cost: 30% reduction in output tokens on average across five model families on GSM8K and MATH while maintaining average accuracy
+
+[openai-model-optimization-distillation-track] (2025, OpenAI developer documentation, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C8,C14)
+  title: Model optimization track: fine-tuning, distillation and evals (OpenAI developer docs)
+  key_idea: Platform-native loop from logged frontier-model traffic to an evaluated smaller student model.
+
+[song-2025-agent-data-protocol] (2025, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Agent Data Protocol: Unifying Datasets for Diverse, Effective Fine-tuning of LLM Agents
+  key_idea: Interlingua for agent training data.
+  cost: ~20% average gain over base models after SFT on unified data
+
+[tripathy-2025-swenergy] (2025, ICSE 2026 Workshop (AGENT), rel=3, gran=none, regime=n/a, prod=N, clusters=C8,C12)
+  title: SWEnergy: An Empirical Study on Energy Efficiency in Agentic Issue Resolution Frameworks with SLMs
+  key_idea: Dropping SLMs into LLM-designed agent frameworks wastes energy.
+  cost: Most energy-intensive framework consumed 9.4x more energy than the least; resolution rates near zero with SLMs
+
+[wang-2025-drift-dissatisfaction] (2025, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C8)
+  title: DRIFT: Learning from Abundant User Dissatisfaction in Real-World Preference Learning
+  key_idea: Learn from plentiful dissatisfaction signals in real logs instead of scarce positive labels.
+
+[wang-2025-practitioners-guide-agentic-rl] (2025, arXiv, rel=3, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: A Practitioner's Guide to Multi-turn Agentic Reinforcement Learning
+  key_idea: Empirical recipe for agentic RL.
+
+[wei-2025-webagent-r1] (2025, arXiv, rel=3, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: WebAgent-R1: Training Web Agents via End-to-End Multi-Turn Reinforcement Learning
+  key_idea: Simple end-to-end RL for small web agents.
+  cost: Qwen-2.5-3B success rises 6.1% to 33.9%, Llama-3.1-8B 8.5% to 44.8% on WebArena-Lite, outperforming proprietary models such as OpenAI o3 (per paper)
+
+[xi-2025-agentgym-rl] (2025, arXiv, rel=3, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: AgentGym-RL: Training LLM Agents for Long-Horizon Decision Making through Multi-Turn Reinforcement Learning
+  key_idea: Horizon-scaling RL for long-horizon agents.
+  cost: Agents match or surpass commercial models on 27 tasks
+
+[xia-2025-agentrm] (2025, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C7,C8)
+  title: AgentRM: Enhancing Agent Generalization with Reward Modeling
+  key_idea: A generalizable agent reward model for test-time search.
+
+[zhou-2025-mem1] (2025, arXiv, rel=3, gran=step, regime=RL-online, prod=N, clusters=C8,C10)
+  title: MEM1: Learning to Synergize Memory and Reasoning for Efficient Long-Horizon Agents
+  key_idea: Learn to keep constant-size memory by consolidating state each turn.
+  cost: MEM1-7B improves performance 3.5x while reducing memory usage 3.7x vs Qwen2.5-14B-Instruct on a 16-objective multi-hop QA task
+
+[zhou-2025-sweet-rl] (2025, arXiv, rel=3, gran=none, regime=RL-offline, prod=N, clusters=C8)
+  title: SWEET-RL: Training Multi-Turn LLM Agents on Collaborative Reasoning Tasks
+  key_idea: Asymmetric critic for multi-turn credit assignment.
+  cost: Llama-3.1-8B matches or exceeds GPT-4o on collaborative content creation; +6% success on ColBench
+
+[bai-2024-digirl] (2024, arXiv, rel=3, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: DigiRL: Training In-The-Wild Device-Control Agents with Autonomous Reinforcement Learning
+  key_idea: Autonomous RL lets a tiny VLM beat frontier prompting.
+  cost: 1.3B VLM success rises from 17.7% to 67.2% on AitW, far above GPT-4V AppAgent (8.3%)
+
+[chen-2024-agent-flan] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Agent-FLAN: Designing Data and Methods of Effective Agent Tuning for Large Language Models
+  key_idea: Data design principles for agent tuning.
+
+[chen-2024-octopus-v2] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C11)
+  title: Octopus v2: On-device language model for super agent
+  key_idea: Functional tokens for tiny on-device agents.
+  cost: 2B on-device model surpasses GPT-4 in accuracy and latency and cuts context length by 95%
+
+[chen-2024-small-models-survey] (2024, Computational Linguistics, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C1,C8,C15)
+  title: What is the Role of Small Models in the LLM Era: A Survey
+  key_idea: Small models in the LLM era.
+
+[erdogan-2024-tinyagent] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C11)
+  title: TinyAgent: Function Calling at the Edge
+  key_idea: Edge-deployable small agents with tool retrieval.
+  cost: 1.1B and 7B models match or surpass GPT-4-Turbo function-calling on the target task
+
+[fu-2024-tiny-titans] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=Y, clusters=C8,C14)
+  title: Tiny Titans: Can Smaller Large Language Models Punch Above Their Weight in the Real World for Meeting Summarization?
+  key_idea: Compact fine-tuned models as cost-efficient production alternatives.
+  cost: FLAN-T5 (780M) performs on par or better than many zero-shot 7B to 70B+ LLMs on meeting summarization
+
+[liu-2024-apigen] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: APIGen: Automated Pipeline for Generating Verifiable and Diverse Function-Calling Datasets
+  key_idea: Multi-stage verified synthetic function-calling data.
+  cost: 7B models trained on APIGen data reach SOTA on BFCL, outperforming multiple GPT-4 models
+
+[liu-2024-toolace] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: ToolACE: Winning the Points of LLM Function Calling
+  key_idea: High-quality synthetic function-calling data.
+  cost: 8B models rival latest GPT-4 models on BFCL
+
+[pan-2024-autonomous-eval-digital-agents] (2024, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C7,C8)
+  title: Autonomous Evaluation and Refinement of Digital Agents
+  key_idea: Cheap automatic evaluators both judge and improve digital agents.
+
+[pan-2024-llmlingua-2] (2024, Findings of ACL 2024, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C10)
+  title: LLMLingua-2: Data Distillation for Efficient and Faithful Task-Agnostic Prompt Compression
+  key_idea: Distil a frontier model's compression judgments into a small token classifier.
+  cost: 3x-6x faster than prior prompt-compression methods; end-to-end latency accelerated 1.6x-2.9x at 2x-5x compression ratios
+
+[pan-2024-swe-gym] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C7,C8)
+  title: Training Software Engineering Agents and Verifiers with SWE-Gym
+  key_idea: Train agents and verifiers from executable environments.
+  cost: Up to 19% absolute gains in resolve rate; 32.0% on SWE-Bench Verified with verifier
+
+[putta-2024-agent-q] (2024, arXiv, rel=3, gran=none, regime=RL-offline, prod=Y, clusters=C8)
+  title: Agent Q: Advanced Reasoning and Learning for Autonomous AI Agents
+  key_idea: MCTS plus DPO self-improvement of web agents.
+  cost: Llama-3 70B booking success rises from 18.6% to 81.7% zero-shot after training in real-world booking
+
+[qi-2024-webrl] (2024, arXiv, rel=3, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: WebRL: Training LLM Web Agents via Self-Evolving Online Curriculum Reinforcement Learning
+  key_idea: Self-evolving curriculum RL with ORM for small web agents.
+  cost: WebArena-Lite success: Llama-3.1-8B 4.8% to 42.4%, GLM-4-9B 6.1% to 43%, vs GPT-4-Turbo 17.6% and GPT-4o 13.9%
+
+[song-2024-agentbank] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: AgentBank: Towards Generalized LLM Agents via Fine-Tuning on 50000+ Interaction Trajectories
+  key_idea: Scale trajectory tuning data for generalization.
+
+[song-2024-eto-trial-and-error] (2024, arXiv, rel=3, gran=none, regime=RL-offline, prod=N, clusters=C8)
+  title: Trial and Error: Exploration-Based Trajectory Optimization for LLM Agents
+  key_idea: Learn from agent's own failures via contrastive pairs.
+
+[soylu-2024-bettertogether] (2024, EMNLP 2024, rel=3, gran=none, regime=hybrid, prod=N, clusters=C4,C8)
+  title: Fine-Tuning and Prompt Optimization: Two Great Steps that Work Better Together
+  key_idea: Alternate prompt optimization and weight fine-tuning for LM programs.
+
+[wang-2024-cascade-aware-training] (2024, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C8)
+  title: Cascade-Aware Training of Language Models
+  key_idea: Train the small model for its role in the cascade.
+
+[wang-2024-learning-from-failure-nat] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Learning From Failure: Integrating Negative Examples when Fine-tuning Large Language Models as Agents
+  key_idea: Use failed teacher trajectories in agent SFT.
+
+[xi-2024-agentgym] (2024, arXiv, rel=3, gran=none, regime=hybrid, prod=N, clusters=C8)
+  title: AgentGym: Evolving Large Language Model-based Agents across Diverse Environments
+  key_idea: Environments plus self-evolution for generalist agents.
+
+[xiong-2024-ipr-step-level-refinement] (2024, arXiv, rel=3, gran=step, regime=hybrid, prod=N, clusters=C7,C8)
+  title: Watch Every Step! LLM Agent Learning via Iterative Step-Level Process Refinement
+  key_idea: Step-level rewards to refine agent training.
+
+[zhang-2024-xlam] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: xLAM: A Family of Large Action Models to Empower AI Agent Systems
+  key_idea: Open family of action models for agents.
+
+[aksitov-2023-rest-meets-react] (2023, arXiv, rel=3, gran=none, regime=hybrid, prod=N, clusters=C8)
+  title: ReST meets ReAct: Self-Improvement for Multi-Step Reasoning LLM Agent
+  key_idea: Self-improve then distill agent into much smaller models.
+
+[chen-2023-punica] (2023, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C8,C11)
+  title: Punica: Multi-Tenant LoRA Serving
+  key_idea: Batch across LoRA adapters sharing one base model.
+  cost: 12x higher throughput serving multiple LoRA models vs state-of-the-art systems with 2 ms added latency per token
+
+[hakhamaneshi-2023-anyscale-finetuning-llama2] (2023, Anyscale blog, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C14)
+  title: Fine-Tuning Llama-2: A Comprehensive Case Study for Tailoring Models to Unique Applications
+  key_idea: Specialization wins on structured tasks, less on open reasoning.
+  cost: Fine-tuned Llama-2-13B reaches 98% on ViGGO functional representation and fine-tuned 7B/13B about 90% on SQL generation, outperforming GPT-4; on GSM8K fine-tuned 13B improves 28% to 47% but stays behind GPT-4
+
+[hsieh-2023-distilling-step-by-step] (2023, Findings of ACL 2023, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Distilling Step-by-Step! Outperforming Larger Language Models with Less Training Data and Smaller Model Sizes
+  key_idea: Use teacher rationales as extra supervision for small task models.
+  cost: Fine-tuned 770M T5 outperforms few-shot 540B PaLM using only 80% of available data on a benchmark
+
+[patil-2023-gorilla] (2023, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Gorilla: Large Language Model Connected with Massive APIs
+  key_idea: Specialized small model for API calls.
+  cost: Fine-tuned LLaMA surpasses GPT-4 on writing API calls
+
+[qin-2023-toolllm] (2023, ICLR 2024, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: ToolLLM: Facilitating Large Language Models to Master 16000+ Real-world APIs
+  key_idea: Large synthetic tool-use data enables open tool agents.
+
+[sheng-2023-s-lora] (2023, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C8,C11)
+  title: S-LoRA: Serving Thousands of Concurrent LoRA Adapters
+  key_idea: Serve many fine-tuned specialists cheaply on one base model.
+  cost: up to 4x throughput vs HuggingFace PEFT and vLLM with naive LoRA support, serving orders of magnitude more adapters
+
+[yin-2023-lumos] (2023, arXiv, rel=3, gran=subagent, regime=supervised-offline, prod=N, clusters=C8)
+  title: Agent Lumos: Unified and Modular Training for Open-Source Language Agents
+  key_idea: Modular small agents trained on unified data.
+  cost: Lumos surpasses GPT-4/3.5-based agents on complex QA and web tasks
+
+[zeng-2023-agenttuning] (2023, Findings of ACL 2024, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: AgentTuning: Enabling Generalized Agent Abilities for LLMs
+  key_idea: Hybrid agent-trajectory plus general instruction tuning.
+  cost: AgentLM-70B comparable to GPT-3.5-turbo on unseen agent tasks
+
+[aws-bedrock-model-distillation] (None, AWS product page, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C14)
+  title: Amazon Bedrock Model Distillation
+  key_idea: Managed teacher-student distillation.
+  cost: (vendor-reported) Distilled models up to 500% faster and up to 75% less expensive with <2% accuracy loss for use cases like RAG
+
+[wu-2026-litegui] (2026, arXiv, rel=2, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: LiteGUI: Distilling Compact GUI Agents with Reinforcement Learning
+  key_idea: RL distillation for on-device GUI agents.
+
+[zeng-2026-when-multi-agent-rl-helps] (2026, arXiv, rel=2, gran=none, regime=RL-offline, prod=N, clusters=C8,C12)
+  title: When Does Multi-Agent RL Improve LLM Workflows? Workflow, Scale, and Policy-Sharing Tradeoffs
+  key_idea: Workflow- and scale-dependent value of multi-agent RL training.
+
+[cheng-2025-agent-r1] (2025, arXiv, rel=2, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: Agent-R1: A Unified and Modular Framework for Agentic Reinforcement Learning
+  key_idea: Modular end-to-end agent RL framework.
+
+[dang-2025-rl-small-llms-reasoning] (2025, arXiv, rel=2, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: Reinforcement Learning for Reasoning in Small LLMs: What Works and What Doesn't
+  key_idea: Cheap RL for small reasoning models.
+  cost: AMC23 63% to 80%, AIME24 46.7% using 7,000 samples and $42 training cost
+
+[deepseekai-2025-deepseek-r1] (2025, arXiv, rel=2, gran=none, regime=RL-online, prod=N, clusters=C8,C9)
+  title: DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning
+  key_idea: RL reasoning and distillation into small models.
+
+[estornell-2025-acc-collab] (2025, arXiv, rel=2, gran=subagent, regime=RL-offline, prod=N, clusters=C7,C8)
+  title: ACC-Collab: An Actor-Critic Approach to Multi-Agent LLM Collaboration
+  key_idea: Learned critic agent for multi-agent collaboration.
+
+[feng-2025-gigpo] (2025, arXiv, rel=2, gran=step, regime=RL-online, prod=N, clusters=C8)
+  title: Group-in-Group Policy Optimization for LLM Agent Training
+  key_idea: Critic-free step-level credit assignment.
+  cost: > 12% on ALFWorld and > 9% on WebShop over GRPO at same compute
+
+[feng-2025-retool] (2025, arXiv, rel=2, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: ReTool: Reinforcement Learning for Strategic Tool Use in LLMs
+  key_idea: RL for tool-integrated reasoning.
+  cost: 32B reaches 67% on AIME with 400 steps vs 40% for text RL with 1080 steps
+
+[fu-2025-agentrefine] (2025, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: AgentRefine: Enhancing Agent Generalization through Refinement Tuning
+  key_idea: Refinement tuning for agent generalization.
+
+[haque-2025-tinyllm-edge-agents] (2025, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8,C13)
+  title: TinyLLM: Evaluation and Optimization of Small Language Models for Agentic Tasks on Edge Devices
+  key_idea: SLM function calling at the edge.
+
+[jin-2025-search-r1] (2025, arXiv, rel=2, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: Search-R1: Training LLMs to Reason and Leverage Search Engines with Reinforcement Learning
+  key_idea: RL-trained search agents.
+
+[li-2025-websailor] (2025, arXiv, rel=2, gran=none, regime=hybrid, prod=N, clusters=C8)
+  title: WebSailor: Navigating Super-human Reasoning for Web Agent
+  key_idea: Synthetic hard tasks plus RL for deep-research agents.
+
+[pahuja-2025-explorer] (2025, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Explorer: Scaling Exploration-driven Web Trajectory Synthesis for Multimodal Web Agents
+  key_idea: Cheap large-scale web trajectory synthesis.
+  cost: Average synthesis cost 28 cents per successful trajectory
+
+[qian-2025-toolrl] (2025, arXiv, rel=2, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: ToolRL: Reward is All Tool Learning Needs
+  key_idea: Reward design for tool-use RL.
+  cost: 17% over base and 15% over SFT models
+
+[team-2025-kimi-k15] (2025, arXiv, rel=2, gran=none, regime=RL-offline, prod=N, clusters=C8,C9)
+  title: Kimi k1.5: Scaling Reinforcement Learning with LLMs
+  key_idea: long2short transfer to cheaper short-CoT reasoning.
+  cost: long2short short-CoT results: 60.8 AIME, 94.6 MATH500, 47.3 LiveCodeBench, outperforming GPT-4o and Claude Sonnet 3.5 by up to +550%
+
+[wang-2025-klear-agentforge] (2025, arXiv, rel=2, gran=none, regime=hybrid, prod=N, clusters=C8)
+  title: Klear-AgentForge: Forging Agentic Intelligence through Posttraining Scaling
+  key_idea: Full open agent post-training pipeline.
+
+[wang-2025-ragen-starpo] (2025, arXiv, rel=2, gran=none, regime=RL-online, prod=N, clusters=C8)
+  title: RAGEN: Understanding Self-Evolution in LLM Agents via Multi-Turn Reinforcement Learning
+  key_idea: Trajectory-level RL and its failure modes.
+
+[wu-2025-webdancer] (2025, arXiv, rel=2, gran=none, regime=hybrid, prod=N, clusters=C8)
+  title: WebDancer: Towards Autonomous Information Seeking Agency
+  key_idea: SFT-then-RL recipe for web agents.
+
+[xie-2025-swe-fixer] (2025, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: SWE-Fixer: Training Open-Source LLMs for Effective and Efficient GitHub Issue Resolution
+  key_idea: Efficient fine-tuned SWE pipeline.
+
+[yang-2025-swe-smith] (2025, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: SWE-smith: Scaling Data for Software Engineering Agents
+  key_idea: Scalable synthetic SWE training data.
+  cost: SWE-agent-LM-32B reaches 40.2% Pass@1 on SWE-bench Verified
+
+[yuan-2025-agent-r] (2025, arXiv, rel=2, gran=none, regime=hybrid, prod=N, clusters=C8)
+  title: Agent-R: Training Language Model Agents to Reflect via Iterative Self-Training
+  key_idea: Self-training for reflection.
+
+[zhao-2025-cochain] (2025, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C8,C12)
+  title: Cochain: Balancing Insufficient and Excessive Collaboration in LLM Agent Workflows
+  key_idea: Prompt-level cross-stage knowledge instead of multi-agent chatter.
+  cost: Small model with Cochain outperforms GPT-4 in expert evaluation
+
+[zhu-2025-planner-r1] (2025, arXiv, rel=2, gran=n/a, regime=RL-offline, prod=N, clusters=C3,C8)
+  title: Planner-R1: Reward Shaping Enables Efficient Agentic RL with Smaller LLMs
+  key_idea: Reward shaping makes small models efficient agentic planners.
+  cost: 8B models 3.5x more compute-efficient and 1.5x more memory-efficient than 32B with competitive performance; 56.9% final pass vs GPT-5 21.2% on TravelPlanner
+
+[ziems-2025-mmgrpo] (2025, ACM CAIS 2026, rel=2, gran=none, regime=RL-offline, prod=N, clusters=C4,C8)
+  title: Composing Policy Gradients and Prompt Optimization for Language Model Programs
+  key_idea: Combine multi-module GRPO with prompt optimization.
+
+[abdelaziz-2024-granite-function-calling] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Granite-Function Calling Model: Introducing Function Calling Abilities via Multi-task Learning of Granular Tasks
+  key_idea: Enterprise open function-calling model.
+
+[lin-2024-hammer] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Hammer: Robust Function-Calling for On-Device Language Models via Function Masking
+  key_idea: Robust small function-calling models.
+
+[mitra-2024-agentinstruct-orca3] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: AgentInstruct: Toward Generative Teaching with Agentic Flows
+  key_idea: Agentic flows generate synthetic teaching data.
+
+[murty-2024-nnetnav] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: NNetNav: Unsupervised Learning of Browser Agents Through Environment Interaction in the Wild
+  key_idea: Unsupervised demonstration synthesis for web agents.
+  cost: SFT of smaller policy improves WebArena by 6 points and MiniWoB++ by over 20
+
+[ou-2024-synatra] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Synatra: Turning Indirect Knowledge into Direct Demonstrations for Digital Agents at Scale
+  key_idea: Synthetic demos from indirect knowledge.
+
+[patel-2024-self-improve-web-agents] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Large Language Models Can Self-Improve At Web Agent Tasks
+  key_idea: Self-improvement from own trajectories.
+  cost: 31% improvement in task completion over base model on WebArena
+
+[phu-2024-discord-genai] (2024, Discord blog, rel=2, gran=none, regime=n/a, prod=N, clusters=C8,C14)
+  title: Developing Rapidly with Generative AI
+  key_idea: Prototype big, then move to smaller self-hosted models.
+
+[sun-2024-os-genesis] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: OS-Genesis: Automating GUI Agent Trajectory Construction via Reverse Task Synthesis
+  key_idea: Reverse task synthesis for GUI data.
+
+[wang-2024-codeact] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8,C12)
+  title: Executable Code Actions Elicit Better LLM Agents
+  key_idea: Code as unified action space.
+  cost: Code actions up to 20% higher success rate than JSON/text
+
+[xu-2024-agenttrek] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: AgentTrek: Agent Trajectory Synthesis via Guiding Replay with Web Tutorials
+  key_idea: Tutorial-guided trajectory synthesis.
+
+[xu-2024-survey-kd-llms] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C8,C15)
+  title: A Survey on Knowledge Distillation of Large Language Models
+  key_idea: KD survey.
+
+[zhang-2024-agentohana] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: AgentOhana: Design Unified Data and Training Pipeline for Effective Agent Learning
+  key_idea: Data unification for agent training.
+
+[zhao-2024-steve-2-distill] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8,C12)
+  title: Do We Really Need a Complex Agent System? Distill Embodied Agent into a Single Model
+  key_idea: Distill an agent system into one model.
+
+[zhou-2024-archer] (2024, arXiv, rel=2, gran=none, regime=RL-offline, prod=N, clusters=C8)
+  title: ArCHer: Training Language Model Agents via Hierarchical Multi-Turn RL
+  key_idea: Hierarchical actor-critic for multi-turn LLM RL.
+  cost: About 100x sample efficiency over existing methods
+
+[fu-2023-specializing-smaller-lms] (2023, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Specializing Smaller Language Models towards Multi-Step Reasoning
+  key_idea: Concentrate small model capacity on target task.
+
+[gu-2023-minillm] (2023, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: MiniLLM: On-Policy Distillation of Large Language Models
+  key_idea: Reverse-KL distillation for LLMs.
+
+[mukherjee-2023-orca] (2023, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Orca: Progressive Learning from Complex Explanation Traces of GPT-4
+  key_idea: Learn from rich teacher explanations.
+
+[schick-2023-toolformer] (2023, NeurIPS 2023, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Toolformer: Language Models Can Teach Themselves to Use Tools
+  key_idea: Self-supervised tool-use data from loss reduction.
+
+[tang-2023-toolalpaca] (2023, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: ToolAlpaca: Generalized Tool Learning for Language Models with 3000 Simulated Cases
+  key_idea: Multi-agent simulated tool data.
+
+[yang-2023-gpt4tools] (2023, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: GPT4Tools: Teaching Large Language Model to Use Tools via Self-instruction
+  key_idea: Self-instruct tool-use data.
+
+[ho-2022-reasoning-teachers] (2022, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8)
+  title: Large Language Models Are Reasoning Teachers
+  key_idea: CoT distillation into small students.
+
+[unify-product] (None, Unify website, rel=2, gran=n/a, regime=RL-online, prod=N, clusters=C8,C14)
+  title: unify
+  key_idea: Pivot from routing to continual post-training on production data.
+

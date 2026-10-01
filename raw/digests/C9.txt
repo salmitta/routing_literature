@@ -1,0 +1,907 @@
+# C9: 158 records (full detail for rel>=4; one-liners for rel<=3)
+
+[anthropic-2026-optimizing-cost-and-intelligence] (2026, Claude Platform documentation, rel=5, gran=step, regime=n/a, prod=N, clusters=C3,C9,C10,C12,C14)
+  title: Optimizing for cost and intelligence
+  key_idea: Vendor-measured playbook of per-step and architecture cost levers, including when delegation to cheaper workers loses.
+  cost: Examples reported: prompt caching cut DeepResearch Bench II cost 81% (Fable 5.1) and 62.5% (Sonnet 5); on SWE-bench Pro, Opus 5.5 low effort with failures re-run at high reached 97% at ~$0.17/task vs 95.3% at $0.29 all-high; Fable 5 coordinator + Sonnet 5 worker cost ~50% of solo Fable 5 on an easy BrowseComp slice; on full BrowseComp, solo Fable 5 at lower effort was 22-30% cheaper than the orchestrator at same accuracy
+  summary: Anthropic documentation with measured results on cost levers: caching, trimming tools and context, effort tuning, retrying failures at higher effort, task budgets, advisor pairing and orchestrator-worker delegation. It reports that advisor gains shrink as the executor approaches the advisor's capability and that cheaper-worker delegation helps on easy slices but can lose to a solo model at lower effort on the full set.
+  benchmarks: SWE-bench Pro, DeepResearch Bench II, BrowseComp, GPQA Diamond, Terminal-Bench 3, internal benchmarks
+  signals: effort level, advisor consultation, task budget
+
+[bai-2026-agents-spend-your-money] (2026, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C9,C10,C12,C13)
+  title: How Do AI Agents Spend Your Money? Analyzing and Predicting Token Consumption in Agentic Coding Tasks
+  key_idea: Where coding-agent tokens go and why they are hard to predict.
+  cost: Agentic coding uses ~1000x more tokens than code chat; runs on the same task vary up to 30x; Kimi-K2 and Claude-Sonnet-4.5 use over 1.5M more tokens than GPT-5 on average
+  summary: The first systematic token-consumption study of coding agents across eight frontier models on SWE-bench Verified. Input tokens dominate cost, usage is highly stochastic, accuracy saturates at intermediate cost, human difficulty ratings poorly predict tokens, and models underestimate their own token use.
+  benchmarks: SWE-bench Verified
+  signals: token usage
+
+[farzaneh-2026-tsds-edge-deferral] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C2,C3,C9)
+  title: Think Short, Defer Smart, Act, and Repeat: Calibrated Reasoning and Uncertainty-Aware Deferral for Edge LLM Agents
+  key_idea: Per-action deferral from a small local model to a cloud model inside ReAct loops, with statistical guarantees.
+  cost: Per-episode thinking compute reduced 43%-65% vs deferral-only baselines on HotpotQA, MBPP and household-robot tasks, with certified reward and cloud-call-rate guarantees
+  summary: TSDS targets ReAct agents running on edge devices. A convergence probe stops on-device reasoning once the intended action stabilizes, and a perplexity rule defers uncertain actions to a cloud model; both thresholds are jointly calibrated on episode trajectories with Learn-Then-Test for finite-sample guarantees on reward and cloud-call rate.
+  benchmarks: GSM8K, HotpotQA, MBPP, household robot planning
+  signals: convergence probe, perplexity, Learn-Then-Test calibration
+
+[furman-2026-replit-free-the-models] (2026, Replit blog, rel=5, gran=subagent, regime=training-free, prod=Y, clusters=C3,C9,C12,C14)
+  title: Free the models: Harness design at the frontier
+  key_idea: Let the frontier orchestrator itself assign tiers and effort to subagents rather than routing externally.
+  cost: DeepSWE v1.1: Replit Agent 72% at $2.11/task vs GPT-6 Astra (mini-swe-agent) 67% at $1.60 (low effort) and 74% at $4.43 (xhigh); sidekick architecture 61% at $1.34. Terminal-Bench 4.0: 49% at $2.53 vs Astra 42% at $2.25 (low) and 60% at $5.86 (xhigh); sidekick 33% at $1.84 (means of 4 runs; vendor-reported). Production delegation rates: 21-36% of turns dispatch a subagent
+  summary: Replit argues that an external router is always less capable than the model it routes for, and instead lets the main agent choose at each step its own effort (changed mid-turn without cache loss on GPT-6), whether to delegate, and which subagent tier (small/standard/large), effort and specialist to use, including reusing already-briefed subagents. It reports production delegation statistics per model and a Pareto comparison against single-model baselines and a one-worker sidekick design.
+  benchmarks: DeepSWE v1.1, Terminal-Bench 4.0, Replit Agent production traffic (delegation statistics)
+  signals: main-agent (LLM) judgement of subtask difficulty, effort level, subagent tier
+
+[hamri-2026-zebra-budget-allocation] (2026, arXiv, rel=5, gran=subagent, regime=training-free, prod=N, clusters=C3,C4,C9)
+  title: ZEBRA: Zero-shot Budgeted Resource Allocation for LLM Orchestration
+  key_idea: Knapsack-based budget split across pipeline phases.
+  cost: At 0.5 of unconstrained spend, recovers 94.4% of unconstrained quality vs 88.1% for LLM-direct on APPS; beats LLM-direct by 14.3pp on 3-phase HotpotQA pipeline
+  summary: ZEBRA splits a fixed monetary budget across phases of a multi-agent pipeline by having an LLM estimate per-phase utility curves and solving a continuous knapsack with water-filling. It beats letting an LLM allocate directly and adapts splits to pipeline structure.
+  benchmarks: APPS, HotpotQA
+  signals: LLM-estimated per-phase utility curves
+
+[jali-2026-turn-adaptive-budgets] (2026, arXiv, rel=5, gran=step, regime=RL-offline, prod=N, clusters=C3,C9)
+  title: Not All Turns Are Equally Hard: Adaptive Thinking Budgets For Efficient Multi-Turn Reasoning in Agents
+  key_idea: Learned per-turn thinking budgets under a global cap.
+  cost: Saves up to 35% tokens and reduces latency up to 30% while maintaining accuracy; plan-aware variant saves up to 40% tokens over baselines
+  summary: Treats multi-turn reasoning as sequential budget allocation (multi-objective MDP) and trains a GRPO policy that gives easy turns small budgets and saves tokens for hard turns.
+  benchmarks: diverse agentic benchmarks
+  signals: conversation history, global token constraint, global token budget
+
+[lyu-2026-differential-reasoning-router] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C2,C9,C14)
+  title: The Differential Reasoning Router: Operationalizing Cost-Aware LLM Annotation in E-commerce
+  key_idea: Route between direct model, reasoning model and humans.
+  cost: In a production e-commerce workflow, reaches accuracy parity with the strongest confidence-based router with more than 60% reasoning-token cost savings
+  summary: For cold-start LLM annotation, estimates separate success probabilities for a direct and a reasoning model and routes easy items directly, uses reasoning where it helps, and escalates likely double failures to humans.
+  benchmarks: production e-commerce annotation workflow
+  signals: per-sample and per-rule success probabilities of direct vs reasoning model
+
+[tran-2026-single-vs-multi-agent-equal-budget] (2026, arXiv, rel=5, gran=n/a, regime=n/a, prod=N, clusters=C9,C12,C13)
+  title: Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets
+  key_idea: Many multi-agent gains are unaccounted compute.
+  summary: Information-theoretic and empirical argument that under equal reasoning-token budgets single agents match or beat multi-agent systems on multi-hop reasoning; flags API budget-control artefacts (notably Gemini 2.5).
+  benchmarks: multi-hop reasoning tasks, multi-hop reasoning benchmarks
+  signals: thinking-token budget, reasoning-token budget
+
+[yang-2026-ares-reasoning-effort] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C3,C9)
+  title: Ares: Adaptive Reasoning Effort Selection for Efficient LLM Agents
+  key_idea: Per-step reasoning-effort routing for agents.
+  cost: Reduces reasoning token usage by up to 52.7% vs fixed high-effort reasoning with minimal degradation in task success (TAU-Bench, BrowseComp-Plus, WebArena)
+  summary: A lightweight router predicts the lowest reasoning-effort level (low/medium/high) sufficient for each agent step, trained on labels of the minimum effort that still succeeds.
+  benchmarks: TAU-Bench, BrowseComp-Plus, WebArena
+  signals: interaction history, minimum-sufficient effort labels
+
+[cuadron-2025-danger-of-overthinking-agents] (2025, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C9,C13)
+  title: The Danger of Overthinking: Examining the Reasoning-Action Dilemma in Agentic Tasks
+  key_idea: Reasoning models overthink in agent loops and this costs success.
+  cost: Selecting the solution with lower overthinking score improves performance by almost 30% while reducing computational costs by 43% (SWE-Bench Verified)
+  summary: Studies overthinking in agentic software engineering, where reasoning models prefer internal reasoning over interacting with the environment, with failure patterns like analysis paralysis and rogue actions. Overthinking correlates with lower success.
+  benchmarks: SWE-Bench Verified (4018 trajectories)
+  signals: overthinking score
+
+[lee-2025-steer] (2025, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C2,C3,C9)
+  title: Confidence-Guided Stepwise Model Routing for Cost-Efficient Reasoning
+  key_idea: Step-level SLM/LLM routing on internal confidence.
+  cost: Up to +20% accuracy with 48% fewer FLOPs vs using only the larger model on AIME
+  summary: Routes each reasoning step between a small and a large model based on the small model's logit confidence before it generates the step, with no trained router.
+  benchmarks: AIME, multi-hop QA, planning
+  signals: small-model logit confidence before each reasoning step
+
+[openai-2025-gpt5-system-card] (2025, OpenAI (system card), rel=5, gran=query, regime=hybrid, prod=Y, clusters=C1,C5,C9,C14)
+  title: GPT-5 System Card
+  key_idea: Production query-level router between fast and reasoning models trained on live user signals.
+  summary: Describes GPT-5 as a unified system with a fast model, a deeper reasoning model, and a real-time router that picks between them using conversation type, complexity, tool needs and explicit intent. The router is continuously trained on real signals such as user model switches, response preference rates and measured correctness, and mini models handle traffic once usage limits are hit.
+  signals: conversation type, complexity, tool needs, explicit user intent, user model switches, preference rates, measured correctness, explicit intent
+
+[shao-2025-r2-reasoner] (2025, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C1,C3,C9)
+  title: Route-and-Reason: Scaling Large Language Model Reasoning with Reinforced Model Router
+  key_idea: Decompose, then route each subtask to a model.
+  cost: Reduces API costs by 84.46% vs state-of-the-art baselines while maintaining competitive accuracy on six reasoning benchmarks
+  summary: A decomposer splits a query into subtasks and a reinforced allocator assigns each subtask to one of nine models of very different sizes. Trained by alternating SFT and RL.
+  benchmarks: six reasoning benchmarks
+  signals: subtask decomposition, subtask allocator
+
+[wang-2025-agent-reinforce] (2025, arXiv, rel=5, gran=subagent, regime=training-free, prod=N, clusters=C3,C4,C9)
+  title: Generalizing Test-time Compute-optimal Scaling as an Optimizable Graph
+  key_idea: Search over multi-LLM collaboration graphs under a compute budget.
+  summary: Formulates test-time scaling as searching compute-optimal multi-LLM collaboration graphs (roles, model assignments, edges) under a fixed budget and proposes Agent-REINFORCE, an LLM-augmented REINFORCE-style search.
+  signals: textual feedback as gradient, accuracy, latency
+
+[wang-2025-agenttts] (2025, NeurIPS 2025, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C4,C9)
+  title: AgentTTS: Large Language Model Agent for Test-time Compute-optimal Scaling Strategy in Complex Tasks
+  key_idea: LLM-agent search over per-subtask model and budget allocation.
+  summary: AgentTTS searches for compute-optimal model and budget allocations per subtask in multi-stage tasks with an LLM agent guided by empirical insights, beating traditional and LLM-based baselines in search efficiency.
+  signals: execution feedback
+
+[saadfalcon-2024-archon] (2024, ICML 2025, rel=5, gran=none, regime=training-free, prod=N, clusters=C4,C9)
+  title: Archon: An Architecture Search Framework for Inference-Time Techniques
+  key_idea: Inference-time architecture search (ITAS) over layered combinations of LLMs and inference techniques.
+  cost: Archon architectures advance the Pareto frontier of accuracy vs. maximum token budget; outperform o1, GPT-4o and Claude 3.5 Sonnet by an average of 15.1%
+  summary: Archon is a framework for selecting and combining inference-time techniques (ensembling, sampling, ranking, fusion, critique, verification, unit tests) and LLMs into layered architectures. It uses Bayesian-optimization-based inference-time architecture search under a compute budget.
+  signals: benchmark score, token budget
+
+[amp-2026-subagent-model-assignment] (2026, Amp news (ampcode.com), rel=4, gran=subagent, regime=n/a, prod=Y, clusters=C3,C9,C14)
+  title: A Faster Librarian (and related Amp notes on per-role subagent models)
+  key_idea: Role-specific subagent model choices in a shipping agent, tuned with small internal evals.
+  cost: Librarian subagent moved from Sonnet 4.6 (medium) to GPT-5.5 (no reasoning): mean latency 237s->81s, F1 0.47->0.48, average cost $1.21->$0.69 (43% cheaper) on internal eval; search subagent on Gemini 3 Flash vs Haiku 4.5: 3x faster at same quality (~8 vs ~2.5 parallel calls, ~3 vs ~9 turns); summarisation/compaction model switch 4-6x faster and ~30x cheaper (vendor-reported)
+  summary: A series of short Amp product notes documents a production coding agent that assigns different models per role: main agent, oracle, thread reader, code reviewer, codebase search subagent, GitHub 'Librarian' subagent and summariser, each swapped independently as cheaper models improve. The Librarian note gives an eval breakdown of the gains from a non-reasoning model plus websocket transport; 'A Dial for You' (https://ampcode.com/news/a-dial-for-you) lists the role-to-model mapping per mode and reports that swapping the default model overnight drew no complaints.
+  benchmarks: Amp internal subagent evals
+  signals: role
+
+[anthropic-task-budgets-docs] (2026, Claude Platform documentation, rel=4, gran=step, regime=n/a, prod=N, clusters=C3,C9,C14)
+  title: Task budgets (Claude Platform docs, beta)
+  key_idea: Expose a trajectory-level token budget to the model so it self-regulates spend on long-horizon tasks.
+  summary: A beta feature giving Claude an advisory token budget for an entire agentic loop (thinking, tool calls, tool results, output); the model sees a running countdown and prioritises work, wrapping up gracefully as the budget is consumed. Positioned as complementary to effort: effort sets per-step thoroughness, task budgets cap total work across the trajectory.
+  signals: remaining token budget
+
+[apparaju-2026-compute-allocation-retrieval-agents] (2026, arXiv, rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C9)
+  title: Compute Allocation for Reasoning-Intensive Retrieval Agents
+  key_idea: Stage-specific model sizing: spend capacity on re-ranking, not query expansion.
+  cost: Re-ranking gains +7.5 NDCG@10 from stronger models while query expansion gains only +1.1 from weak to strong (BRIGHT, Gemini 2.5 family)
+  summary: Studies how to spend compute across the stages of reasoning-intensive retrieval pipelines for agents by varying model size, thinking and re-ranking depth per stage. Strong models matter for re-ranking but not query expansion, and thinking helps little at either stage.
+  benchmarks: BRIGHT
+  signals: stage-wise capacity sweeps
+
+[dip-2026-sevra-selective-verification] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7,C9)
+  title: Think Again or Think Longer? Selective Verification for Budget-Aware Reasoning
+  key_idea: Tune initial budget first, then selectively verify.
+  cost: MATH: 76.3% vs 75.5% for always-verify with 26.8% fewer post-generation tokens; GSM8K: verifies 3.0% of examples, accuracy 93.4% to 94.5%, 91.2% fewer verification tokens; a longer initial solve matches with fewer tokens
+  summary: A serving-layer gate decides whether to keep a solver's answer or invoke verification. Finds selective verification helps but tuning the initial budget first is often cheaper.
+  benchmarks: MATH, GSM8K, CommonsenseQA
+  signals: serving-visible attempt state, recoverability gate
+
+[dong-2026-learning-to-stop-cost-study] (2026, arXiv, rel=4, gran=token, regime=supervised-offline, prod=N, clusters=C9,C13)
+  title: When Does Learning to Stop Help? A Cost-Aware Study of Early Exits in Reasoning Models
+  key_idea: Early-exit savings depend on trajectory structure and serving cost model.
+  cost: Learned stopping gives +3.2 to +21.2 pp additional token saving on Qwen3 free-form math; the same policy saves 32% tokens with KV-cache forking but costs 121% extra under black-box repeated prefilling
+  summary: Controlled comparison of early-exit rules at matched risk of losing correct answers across 18 settings, including probe overhead. Learned stoppers win where answers oscillate; simple thresholds suffice elsewhere; savings depend heavily on the serving regime.
+  benchmarks: GSM8K, MATH-500, MMLU-Pro, AIME-90, GPQA
+  signals: confidence, entropy, answer stability, learned stopper
+
+[dong-2026-llm-shepherding] (2026, arXiv, rel=4, gran=token, regime=supervised-offline, prod=N, clusters=C1,C2,C9)
+  title: Pay for Hints, Not Answers: LLM Shepherding for Cost-Efficient Inference
+  key_idea: Buy a partial LLM hint instead of a full answer.
+  cost: Reduces costs by 42-94% vs LLM-only on GSM8K, CNK12, HumanEval, MBPP; up to 2.8x cost reduction vs state-of-the-art routing and cascading at matched accuracy
+  summary: Requests only a short prefix of the LLM response as a hint for the small model, generalising routing and cascading. A two-stage predictor decides whether a hint is needed and how many tokens to buy.
+  benchmarks: GSM8K, CNK12, HumanEval, MBPP
+  signals: predicted need for hint, hint length
+
+[fang-2026-budget-control-search-agents] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C9)
+  title: Inference-Time Budget Control for LLM Search Agents
+  key_idea: Value-of-information budget allocation across agent actions under dual hard budgets.
+  summary: For search agents under hard caps on both tool calls and tokens, a controller scores each feasible action (retrieve, decompose, commit) by estimated marginal task value per unit budget. A selective finalizer rewrites the answer only for low-risk form errors; budget-dependent penalties drive most of the gain.
+  benchmarks: four multi-hop QA benchmarks
+  signals: value-of-information score, remaining dual budget
+
+[guo-2026-eet-early-termination] (2026, ACL 2026, rel=4, gran=step, regime=training-free, prod=N, clusters=C9,C12)
+  title: EET: Experience-Driven Early Termination for Cost-Efficient Software Engineering Agents
+  key_idea: Experience-driven early stopping for coding agents.
+  cost: Total cost reduced 19%-55% (32% average) with at most 0.2% loss in resolution rate; API calls, input and output tokens down 21%, 30%, 25%
+  summary: EET extracts experience from past issue-resolution runs and uses it to stop patch generation and selection early when further iterations are unlikely to help, cutting coding-agent cost by about a third.
+  benchmarks: SWE-bench Verified
+  signals: structured experience from prior runs
+
+[guo-2026-think-when-needed-ranking] (2026, SIGIR 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9)
+  title: Think When Needed: Model-Aware Reasoning Routing for LLM-based Ranking
+  key_idea: Pre-generation think/no-think router for LLM ranking.
+  cost: +6.3% NDCG@10 with 49.5% fewer tokens on MovieLens with Qwen3-4B
+  summary: A lightweight router head uses pre-generation features to decide whether an LLM ranker should reason, and picks its operating point on a validation Pareto frontier under system constraints.
+  benchmarks: MovieLens, two other ranking datasets
+  signals: ranking features (candidate dispersion), model-aware difficulty checklist
+
+[huang-2026-uniscale] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C9)
+  title: UniScale: Adaptive Unified Inference Scaling via Online Joint Optimization of Model Routing and Test-Time Scaling
+  key_idea: Learn routing and test-time compute jointly online with a LinUCB contextual bandit.
+  summary: Unifies model routing and test-time-scaling choices into a single action space and learns the joint policy online as a contextual bandit with LinUCB plus explicit cost modeling. Reports better quality-cost trade-offs than routing-only or TTS-only baselines in dynamic inference settings.
+  signals: query features, cost model, reward feedback
+
+[jiang-2026-spike] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C9)
+  title: SPIKE: An Adaptive Dual Controller Framework for Cost-Efficient Long-Horizon Game Agents
+  key_idea: Event-triggered escalation from a cheap reactive controller to an expensive strategic controller.
+  cost: Token consumption reduced 54.9% and latency 40.8%; +5.0 pp SR and +9.3 pp budgeted SR over strongest baselines on StarDojo Lite-100
+  summary: SPIKE splits a long-horizon game agent into a low-frequency strategic controller and a token-budgeted reactive controller. An event trigger decides when to escalate from reactive execution to strategic reasoning, so the expensive reasoning is reused across stable stretches.
+  benchmarks: StarDojo Lite-100
+  signals: visual change, task progress, repeated actions, failure signals
+
+[kapoor-2026-trim-stepwise-routing] (2026, arXiv, rel=4, gran=step, regime=hybrid, prod=N, clusters=C2,C3,C9)
+  title: TRIM: Hybrid Inference via Targeted Stepwise Routing in Multi-Step Reasoning Tasks
+  key_idea: Escalate only the critical steps (as flagged by a PRM) to the big model.
+  cost: On MATH-500 simplest threshold policy gives 5x higher cost efficiency than prior routing methods; advanced policies match the strong model using 80% fewer expensive-model tokens; up to 6x higher cost efficiency on AIME
+  summary: TRIM routes only the reasoning steps that are likely to derail a solution to a large model, letting a small model write routine continuations. A PRM flags risky steps, and policies range from simple thresholds to long-horizon policies that reason about accuracy-cost trade-offs under step-correctness uncertainty.
+  benchmarks: MATH-500, AIME
+  signals: process reward model score, step-level uncertainty, budget
+
+[lee-2026-dart] (2026, EMNLP 2026 Findings, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C9)
+  title: DART: Draft-Agreement Routing for Training-Free Adaptive Thinking Budgets in Hybrid Reasoning Models
+  key_idea: Draft agreement decides think vs not, entropy sets the budget.
+  cost: Preserves or improves always-thinking accuracy while cutting thinking tokens by 32-73%; up to +9.0 points on Olympiad math and +22.5 on code
+  summary: Samples two cheap no-think drafts and answers directly if they agree; otherwise predicts a thinking budget from draft entropy. Training-free and works with API-only models.
+  benchmarks: Olympiad-level math, code
+  signals: agreement of two no-think drafts, draft entropy
+
+[mia-2026-adaptive-reasoning-agentic-ai] (2026, arXiv, rel=4, gran=step, regime=n/a, prod=N, clusters=C3,C9)
+  title: Don't Overthink, Don't Underthink: Toward Adaptive Reasoning in Agentic AI
+  key_idea: Reasoning must be allocated dynamically across an agent workflow.
+  summary: Argues reasoning needs in agents change during planning, tool use and multi-agent interaction, so fixed budgets misallocate compute. Characterises over- and under-reasoning on MATH-500 and GAIA: over-reasoning raises cost without accuracy gains, under-reasoning yields incomplete answers.
+  benchmarks: MATH-500, GAIA validation
+  signals: tool-decision latency, token consumption, token-limit exhaustion
+
+[ning-2026-hrbench] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C9,C13)
+  title: HRBench: Benchmarking and Understanding Thinking-Mode Switch Strategies in Hybrid-Reasoning LLMs
+  key_idea: Controlled comparison of think/no-think switching strategies.
+  summary: Unified benchmark for thinking-mode switching in hybrid-reasoning LLMs, reimplementing 12+ methods across three strategy families and four training regimes. Prompt-based methods give good token-accuracy trade-offs, routing is more stable, speculative methods cost more.
+  benchmarks: 5 reasoning benchmarks (math, science, code)
+  signals: prompt-based selection, external routing, speculative execution
+
+[pham-2026-agentstop] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C6,C9,C12)
+  title: AgentStop: Terminating Local AI Agents Early to Save Energy in Consumer Devices
+  key_idea: Predict failing trajectories from cheap signals and stop them early to save compute.
+  cost: Reduces wasted energy by 15-20% with <5% utility drop on web QA and coding benchmarks
+  summary: Measures the time, token and energy overhead of local LLM agents on consumer hardware and introduces AgentStop, a lightweight supervisor that predicts from cheap execution signals which trajectories will fail and terminates them early.
+  signals: token log probabilities, execution signals
+
+[sethi-2026-trace-action-agreement] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C7,C9)
+  title: Don't Overthink It: Inter-Rollout Action Agreement as a Free Adaptive-Compute Signal for LLM Agents
+  key_idea: Action agreement across rollouts sets per-step compute.
+  cost: TrACE-4 matches SC-4 accuracy with 33% (GSM8K) and 39% (MiniHouse) fewer LLM calls; TrACE-8 matches SC-8 with 55% and 65% fewer calls
+  summary: At each agent step, samples a few candidate actions and commits immediately if they agree, otherwise samples more up to a cap. Training-free per-timestep adaptive compute; small-scale evaluation.
+  benchmarks: GSM8K (n=50), MiniHouse (n=30), GSM8K, MiniHouse
+  signals: inter-rollout action agreement
+
+[si-2026-policy-guided-stepwise-routing] (2026, arXiv, rel=4, gran=step, regime=RL-online, prod=N, clusters=C2,C3,C9)
+  title: Policy-Guided Stepwise Model Routing for Cost-Effective Reasoning
+  key_idea: Small RL control policy for stepwise model routing.
+  summary: Formulates routing intermediate CoT states to models of different sizes as constrained decision making, solved with a small RL-trained control policy plus threshold calibration, avoiding a large PRM. It improves the accuracy-cost trade-off over handcrafted routers on open and closed models.
+  benchmarks: GSM8K, MATH500, OmniMath
+  signals: CoT state, threshold calibration
+
+[wang-2026-conformal-thinking] (2026, ICML 2026, rel=4, gran=token, regime=supervised-offline, prod=N, clusters=C7,C9)
+  title: Conformal Thinking: Risk Control for Reasoning on a Compute Budget
+  key_idea: Risk-controlled early stopping in both directions.
+  summary: Casts reasoning budget setting as risk control: stop when confident, and preemptively stop likely unsolvable instances, with thresholds set by distribution-free risk control on a validation set.
+  benchmarks: diverse reasoning tasks
+  signals: confidence upper threshold, parametric lower threshold for unsolvable instances
+
+[weinberger-2026-prompt-induced-waste-coding-agents] (2026, arXiv, rel=4, gran=step, regime=n/a, prod=N, clusters=C9,C12,C13)
+  title: Prompt-Induced Waste in Coding Agents: Reasoning, Effort, Harness Design, and End-to-End Cost
+  key_idea: Measure cost per successful task; prompt, effort and harness interact.
+  summary: Controlled experiments showing prompt wording, reasoning effort and harness design interact to determine coding-agent cost and success; argues efficiency should be measured as cost per successful task, not tokens.
+  signals: prompt wording, inference effort, harness policy
+
+[xu-2026-low-effort-office-agents] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C9,C13)
+  title: Low Reasoning Effort Is Enough for Routine Office Work by Language-Model Agents
+  key_idea: Routine agent work does not need high reasoning effort.
+  cost: Low reasoning level used about 43% fewer output tokens and 20% less time than max level, with no rule violations across 840 runs of 14 office tasks
+  summary: Controlled test of low vs max reasoning effort for agents doing routine office tasks with a forbidden-tool temptation; low effort was sufficient for compliance and completion.
+  benchmarks: 14 routine office tasks (840 runs)
+  signals: reasoning level setting
+
+[xue-2026-r2-router] (2026, ICML 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9)
+  title: R2-Router: A New Paradigm for LLM Routing with Reasoning
+  key_idea: Route over (model, output length budget).
+  cost: State-of-the-art performance at 4-5x lower cost than existing routers
+  summary: Routes jointly over models and output-length budgets enforced by instructions, finding that a strong model with a constrained length can beat a weaker model at similar cost. Introduces R2-Bench.
+  benchmarks: R2-Bench
+  signals: predicted quality per (model, length budget)
+
+[yang-2026-cogrouter] (2026, arXiv, rel=4, gran=step, regime=RL-online, prod=N, clusters=C3,C9)
+  title: Think Fast and Slow: Step-Level Cognitive Depth Adaptation for LLM Agents
+  key_idea: Per-step choice of reasoning depth learned with step-level credit assignment.
+  cost: With Qwen2.5-7B, 82.3% success on ALFWorld/ScienceWorld, beating GPT-4o (+40.3%) and o3 (+18.3%) while using 62% fewer tokens
+  summary: CogRouter trains an agent to choose among four levels of cognitive depth at each step, from instinctive responses to strategic planning. Training combines cognition-aware SFT with an RL stage that does step-level credit assignment via confidence-weighted advantages.
+  benchmarks: ALFWorld, ScienceWorld
+  signals: action confidence, cognitive level
+
+[ye-2026-roro-process-reward-routing] (2026, arXiv, rel=4, gran=step, regime=RL-offline, prod=N, clusters=C3,C7,C9)
+  title: Rubric-Guided Process Reward for Stepwise Model Routing
+  key_idea: Process-level rewards for training stepwise model routers.
+  summary: RoRo supervises RL-trained stepwise routers with process rewards instead of only outcome rewards. A Rubricor writes a query-specific rubric and a Judge scores routing trajectories, both trained on preference pairs built from outcome, cost and process quality.
+  signals: rubric-guided process reward, cost
+
+[zhang-2026-racer] (2026, ICML 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7,C9)
+  title: Reasoning Is Not Free: Robust Adaptive Cost-Efficient Routing for LLM-as-a-Judge
+  key_idea: Budgeted, shift-robust routing between reasoning and non-reasoning judges.
+  cost: Superior accuracy-cost trade-offs under distribution shift (no single number in abstract)
+  summary: Shows reasoning judges help on math and code verification but not on simpler evaluations, and routes between reasoning and non-reasoning judges under a fixed budget via distributionally robust optimisation.
+  signals: judge task features, KL uncertainty set
+
+[zhang-2026-v0-generalist-value-model] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C9)
+  title: V_0: A Generalist Value Model for Any Policy at State Zero
+  key_idea: Predict per-prompt success of any model from its performance profile and route by it.
+  cost: Pareto-optimal performance-cost trade-off in LLM routing tasks (qualitative)
+  summary: Trains a generalist value model that predicts the expected success of any model on an unseen prompt by conditioning on a history of that model's instruction-performance pairs instead of fitting parameters. Used to allocate GRPO rollout budgets and, at deployment, as a router.
+  signals: instruction-performance history, prompt
+
+[aggarwal-2025-optimalthinkingbench] (2025, arXiv, rel=4, gran=n/a, regime=n/a, prod=N, clusters=C9,C13)
+  title: OptimalThinkingBench: Evaluating Over and Underthinking in LLMs
+  key_idea: Unified over/underthinking benchmark.
+  summary: Benchmark that jointly scores overthinking on simple queries across 72 domains and underthinking on hard reasoning tasks. None of 33 models thinks optimally; methods that help one side hurt the other.
+  benchmarks: OverthinkingBench, UnderthinkingBench
+  signals: thinking-adjusted accuracy
+
+[chen-2025-concur] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C4,C5,C9)
+  title: CONCUR: A Framework for Continual Constrained and Unconstrained Routing
+  key_idea: Modular continual routing over strategies.
+  summary: CONCUR routes tasks to computation strategies (model plus decoding method) with separate per-strategy predictors, supporting budgeted and unbudgeted routing and continual addition of strategies.
+  benchmarks: knowledge- and reasoning-intensive tasks (ID and OOD)
+  signals: per-strategy predictors, multiple task representations, task representations, strategy representations, budget
+
+[ding-2025-best-route] (2025, ICML 2025, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9)
+  title: BEST-Route: Adaptive LLM Routing with Test-Time Optimal Compute
+  key_idea: Jointly route over model choice and test-time sample count.
+  cost: Reduces costs by up to 60% with less than 1% performance drop on real-world datasets
+  summary: BEST-Route chooses both the model and how many responses to sample from it (best-of-n), based on query difficulty and a quality threshold. Sampling multiple answers from a small model often beats one answer from a large model at lower cost.
+  benchmarks: real-world datasets
+  signals: difficulty estimate, quality threshold, best-of-n sampling count, query difficulty, quality thresholds
+
+[fan-2025-cothink] (2025, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C9,C13)
+  title: The Price of a Second Thought: On the Evaluation of Reasoning Efficiency in Large Language Models
+  key_idea: Instruct model outlines, thinking model expands.
+  cost: Cuts token usage by 21.1% while keeping accuracy on GSM8K, MATH500, AIME24 across four thinking models
+  summary: Measures reasoning efficiency relative to instruct models as the minimal-effort baseline, finding thinking models waste compute on easy problems. CoThink has an instruct model draft an outline that a thinking model expands.
+  benchmarks: GSM8K, MATH500, AIME24
+  signals: instruct-model outline
+
+[fernandez-2025-radar] (2025, ICLR 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9)
+  title: RADAR: Reasoning-Ability and Difficulty-Aware Routing for Reasoning LLMs
+  key_idea: Psychometric routing over (model, reasoning budget) configurations.
+  summary: RADAR fits an item response model over model and reasoning-budget pairs, then routes harder queries to higher-ability configurations. It generalizes out of distribution and can add models using a small adaptive query set.
+  benchmarks: 8 reasoning benchmarks
+  signals: IRT query difficulty, model-budget ability
+
+[lin-2025-plan-and-budget] (2025, ICLR 2026, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C9)
+  title: Plan and Budget: Effective and Efficient Test-Time Scaling on Reasoning Large Language Models
+  key_idea: Decompose, then budget tokens per sub-question.
+  cost: Up to 70% accuracy gains, 39% token reduction and 193.8% improvement in E3; DS-Qwen-32B matches DS-LLaMA-70B efficiency
+  summary: Models reasoning as a sequence of sub-questions with different uncertainty and allocates token budgets to each sub-question by estimated complexity. Model-agnostic and test-time only.
+  signals: sub-question complexity estimates
+
+[lin-2025-sleep-time-compute] (2025, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C9,C10)
+  title: Sleep-time Compute: Beyond Inference Scaling at Test-time
+  key_idea: Move reasoning compute to idle time over shared context.
+  cost: ~5x less test-time compute for the same accuracy on Stateful GSM-Symbolic and Stateful AIME; 2.5x lower average cost per query when amortised over related queries
+  summary: Lets models think offline about a context before queries arrive, pre-computing useful inferences so test-time reasoning is cheaper; gains depend on how predictable queries are. Includes an agentic SWE case study.
+  benchmarks: Stateful GSM-Symbolic, Stateful AIME, Multi-Query GSM-Symbolic, agentic SWE case study
+  signals: offline pre-computation over context
+
+[lou-2025-adacot] (2025, arXiv, rel=4, gran=query, regime=RL-offline, prod=Y, clusters=C9,C14)
+  title: AdaCoT: Pareto-Optimal Adaptive Chain-of-Thought Triggering via Reinforcement Learning
+  key_idea: RL-tuned CoT triggering evaluated on production traffic.
+  cost: On a production traffic test set, reduced CoT triggering rate to as low as 3.18% and average response tokens by 69.06% while maintaining performance on complex tasks
+  summary: Frames when to invoke CoT as Pareto optimisation and trains the trigger with PPO, adjusting penalties to move along the frontier; selective loss masking stops decision-boundary collapse.
+  benchmarks: production traffic test set
+  signals: implicit query complexity, penalty coefficients
+
+[lu-2025-car-certainty-routing] (2025, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C9)
+  title: Prolonged Reasoning Is Not All You Need: Certainty-Based Adaptive Routing for Efficient LLM/MLLM Reasoning
+  key_idea: Cascade from short answer to long reasoning on perplexity.
+  summary: Generates a short answer first and triggers long reasoning only if its perplexity signals low confidence, beating both always-short and always-long reasoning.
+  benchmarks: multimodal VQA/KIE benchmarks, text reasoning datasets
+  signals: short-answer perplexity
+
+[paglieri-2025-learning-when-to-plan] (2025, arXiv, rel=4, gran=step, regime=hybrid, prod=N, clusters=C3,C9)
+  title: Learning When to Plan: Efficiently Allocating Test-Time Compute for LLM Agents
+  key_idea: Agents learn when to spend compute on planning.
+  summary: Shows always planning before each action (ReAct-style) is costly and can hurt long-horizon performance; trains agents via SFT then RL to decide when to plan.
+  benchmarks: Crafter
+  signals: learned planning decision
+
+[pan-2025-route-to-reason] (2025, The Web Conference (per Semantic Scholar), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9)
+  title: Route to Reason: Adaptive Routing for LLM and Reasoning Strategy Selection
+  key_idea: Joint model plus reasoning-strategy routing.
+  cost: Higher accuracy than the best single model while reducing token usage by over 60% (seven open models, four reasoning strategies)
+  summary: Route-To-Reason jointly selects the LLM and the reasoning strategy (e.g. CoT variants) for each query under a user budget, using learned embeddings of model-strategy pairs and a routing table of predicted cost and performance.
+  signals: model and strategy embeddings, query complexity, budget, learned model and strategy embeddings, predicted performance, predicted token count
+
+[she-2025-hawkeye] (2025, arXiv, rel=4, gran=step, regime=RL-offline, prod=N, clusters=C2,C3,C9)
+  title: Hawkeye:Efficient Reasoning with Model Collaboration
+  key_idea: Large model thinks briefly, small model writes.
+  cost: Comparable quality using only 35% of full CoTs; up to 3.4x faster end-to-end reasoning and up to 60% lower inference cost on complex math
+  summary: A large model writes a short, information-dense CoT (trained by RL to remove redundancy) and a small model expands it into the final response.
+  benchmarks: complex math tasks
+  signals: concise CoT instructions from large model
+
+[sun-2025-context-folding] (2025, arXiv, rel=4, gran=step, regime=RL-online, prod=N, clusters=C9,C10)
+  title: Scaling Long-Horizon LLM Agent via Context-Folding
+  key_idea: Learned branch-and-fold keeps agent working context small.
+  cost: matches or outperforms ReAct baselines on Deep Research and SWE tasks with a 10x smaller active context, and beats summarization-based context management
+  summary: Agents learn to branch into a sub-trajectory for a subtask and fold it on return, keeping only a short summary of the outcome in the main context. An RL method (FoldGRPO) with process rewards trains effective decomposition and context management.
+  benchmarks: Deep Research tasks, SWE tasks
+  signals: branch/return actions, process rewards (FoldGRPO)
+
+[valkanas-2025-c3po] (2025, arXiv, rel=4, gran=query, regime=hybrid, prod=N, clusters=C2,C9)
+  title: C3PO: Optimized Large Language Model Cascades with Probabilistic Cost Constraints for Reasoning
+  key_idea: Label-free cascade tuning with conformal cost-overrun control.
+  cost: State-of-the-art accuracy and cost-efficiency vs cascading baselines (no single number in abstract)
+  summary: Self-supervised cascade optimisation that minimises regret against the most powerful model using only unlabelled outputs. Conformal prediction bounds the probability that inference cost exceeds a user budget, with generalisation guarantees.
+  benchmarks: GSM8K, MATH-500, BigBench-Hard, AIME
+  signals: unlabelled model outputs, regret vs most powerful model, conformal bounds
+
+[wang-2025-when-to-reason] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9,C11)
+  title: When to Reason: Semantic Router for vLLM
+  key_idea: Route reasoning on/off per query.
+  cost: +10.2 pp accuracy on MMLU-Pro while reducing latency 47.1% and tokens 48.5% vs direct inference with vLLM (abstract)
+  summary: A semantic router classifies whether a query needs reasoning mode and enables chain-of-thought only when beneficial, integrated with vLLM.
+  benchmarks: MMLU-Pro
+  signals: reasoning-need classifier, query reasoning-requirement classifier
+
+[zhang-2025-reasoning-models-know-right] (2025, arXiv, rel=4, gran=token, regime=supervised-offline, prod=N, clusters=C7,C9)
+  title: Reasoning Models Know When They're Right: Probing Hidden States for Self-Verification
+  key_idea: Hidden states encode correctness; use a probe to stop reasoning early.
+  cost: Probe-based early exit reduces inference tokens by 24% without compromising performance
+  summary: Probes reasoning-model hidden states to verify intermediate answers with high accuracy and calibration, even predicting correctness before the answer is fully formed. Using the probe for early exit cuts reasoning tokens by 24% at equal accuracy.
+  signals: hidden-state probe, intermediate answer correctness
+
+[zhang-2025-synapseroute] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9)
+  title: SynapseRoute: An Auto-Route Switching Framework on Dual-State Large Language Model
+  key_idea: Route queries between thinking and non-thinking modes of one model.
+  cost: Accuracy 0.8390 vs 0.8272 for thinking-only, with 36.8% lower inference time and 39.66% fewer tokens on medical datasets
+  summary: Finds about 58% of medical questions are answered correctly without thinking mode, and trains a router that sends each query to thinking or non-thinking mode. Proposes an accuracy-inference-token index for evaluation.
+  benchmarks: medical QA datasets
+  signals: query complexity features
+
+[zhu-2025-test-time-compute-agents] (2025, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C9)
+  title: Scaling Test-time Compute for LLM Agents
+  key_idea: Test-time scaling recipes for agents.
+  summary: Systematic study of test-time scaling for language agents: parallel sampling, sequential revision, verification and merging, and rollout diversity. Finds knowing when to reflect matters and list-wise merging works best.
+  signals: verifiers, list-wise merging, reflection timing
+
+[damani-2024-learning-how-hard-to-think] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C9)
+  title: Learning How Hard to Think: Input-Adaptive Allocation of LM Computation
+  key_idea: Learn per-input marginal value of compute, then allocate.
+  cost: Reduces computation by up to 50% at no cost to response quality, or improves quality by up to 10% at fixed budget (programming, math, dialog)
+  summary: Predicts, per input, how much reward extra decoding compute would add and allocates best-of-k samples or routes between cheap and expensive decoding procedures accordingly.
+  benchmarks: programming, mathematics, dialog tasks
+  signals: predicted reward distribution per input and budget
+
+[fu-2024-dynasor-certaindex] (2024, arXiv, rel=4, gran=token, regime=training-free, prod=N, clusters=C9,C11)
+  title: Efficiently Scaling LLM Reasoning with Certaindex
+  key_idea: Answer-stability metric driving a reasoning-aware scheduler.
+  cost: Up to 50% compute savings and 3.3x higher throughput in real workloads with no accuracy drop (Dynasor serving system)
+  summary: Certaindex measures how stable intermediate answers are across reasoning algorithms and triggers early exit or reallocation. Built into Dynasor, a reasoning-aware serving system with gang scheduling.
+  signals: Certaindex answer stability, certaindex (answer stability)
+
+[snell-2024-test-time-compute-optimal] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C9,C15)
+  title: Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters
+  key_idea: Difficulty-adaptive test-time compute allocation can beat parameter scaling.
+  cost: Compute-optimal allocation improves test-time compute efficiency by more than 4x vs best-of-N; in FLOPs-matched evaluation, a smaller model with test-time compute outperforms a 14x larger model on problems where it has non-trivial success
+  summary: Studies scaling test-time compute via verifier search and adaptive revision and finds the best method depends on prompt difficulty. Allocating compute per prompt by difficulty beats uniform best-of-N and can substitute for a much larger model on easier problems.
+  signals: prompt difficulty estimate, process reward model
+
+[wang-2024-reasoning-token-economies] (2024, arXiv, rel=4, gran=n/a, regime=n/a, prod=N, clusters=C9,C13)
+  title: Reasoning in Token Economies: Budget-Aware Evaluation of LLM Reasoning Strategies
+  key_idea: Budget-aware evaluation of reasoning strategies.
+  summary: Argues reasoning strategies should be compared at matched compute; with equal budgets, CoT self-consistency often beats more complex strategies, and multi-agent debate or Reflexion can get worse with more budget.
+  signals: compute budget
+
+[zhang-2024-osca] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C4,C9)
+  title: Scaling LLM Inference with Optimized Sample Compute Allocation
+  key_idea: Optimise the mixture of inference configurations under budget.
+  cost: Beats best single configuration with 128x less compute on code generation and 25x less on 4 reasoning tasks; better SWE-Bench accuracy with 3x less compute than default configuration
+  summary: Learns an optimal mix of sampling configurations (model, temperature, language) and sample counts under a compute budget, including for an agentic SWE workflow.
+  benchmarks: code generation, 4 reasoning tasks, SWE-Bench
+  signals: per-configuration sample allocation, per-configuration accuracy estimates
+
+[anthropic-effort-docs] (2026, Claude Platform documentation, rel=3, gran=step, regime=n/a, prod=N, clusters=C9,C14)
+  title: Effort (Claude Platform docs)
+  key_idea: Single-model effort levels, settable per message, as a substitute for switching models to save cost.
+
+[li-2026-bavt-budget-aware-value-tree] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C9)
+  title: Spend Less, Reason Better: Budget-Aware Value Tree Search for LLM Agents
+  key_idea: Budget-conditioned tree search pruning low-value agent steps.
+  cost: Under strict low budgets, surpasses baseline performance obtained at 4x the resource allocation
+
+[li-2026-test-time-scaling-agents] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C13)
+  title: Evaluating Test-Time Scaling of General LLM Agents
+  key_idea: More test-time compute does not reliably help general agents.
+
+[lin-2026-bagen-budget-aware-agents] (2026, arXiv, rel=3, gran=step, regime=hybrid, prod=N, clusters=C7,C9,C12)
+  title: BAGEN: Are LLM Agents Budget-Aware?
+  key_idea: Agents should predict remaining budget and stop doomed runs early.
+  cost: Early stop saves 28-64% tokens on failed trajectories
+
+[mccleary-2026-bcas] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C3,C9,C13)
+  title: Quantifying the Accuracy and Cost Impact of Design Decisions in Budget-Constrained Agentic LLM Search
+  key_idea: Measurement harness for budget-constrained agentic search design.
+
+[moon-2026-price-of-thinking] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C9,C13,C14)
+  title: The Price of Thinking: Reasoning Effort as a Model-Specific API Contract
+  key_idea: Reasoning-effort defaults are model-specific contract terms with cost impact.
+  cost: Explicit-high effort cost $0.01031 more per call than omitted effort on Sonnet 5 (30 AIME 2026 items x5); no detected accuracy difference (+0.0133); cost per correct $0.08665 vs $0.07662
+
+[openai-reasoning-effort-docs] (2026, OpenAI API documentation, rel=3, gran=query, regime=n/a, prod=N, clusters=C9,C14)
+  title: Reasoning models: reasoning effort (OpenAI API guide)
+  key_idea: A per-request effort knob is the main production control for reasoning-token spend.
+
+[rognvaldsson-2026-lean-prover-cost-quality] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C3,C4,C9)
+  title: Optimizing the Cost-Quality Tradeoff of Agentic Theorem Provers in Lean
+  key_idea: Control plane decides continue-vs-restart from failure signals and cost.
+  cost: Decreases cost by 28.9% over a fixed-step baseline on average on a PutnamBench subset, preserving performance
+
+[shi-2026-dynsteer] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C7,C9)
+  title: DynSTEER: Dynamic Stage-wise Trajectory Evaluation and Execution-time Review for Agents
+  key_idea: Stage-level trajectory evaluation at execution time.
+  cost: Improves evaluation discriminability by over 85% vs whole-trajectory evaluation and saves 17.74% of execution steps
+
+[shim-2026-when2think] (2026, arXiv, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C9)
+  title: When2Think: Learning When and How Much to Reason
+  key_idea: Joint control of whether and how much to reason.
+  cost: On AIME24, +10.0 pp Pass@3 with 27.9% fewer tokens vs the backbone
+
+[smekal-2026-task-spec-token-spend] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C12,C13)
+  title: Can your AI agent be cheaper? Investigating the effects of task specifications on token spend in agentic coding tasks
+  key_idea: Spec quality drives agent token spend and is predictable from a probe.
+  cost: Reducing a full task spec to a bare user story raises token spend by 29.7%; predictor prices spec/effort configurations within 36% from one probe
+
+[wang-2026-forecasting-agents-reliability-routing] (2026, arXiv, rel=3, gran=step, regime=hybrid, prod=N, clusters=C3,C9)
+  title: When Should Forecasting Agents Reason? Behavioral Stress Tests for Reliability Routing
+  key_idea: Route agent behaviours by evidence-source reliability.
+
+[wunderlich-2026-multi-agent-pareto-tts] (2026, ACL 2026 SRW, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C9,C12,C13)
+  title: Multi-Agent Reasoning Improves Compute Efficiency: Pareto-Optimal Test-Time Scaling
+  key_idea: Compute-matched Pareto fronts of multi-agent inference strategies.
+  cost: Inference scaling gives up to +7.1 pp over CoT at 20x CoT compute on MMLU-Pro; at equal budget, debate and mixture-of-agents beat self-consistency by 1.3 and 2.7 pp
+
+[ye-2026-ecotab-stepwise-table-routing] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C3,C9)
+  title: Rethinking Stepwise Model Routing: A Cost-Efficient Table Reasoning Perspective
+  key_idea: Table-aware uncertainty signals for stepwise small/large routing.
+
+[aggarwal-2025-l1-lcpo] (2025, COLM 2025, rel=3, gran=token, regime=RL-offline, prod=N, clusters=C9)
+  title: L1: Controlling How Long A Reasoning Model Thinks With Reinforcement Learning
+  key_idea: RL to obey a prompt-specified thinking length.
+  cost: 1.5B L1 model surpasses GPT-4o at equal reasoning lengths; outperforms S1 for length control
+
+[alomrani-2025-reasoning-on-a-budget] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: Reasoning on a Budget: A Survey of Adaptive and Controllable Test-Time Compute in LLMs
+  key_idea: L1-controllability vs L2-adaptiveness taxonomy.
+
+[arora-2025-reason-efficiently] (2025, NeurIPS 2025, rel=3, gran=none, regime=RL-offline, prod=N, clusters=C9)
+  title: Training Language Models to Reason Efficiently
+  key_idea: One-knob RL family of efficiency levels for reasoning models.
+  cost: Significant reductions in inference cost while preserving most of the accuracy on two open-weight reasoning models (no single number in abstract)
+
+[balachandran-2025-inference-time-scaling-complex-tasks] (2025, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C13)
+  title: Inference-Time Scaling for Complex Tasks: Where We Stand and What Lies Ahead
+  key_idea: Inference-time scaling gains are task-dependent and diminish on hard tasks.
+
+[dai-2025-s-grpo] (2025, arXiv, rel=3, gran=token, regime=RL-offline, prod=N, clusters=C9)
+  title: S-GRPO: Early Exit via Reinforcement Learning in Reasoning Models
+  key_idea: RL rewards for earlier correct exits.
+  cost: 35.4%-61.1% shorter sequences with 0.72%-6.08% absolute accuracy gains on GSM8K, AIME 2024, AMC 2023, MATH-500, GPQA Diamond
+
+[fang-2025-thinkless] (2025, arXiv, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C9)
+  title: Thinkless: LLM Learns When to Think
+  key_idea: RL-learned mode token for when to think.
+  cost: Reduces long-chain thinking usage by 50%-90% on Minerva Algebra, MATH-500, GSM8K
+
+[fatemi-2025-concise-reasoning-rl] (2025, arXiv, rel=3, gran=none, regime=RL-offline, prod=N, clusters=C9)
+  title: Concise Reasoning via Reinforcement Learning
+  key_idea: Verbosity is an RL artefact; fix it with a short solvable-set RL phase.
+
+[feng-2025-efficient-reasoning-models-survey] (2025, TMLR 2025, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C8,C9,C15)
+  title: Efficient Reasoning Models: A Survey
+  key_idea: Shorter/smaller/faster taxonomy.
+
+[gao-2025-reasoning-efficiency-gap] (2025, arXiv, rel=3, gran=none, regime=RL-offline, prod=N, clusters=C9,C13)
+  title: How Far Are We from Optimal Reasoning Efficiency?
+  key_idea: Frontier-based metric and RL for reasoning efficiency.
+  cost: REO-RL reduces REG by >=50 across evaluated LRMs and matches Qwen3-4B/8B efficiency frontiers under a 16K budget with minimal accuracy loss
+
+[gao-2025-turn-control-coding-agents] (2025, ICSE 2026, rel=3, gran=none, regime=training-free, prod=N, clusters=C3,C9,C13)
+  title: More with Less: An Empirical Study of Turn-Control Strategies for Efficient Coding Agents
+  key_idea: Turn budgets as a cost lever for coding agents.
+
+[gema-2025-inverse-scaling-test-time] (2025, TMLR 2025, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C13)
+  title: Inverse Scaling in Test-Time Compute
+  key_idea: More test-time compute can reduce accuracy.
+
+[geuter-2025-robon] (2025, arXiv, rel=3, gran=token, regime=training-free, prod=N, clusters=C5,C7,C9)
+  title: RoBoN: Routed Online Best-of-n for Test-Time Scaling with Multiple LLMs
+  key_idea: Online routing within best-of-n across multiple LLMs.
+  cost: up to 3.4% absolute accuracy gain over single-model best-of-n at compute parity
+
+[ghosal-2025-mirage-test-time-scaling] (2025, NeurIPS 2025, rel=3, gran=none, regime=training-free, prod=N, clusters=C9)
+  title: Does Thinking More always Help? Mirage of Test-Time Scaling in Reasoning Models
+  key_idea: Longer thinking is a mirage; parallel sampling uses the budget better.
+  cost: Parallel thinking gives up to 20% higher accuracy than extended thinking at the same inference budget
+
+[han-2025-tale] (2025, arXiv, rel=3, gran=query, regime=hybrid, prod=N, clusters=C9)
+  title: Token-Budget-Aware LLM Reasoning
+  key_idea: Estimate and impose a per-problem token budget.
+  cost: Reduces token costs in CoT reasoning with only a slight performance reduction (no single number in abstract)
+
+[he-2025-thinkdial] (2025, arXiv, rel=3, gran=query, regime=hybrid, prod=N, clusters=C9)
+  title: ThinkDial: An Open Recipe for Controlling Reasoning Effort in Large Language Models
+  key_idea: Open training recipe for discrete reasoning-effort modes.
+  cost: Medium mode: 50% token reduction with <10% performance degradation; Low mode: 75% token reduction with <15% degradation
+
+[hou-2025-thinkprune] (2025, arXiv, rel=3, gran=none, regime=RL-offline, prod=N, clusters=C9)
+  title: ThinkPrune: Pruning Long Chain-of-Thought of LLMs via Reinforcement Learning
+  key_idea: Iterative RL under shrinking token caps.
+  cost: On AIME24, reasoning length of DeepSeek-R1-Distill-Qwen-1.5B halved with only 2% performance drop
+
+[jiang-2025-flashthink] (2025, arXiv, rel=3, gran=token, regime=supervised-offline, prod=N, clusters=C7,C9)
+  title: FlashThink: An Early Exit Method For Efficient Reasoning
+  key_idea: External verifier decides when to stop thinking.
+  cost: Reasoning length reduced by 77.04% (DeepSeek-R1) and 77.47% (QwQ-32B) without reducing accuracy
+
+[jiang-2025-lhrm] (2025, arXiv, rel=3, gran=query, regime=RL-online, prod=N, clusters=C9)
+  title: Think Only When You Need with Large Hybrid-Reasoning Models
+  key_idea: Hybrid fine-tuning plus HGPO for adaptive thinking.
+
+[jung-2025-futureweaver] (2025, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C4,C9)
+  title: FutureWeaver: Planning Test-Time Compute for Multi-Agent Systems with Modularized Collaboration
+  key_idea: Budgeted planning of compute across MAS collaboration modules.
+
+[kleinman-2025-e1-adaptive-effort] (2025, arXiv, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C9)
+  title: e1: Learning Adaptive Control of Reasoning Effort
+  key_idea: Relative effort control instead of absolute token budgets.
+  cost: 2-3x reduction in CoT length while maintaining or improving performance relative to the base model (1.5B-32B)
+
+[li-2025-budget-guidance] (2025, arXiv, rel=3, gran=token, regime=supervised-offline, prod=N, clusters=C9)
+  title: Steering LLM Thinking with Budget Guidance
+  key_idea: Soft token-level steering to a thinking budget.
+  cost: Up to 26% accuracy gain on MATH-500 under tight budgets vs baselines; competitive accuracy with 63% of full-thinking tokens
+
+[li-2025-selfbudgeter] (2025, arXiv, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C9)
+  title: SelfBudgeter: Adaptive Token Allocation for Efficient LLM Reasoning
+  key_idea: Model predicts its own token budget before reasoning.
+  cost: Average response length compression of 61% on math reasoning tasks while maintaining accuracy
+
+[liang-2025-thinkswitcher] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C9)
+  title: ThinkSwitcher: When to Think Hard, When to Think Fast
+  key_idea: Lightweight switcher between short and long CoT.
+  cost: Reduces computational cost by 20-30% while maintaining high accuracy on complex tasks
+
+[liu-2025-answer-convergence-early-stop] (2025, arXiv, rel=3, gran=token, regime=hybrid, prod=N, clusters=C9)
+  title: Answer Convergence as a Signal for Early Stopping in Reasoning
+  key_idea: Answers converge early; stop when they stabilise.
+  cost: On NaturalQuestions, Answer Consistency reduces tokens by over 40% while improving accuracy
+
+[liu-2025-budget-aware-tool-use] (2025, COLM 2026, rel=3, gran=step, regime=training-free, prod=N, clusters=C9,C12,C13)
+  title: Budget-Aware Tool Use Enables Effective Agent Scaling
+  key_idea: Make agents budget-aware to scale tool use efficiently.
+  cost: Budget-aware methods push the cost-performance Pareto frontier under a unified token+tool cost metric
+
+[luo-2025-ada-r1] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C9)
+  title: Ada-R1: Hybrid-CoT via Bi-Level Adaptive Reasoning Optimization
+  key_idea: Model merging plus bi-level preference optimisation.
+  cost: Average reasoning length reduced by more than 50% on five math datasets while maintaining performance
+
+[luo-2025-o1-pruner] (2025, arXiv, rel=3, gran=none, regime=RL-offline, prod=N, clusters=C9)
+  title: O1-Pruner: Length-Harmonizing Fine-Tuning for O1-Like Reasoning Pruning
+  key_idea: Length-harmonising fine-tuning for long-thought models.
+
+[ma-2025-cot-valve] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C9)
+  title: CoT-Valve: Length-Compressible Chain-of-Thought Tuning
+  key_idea: A parameter-space valve for CoT length.
+  cost: QwQ-32B-Preview: GSM8K chains 741 to 225 tokens (95.07% to 94.92%); AIME 6827 to 4629 tokens with one additional error
+
+[ma-2025-nothinking] (2025, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C9)
+  title: Reasoning Models Can Be Effective Without Thinking
+  key_idea: Skip thinking and scale in parallel instead.
+  cost: Token-matched NoThinking beats Thinking, e.g. 51.3 vs 28.9 on ACM 23 at 700 tokens; parallel NoThinking comparable to Thinking with up to 9x lower latency
+
+[muennighoff-2025-s1] (2025, arXiv, rel=3, gran=token, regime=supervised-offline, prod=N, clusters=C8,C9)
+  title: s1: Simple test-time scaling
+  key_idea: Budget forcing: hard-stop or extend thinking with "Wait".
+  cost: s1-32B exceeds o1-preview on competition math by up to 27% (MATH, AIME24); budget forcing extrapolates AIME24 from 50% to 57%
+
+[munkhbat-2025-self-training-concise] (2025, Findings of ACL 2025, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C9)
+  title: Self-Training Elicits Concise Reasoning in Large Language Models
+  key_idea: Self-distil concise reasoning.
+  cost: 30% reduction in output tokens on average across five model families on GSM8K and MATH while maintaining average accuracy
+
+[pu-2025-thoughtterminator] (2025, arXiv, rel=3, gran=token, regime=training-free, prod=N, clusters=C9,C13)
+  title: THOUGHTTERMINATOR: Benchmarking, Calibrating, and Mitigating Overthinking in Reasoning Models
+  key_idea: Benchmark and fix token-spend calibration on easy problems.
+
+[qi-2025-anytime-reasoner-brpo] (2025, arXiv, rel=3, gran=token, regime=RL-offline, prod=N, clusters=C9)
+  title: Optimizing Anytime Reasoning via Budget Relative Policy Optimization
+  key_idea: Optimise answer quality at every budget, not only the maximum.
+
+[qu-2025-efficient-reasoning-lrm-survey] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: A Survey of Efficient Reasoning for Large Reasoning Models: Language, Multimodality, and Beyond
+  key_idea: Efficient reasoning in LRMs.
+
+[qu-2025-mrt] (2025, arXiv, rel=3, gran=token, regime=RL-offline, prod=N, clusters=C9)
+  title: Optimizing Test-Time Compute via Meta Reinforcement Fine-Tuning
+  key_idea: Reward per-block progress to spend tokens efficiently.
+  cost: 2-3x relative gain in performance and roughly 1.5x gain in token efficiency for math reasoning vs outcome-reward RL
+
+[shen-2025-dast] (2025, EMNLP 2025 Industry Track, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C9)
+  title: DAST: Difficulty-Adaptive Slow-Thinking for Large Reasoning Models
+  key_idea: Difficulty-scaled length budgets via preference optimisation.
+  cost: Reduces token usage by over 30% on average while preserving accuracy on complex problems
+
+[sui-2025-stop-overthinking] (2025, TMLR 2025, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: Stop Overthinking: A Survey on Efficient Reasoning for Large Language Models
+  key_idea: Efficient reasoning survey.
+
+[tan-2025-zero-step-thinking] (2025, NeurIPS 2025 Efficient Reasoning Workshop, rel=3, gran=query, regime=n/a, prod=N, clusters=C9,C13)
+  title: The Zero-Step Thinking: An Empirical Study of Mode Selection as Harder Early Exit in Reasoning Models
+  key_idea: Mode selection is early exit at step zero, and current methods are weak.
+
+[tu-2025-autothink] (2025, arXiv, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C9)
+  title: Learning When to Think: Shaping Adaptive Reasoning in R1-Style Models via Multi-Stage RL
+  key_idea: Exploit latent think/no-think controllability with staged RL.
+  cost: +6.4% relative accuracy with 52% fewer tokens on DeepSeek-R1-Distill-Qwen-1.5B
+
+[vllm-2025-semantic-router] (2025, vLLM blog, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9,C14)
+  title: vLLM Semantic Router: Next Phase in LLM inference
+  key_idea: Classifier-based reasoning-mode and model selection in the serving layer.
+  cost: (vendor-reported) ~10% higher accuracy, ~50% lower latency, ~50% fewer tokens in trials (no benchmark or baseline disclosed)
+
+[wang-2025-demystifying-hybrid-thinking] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C9)
+  title: Demystifying Hybrid Thinking: Can LLMs Truly Switch Between Think and No-Think?
+  key_idea: No-think mode is leaky; training recipe fixes it.
+  cost: No-think output length on MATH500 reduced from 1085 to 585 tokens and "wait" occurrences from 5917 to 522 while maintaining accuracy
+
+[wang-2025-entropy-after-think] (2025, arXiv, rel=3, gran=token, regime=training-free, prod=N, clusters=C9)
+  title: Entropy After </Think> for reasoning model early exiting
+  key_idea: Cheap entropy signal for stopping reasoning, even for API models.
+  cost: Reduces token usage by 12-22% without harming accuracy on MATH500 and AIME2025; works black-box via proxy models (Llama 70B with 1.5B proxy, Claude 3.7 with 4B proxy)
+
+[wang-2025-reasoning-economy] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: Harnessing the Reasoning Economy: A Survey of Efficient Reasoning for Large Language Models
+  key_idea: Reasoning economy survey.
+
+[wen-2025-budgetthinker] (2025, arXiv, rel=3, gran=token, regime=hybrid, prod=N, clusters=C9)
+  title: BudgetThinker: Empowering Budget-aware LLM Reasoning with Control Tokens
+  key_idea: In-stream budget reminders via control tokens.
+
+[wu-2025-when-more-is-less-cot] (2025, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C15)
+  title: When More is Less: Understanding Chain-of-Thought Length in LLMs
+  key_idea: Optimal CoT length scales with difficulty and inversely with capability.
+
+[xia-2025-tokenskip] (2025, EMNLP 2025, rel=3, gran=token, regime=supervised-offline, prod=N, clusters=C9,C10)
+  title: TokenSkip: Controllable Chain-of-Thought Compression in LLMs
+  key_idea: Learn to skip low-importance CoT tokens.
+  cost: On Qwen2.5-14B-Instruct, reduces reasoning tokens by 40% (313 to 181) on GSM8K with less than 0.4% performance drop
+
+[xu-2025-chain-of-draft] (2025, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C9,C10)
+  title: Chain of Draft: Thinking Faster by Writing Less
+  key_idea: Terse drafts instead of verbose CoT.
+  cost: Matches or surpasses CoT accuracy while using as little as 7.6% of the tokens
+
+[xu-2025-elastic-reasoning] (2025, arXiv, rel=3, gran=token, regime=RL-offline, prod=N, clusters=C9)
+  title: Scalable Chain of Thoughts via Elastic Reasoning
+  key_idea: Budgeted thinking that degrades gracefully under truncation.
+
+[yang-2025-deer-dynamic-early-exit] (2025, arXiv, rel=3, gran=token, regime=training-free, prod=N, clusters=C9)
+  title: Dynamic Early Exit in Reasoning Models
+  key_idea: Stop thinking when a trial answer is confident.
+  cost: Reduces CoT length by 19.1%-80.1% on average while improving accuracy by 0.3%-5.0% across 10 benchmarks and 11 reasoning LLMs
+
+[yang-2025-qwen3] (2025, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C9)
+  title: Qwen3 Technical Report
+  key_idea: Single model with switchable thinking and a thinking budget.
+
+[yang-2025-thinking-optimal-scaling] (2025, NeurIPS 2025, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C9)
+  title: Towards Thinking-Optimal Scaling of Test-Time Compute for LLM Reasoning
+  key_idea: There is an optimal, domain-dependent CoT length.
+
+[zhang-2025-adaptthink] (2025, arXiv, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C9)
+  title: AdaptThink: Reasoning Models Can Learn When to Think
+  key_idea: Constrained RL teaches when to skip thinking.
+  cost: Reduces average response length of DeepSeek-R1-Distill-Qwen-1.5B by 53% and improves accuracy by 2.4% on three math datasets
+
+[zhang-2025-alphaone] (2025, arXiv, rel=3, gran=token, regime=training-free, prod=N, clusters=C9)
+  title: AlphaOne: Reasoning Models Thinking Slow and Fast at Test Time
+  key_idea: Slow-then-fast reasoning schedule controlled by one parameter.
+
+[zhang-2025-asrr] (2025, arXiv, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C9)
+  title: When to Continue Thinking: Adaptive Thinking Mode Switching for Efficient Reasoning
+  key_idea: Suppress thinking but allow implicit self-recovery.
+  cost: Reduces reasoning budget by up to 32.5% (1.5B) and 25.7% (7B) vs GRPO with 1.2% and 0.6% pass@1 loss; up to +21.7% harmless rate on safety benchmarks
+
+[zhang-2025-othink-r1] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C9)
+  title: OThink-R1: Intrinsic Fast/Slow Thinking Mode Switching for Over-Reasoning Mitigation
+  key_idea: Judge-built hybrid dataset for intrinsic fast/slow switching.
+
+[brown-2024-large-language-monkeys] (2024, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C7,C9,C13,C15)
+  title: Large Language Monkeys: Scaling Inference Compute with Repeated Sampling
+  key_idea: Inference-time scaling laws for repeated sampling.
+  cost: SWE-bench Lite: DeepSeek-V2-Coder solves 56% with 250 samples vs 15.9% with one; five cheap samples solve more issues at lower cost than a premium frontier single attempt
+
+[chen-2024-overthinking-o1] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C9)
+  title: Do NOT Think That Much for 2+3=? On the Overthinking of o1-Like LLMs
+  key_idea: Measure and self-train away overthinking on easy problems.
+  cost: Reduces computational overhead while preserving performance on GSM8K, MATH500, GPQA, AIME (no single number in abstract)
+
+[li-2024-early-stopping-self-consistency] (2024, ICLR 2024, rel=3, gran=query, regime=training-free, prod=N, clusters=C9)
+  title: Escape Sky-high Cost: Early-stopping Self-Consistency for Multi-step Reasoning
+  key_idea: Stop self-consistency sampling once answers agree.
+  cost: Reduces average number of CoT samples: MATH -33.8%, GSM8K -80.1%, StrategyQA -76.8%, CommonsenseQA -78.5%, Coin Flip -84.2%, Last Letters -67.4% at comparable performance
+
+[wang-2024-difficulty-adaptive-sc] (2024, NAACL 2025 Findings, rel=3, gran=query, regime=training-free, prod=N, clusters=C7,C9)
+  title: Make Every Penny Count: Difficulty-Adaptive Self-Consistency for Cost-Efficient Reasoning
+  key_idea: Difficulty-aware sample allocation.
+  cost: Consistently surpasses ASC and ESC in cost by a significant margin at comparable performance (six benchmarks)
+
+[wu-2024-inference-scaling-laws] (2024, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C15)
+  title: Inference Scaling Laws: An Empirical Analysis of Compute-Optimal Inference for Problem-Solving with Language Models
+  key_idea: Small model plus smart inference can be compute-optimal.
+  cost: Llemma-7B with the proposed tree search consistently outperforms Llemma-34B across tested inference strategies on MATH
+
+[aggarwal-2023-adaptive-consistency] (2023, EMNLP 2023, rel=3, gran=query, regime=training-free, prod=N, clusters=C7,C9)
+  title: Let's Sample Step by Step: Adaptive-Consistency for Efficient Reasoning and Coding with LLMs
+  key_idea: Adaptive number of samples per question.
+  cost: Reduces sample budget by up to 7.9x with average accuracy drop below 0.1% (17 datasets, three LLMs)
+
+[wang-2022-self-consistency] (2022, ICLR 2023, rel=3, gran=query, regime=training-free, prod=N, clusters=C7,C9)
+  title: Self-Consistency Improves Chain of Thought Reasoning in Language Models
+  key_idea: Majority vote over sampled reasoning paths; agreement doubles as a confidence signal.
+  cost: Accuracy gains reported: GSM8K +17.9%, SVAMP +11.0%, AQuA +12.2% over greedy CoT (cost: multiple samples)
+
+[anthropic-extended-thinking-docs] (2026, Claude Platform documentation, rel=2, gran=query, regime=n/a, prod=N, clusters=C9,C14)
+  title: Extended thinking (Claude Platform docs)
+  key_idea: Fixed thinking-token budgets are being replaced by adaptive thinking plus effort levels.
+
+[ding-2026-calibrate-then-act] (2026, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C9,C12)
+  title: Calibrate-Then-Act: Cost-Aware Exploration in LLM Agents
+  key_idea: Make cost-benefit trade-offs explicit in agent reasoning.
+
+[google-gemini-thinking-docs] (2026, Gemini API documentation, rel=2, gran=query, regime=n/a, prod=N, clusters=C9,C14)
+  title: Gemini thinking (Gemini API docs: thinking levels and budgets)
+  key_idea: Per-request thinking level/budget control on Gemini models.
+
+[deepseekai-2025-deepseek-r1] (2025, arXiv, rel=2, gran=none, regime=RL-online, prod=N, clusters=C8,C9)
+  title: DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning
+  key_idea: RL reasoning and distillation into small models.
+
+[iacobacci-2025-thinking-budget-not-all] (2025, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C9)
+  title: Increasing the Thinking Budget is Not All You Need
+  key_idea: Spend compute on sampling/reflection before longer thinking.
+
+[joey-2025-temporal-predictors-outcome] (2025, arXiv, rel=2, gran=token, regime=supervised-offline, prod=N, clusters=C7,C9)
+  title: Temporal Predictors of Outcome in Reasoning Language Models
+  key_idea: Outcome predictable early in CoT.
+
+[liu-2025-efficient-inference-lrm-survey] (2025, IEEE TPAMI (per Semantic Scholar), rel=2, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: Efficient Inference for Large Reasoning Models: A Survey
+  key_idea: Token-efficient LRM inference survey.
+
+[su-2025-underthinking-overthinking-length] (2025, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C9)
+  title: Between Underthinking and Overthinking: An Empirical Study of Reasoning Length and correctness in LLMs
+  key_idea: Models miscalibrate reasoning length to difficulty.
+
+[team-2025-kimi-k15] (2025, arXiv, rel=2, gran=none, regime=RL-offline, prod=N, clusters=C8,C9)
+  title: Kimi k1.5: Scaling Reinforcement Learning with LLMs
+  key_idea: long2short transfer to cheaper short-CoT reasoning.
+  cost: long2short short-CoT results: 60.8 AIME, 94.6 MATH500, 47.3 LiveCodeBench, outperforming GPT-4o and Claude Sonnet 3.5 by up to +550%
+
+[wang-2025-underthinking-o1] (2025, arXiv, rel=2, gran=token, regime=training-free, prod=N, clusters=C9)
+  title: Thoughts Are All Over the Place: On the Underthinking of o1-Like LLMs
+  key_idea: Penalise premature thought switching.
+
+[yoon-2025-reasoning-models-confidence] (2025, NeurIPS 2025, rel=2, gran=n/a, regime=training-free, prod=N, clusters=C2,C7,C9)
+  title: Reasoning Models Better Express Their Confidence
+  key_idea: Slow thinking improves confidence calibration.
+
+[yue-2025-dont-overthink-survey] (2025, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: Don't Overthink It: A Survey of Efficient R1-style Large Reasoning Models
+  key_idea: R1-style efficiency survey.
+
+[zhu-2025-concise-adaptive-thinking-survey] (2025, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: Towards Concise and Adaptive Thinking in Large Reasoning Models: A Survey
+  key_idea: Adaptive thinking survey.
+
+[li-2024-more-agents-is-all-you-need] (2024, TMLR, rel=2, gran=none, regime=training-free, prod=N, clusters=C9,C12)
+  title: More Agents Is All You Need
+  key_idea: Performance scales with the number of sampled agents under plain voting.
+
+[renze-2024-concise-cot] (2024, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C9,C10)
+  title: The Benefits of a Concise Chain of Thought on Problem-Solving in Large Language Models
+  key_idea: Concise CoT prompting is nearly free except on hard math.
+  cost: CCoT reduced average response length by 48.70% for GPT-3.5 and GPT-4 with negligible impact; average per-token cost reduction 22.67%; GPT-3.5 math penalty 27.69%
+
+[xie-2023-self-eval-guided-decoding] (2023, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C7,C9)
+  title: Self-Evaluation Guided Beam Search for Reasoning
+  key_idea: Self-evaluation as step-level guidance.
+
+[schuster-2022-calm] (2022, NeurIPS 2022, rel=2, gran=token, regime=supervised-offline, prod=N, clusters=C2,C9,C11)
+  title: Confident Adaptive Language Modeling
+  key_idea: Per-token early exit with calibrated quality guarantees.
+  cost: Potential speedup of up to 3x while provably maintaining high performance on three generation tasks
+

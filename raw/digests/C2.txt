@@ -1,0 +1,934 @@
+# C2: 142 records (full detail for rel>=4; one-liners for rel<=3)
+
+[anthropic-2026-advisor-strategy] (2026, Claude blog (Anthropic), rel=5, gran=step, regime=training-free, prod=Y, clusters=C2,C3,C14)
+  title: The advisor strategy: Give Sonnet an intelligence boost with Opus
+  key_idea: Cheap executor runs the loop and calls an expensive advisor only at hard decision points.
+  cost: Sonnet executor + Opus advisor: +2.7 points on SWE-bench Multilingual over Sonnet alone with 11.9% lower cost per agentic task; Haiku + Opus advisor: 41.2% vs 19.7% on BrowseComp, trailing Sonnet solo by 29% but 85% cheaper per task
+  summary: Anthropic's advisor tool lets a cheaper executor model run an agentic task end to end and consult a stronger advisor model mid-task for a plan or correction, all inside one API request, with advisor tokens billed at advisor rates. Vendor benchmarks show quality gains with lower or similar cost, especially for weaker executors.
+  benchmarks: SWE-bench Multilingual, BrowseComp, Terminal-Bench 2.0
+  signals: executor-decided consultation
+
+[farzaneh-2026-tsds-edge-deferral] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C2,C3,C9)
+  title: Think Short, Defer Smart, Act, and Repeat: Calibrated Reasoning and Uncertainty-Aware Deferral for Edge LLM Agents
+  key_idea: Per-action deferral from a small local model to a cloud model inside ReAct loops, with statistical guarantees.
+  cost: Per-episode thinking compute reduced 43%-65% vs deferral-only baselines on HotpotQA, MBPP and household-robot tasks, with certified reward and cloud-call-rate guarantees
+  summary: TSDS targets ReAct agents running on edge devices. A convergence probe stops on-device reasoning once the intended action stabilizes, and a perplexity rule defers uncertain actions to a cloud model; both thresholds are jointly calibrated on episode trajectories with Learn-Then-Test for finite-sample guarantees on reward and cloud-call rate.
+  benchmarks: GSM8K, HotpotQA, MBPP, household robot planning
+  signals: convergence probe, perplexity, Learn-Then-Test calibration
+
+[gao-2026-agentcollab] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C2,C3)
+  title: AgentCollab: A Self-Evaluation-Driven Collaboration Paradigm for Efficient LLM Agents
+  key_idea: Self-evaluated progress triggers escalation to a stronger model mid-trajectory.
+  cost: Consistently improves the accuracy-efficiency Pareto frontier (no single number in abstract)
+  summary: AgentCollab runs a cheap model by default and escalates control to a stronger model only when the agent's own self-reflection indicates it is not making progress, with a difficulty-aware cumulative escalation that allocates more budget after recent failures. The search summary notes that putting the large model on execution rather than planning gave higher accuracy.
+  benchmarks: diverse multi-step agent benchmarks
+  signals: self-reflection progress signal, recent failure signals
+
+[guo-2026-routenlp] (2026, ACL 2026 Industry Track, rel=5, gran=query, regime=hybrid, prod=Y, clusters=C1,C2,C8,C14)
+  title: RouteNLP: Closed-Loop LLM Routing with Conformal Cascading and Distillation Co-Optimization
+  key_idea: Route, cascade, and distil on escalation failures in a closed loop.
+  cost: 8-week enterprise pilot (~5K queries/day): 58% lower inference cost at 91% response acceptance, p99 latency 1,847 ms to 387 ms; 40-85% cost reduction retaining 96-100% quality on a six-task benchmark
+  summary: Closed-loop framework combining a difficulty-aware router, conformal cascading and a loop that clusters escalation failures, distils cheaper models on them and retrains the router. Reports an 8-week enterprise customer-service pilot.
+  benchmarks: six-task finance/customer-service/legal benchmark
+  signals: difficulty-aware router, conformal confidence thresholds, quality signals, escalation failure clusters
+
+[he-2026-coderescue] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C6)
+  title: CodeRescue: Budget-Calibrated Recovery Routing for Coding Agents
+  key_idea: Post-failure recovery routing: cheap retry vs escalate, calibrated to a budget with conformal risk control.
+  cost: In GPT-5.4-nano/GPT-5.4 setting, one CRC-calibrated frontier point exceeds always-escalate solve rate while using 35% of its mean recovery cost (held-out failures from five coding benchmarks)
+  summary: After a coding agent fails, CodeRescue decides whether to spend more cheap-model recovery attempts or to escalate to the expensive model. A supervised router is trained on execution rollouts, and a conformal risk-control layer picks a deployment cost penalty without retraining, giving marginal expected-cost control.
+  benchmarks: five coding benchmarks (held-out failures), five coding benchmarks
+  signals: execution feedback, router trained on rollouts, conformal risk control, router score
+
+[hemadri-2026-r2v-agent] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C7,C8)
+  title: R2V Agent: Teaching SLMs When to Ask for Help
+  key_idea: Calibrated per-step risk router decides when a distilled SLM should hand off to an LLM.
+  cost: 94.3% HumanEval+ success with 0.60% LLM escalation; TextWorld 64.6% to 98.2% at 41.7% escalation; 93.3% TerminalBench at 33.9% LLM calls, about half heuristic-router cost
+  summary: R2V-Agent distills an SLM policy from a teacher LLM (behavior cloning then verifier-guided DPO), then trains a calibrated step-level router on the SLM's residual failures with a CVaR-constrained objective. The router escalates to the LLM only when failure risk warrants, improving the reliability-cost frontier.
+  benchmarks: HumanEval+, TextWorld, TerminalBench
+  signals: process verifier scores, Brier-calibrated failure risk, CVaR objective
+
+[kon-2026-swe-protege] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C2,C3,C8)
+  title: SWE-Prot\'eg\'e: Learning to Selectively Collaborate With an Expert Unlocks Small Language Models as Software Engineering Agents
+  key_idea: Train the small agent to decide when to consult a large expert.
+  cost: Qwen2.5-Coder-7B reaches 42.4% Pass@1 on SWE-bench Verified (+25.4% over prior SLM SOTA) using ~4 expert calls per task and 11% of tokens
+  summary: SWE-Protege post-trains a 7B coding model to remain the decision-maker while learning when to ask a strong expert model for help and how to follow its advice, using SFT on expert-augmented trajectories and RL that penalizes looping and unhelpful consultations. It reaches 42.4% on SWE-bench Verified with sparse expert use.
+  benchmarks: SWE-bench Verified
+  signals: stall detection (learned), selective expert calls
+
+[lei-2026-tacit-switch] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C6)
+  title: TACIT-Switch: Cost-Aware Model Escalation for LLM Agents from Censored Supervision
+  key_idea: Survival-style model of when to switch an agent to a stronger backbone.
+  cost: +7.4-11.1 pp success over task-level, step-level and fixed-prefix routing at comparable cost (simulation); best held-out success on ALFWorld (48.5% with 4B cheap, 45.5% with 9B cheap) and DABench (73.1%)
+  summary: Learns when to permanently hand off an agent trajectory from a cheap to a strong backbone, using interval-censored teacher annotations of when intervention was needed. A mixture-cure threshold model estimates handoff timing; no teacher is needed at deployment.
+  benchmarks: ALFWorld, DABench
+  signals: trajectory risk, task features, teacher-annotated censored intervention times, cumulative trajectory risk
+
+[li-2026-jev-as-a-judge] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: JEV-as-a-Judge: Accept When Confident, Escalate When Unsure
+  key_idea: Accept confident cheap verdicts, escalate uncertain ones.
+  cost: Within 3 points of a SOTA LLM judge at 0.36% of its fee; cascade retains 99% of comparator accuracy at lower cost
+  summary: A decision-only judge provides an economical first-pass evaluation and escalates uncertain cases to a stronger judge; compared against 16 judges with blinded human adjudication.
+  signals: decision-only judge confidence
+
+[liskowski-2026-compositional-online-learning] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=Y, clusters=C2,C5,C10,C14)
+  title: Compositional Online Learning for Semantic Data Processing Systems
+  key_idea: Compose online learners (caching, ordering, cascade routing) at the LLM call boundary in production.
+  cost: Learning components compose to an 11.4x upper bound on per-row LLM cost reduction for a representative conjunction-filter workload, reduced to a realistic ~8x after self-selection, sample-budget shrinkage and selectivity drift
+  summary: Argues that LLM calls in semantic data processing are slow enough to hide online learner updates inside each round-trip, and builds compositional online learning: memoization, an online filter-ordering learner and an online per-batch cascade-routing learner. A production case study in Snowflake Cortex AISQL decomposes per-row LLM cost by component.
+  benchmarks: Cortex AISQL production case study
+  signals: per-call outcomes, filter selectivity, cascade confidence
+
+[liu-2026-adaptive-vlm-routing-cua] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C2,C3)
+  title: Adaptive Vision-Language Model Routing for Computer Use Agents
+  key_idea: Per-action VLM routing with confidence probing in computer-use agents.
+  cost: Projected inference cost reductions up to 78% while staying within 2 points of an all-large-model baseline
+  summary: Adaptive VLM Routing inserts a routing layer between a computer-use agent orchestrator and a pool of VLMs: for each tool call it estimates difficulty, probes a small VLM's confidence and sends the action to the cheapest model meeting a reliability threshold, escalating risky actions. Part of the vLLM Semantic Router project.
+  benchmarks: ScreenSpot-Pro, OpenClaw agent routing benchmark
+  signals: multimodal embedding difficulty, small-VLM confidence probe, retrieved memory
+
+[lyu-2026-differential-reasoning-router] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C2,C9,C14)
+  title: The Differential Reasoning Router: Operationalizing Cost-Aware LLM Annotation in E-commerce
+  key_idea: Route between direct model, reasoning model and humans.
+  cost: In a production e-commerce workflow, reaches accuracy parity with the strongest confidence-based router with more than 60% reasoning-token cost savings
+  summary: For cold-start LLM annotation, estimates separate success probabilities for a direct and a reasoning model and routes easy items directly, uses reasoning where it helps, and escalates likely double failures to humans.
+  benchmarks: production e-commerce annotation workflow
+  signals: per-sample and per-rule success probabilities of direct vs reasoning model
+
+[piatrashyn-2026-redact] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C2,C3,C7)
+  title: ReDAct: Uncertainty-Aware Deferral for LLM Agents
+  key_idea: Per-step uncertainty-based deferral inside an agent loop.
+  cost: Deferring about 15% of decisions to the large model matches exclusive large-model quality at significantly lower cost; search summary reports 64% savings vs GPT-5.2 alone
+  summary: An agent runs a small model by default and defers individual decisions to a large model when the small model's uncertainty exceeds a calibrated threshold. Evaluated in text-based embodied environments.
+  benchmarks: ALFWorld, MiniGrid
+  signals: small-model predictive uncertainty, calibrated threshold, token-level predictive uncertainty
+
+[ray-2026-adaptevolve] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C2,C3)
+  title: AdaptEvolve: Improving Efficiency of Evolutionary AI Agents through Adaptive Model Selection
+  key_idea: Confidence-driven per-step model selection inside evolutionary agent loops.
+  cost: Average 37.9% lower total inference cost while retaining 97.5% of upper-bound accuracy of static large-model baselines
+  summary: AdaptEvolve picks, at each generation step of an evolutionary refinement agent, which model in a pool is capable enough. It uses the model's own generation confidence as a real-time solvability estimate, acting as a confidence-driven cascade.
+  signals: intrinsic generation confidence
+
+[ruan-2026-early-abort-agent-episodes] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C7)
+  title: Doomed from the Start: Early Abort of LLM Agent Episodes via a Recall-Controlled Probe Cascade
+  key_idea: Abort doomed agent trajectories early with guaranteed recall.
+  cost: Saves 1.5-8.8x more compute than best single-gate baseline at 90% recall; up to 60.2% (TextCraft) and 54.9% (WebShop) fewer generated tokens at 90% recall
+  summary: Linear probes on activations predict agent task failure from the first round; a recall-controlled cascade of per-round gates aborts doomed episodes with a certified recall guarantee.
+  benchmarks: TextCraft, WebShop
+  signals: hidden-state failure probes, calibrated per-round thresholds
+
+[son-2026-swe-router] (2026, ICML 2026 Workshop (DL4Code), rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C1,C2,C3,C6)
+  title: SWE-Router: Routing in Multi-turn Agentic Software Engineering Tasks
+  key_idea: Route agentic tasks after a short cheap exploration.
+  cost: Greatly improves cost efficiency while maintaining most of the strong model's performance (no single number in abstract)
+  summary: SWE-Router lets a cheap model run a few exploratory turns on a software engineering task, then reads the partial trajectory to decide whether to continue cheaply or escalate. A Bayes-optimality theorem shows conditioning on the trajectory never hurts.
+  benchmarks: SWE-bench, SWE tasks
+  signals: partial trajectory of cheap model, value-based estimate, value estimate
+
+[wang-2026-boundaryrouter] (2026, arXiv, rel=5, gran=query, regime=training-free, prod=N, clusters=C1,C2,C3,C6,C12)
+  title: Learning Agent Routing From Early Experience
+  key_idea: Route between plain LLM and full agent using early experience.
+  cost: reduces inference time by 60.6% vs agent while improving performance by 28.6% over direct LLM inference
+  summary: BoundaryRouter decides per query whether direct LLM inference suffices or a full agent is needed, using a memory built by running both on a seed set and rubric-guided reasoning over retrieved cases. It introduces RouteBench with in-domain, paraphrased and out-of-domain splits.
+  benchmarks: RouteBench, RouteBench (new)
+  signals: experience memory of seed runs, rubric-guided reasoning, early experience memory
+
+[wei-2026-step-level-cua-cascade] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C7)
+  title: Step-level Optimization for Efficient Computer-use Agents
+  key_idea: Learned stuck and milestone monitors trigger per-step escalation in GUI agents.
+  summary: Observes that computer-use trajectories are heterogeneous, with errors concentrated at a few high-risk moments, and proposes an event-driven step-level cascade that runs a small policy by default and escalates when learned monitors detect stalls or semantic drift. The design layers on existing agents without retraining the large model.
+  benchmarks: computer-use benchmarks
+  signals: Stuck Monitor (progress stall), Milestone Monitor (semantic drift checkpoints)
+
+[wu-2026-rlm-cascade] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=Y, clusters=C2,C3,C14)
+  title: RLM-Cascade: Response-Level Speculative Decoding for Cost-Efficient LLM API Serving
+  key_idea: Response-level draft-and-verify proxy for agent turns.
+  cost: On a Claude Code agentic workload: 88.8% draft-use over 125 production requests, 45.8% lower API cost vs direct Opus, p50 latency 2,026 ms vs 3,698 ms; 100% vs 95% pass on a 20-task benchmark
+  summary: A proxy layer where a cheap draft model writes each response and a strong model accepts, enhances or is skipped depending on a complexity router; schema-critical tool-selection turns bypass the pipeline. Deployed as an enterprise component on coding-agent traffic (small sample).
+  benchmarks: 125 production Claude Code requests, 20-task Code/Math/Instruct set
+  signals: rule-based complexity router, verify model accept/enhance
+
+[zhang-2026-budget-aware-agentic-routing] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C1,C2,C3)
+  title: Budget-Aware Agentic Routing via Boundary-Guided Training
+  key_idea: Per-step cheap/expensive routing trained with boundary-guided RL.
+  cost: Matches strong routing baselines at substantially lower cost (no single number in abstract)
+  summary: Budget-Aware Agentic Routing (Microsoft) chooses cheap vs expensive model at each agent step under strict per-task budgets, using boundary-guided SFT data and Boundary-Guided Policy Optimization to handle sparse rewards.
+  signals: boundary policies (always-small/always-large), per-task budget, RL rewards, boundary policies (always-small vs always-large)
+
+[zhang-2026-hera-device-cloud] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C2,C3)
+  title: Hera: Learning Long-Horizon Coordination for Device-Cloud Collaborative LLM Agents
+  key_idea: Per-step device/cloud routing trained by imitation then cost-aware RL.
+  cost: 92.5% of cloud-only success with cloud use in only 46.3% of steps
+  summary: Hera coordinates device and cloud LLM agents step by step, first learning by imitation from labels based on whether the device agent's action agrees with the cloud's, then with cost-aware RL that favors fewer future cloud calls. It keeps most cloud-only success while halving cloud usage.
+  benchmarks: ALFWorld, WebShop, AppWorld
+  signals: device-cloud action agreement labels, expected return, future cloud calls
+
+[fan-2025-imad] (2025, AAAI 2026, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7,C12)
+  title: iMAD: Intelligent Multi-Agent Debate for Efficient and Accurate LLM Inference
+  key_idea: Escalate from single agent to debate only when it is likely to help.
+  cost: Up to 92% token reduction with up to 13.5% accuracy improvement
+  summary: iMAD triggers multi-agent debate only when a lightweight classifier on self-critique features predicts debate will fix a wrong single-agent answer, avoiding debate costs and harmful overturns on easy queries.
+  benchmarks: six (visual) QA datasets
+  signals: 41 self-critique hesitation features, debate-decision classifier
+
+[gao-2025-single-or-multi-agent-why-not-both] (2025, arXiv, rel=5, gran=query, regime=training-free, prod=N, clusters=C2,C12)
+  title: Single-agent or Multi-agent Systems? Why Not Both?
+  key_idea: Cascade requests between single-agent and multi-agent systems.
+  cost: Hybrid cascading between MAS and single-agent improves accuracy 1.1-12% while reducing deployment cost up to 20%
+  summary: An empirical comparison of multi-agent and single-agent systems across agentic applications finds that MAS advantages shrink as frontier LLMs improve. Proposes request cascading between single-agent and multi-agent systems, gaining accuracy while cutting cost up to 20%.
+  benchmarks: popular agentic applications
+  signals: error-prone agent detection
+
+[lee-2025-cope-llm-collaboration-planning] (2025, TMLR 2026, rel=5, gran=step, regime=training-free, prod=N, clusters=C2,C3)
+  title: Efficient LLM Collaboration via Planning
+  key_idea: Plans as a cheap intermediate in a small/large planner-executor cascade.
+  cost: Comparable performance to large proprietary models with drastically reduced inference API cost
+  summary: COPE lets small and large models alternate as planner and executor in a multi-stage cascade, with plans acting as a lightweight intermediate that guides the executor. It reaches large-model performance on math, code, open-ended and agent tasks at much lower API cost.
+  benchmarks: math reasoning, code generation, open-ended tasks, agent tasks
+  signals: plan quality / confidence in cascade
+
+[lee-2025-steer] (2025, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C2,C3,C9)
+  title: Confidence-Guided Stepwise Model Routing for Cost-Efficient Reasoning
+  key_idea: Step-level SLM/LLM routing on internal confidence.
+  cost: Up to +20% accuracy with 48% fewer FLOPs vs using only the larger model on AIME
+  summary: Routes each reasoning step between a small and a large model based on the small model's logit confidence before it generates the step, with no trained router.
+  benchmarks: AIME, multi-hop QA, planning
+  signals: small-model logit confidence before each reasoning step
+
+[nie-2025-foundation-model-programs] (2025, COLM 2025, rel=5, gran=step, regime=bandit-online, prod=N, clusters=C2,C3,C5)
+  title: Resource-efficient Inference with Foundation Model Programs
+  key_idea: Per-module backend selection in model programs, learned online.
+  cost: Up to 98% resource savings with minimal accuracy loss vs monolithic multimodal models
+  summary: Compiles a task into a program whose modules call foundation models, then learns an online policy that picks cheap or expensive backends per module per input.
+  benchmarks: two streaming VQA tasks
+  signals: per-module backend choice, ground-truth feedback stream
+
+[si-2025-ccpo] (2025, arXiv, rel=5, gran=step, regime=RL-offline, prod=N, clusters=C2,C3,C6)
+  title: Conformal Constrained Policy Optimization for Cost-Effective LLM Agents
+  key_idea: Cost-minimizing multi-model agent orchestration with conformal reliability constraints.
+  cost: Up to 30% cost reduction vs other cost-aware baselines and LLM-guided methods without compromising reliability on two multi-hop QA benchmarks
+  summary: CCPO trains an orchestration policy that runs models and tools of different cost in sequence, minimizing cost subject to a user-specified reliability level formalized with conformal prediction. It combines constrained policy optimization with off-policy RL and online conformal prediction.
+  benchmarks: two multi-hop QA benchmarks
+  signals: conformal threshold, cost-aware score
+
+[yarullin-2025-intercom-escalation] (2025, Fin.ai research blog (Intercom), rel=5, gran=step, regime=supervised-offline, prod=Y, clusters=C2,C8,C14)
+  title: To escalate, or not to escalate, that is the question
+  key_idea: Distill a step of the agent into a small classifier with LLM fallback.
+  cost: Company-reported: custom ModernBERT handles 90% of cases with LLM fallback for 10%; >98% escalation accuracy; latency -0.5s; cost per resolution ~-3%
+  summary: Intercom replaced an LLM escalation decision in Fin with a multi-head ModernBERT trained on 4M production examples with LLM labels, falling back to the LLM on uncertain cases, and reports higher resolution rate in an A/B test.
+  benchmarks: production A/B test
+  signals: conversation history, escalation guidelines, LLM-generated labels
+
+[dekoninck-2024-cascade-routing] (2024, ICML (per Semantic Scholar), rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C15)
+  title: A Unified Approach to Routing and Cascading for LLMs
+  key_idea: Cascade routing: provably optimal unification of routing and cascading.
+  cost: Cascade routing consistently outperforms routing or cascading alone by a large margin (no single number in abstract)
+  summary: Derives an optimal cascading strategy, proves optimality of an existing routing strategy, and unifies them as cascade routing, which can route and then escalate. Analysis identifies quality-estimator accuracy as the key factor for success of any model selection scheme.
+  signals: quality estimator, cost estimator, quality estimates, cost estimates
+
+[gandhi-2024-budgetmlagent] (2024, AIMLSystems 2024, rel=5, gran=step, regime=training-free, prod=N, clusters=C2,C3)
+  title: BudgetMLAgent: A Cost-Effective LLM Multi-Agent system for Automating Machine Learning Tasks
+  key_idea: Cheap base model with cascades and rare expert calls for planning.
+  cost: 94.2% cost reduction ($0.931 to $0.054 per run) with 32.95% vs 22.72% success rate compared to GPT-4 single agent on MLAgentBench
+  summary: BudgetMLAgent builds a multi-agent system around free or cheap base models, using profiling, retrieval of past observations, LLM cascades and occasional ask-the-expert calls to GPT-4 for planning. It beats a GPT-4 single agent on MLAgentBench at a small fraction of the cost.
+  benchmarks: MLAgentBench
+  signals: cascade failure, ask-the-expert calls
+
+[jung-2024-trust-or-escalate] (2024, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Trust or Escalate: LLM Judges with Provable Guarantees for Human Agreement
+  key_idea: Cascade of judges with provable human-agreement guarantees.
+  cost: On a Chatbot Arena subset where GPT-4 almost never reaches 80% human agreement, cascaded selective evaluation with models like Mistral-7B guarantees over 80% agreement at almost 80% coverage
+  summary: Selective LLM-as-judge evaluation that trusts a judge only when its calibrated confidence is high, providing a provable human-agreement guarantee. Cascaded Selective Evaluation starts with cheap judges and escalates to stronger ones.
+  benchmarks: Chatbot Arena subset, Chatbot Arena
+  signals: judge confidence (Simulated Annotators), calibrated thresholds, judge confidence, simulated annotators, conformal-style guarantee
+
+[kapoor-2024-ai-agents-that-matter] (2024, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C2,C12,C13)
+  title: AI Agents That Matter
+  key_idea: Evaluate agents on the cost-accuracy Pareto frontier, not accuracy alone.
+  cost: Simple baselines match complex SOTA agents at far lower cost; the paper designs a joint cost-accuracy optimization that greatly reduces cost while maintaining accuracy (search summary cites 50x cost spread for similar accuracy)
+  summary: Critiques agent benchmarking: accuracy-only leaderboards produce needlessly costly agents, and simple baselines (retry, warming, escalation) sit on the cost-accuracy Pareto frontier. Also covers holdout sets, overfitting and reproducibility, and argues for jointly optimizing cost and accuracy.
+  benchmarks: agent benchmarks incl. HumanEval, HumanEval, other agent benchmarks (see paper)
+  signals: cost, accuracy
+
+[nie-2024-online-cascade-learning] (2024, ICML 2024, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C8)
+  title: Online Cascade Learning for Efficient Inference over Streams
+  key_idea: Cascade learned online by imitating LLM demonstrations.
+  cost: Parallels LLM accuracy while cutting inference costs by as much as 90% across four benchmarks
+  summary: Learns a cascade online from a stream, from logistic regression up to an LLM, treating it as imitation learning where small models imitate LLM outputs over time. Provides a no-regret algorithm and robustness to distribution shift.
+  benchmarks: four stream benchmarks, four stream-processing text benchmarks
+  signals: deferral policy, LLM demonstrations, deferral policy confidence
+
+[sun-2024-adaswitch] (2024, EMNLP 2024, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3)
+  title: AdaSwitch: Adaptive Switching between Small and Large Agents for Effective Cloud-Local Collaborative Learning
+  key_idea: Local small agent escalates individual reasoning steps to a cloud LLM when it detects its own errors.
+  cost: Competitive with cloud agent on some tasks while using much less computational overhead
+  summary: A small local agent handles simple reasoning steps and, when it introspectively detects an error, asks a larger cloud agent to take over that step. The step-level switching improves the local agent substantially and sometimes approaches the cloud agent at much lower cost.
+  benchmarks: 7 benchmarks: mathematical reasoning, complex QA
+  signals: self-detected error by local agent
+
+[abdollahi-2026-hdlforge] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C2,C3)
+  title: HDLFORGE: A Two-Stage Multi-Agent Framework for Efficient Verilog Code Generation with Adaptive Model Escalation
+  key_idea: Diagnostics-gated escalation from medium to ultra-large models in a multi-agent coding pipeline.
+  cost: 91.2% and 91.8% Pass@1 on VerilogEval Human/V2 with roughly 50% lower median latency
+  summary: HDLFORGE runs a medium-sized coder by default and escalates to an ultra-large model only when cheap diagnostics (compilation, lint, smoke tests) give a low calibrated score. A formal agent turns bounded-model-checking traces into micro-tests.
+  benchmarks: VerilogEval Human, VerilogEval V2, RTLLM
+  signals: compile/lint/smoke-test diagnostics, calibrated score
+
+[basu-2026-w5h2-intent-caching] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C10)
+  title: Why Agent Caching Fails and How to Fix It: Structured Intent Canonicalization with Few-Shot Learning
+  key_idea: Key agent caches on canonicalized structured intent, with a local-first cascade.
+  cost: intent matching 91.1% on MASSIVE in ~2 ms vs 37.9% for GPTCache and 68.8% for a 20B LLM at 3,447 ms; a five-tier cascade handles 85% of interactions locally, projecting 97.5% cost reduction
+  summary: Argues agent caches fail because surface similarity misses task intent; decomposes requests into a structured intent (W5H2) predicted by a few-shot SetFit classifier and keys the cache on it, inside a multi-tier cascade with risk-controlled selective prediction guarantees.
+  benchmarks: MASSIVE, NyayaBench v2
+  signals: structured intent decomposition (W5H2), SetFit few-shot classifier, risk-controlled selective prediction
+
+[bouchard-2026-escalation-decision-theory] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: Is Escalation Worth It? A Decision-Theoretic Characterization of LLM Cascades
+  key_idea: Duality-based frontier characterization for cascades.
+  cost: A lightweight pre-generation router beats the best cascade policy on 4 of 5 datasets (MATH, MMLU, TriviaQA, SimpleQA, LiveCodeBench), eight models
+  summary: Decision-theoretic analysis of LLM cascades via constrained optimization and duality: characterizes the cost-quality frontier of two-model and k-model threshold cascades and finds long fixed chains underperform the pairwise envelope.
+  benchmarks: MATH, MMLU, TriviaQA, SimpleQA, LiveCodeBench
+  signals: confidence, shadow prices, confidence threshold
+
+[chang-2026-cascadedebate] (2026, arXiv, rel=4, gran=query, regime=hybrid, prod=N, clusters=C2,C12)
+  title: CascadeDebate: Multi-Agent Deliberation for Cost-Aware LLM Cascades
+  key_idea: Deliberate cheaply before escalating.
+  cost: Outperforms single-model cascades and standalone multi-agent systems by up to 26.75%; online threshold optimiser gives 20.98-52.33% relative gains over fixed policies
+  summary: Inserts a small multi-agent deliberation at each tier's escalation boundary so uncertain cases can be resolved by consensus before paying for a larger model or human. An online optimiser adjusts thresholds.
+  benchmarks: five benchmarks in science, medicine, general knowledge
+  signals: confidence, multi-agent consensus
+
+[chatrath-2026-ready] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C2,C7,C13)
+  title: READY or Not: Reliable Enterprise Agent Deployment
+  key_idea: Qualify agents by min-cost oversight policy at a reliability target.
+  cost: Two systems 0.3 points apart in autonomous accuracy need 39.2% vs 29.6% human review to reach 76% reliability
+  summary: Framework to qualify agents for enterprise deployment by measuring reliability and operating cost of the human-AI system under candidate oversight policies, selecting the cheapest policy that meets a reliability target, and statistically qualifying it on held-out cases.
+  benchmarks: clinical-audit case study (16 agent systems, 750 cases)
+  signals: reliability target, human oversight policy, cost
+
+[deng-2026-cfrc-residual-completion-handoffs] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C2,C3)
+  title: Do Not Restart: Residual Completion for Stateful Agent Handoffs
+  key_idea: Hand off only the residual task with commitment contracts, not a restart.
+  cost: Comparable macro accuracy to strong full-task agents at 22.0%-34.6% mean per-surface cost
+  summary: When routers or cascades hand a tool agent's task to another model mid-way, CFRC freezes a contract of accepted progress and completed effects so the successor only completes the residual, admitting execution when the remainder is covered. It keeps accuracy at a fraction of full-task cost.
+  benchmarks: five tool-agent environments
+  signals: residual contract of accepted progress
+
+[dip-2026-sevra-selective-verification] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7,C9)
+  title: Think Again or Think Longer? Selective Verification for Budget-Aware Reasoning
+  key_idea: Tune initial budget first, then selectively verify.
+  cost: MATH: 76.3% vs 75.5% for always-verify with 26.8% fewer post-generation tokens; GSM8K: verifies 3.0% of examples, accuracy 93.4% to 94.5%, 91.2% fewer verification tokens; a longer initial solve matches with fewer tokens
+  summary: A serving-layer gate decides whether to keep a solver's answer or invoke verification. Finds selective verification helps but tuning the initial budget first is often cheaper.
+  benchmarks: MATH, GSM8K, CommonsenseQA
+  signals: serving-visible attempt state, recoverability gate
+
+[dong-2026-llm-shepherding] (2026, arXiv, rel=4, gran=token, regime=supervised-offline, prod=N, clusters=C1,C2,C9)
+  title: Pay for Hints, Not Answers: LLM Shepherding for Cost-Efficient Inference
+  key_idea: Buy a partial LLM hint instead of a full answer.
+  cost: Reduces costs by 42-94% vs LLM-only on GSM8K, CNK12, HumanEval, MBPP; up to 2.8x cost reduction vs state-of-the-art routing and cascading at matched accuracy
+  summary: Requests only a short prefix of the LLM response as a hint for the small model, generalising routing and cascading. A two-stage predictor decides whether a hint is needed and how many tokens to buy.
+  benchmarks: GSM8K, CNK12, HumanEval, MBPP
+  signals: predicted need for hint, hint length
+
+[dou-2026-conformal-cascade] (2026, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Conformal Cascade: Distribution-Free Accuracy Guarantees for Multi-Tier LLM Inference
+  key_idea: Conformal set size as a guaranteed deferral rule.
+  cost: Strictly improves over strongest calibration-tuned heuristic cascade on most family-benchmark pairs (18 MC benchmarks); on easy benchmarks most queries stay on the small model at no accuracy cost
+  summary: Defers whenever the calibrated conformal prediction set at a tier contains more than one answer, giving a distribution-free finite-sample accuracy guarantee for the cascade. Cost is characterised as a function of the risk level.
+  benchmarks: 18 multiple-choice benchmarks
+  signals: conformal prediction set size
+
+[duy-2026-online-l2d-varying-experts] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5)
+  title: Online Learning-to-Defer with Varying Experts
+  key_idea: Learning-to-defer under bandit feedback with a time-varying expert pool.
+  summary: Introduces an online multiclass learning-to-defer algorithm for streaming data where the pool of experts changes and feedback is observed only for the chosen action. Gives regret bounds for true deferral loss that scale with the number of models and experts.
+  signals: model score, queried-action bandit feedback
+
+[huang-2026-rlcascaderouter] (2026, arXiv, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C1,C2,C6)
+  title: RLCascadeRouter: Quality-Estimator-Free Cascade Routing via Reinforcement Learning
+  key_idea: RL cascade routing without explicit quality estimators.
+  summary: Formulates cascade routing as an MDP with stop and model-selection actions and optimises the performance-cost objective directly with RL, avoiding separate quality estimators. Supports unseen models without retraining.
+  benchmarks: LLMRouterBench (ten benchmarks), ten LLMRouterBench benchmarks
+  signals: observed responses, trajectory returns
+
+[hussain-2026-coverage-illusion-rag] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=Y, clusters=C2,C6,C10,C14)
+  title: The Coverage Illusion: From Pre-retrieval Routing Failure to Post-retrieval Cascades in a Production RAG System
+  key_idea: Escalate pipeline steps only after cheap steps fail on real traffic.
+  cost: Post-retrieval cascade: +0.140 Composite Overall vs Always-HyDE, 31.8% lower latency, 72.2% of real queries served without LLM augmentation
+  summary: Case study on a production RAG system showing synthetic queries overstate the need for LLM query augmentation (90% vs 27.8% on real traffic). A cheapest-first post-retrieval cascade escalates only when retrieval fails.
+  benchmarks: Danish National Encyclopedia production traffic (20,000 query-workflow pairs), 20,000 query-workflow pairs from production traffic
+  signals: retrieval returned no documents, retrieval result emptiness
+
+[kapoor-2026-trim-stepwise-routing] (2026, arXiv, rel=4, gran=step, regime=hybrid, prod=N, clusters=C2,C3,C9)
+  title: TRIM: Hybrid Inference via Targeted Stepwise Routing in Multi-Step Reasoning Tasks
+  key_idea: Escalate only the critical steps (as flagged by a PRM) to the big model.
+  cost: On MATH-500 simplest threshold policy gives 5x higher cost efficiency than prior routing methods; advanced policies match the strong model using 80% fewer expensive-model tokens; up to 6x higher cost efficiency on AIME
+  summary: TRIM routes only the reasoning steps that are likely to derail a solution to a large model, letting a small model write routine continuations. A PRM flags risky steps, and policies range from simple thresholds to long-horizon policies that reason about accuracy-cost trade-offs under step-correctness uncertainty.
+  benchmarks: MATH-500, AIME
+  signals: process reward model score, step-level uncertainty, budget
+
+[khaled-2026-pyramid-moa] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C12)
+  title: Pyramid MoA: A Probabilistic Framework for Cost-Optimized Anytime Inference
+  key_idea: Anytime-computation escalation rule for hierarchical mixture-of-agents.
+  cost: Up to 42.9% compute savings on GSM8K/MMLU while nearly matching the 68.1% Oracle baseline; zero-shot transfer to HumanEval and MATH 500
+  summary: Frames cascades as anytime algorithms and builds a hierarchical mixture-of-agents with a decision-theoretic escalation rule derived from value-of-computation theory. Also finds that passing small-model reasoning upward can help or hurt the large model depending on correctness.
+  benchmarks: MBPP, GSM8K, MMLU, HumanEval, MATH 500
+  signals: value of computation, router confidence
+
+[koster-2026-memboost] (2026, ICML MemFM Workshop 2026, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C10)
+  title: MemBoost: A Memory-Boosted Framework for Cost-Aware LLM Inference
+  key_idea: Memory-backed answer reuse plus cost-aware escalation.
+  summary: MemBoost lets a cheap model answer using retrieved past answers and supporting information, reuses answers when possible, grows memory continuously and escalates hard or uncertain queries to a stronger model. It reports large reductions in large-model calls at near strong-model quality.
+  benchmarks: simulated interactive workloads
+  signals: retrieved memory relevance, uncertainty-based escalation
+
+[kotte-2026-ucci] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C2,C7)
+  title: UCCI: Calibrated Uncertainty for Cost-Optimal LLM Cascade Routing
+  key_idea: Calibrate first, then threshold: cost-optimal escalation with guarantees.
+  cost: Cuts inference cost by 31% (95% CI 27-35%) at micro-F1 0.91 on a production NER workload of 75,000 queries (4B/12B LLMs); ECE from 0.12 to 0.03
+  summary: Calibrates token-margin uncertainty into per-query error probabilities with isotonic regression and picks the escalation threshold by constrained cost minimisation. Evaluated on a production named-entity workload, beating entropy thresholds, split-conformal routing and FrugalGPT-style thresholds.
+  benchmarks: production NER workload
+  signals: token margin uncertainty, isotonic calibration
+
+[lee-2026-dart] (2026, EMNLP 2026 Findings, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C9)
+  title: DART: Draft-Agreement Routing for Training-Free Adaptive Thinking Budgets in Hybrid Reasoning Models
+  key_idea: Draft agreement decides think vs not, entropy sets the budget.
+  cost: Preserves or improves always-thinking accuracy while cutting thinking tokens by 32-73%; up to +9.0 points on Olympiad math and +22.5 on code
+  summary: Samples two cheap no-think drafts and answers directly if they agree; otherwise predicts a thinking budget from draft entropy. Training-free and works with API-only models.
+  benchmarks: Olympiad-level math, code
+  signals: agreement of two no-think drafts, draft entropy
+
+[liao-2026-hyfunc] (2026, KDD 2026, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C11)
+  title: HyFunc: Accelerating LLM-based Function Calls for Agentic AI through Hybrid-Model Cascade and Dynamic Templating
+  key_idea: Large model plans, small model emits the tool call.
+  cost: Inference latency 0.828 s, outperforming all baselines, with 80.1% on BFCL
+  summary: For function calling, a large model compresses intent into one soft token that guides a retriever and a small prefix-tuned model to produce the call, with templated boilerplate injected in vLLM.
+  benchmarks: BFCL
+  signals: soft-token intent from large model
+
+[moslem-2026-cluster-route-escalate] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2)
+  title: Cluster, Route, Escalate: Cascaded Framework for Cost-Aware LLM Serving
+  key_idea: Cluster-level routing followed by QE-triggered escalation.
+  cost: Retains 97-99% of the strongest model's accuracy while reducing time per output token
+  summary: Stage one clusters queries and assigns each cluster its most cost-effective model under a tunable budget; stage two escalates outputs judged low-quality by a quality estimator. Needs only task-correctness labels and adapts to model pool changes.
+  signals: query clusters, quality estimation
+
+[moslem-2026-routing-cascading-survey] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C2,C5,C15)
+  title: Dynamic Model Routing and Cascading for Efficient LLM Inference: A Survey
+  key_idea: Most up-to-date taxonomy of routing and cascading.
+  summary: Systematic survey of multi-LLM routing and cascading across independently trained models, organized by paradigm (difficulty, preferences, clustering, uncertainty, RL, multimodality, cascading). Adds a conceptual framework for characterizing routing systems and discusses trade-offs.
+
+[rajput-2026-cheap-verifiers-blind-spots] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7,C8)
+  title: Cheap Verifiers, Large Blind Spots: Measuring the Reliability Cost of Cost-Saving Cascades
+  key_idea: Metrics computed through a cheap verifier cannot certify a cascade.
+  cost: Frontier verifier drives blind spot to ~0.05 but escalates 46% of hard-MATH queries vs a 39% true error rate; cascade dashboard shows flat 3% error while true error swings up to 32%
+  summary: Measures self-improving cascades where the cheap model is fine-tuned on verifier rejections. Finds verifier blind spots grow with student capability, corrective fine-tuning collapses the student, and in-loop metrics hide real degradation.
+  benchmarks: MATH
+  signals: verifier acceptance
+
+[shaikh-2026-bayesian-self-escalation] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C7)
+  title: Knowing When to Ask for Help: Bayesian Self-Escalation in Hierarchical LLM Agents
+  key_idea: Escalate mid-reasoning via optimal stopping on a learned competence belief.
+  cost: On a Qwen2.5-Coder 1.5B->7B code cascade (MBPP, 257 tasks) the escalation frontier dominates post-hoc routing at equal cost
+  summary: Treats intra-generation delegation as Bayesian optimal stopping over a learned belief about eventual task success, and proves the optimal policy is a time-varying threshold with regret and sample guarantees. Validated in simulation and a small real code cascade.
+  benchmarks: MBPP, MBPP (Qwen2.5-Coder 1.5B to 7B cascade), simulation
+  signals: learned competence posterior during generation, learned competence posterior
+
+[shankar-2026-task-cascades] (2026, SIGMOD 2026, rel=4, gran=query, regime=hybrid, prod=N, clusters=C2,C4)
+  title: Task Cascades for Efficient Unstructured Data Processing
+  key_idea: Cascade over (model, input slice, surrogate task).
+  cost: At 90% target accuracy, reduces end-to-end cost by an average of 36% vs model cascades across eight real-world document tasks
+  summary: Generalises model cascades by also varying the document portion and the operation at each stage, with an LLM agent proposing simplified or related tasks. Offers statistical accuracy guarantees.
+  benchmarks: eight document processing tasks
+  signals: proxy-model confidence, agent-generated surrogate tasks
+
+[si-2026-policy-guided-stepwise-routing] (2026, arXiv, rel=4, gran=step, regime=RL-online, prod=N, clusters=C2,C3,C9)
+  title: Policy-Guided Stepwise Model Routing for Cost-Effective Reasoning
+  key_idea: Small RL control policy for stepwise model routing.
+  summary: Formulates routing intermediate CoT states to models of different sizes as constrained decision making, solved with a small RL-trained control policy plus threshold calibration, avoiding a large PRM. It improves the accuracy-cost trade-off over handcrafted routers on open and closed models.
+  benchmarks: GSM8K, MATH500, OmniMath
+  signals: CoT state, threshold calibration
+
+[together-2026-deepswe-cascade-deepseek-gpt] (2026, Together AI blog, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C3,C7,C13)
+  title: DeepSeek V4 Pro 0813 vs GPT-5.6 Sol on DeepSWE: Cost, Coding, and Routing
+  key_idea: For agentic coding, a verifier-gated cascade (cheap model, escalate on failing tests) dominates either model alone.
+  cost: Cascade (DeepSeek V4 Pro first, escalate to GPT-5.6 Sol on test failure): 83.0% of DeepSWE tasks at $3.35/task vs Sol alone 72.7% at $8.37 (10 pts better, 60% cheaper); 904 rollouts (vendor-reported)
+  summary: Compares a cheap open model and a frontier closed model over 904 DeepSWE agent rollouts, reporting pass@k, cost, steps and regressions. The cheap model's pass@4 exceeds the frontier model's, and a test-gated cascade that escalates only on failing tests beats both in accuracy and cost; the frontier model's failures more often break already-passing tests.
+  benchmarks: DeepSWE
+  signals: unit-test pass/fail
+
+[together-2026-deepswe-cascade-glm-flash] (2026, Together AI blog, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C8,C13)
+  title: GLM-5.3 vs. GLM-5.3 Flash on DeepSWE: Cost, Coding, and Routing
+  key_idea: Distillation mostly costs consistency, which retries and verifier-gated escalation can buy back cheaply.
+  cost: Cascade (GLM-5.3 Flash first, escalate to GLM-5.3 when tests reject): 80.9% of DeepSWE tasks at $1.70 vs GLM-5.3 alone 69.0% at $3.99 (57% lower cost); Flash 17x cheaper per rollout (vendor-reported)
+  summary: Evaluates a distilled Flash model against its parent on DeepSWE: the gap is mainly first-try reliability (5.6 pts at pass@1, 2.6 pts at pass@4), the Flash solves 93 of the parent's 99 solved tasks, but breaks passing tests slightly more often. A test-gated cascade from Flash to the parent beats both.
+  benchmarks: DeepSWE
+  signals: unit-test pass/fail
+
+[yang-2026-protocol-routing-cost-aware] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7,C12)
+  title: LLMs Can Predict Failure Risk, But Struggle to Predict Which Collaboration Protocol Pays Off: Cost-Aware Protocol Routing Across Reasoning Tasks
+  key_idea: Predicting failure is easy; predicting which collaboration pays off is hard.
+  cost: Self-confidence gate reaches 78.0% solve at 45K tokens vs 73.8% at 71.3K for a frozen gpt-oss-120b router
+  summary: Runs every problem under four protocols (direct, self-correction, planner-executor-reviewer, multi-agent deliberation) to study when to pay for collaboration. LLM probes predict baseline failure well (0.88 AUROC) but struggle to predict which collaboration protocol helps; routers tend to under- or over-escalate.
+  benchmarks: 4,181 competition math problems, biology and science benchmarks
+  signals: post-answer failure probe, self-confidence gate, failure-risk probe
+
+[zeng-2026-learning-to-seek-help] (2026, arXiv, rel=4, gran=step, regime=RL-offline, prod=N, clusters=C2,C3)
+  title: Learning to Seek Help: Dynamic Collaboration Between Small and Large Language Models
+  key_idea: Learned mid-reasoning help requests from small to large model.
+  summary: An SLM learns when and how to request help from an LLM during multi-step reasoning, and the LLM gives adaptive feedback. Stronger SLMs become more self-reliant and the learned strategies transfer to unseen LLMs.
+  signals: SLM learned help-request policy
+
+[zhang-2026-cauc] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Calibration-Aware Uncertainty Cascades for Efficient Heterogeneous Model Collaboration
+  key_idea: Per-model calibration gives cascade thresholds a common reliability scale.
+  cost: Average relative accuracy +1.9% over strong-model-only inference while avoiding ~47% of strong-model calls across six language benchmarks
+  summary: Calibrates each model's confidence separately so that one threshold has a selective-risk meaning across heterogeneous models, then chooses accept, escalate or combine policies on validation data.
+  benchmarks: six language benchmarks, image classification benchmarks
+  signals: per-model calibrated confidence
+
+[zhang-2026-corea] (2026, EACL 2026, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C2,C7)
+  title: Confidence-Calibrated Small-Large Language Model Collaboration for Cost-Efficient Reasoning
+  key_idea: RL-calibrated verbalised confidence for SLM-to-LLM deferral.
+  cost: Reduces cost by 21.5% and 16.8% on out-of-domain math and non-math datasets vs LLM alone, with absolute pass@1 drop within 2%
+  summary: Cascades a small model that outputs an answer plus verbalised confidence with a large model, deferring low-confidence questions. RL with a calibration reward improves both reasoning and confidence calibration of the small model.
+  signals: verbalized confidence (RL-calibrated)
+
+[chuang-2025-confident-or-seek-stronger] (2025, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C2,C7,C13)
+  title: Confident or Seek Stronger: Exploring Uncertainty-Based On-device LLM Routing From Benchmarking to Generalization
+  key_idea: Large benchmark of UQ-based SLM-to-LLM escalation.
+  summary: Benchmarks uncertainty-based routing from on-device small models to LLMs across 1500+ settings, finding that uncertainty-correctness alignment matters most and depends on SLM and UQ method. Proposes a calibration-data pipeline for generalising routing thresholds.
+  benchmarks: 1500+ settings
+  signals: uncertainty quantification methods, calibration data, uncertainty quantification
+
+[jiang-2025-cascadia] (2025, arXiv, rel=4, gran=query, regime=hybrid, prod=N, clusters=C2,C11)
+  title: Cascadia: An Efficient Cascade Serving System for Large Language Models
+  key_idea: Bi-level co-optimisation of cascade deployment and routing policy.
+  cost: Up to 4x (2.3x avg) tighter latency SLOs and up to 5x (2.4x avg) higher throughput while maintaining target quality vs single-model and cascade-serving baselines
+  summary: A serving system that jointly optimises GPU allocation and parallelism for each model in a cascade (MILP) and the routing thresholds (Chebyshev-guided search). Targets latency-quality trade-offs under real workload heterogeneity.
+  benchmarks: diverse workload traces
+  signals: workload traces, routing thresholds, resource allocation
+
+[lee-2025-online-conformal-abstention] (2025, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C7)
+  title: Online Conformal Abstention for Factuality Control Under Adversarial Bandit Feedback
+  key_idea: Online risk-controlled answer/abstain gating learned from partial user feedback with FDR guarantees.
+  summary: Proposes ExAUL, an online conformal abstention method that controls false discovery rate when the deployed system only receives partial (thumbs-style) feedback on answered queries, possibly from a non-stationary or adversarial stream. A conversion lemma turns bandit regret into an FDR bound, and a feedback-unlocking trick extracts extra signal from the abstention structure.
+  signals: thumbs up/down partial feedback, confidence score
+
+[lu-2025-car-certainty-routing] (2025, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C9)
+  title: Prolonged Reasoning Is Not All You Need: Certainty-Based Adaptive Routing for Efficient LLM/MLLM Reasoning
+  key_idea: Cascade from short answer to long reasoning on perplexity.
+  summary: Generates a short answer first and triggers long reasoning only if its perplexity signals low confidence, beating both always-short and always-long reasoning.
+  benchmarks: multimodal VQA/KIE benchmarks, text reasoning datasets
+  signals: short-answer perplexity
+
+[ren-2025-agserve] (2025, NeurIPS 2025, rel=4, gran=step, regime=training-free, prod=N, clusters=C2,C3,C10,C11)
+  title: Transcending Cost-Quality Tradeoff in Agent Serving via Session-Awareness
+  key_idea: Session-aware per-round model cascading plus KV-cache management for agent serving.
+  cost: Comparable response quality to GPT-4o at 16.5% of the cost; 1.8x quality improvement relative to the tradeoff curve
+  summary: AgServe is an agent-serving system with a session-aware server that improves KV-cache reuse, a client that cascades models within a session from real-time quality assessment, and a dynamic GPU scheduler. Agents can pick and upgrade models during a session, reaching GPT-4o-level quality at a fraction of the cost on real testbeds.
+  signals: real-time quality assessment, session state
+
+[she-2025-hawkeye] (2025, arXiv, rel=4, gran=step, regime=RL-offline, prod=N, clusters=C2,C3,C9)
+  title: Hawkeye:Efficient Reasoning with Model Collaboration
+  key_idea: Large model thinks briefly, small model writes.
+  cost: Comparable quality using only 35% of full CoTs; up to 3.4x faster end-to-end reasoning and up to 60% lower inference cost on complex math
+  summary: A large model writes a short, information-dense CoT (trained by RL to remove redundancy) and a small model expands it into the final response.
+  benchmarks: complex math tasks
+  signals: concise CoT instructions from large model
+
+[shen-2025-sater] (2025, EMNLP 2025, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2)
+  title: SATER: A Self-Aware and Token-Efficient Approach to Routing and Cascading
+  key_idea: Train the SLM to know when to refuse and escalate.
+  cost: Comparable performance while reducing computational costs by over 50% and cascade latency by over 80% (abstract)
+  summary: SATER fine-tunes small models with shortest-response preference optimization and a confidence-aware rejection mechanism so they work in both pre-generation routing and cascade modes. It cuts redundant output and latency.
+  benchmarks: six datasets
+  signals: self-aware rejection, shortest-response preference optimization
+
+[soiffer-2025-semantic-agreement-cascades] (2025, EMNLP 2025 Industry Track, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Semantic Agreement Enables Efficient Open-Ended LLM Cascades
+  key_idea: Semantic consensus of cheap ensemble outputs as a black-box deferral signal.
+  cost: Semantic cascades match or surpass target-model quality at 40% of the cost and reduce latency by up to 60%
+  summary: For open-ended generation, uses meaning-level agreement among several cheap models' outputs as the deferral signal instead of token confidence. Works with black-box APIs and is robust to model updates.
+  benchmarks: open-ended generation benchmarks
+  signals: semantic agreement among ensemble outputs
+
+[valkanas-2025-c3po] (2025, arXiv, rel=4, gran=query, regime=hybrid, prod=N, clusters=C2,C9)
+  title: C3PO: Optimized Large Language Model Cascades with Probabilistic Cost Constraints for Reasoning
+  key_idea: Label-free cascade tuning with conformal cost-overrun control.
+  cost: State-of-the-art accuracy and cost-efficiency vs cascading baselines (no single number in abstract)
+  summary: Self-supervised cascade optimisation that minimises regret against the most powerful model using only unlabelled outputs. Conformal prediction bounds the probability that inference cost exceeds a user budget, with generalisation guarantees.
+  benchmarks: GSM8K, MATH-500, BigBench-Hard, AIME
+  signals: unlabelled model outputs, regret vs most powerful model, conformal bounds
+
+[wu-2025-inter-cascade] (2025, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C8,C10)
+  title: From Deferral to Learning: Online In-Context Knowledge Distillation for LLM Cascades
+  key_idea: Strong model acts as an in-context teacher; stored strategies reduce future deferrals.
+  cost: Up to 33.06% weak-model and 6.35% system accuracy gain; up to 48.05% fewer strong-model calls and up to 49.63% fee savings vs standard cascades
+  summary: When the strong model resolves a deferred query, it also writes a reusable strategy that is stored and retrieved for similar future queries to help the weak model. The cascade thus learns online without fine-tuning.
+  benchmarks: multiple reasoning benchmarks
+  signals: weak-model confidence, similarity retrieval of stored strategies, deferral, strategy retrieval, retrieved strategies
+
+[zeighami-2025-bargain] (2025, SIGMOD 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Cut Costs, Not Accuracy: LLM-Powered Data Processing with Guarantees
+  key_idea: Cascades with statistical accuracy guarantees via adaptive sampling.
+  cost: Reduces cost on average by up to 86% more than state of the art across 8 real-world datasets, with stronger accuracy guarantees
+  summary: For LLM-powered data processing, uses adaptive sampling of expensive-model labels and tight statistical estimation to decide which records the cheap model can handle, with guarantees on accuracy, precision or recall.
+  benchmarks: 8 real-world datasets
+  signals: log-probability confidence, adaptive sampling, statistical estimation
+
+[zellinger-2025-early-abstention-cascades] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2)
+  title: Cost-Saving LLM Cascades with Early Abstention
+  key_idea: Let the cheap model abstain early, exploiting correlated errors.
+  cost: Reduces overall test loss by 2.2% on average across six benchmarks; 13.0% cost reduction and 5.0% error reduction for a 4.1% higher abstention rate
+  summary: Adds abstention to LLM cascades and asks whether early, cheap models should be allowed to abstain. Because error patterns correlate across models, early abstention saves the cost of calling large models that would abstain anyway.
+  benchmarks: GSM8K, MedMCQA, MMLU, TriviaQA, TruthfulQA, XSum
+  signals: confidence, abstention
+
+[zellinger-2025-economic-evaluation] (2025, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C2,C13)
+  title: Economic Evaluation of LLMs
+  key_idea: Price errors, latency and abstention to compare models.
+  cost: Reasoning models give better accuracy-cost trade-offs once a mistake costs more than a small dollar threshold (MATH)
+  summary: Proposes scoring LLMs by a single dollar-denominated number based on the use case's cost of mistakes, latency and abstention, allowing comparison beyond Pareto plots.
+  benchmarks: MATH
+  signals: cost of error, latency cost, abstention cost
+
+[zellinger-2025-rational-tuning-cascades] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C6)
+  title: Rational Tuning of LLM Cascades via Probabilistic Modeling
+  key_idea: Probabilistic joint model of cascade errors for threshold tuning.
+  cost: Improves area under error-cost curve by 4.3% on average vs Bayesian-optimisation thresholds for cascades with k>=3; 10.2% with n<=30 training examples
+  summary: Models the joint distribution of confidence and correctness across a chain of LLMs with a parametric Markov-copula, then tunes the confidence thresholds by continuous optimisation. The probabilistic model is especially sample-efficient.
+  signals: confidence thresholds, joint error model (Markov copula)
+
+[chen-2024-model-cascading-code] (2024, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C2)
+  title: Model Cascading for Code: A Cascaded Black-Box Multi-Model Framework for Cost-Efficient Code Completion with Self-Testing
+  key_idea: Self-testing as the cascade escalation signal for code.
+  cost: Reduces costs by an average of 26%, up to 70% in the best case, while maintaining or improving accuracy vs single-model self-testing schemes
+  summary: Cascades code-generation models and uses self-generated tests both to improve answers and to decide when to escalate to a larger model. A heuristic sets the number of solutions and tests per model under a budget.
+  benchmarks: code generation benchmarks
+  signals: self-generated tests, pass rate threshold
+
+[chuang-2024-self-ref] (2024, ICML (per Semantic Scholar), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C7)
+  title: Learning to Route LLMs with Confidence Tokens
+  key_idea: Train the model to emit calibrated confidence tokens for routing/deferral.
+  cost: Significant improvements in downstream routing and rejection tasks vs verbalised confidence and token probabilities (no single number in abstract)
+  summary: Self-REF fine-tunes LLMs to emit confidence tokens indicating whether an answer is correct, from which a confidence score is extracted. These scores outperform verbalized confidence and token probabilities for routing to another model or rejecting.
+  signals: learned confidence tokens, confidence tokens
+
+[damani-2024-learning-how-hard-to-think] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C9)
+  title: Learning How Hard to Think: Input-Adaptive Allocation of LM Computation
+  key_idea: Learn per-input marginal value of compute, then allocate.
+  cost: Reduces computation by up to 50% at no cost to response quality, or improves quality by up to 10% at fixed budget (programming, math, dialog)
+  summary: Predicts, per input, how much reward extra decoding compute would add and allocates best-of-k samples or routes between cheap and expensive decoding procedures accordingly.
+  benchmarks: programming, mathematics, dialog tasks
+  signals: predicted reward distribution per input and budget
+
+[ding-2024-hybrid-llm] (2024, ICLR 2024, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C6)
+  title: Hybrid LLM: Cost-Efficient and Quality-Aware Query Routing
+  key_idea: Route to small vs large model by predicting the quality gap, with a test-time tunable threshold.
+  cost: Up to 40% fewer calls to the large model with no drop in response quality (abstract)
+  summary: Proposes a hybrid inference setup where a lightweight router predicts, per query, whether a small edge-deployable model will match the large model's quality. The quality threshold is tunable at test time to trade quality for cost.
+  benchmarks: MixInstruct
+  signals: difficulty estimate, predicted quality gap, desired quality threshold, predicted query difficulty, quality gap estimate, difficulty
+
+[gupta-2024-lm-cascades-token-uncertainty] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Language Model Cascades: Token-level uncertainty and beyond
+  key_idea: Learned deferral over token-level uncertainty beats naive sequence-probability thresholds.
+  summary: Systematically studies deferral rules for generative LM cascades and shows that sequence-level uncertainty suffers from length bias. Learned post-hoc deferral rules over token-level uncertainty vectors, plus embeddings from both models, give better cost-quality trade-offs.
+  benchmarks: range of NLP benchmarks, FLAN-T5 NLP benchmarks
+  signals: token-level uncertainty, small-model embeddings, large-model intermediate layers, embeddings
+
+[kolawole-2024-agreement-based-cascading] (2024, TMLR 2025, rel=4, gran=query, regime=training-free, prod=N, clusters=C2)
+  title: Agreement-Based Cascading for Efficient Inference
+  key_idea: Ensemble agreement as a training-free deferral signal.
+  cost: Edge-to-cloud: up to 14x lower communication cost; cloud serving: 3x lower rental cost; API services: 2-25x lower average price per token/request vs state-of-the-art LLM cascades
+  summary: Uses agreement among an ensemble at each cascade level as the routing signal. The extra ensemble cost is offset by size gaps and parallel execution, and it can replace the best single model with better accuracy and efficiency.
+  signals: ensemble agreement
+
+[narasimhan-2024-speculative-cascades] (2024, arXiv, rel=4, gran=token, regime=training-free, prod=N, clusters=C2,C11)
+  title: Faster Cascades via Speculative Decoding
+  key_idea: Speculative execution of a cascade deferral rule, per token.
+  cost: Better cost-quality trade-offs than cascading and speculative decoding baselines (no single number in abstract)
+  summary: Combines cascades (defer hard inputs) with speculative decoding (parallel verification) by implementing a token-level deferral rule through speculative execution. Derives the optimal deferral rule and uses a plug-in approximation. Google Research also described it in a blog post on speculative cascades.
+  benchmarks: range of language benchmarks
+  signals: token-level deferral rule, draft/target distributions
+
+[patel-2024-lotus] (2024, arXiv (PVLDB version: Semantic Operators and Their Optimization in LOTUS), rel=4, gran=step, regime=training-free, prod=N, clusters=C2,C4)
+  title: Semantic Operators: A Declarative Model for Rich, AI-based Data Processing
+  key_idea: Declarative semantic operators optimized via cascades with accuracy guarantees.
+  cost: Optimizations accelerate semantic filter/join/group-by/top-k by up to 1,000x; LOTUS programs match or exceed SOTA pipeline accuracy while running up to 3.6x faster
+  summary: Defines semantic operators (LLM-powered filter, join, map, top-k) with a declarative model, and optimizes them by replacing an expensive gold algorithm with cheap proxies and cascades while giving accuracy guarantees.
+  signals: proxy scores, gold-algorithm correlation
+
+[ramirez-2024-two-tier] (2024, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C2,C7)
+  title: Optimising Calls to Large Language Models with Uncertainty-Based Two-Tier Selection
+  key_idea: Small-model uncertainty as a simple escalation criterion.
+  cost: Outperforms existing cascading and routing methods on 25 of 27 setups (three model pairs, nine tasks)
+  summary: Uses only the uncertainty of the small LLM's generation to decide whether to call the large model, and beats routing and cascading methods requiring extra neural models in 25 of 27 setups.
+  benchmarks: nine tasks
+  signals: small-model generation uncertainty
+
+[shekhar-2024-optimizing-costs-llm-usage] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C2,C6,C10)
+  title: Towards Optimizing the Costs of LLM Usage
+  key_idea: Quality prediction plus LP model selection plus prompt shortening.
+  cost: Reduces costs by 40%-90% while improving quality by 4%-7% (enterprise and open-source document-processing datasets)
+  summary: Predicts LLM output quality without calling the models and solves an LP-rounding selection under budget and latency, plus token-reduction heuristics for prompts.
+  benchmarks: enterprise document datasets, open-source summarisation/QA datasets, enterprise datasets, annotated open-source datasets
+  signals: predicted output quality, token-reduction heuristics, token count
+
+[zhang-2024-treacle] (2024, arXiv, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C1,C2,C5,C6)
+  title: Efficient Contextual LLM Cascades through Budget-Constrained Policy Learning
+  key_idea: Budget-constrained RL policy over (model, prompt) choices with re-query ability.
+  cost: Cost savings of up to 85% compared to baselines while maintaining high accuracy
+  summary: TREACLE is an RL policy that jointly picks the model and prompt scheme for each question under long-run monetary and latency budgets. It uses question embeddings and the consistency of previous responses as state.
+  benchmarks: GSM8K, CSQA, LLC
+  signals: question embedding, response history consistency, budget and latency, budget
+
+[aggarwal-2023-automix] (2023, NeurIPS 2024, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C7)
+  title: AutoMix: Automatically Mixing Language Models
+  key_idea: Self-verification plus POMDP escalation policy.
+  cost: Reduces computational cost by over 50% for comparable performance (five LMs, five datasets)
+  summary: AutoMix lets a small model answer, estimates correctness through few-shot self-verification, and uses a POMDP-based router to decide whether to escalate to larger models given noisy verification. Across five models and datasets it cuts cost by over half at comparable quality.
+  benchmarks: five datasets, five context-grounded reasoning datasets
+  signals: few-shot self-verification, POMDP router over confidence, answer confidence, POMDP belief, self-verification, POMDP router
+
+[chen-2023-frugalgpt] (2023, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2)
+  title: FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance
+  key_idea: Learned LLM cascade with a scorer deciding when to stop.
+  cost: Matches best individual LLM (e.g. GPT-4) with up to 98% cost reduction, or +4% accuracy over GPT-4 at the same cost (abstract)
+  summary: Surveys cost reduction strategies for LLM APIs (prompt adaptation, LLM approximation, cascades) and proposes FrugalGPT, a learned cascade that decides which LLM combinations to query per input. It reports large cost reductions on classification-style tasks.
+  signals: answer quality scorer, cascade thresholds, learned answer scorer, cost budget
+
+[ramirez-2023-cache-and-distil] (2023, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C8,C10)
+  title: Cache & Distil: Optimising API Calls to Large Language Models
+  key_idea: Online student distillation with active-learning deferral.
+  summary: Neural caching: a student model is continuously trained on LLM responses and a policy decides which requests the student handles alone. Margin sampling and query-by-committee policies work best.
+  benchmarks: classification tasks
+  signals: active-learning criteria (margin sampling, query by committee), active learning criteria (margin, QBC)
+
+[sakota-2023-forc] (2023, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C6)
+  title: Fly-Swat or Cannon? Cost-Effective Language Model Choice via Meta-Modeling
+  key_idea: Meta-model plus batch assignment for LM choice.
+  cost: match the performance of the largest LM while achieving a cost reduction of 63% (14 datasets, four LMs)
+  summary: A meta-model predicts how well each candidate LM will do on each input, then an assignment solves budget-constrained or cost-minimising allocation across a batch.
+  benchmarks: 14 datasets, five task types, 14 datasets across five tasks
+  signals: meta-model predicted performance, cost budget
+
+[yue-2023-mot-cascades] (2023, ICLR 2024, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Large Language Model Cascades with Mixture of Thoughts Representations for Cost-efficient Reasoning
+  key_idea: Answer consistency across mixed thought representations as a label-free deferral signal.
+  cost: Performance comparable to GPT-4 alone at 40% of its cost (GPT-3.5-turbo as weak model), six reasoning benchmarks
+  summary: Uses the agreement among multiple sampled answers from a cheap LLM as a difficulty signal for escalating reasoning questions. Mixing chain-of-thought and program-of-thought samples makes the consistency check more discriminative.
+  benchmarks: six reasoning benchmarks (math, causal)
+  signals: answer consistency (sampling vote), CoT vs PoT agreement, answer consistency, mixture of thought representations
+
+[zhang-2023-ecoassistant] (2023, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C3,C10)
+  title: EcoAssistant: Using LLM Assistant More Affordably and Accurately
+  key_idea: Assistant hierarchy plus solution retrieval for agentic code queries.
+  cost: Surpasses GPT-4 by 10 points of success rate with less than 50% of GPT-4's cost
+  summary: For code-driven assistant queries, tries cheaper LLMs first with an execution loop and backs off to stronger ones, and retrieves solutions from past successful queries as demonstrations.
+  benchmarks: code-driven API QA
+  signals: code execution feedback, success of past queries
+
+[alballa-2026-comed] (2026, AACL-IJCNLP 2026, rel=3, gran=query, regime=training-free, prod=N, clusters=C1,C2,C12)
+  title: COMED: The Missing Middle Between Routing and Collaboration in Multi-LLM Inference
+  key_idea: Selective escalation between routing and full collaboration.
+
+[ashley-2026-rpra] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: RPRA: Predicting an LLM-Judge for Efficient but Performant Inference
+  key_idea: Predict your own judge score to decide deferral.
+
+[bachar-2026-llm-performance-predictors] (2026, AAMAS 2026, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: LLM Performance Predictors: Learning When to Escalate in Hybrid Human-AI Moderation Systems
+  key_idea: Supervised meta-model on output features for when-to-escalate decisions.
+  cost: Significant improvements in accuracy-cost trade-offs over existing uncertainty estimators (no single number in abstract)
+
+[belloni-2026-online-pandoras-box-cascading] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C15)
+  title: Online Pandora's Box for Contextual LLM Cascading
+  key_idea: Weitzman-index cascading learned online with bandit feedback.
+
+[burleigh-2026-slm-know-when-wrong] (2026, NCME 2026, rel=3, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Do Small Language Models Know When They're Wrong? Confidence-Based Cascade Scoring for Educational Assessment
+  key_idea: Discrimination of verbalised confidence determines cascade value.
+  cost: Best cascade approached large-LM accuracy (kappa 0.802 vs 0.819) at 76% lower cost and 61% lower latency
+
+[chen-2026-resample-or-reroute] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C2,C6)
+  title: Resample or Reroute? Recoverable Stopping Debt Without Identified Action Selection
+  key_idea: Gated identification test before claiming a resample-vs-reroute selector adds value.
+  cost: In a 152-query MBPP+ study, fixed escalation to Qwen2.5-14B exceeds leave-one-out 7B resampling by +2.882 pp after 7B rejection
+
+[mahmood-2026-routing-user-choice] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: Routing, Cascades, and User Choice for LLMs
+  key_idea: Game-theoretic analysis of routing with user behavior.
+
+[mehta-2026-behavioral-consistency] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C2,C7)
+  title: When Agents Disagree With Themselves: Behavioral Consistency as an Uncertainty Signal for LLM Agents
+  key_idea: Run-to-run behavioral consistency as an agent success predictor.
+
+[pona-2026-calibrate-then-delegate] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Calibrate-Then-Delegate: Safety Monitoring with Risk and Budget Guarantees via Model Cascades
+  key_idea: Delegate on predicted value of the expert call.
+
+[rokon-2026-autorelannotator] (2026, SIGIR 2026 E-commerce workshop, rel=3, gran=query, regime=supervised-offline, prod=Y, clusters=C2,C8,C14)
+  title: AutoRelAnnotator: Calibrated Model Cascades for Cost-Efficient Relevance Evaluation in Sponsored Search
+  key_idea: Fine-tuning for accuracy, cascading for cost, calibration on top.
+  cost: Cascading is roughly accuracy-neutral but halves compute cost; production deployment across six use cases with 150M+ annotations
+
+[wang-2026-budgeted-act-or-defer] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C7)
+  title: Budgeted Act-or-Defer Multi-Agent LLM Deliberation with Local Reliability Bounds
+  key_idea: Per-round act-or-defer with a declared risk budget for multi-agent deliberation.
+  cost: Uses 9-12% of the pre-declared wrong-action budget, reaching up to 84% automation and 96% acted-on accuracy on six benchmarks
+
+[wang-2026-signed-rescue-routing] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2)
+  title: Signed Rescue Routing: Harm-Aware Cascades for Efficient LLM Inference
+  key_idea: Route on signed expected gain of escalation, not on uncertainty.
+
+[wu-2026-assign-tasks-capacity] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C2,C5)
+  title: Learning to Assign Prediction Tasks to Agents with Capacity Constraints
+  key_idea: Contextual explore-exploit assignment of tasks to capacity-limited agents.
+
+[behera-2025-multi-llm-inference-survey] (2025, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: Towards Efficient Multi-LLM Inference: Characterization and Analysis of LLM Routing and Hierarchical Techniques
+  key_idea: Survey of routing vs hierarchical inference.
+
+[chen-2025-llm-slm-collab-survey] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C1,C2,C3,C15)
+  title: A Survey on Collaborative Mechanisms Between Large and Small Language Models
+  key_idea: LLM-SLM collaboration taxonomy.
+
+[fanconi-2025-cascaded-human-ai] (2025, arXiv, rel=3, gran=query, regime=hybrid, prod=N, clusters=C2,C5)
+  title: Cascaded Language Models for Cost-effective Human-AI Decision-Making
+  key_idea: Two-stage deferral plus abstention to humans with online threshold updates.
+  cost: Higher accuracy at reduced cost vs single-model baselines in most cases (no single number in abstract)
+
+[farinhas-2025-qe-deferral-translation] (2025, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Translate Smart, not Hard: Cascaded Translation Systems with Quality-Aware Deferral
+  key_idea: Off-the-shelf QE metrics as deferral rules.
+  cost: Matches larger-model performance while invoking it for 30%-50% of examples
+
+[hou-2025-edge-cloud-expert-cascades] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2)
+  title: Reliable LLM-Based Edge-Cloud-Expert Cascades for Telecom Knowledge Systems
+  key_idea: MHT-based threshold selection with risk guarantees.
+
+[mao-2025-multi-expert-deferral-thesis] (2025, Ph.D. dissertation, New York University, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C15)
+  title: Theory and Algorithms for Learning with Multi-Class Abstention and Multi-Expert Deferral
+  key_idea: Consistency theory for multi-expert deferral.
+
+[rabanser-2025-gatekeeper] (2025, ICML 2025 workshop (TTODLer-FM), rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Gatekeeper: Improving Model Cascades Through Confidence Tuning
+  key_idea: Confidence-tuning loss for the small model so deferral decisions are sharper.
+
+[warren-2025-bidirectional-cascading] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Bi-directional Model Cascading with Proxy Confidence
+  key_idea: Consider large-model confidence via a proxy before deferring.
+
+[zeng-2025-pac-efficient-routing] (2025, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: A note on conditional PAC-efficient reasoning in large language model routing
+  key_idea: Limits of distribution-free conditional guarantees for routing.
+
+[liu-2024-meta-ranking] (2024, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Enabling Weak LLMs to Judge Response Reliability via Meta Ranking
+  key_idea: Weak-model reliability judging by comparison to references.
+  cost: Model cascade of open and closed LLMs reaches performance comparable to GPT-4-turbo at lower cost (no single number in abstract)
+
+[montreuil-2024-l2d-extractive-qa] (2024, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2)
+  title: Optimal Query Allocation in Extractive QA with LLMs: A Learning-to-Defer Framework with Theoretical Guarantees
+  key_idea: Learning-to-defer to specialised experts for QA cost.
+
+[wang-2024-cascade-aware-training] (2024, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C8)
+  title: Cascade-Aware Training of Language Models
+  key_idea: Train the small model for its role in the cascade.
+
+[zhang-2024-p3defer] (2024, arXiv, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C2)
+  title: Privacy-preserved LLM Cascade via CoT-enhanced Policy Learning
+  key_idea: Privacy-aware deferral policy for local-to-cloud cascades.
+
+[jitkrittum-2023-confidence-cascade-deferral] (2023, NeurIPS 2023, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C15)
+  title: When Does Confidence-Based Cascade Deferral Suffice?
+  key_idea: Theory of when confidence thresholds suffice for cascades.
+
+[kuhn-2023-semantic-uncertainty] (2023, ICLR 2023, rel=3, gran=n/a, regime=training-free, prod=N, clusters=C2,C7)
+  title: Semantic Uncertainty: Linguistic Invariances for Uncertainty Estimation in Natural Language Generation
+  key_idea: Semantic entropy over meaning clusters.
+
+[lin-2023-generating-with-confidence] (2023, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Generating with Confidence: Uncertainty Quantification for Black-box Large Language Models
+  key_idea: Black-box UQ for selective generation.
+
+[ren-2023-self-eval-selective-generation] (2023, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Self-Evaluation Improves Selective Generation in Large Language Models
+  key_idea: Self-evaluation scores beat sequence likelihood for abstention.
+
+[tian-2023-just-ask-for-calibration] (2023, EMNLP 2023, rel=3, gran=n/a, regime=training-free, prod=N, clusters=C2,C7)
+  title: Just Ask for Calibration: Strategies for Eliciting Calibrated Confidence Scores from Language Models Fine-Tuned with Human Feedback
+  key_idea: Verbalised confidence can be the better escalation signal for RLHF models.
+
+[xiong-2023-llms-express-uncertainty] (2023, ICLR 2024, rel=3, gran=n/a, regime=training-free, prod=N, clusters=C2,C7)
+  title: Can LLMs Express Their Uncertainty? An Empirical Evaluation of Confidence Elicitation in LLMs
+  key_idea: Black-box confidence elicitation benchmark.
+
+[kadavath-2022-lms-know-what-they-know] (2022, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Language Models (Mostly) Know What They Know
+  key_idea: Self-evaluation and "I know" probability as confidence signals.
+
+[mitra-2026-cascades-under-perturbations] (2026, ECML-PKDD 2026 GREEN-AI workshop, rel=2, gran=query, regime=training-free, prod=N, clusters=C2,C13)
+  title: Accuracy and Robustness of Model Cascades Under Data Perturbations
+  key_idea: Cascade routing reliability degrades under distribution shift.
+  cost: Selected cascade achieves up to 10-fold decrease in CO2 emissions
+
+[sun-2026-cascade-adversarial-attack] (2026, arXiv, rel=2, gran=query, regime=n/a, prod=N, clusters=C2)
+  title: When Efficiency Backfires: Cascading LLMs Trigger Cascade Failure under Adversarial Attack
+  key_idea: Cascades expand the attack surface.
+
+[ashiga-2025-ensemble-survey] (2025, IEEE TAI 2025, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: Ensemble Learning for Large Language Models in Text and Code Generation: A Survey
+  key_idea: Ensemble survey with routing and cascading sections.
+
+[yoon-2025-reasoning-models-confidence] (2025, NeurIPS 2025, rel=2, gran=n/a, regime=training-free, prod=N, clusters=C2,C7,C9)
+  title: Reasoning Models Better Express Their Confidence
+  key_idea: Slow thinking improves confidence calibration.
+
+[tomani-2024-uncertainty-abstention] (2024, arXiv, rel=2, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Uncertainty-Based Abstention in LLMs Improves Safety and Reduces Hallucinations
+  key_idea: Uncertainty-based abstention for reliability.
+
+[wen-2024-abstention-survey] (2024, TACL 2024, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C2,C7,C15)
+  title: Know Your Limits: A Survey of Abstention in Large Language Models
+  key_idea: Framework and survey of LLM abstention.
+
+[mao-2023-l2d-multiple-experts] (2023, ISAIM 2024, rel=2, gran=n/a, regime=supervised-offline, prod=N, clusters=C2,C15)
+  title: Principled Approaches for Learning to Defer with Multiple Experts
+  key_idea: H-consistent surrogates for multi-expert deferral.
+
+[khalili-2022-babybear] (2022, arXiv, rel=2, gran=query, regime=supervised-offline, prod=N, clusters=C2)
+  title: BabyBear: Cheap inference triage for expensive language models
+  key_idea: Early-exit triage cascade for NLP classification.
+  cost: Reduces compute of large-scale classification jobs by more than 50% while retaining accuracy; saves 33% of compute for NER while keeping F1 above 95% on CoNLL
+
+[schuster-2022-calm] (2022, NeurIPS 2022, rel=2, gran=token, regime=supervised-offline, prod=N, clusters=C2,C9,C11)
+  title: Confident Adaptive Language Modeling
+  key_idea: Per-token early exit with calibrated quality guarantees.
+  cost: Potential speedup of up to 3x while provably maintaining high performance on three generation tasks
+
+[varshney-2022-model-cascading-nlp] (2022, EMNLP 2022, rel=2, gran=query, regime=training-free, prod=N, clusters=C2)
+  title: Model Cascading: Towards Jointly Improving Efficiency and Accuracy of NLP Systems
+  key_idea: Cascades improve both efficiency and accuracy for NLP.
+  cost: In K=3 setting, saves up to 88.93% computation cost with up to 2.18% accuracy improvement
+
+[verma-2022-calibrated-l2d-ova] (2022, ICML 2022, rel=2, gran=n/a, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Calibrated Learning to Defer with One-vs-All Classifiers
+  key_idea: Calibrated L2D via one-vs-all classifiers.
+
+[mozannar-2020-consistent-l2d] (2020, ICML 2020, rel=2, gran=n/a, regime=supervised-offline, prod=N, clusters=C2)
+  title: Consistent Estimators for Learning to Defer to an Expert
+  key_idea: First consistent surrogate loss for learning to defer.
+
+[wang-2020-wisdom-of-committees] (2020, ICLR 2022, rel=2, gran=query, regime=training-free, prod=N, clusters=C2)
+  title: Wisdom of Committees: An Overlooked Approach To Faster and More Accurate Models
+  key_idea: Committees of existing models are an overlooked efficiency baseline.
+  cost: EfficientNet cascade 5.4x speedup over B7; ViT cascade 2.3x speedup over ViT-L-384 at equal accuracy
+
+[madras-2017-predict-responsibly] (2017, NeurIPS 2018, rel=2, gran=n/a, regime=supervised-offline, prod=N, clusters=C2)
+  title: Predict Responsibly: Improving Fairness and Accuracy by Learning to Defer
+  key_idea: Original learning-to-defer formulation.
+

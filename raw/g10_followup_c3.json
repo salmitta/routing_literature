@@ -1,0 +1,3321 @@
+[
+ {
+  "id": "kapoor-2026-trim-stepwise-routing",
+  "title": "TRIM: Hybrid Inference via Targeted Stepwise Routing in Multi-Step Reasoning Tasks",
+  "authors": [
+   "Vansh Kapoor",
+   "Aman Gupta",
+   "Hao Chen",
+   "Anurag Beniwal",
+   "Jing Huang",
+   "Aviral Kumar"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.10245",
+  "code_url": null,
+  "topic_clusters": [
+   "C2",
+   "C3",
+   "C9"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "process reward model score",
+   "step-level uncertainty",
+   "budget"
+  ],
+  "cost_reduction_reported": "On MATH-500 simplest threshold policy gives 5x higher cost efficiency than prior routing methods; advanced policies match the strong model using 80% fewer expensive-model tokens; up to 6x higher cost efficiency on AIME",
+  "benchmarks": [
+   "MATH-500",
+   "AIME"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "TRIM routes only the reasoning steps that are likely to derail a solution to a large model, letting a small model write routine continuations. A PRM flags risky steps, and policies range from simple thresholds to long-horizon policies that reason about accuracy-cost trade-offs under step-correctness uncertainty.",
+  "key_idea": "Escalate only the critical steps (as flagged by a PRM) to the big model.",
+  "relevance_score": 4,
+  "relevance_rationale": "Clean step-level big/small routing with strong cost numbers; math reasoning rather than tool-use agents, but the mechanism maps directly to per-step agent escalation.",
+  "found_via": "arXiv query ti:\"stepwise\" AND ti:routing; also cited-by lee-2025-steer",
+  "cites_or_cited_by": [
+   "ye-2026-roro-process-reward-routing"
+  ]
+ },
+ {
+  "id": "zhang-2026-mtrouter",
+  "title": "MTRouter: Cost-Aware Multi-Turn LLM Routing with History-Model Joint Embeddings",
+  "authors": [
+   "Yiqun Zhang",
+   "Hao Li",
+   "Zihan Wang",
+   "Shi Feng",
+   "Xiaocui Yang",
+   "Daling Wang",
+   "Bo Zhang",
+   "Lei Bai",
+   "Shuyue Hu"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2604.23530",
+  "code_url": "https://github.com/ZhangYiqun018/MTRouter",
+  "topic_clusters": [
+   "C3",
+   "C6",
+   "C1"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "history-model joint embedding",
+   "logged trajectory outcomes",
+   "cost budget"
+  ],
+  "cost_reduction_reported": "On ScienceWorld surpasses GPT-5 while reducing total cost by 58.7%; on HLE competitive accuracy with 43.4% lower cost than GPT-5",
+  "benchmarks": [
+   "ScienceWorld",
+   "Humanity's Last Exam"
+  ],
+  "models_studied": [
+   "GPT-5"
+  ],
+  "production_evidence": false,
+  "summary": "MTRouter selects which model to call at every turn of a multi-turn, long-horizon task under a fixed budget. It embeds the interaction history jointly with candidate models and learns a turn-level utility estimator from logged trajectories; it makes fewer model switches than prior multi-turn routers and shows emergent model specialization.",
+  "key_idea": "Per-turn model selection learned offline from logged agent trajectories via history-model joint embeddings.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly addresses per-turn routing inside agent loops learned from trajectories (sub-themes a and c), with cost-quality numbers vs a frontier model.",
+  "found_via": "arXiv query ti:\"LLM routing\" AND abs:\"multi-turn\"",
+  "cites_or_cited_by": [
+   "yuan-2026-coca-capability-allocation"
+  ]
+ },
+ {
+  "id": "zhang-2026-dialrouter",
+  "title": "From Myopic Selection to Long-Horizon Awareness: Sequential LLM Routing for Multi-Turn Dialogue",
+  "authors": [
+   "Jiarui Zhang",
+   "Xiangyu Liu",
+   "Yong Hu",
+   "Chaoyue Niu",
+   "Hang Zeng",
+   "Shaojie Tang",
+   "Fan Wu",
+   "Guihai Chen"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2604.12385",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3",
+   "C6"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "MCTS-derived trajectory rewards",
+   "retrieval-based future state approximation",
+   "cost-aware reward"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "open-domain and domain-specific dialogue tasks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "DialRouter treats model selection across a multi-turn dialogue as a sequential decision problem. It runs MCTS over dialogue branches induced by different model choices, then distills a lightweight routing policy from the high-reward search trajectories so that no online search is needed at inference.",
+  "key_idea": "Long-horizon sequential routing for multi-turn interactions, distilled from MCTS search.",
+  "relevance_score": 4,
+  "relevance_rationale": "Per-turn routing with delayed reward; dialogue rather than tool-using agents, and no headline cost number in the abstract.",
+  "found_via": "arXiv query ti:\"LLM routing\" AND abs:\"multi-turn\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "he-2026-coderescue",
+  "title": "CodeRescue: Budget-Calibrated Recovery Routing for Coding Agents",
+  "authors": [
+   "Qijia He",
+   "Jiayi Cheng",
+   "Chenqian Le",
+   "Rui Wang",
+   "Xunmei Liu",
+   "Yixian Chen",
+   "Jie Mei",
+   "Zhihao Wang",
+   "Xupeng Chen",
+   "Yuhuan Chen",
+   "Tao Wang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.19338",
+  "code_url": "https://github.com/Qijia-He/agent-budget-control",
+  "topic_clusters": [
+   "C2",
+   "C3",
+   "C6"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "execution feedback",
+   "router trained on rollouts",
+   "conformal risk control"
+  ],
+  "cost_reduction_reported": "In GPT-5.4-nano/GPT-5.4 setting, one CRC-calibrated frontier point exceeds always-escalate solve rate while using 35% of its mean recovery cost (held-out failures from five coding benchmarks)",
+  "benchmarks": [
+   "five coding benchmarks (held-out failures)"
+  ],
+  "models_studied": [
+   "GPT-5.4-nano",
+   "GPT-5.4"
+  ],
+  "production_evidence": false,
+  "summary": "After a coding agent fails, CodeRescue decides whether to spend more cheap-model recovery attempts or to escalate to the expensive model. A supervised router is trained on execution rollouts, and a conformal risk-control layer picks a deployment cost penalty without retraining, giving marginal expected-cost control.",
+  "key_idea": "Post-failure recovery routing: cheap retry vs escalate, calibrated to a budget with conformal risk control.",
+  "relevance_score": 5,
+  "relevance_rationale": "Exactly the per-step escalation decision inside coding agents, learned from rollouts, with a concrete cost-quality result.",
+  "found_via": "arXiv query ti:routing AND ti:agentic",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "li-2025-webrouter",
+  "title": "WebRouter: Query-specific Router via Variational Information Bottleneck for Cost-sensitive Web Agent",
+  "authors": [
+   "Tao Li",
+   "Jinlong Hu",
+   "Yang Wang",
+   "Junfeng Liu",
+   "Xuejun Liu"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.11221",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "compressed prompt representation (VIB)",
+   "expected operational cost"
+  ],
+  "cost_reduction_reported": "87.8% lower operational cost vs GPT-4o baseline with 3.8% accuracy drop on five WebVoyager websites",
+  "benchmarks": [
+   "WebVoyager"
+  ],
+  "models_studied": [
+   "GPT-4o"
+  ],
+  "production_evidence": false,
+  "summary": "WebRouter is a router for LLM-driven web agents whose prompts combine goals, action histories and page state. It is trained with a cost-aware variational information bottleneck that compresses the prompt while penalizing expected cost, and it chooses a model per agent query.",
+  "key_idea": "Cost-aware information-bottleneck router for web-agent calls.",
+  "relevance_score": 5,
+  "relevance_rationale": "Routing for web agents with a large measured cost reduction.",
+  "found_via": "arXiv query ti:router AND ti:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "farzaneh-2026-tsds-edge-deferral",
+  "title": "Think Short, Defer Smart, Act, and Repeat: Calibrated Reasoning and Uncertainty-Aware Deferral for Edge LLM Agents",
+  "authors": [
+   "Amirmohammad Farzaneh",
+   "Osvaldo Simeone"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.26865",
+  "code_url": null,
+  "topic_clusters": [
+   "C2",
+   "C3",
+   "C9"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "convergence probe",
+   "perplexity",
+   "Learn-Then-Test calibration"
+  ],
+  "cost_reduction_reported": "Per-episode thinking compute reduced 43%-65% vs deferral-only baselines on HotpotQA, MBPP and household-robot tasks, with certified reward and cloud-call-rate guarantees",
+  "benchmarks": [
+   "GSM8K",
+   "HotpotQA",
+   "MBPP",
+   "household robot planning"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "TSDS targets ReAct agents running on edge devices. A convergence probe stops on-device reasoning once the intended action stabilizes, and a perplexity rule defers uncertain actions to a cloud model; both thresholds are jointly calibrated on episode trajectories with Learn-Then-Test for finite-sample guarantees on reward and cloud-call rate.",
+  "key_idea": "Per-action deferral from a small local model to a cloud model inside ReAct loops, with statistical guarantees.",
+  "relevance_score": 5,
+  "relevance_rationale": "Per-step small-to-large deferral inside a ReAct loop with certified cost control.",
+  "found_via": "arXiv query ti:\"deferral\" AND abs:\"LLM agent\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "ray-2026-adaptevolve",
+  "title": "AdaptEvolve: Improving Efficiency of Evolutionary AI Agents through Adaptive Model Selection",
+  "authors": [
+   "Pretam Ray",
+   "Pratik Prabhanjan Brahma",
+   "Zicheng Liu",
+   "Emad Barsoum"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.11931",
+  "code_url": "https://github.com/raypretam/adaptive_llm_selection",
+  "topic_clusters": [
+   "C2",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "intrinsic generation confidence"
+  ],
+  "cost_reduction_reported": "Average 37.9% lower total inference cost while retaining 97.5% of upper-bound accuracy of static large-model baselines",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AdaptEvolve picks, at each generation step of an evolutionary refinement agent, which model in a pool is capable enough. It uses the model's own generation confidence as a real-time solvability estimate, acting as a confidence-driven cascade.",
+  "key_idea": "Confidence-driven per-step model selection inside evolutionary agent loops.",
+  "relevance_score": 5,
+  "relevance_rationale": "Step-level model selection in an agent loop with explicit cost-accuracy trade-off.",
+  "found_via": "arXiv query ti:\"model selection\" AND ti:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "jiang-2026-cota-tiny-advisors",
+  "title": "Don't Solve, Just Compare: Tiny Advisors for Runtime Intervention in LLM Agents",
+  "authors": [
+   "Yanze Jiang",
+   "Mingxuan Li",
+   "Yuhao Wang",
+   "Shengfang Zhai",
+   "Jiaheng Zhang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.21027",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C7"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "counterfactual same-prefix branches",
+   "pairwise action comparison"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "WebShop",
+   "ALFWorld",
+   "tau^3-Retail"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "COTA adds a 0.5B comparator to an LLM agent at runtime. The comparator judges the actor's proposed action against alternatives and returns non-binding advice, rather than acting as a costly expert solver or task-capable critic. It is trained from counterfactual branches with the same prefix.",
+  "key_idea": "A tiny comparator model as a cheap runtime advisor in place of a big expert model.",
+  "relevance_score": 4,
+  "relevance_rationale": "Big-small collaboration inside agent loops, with the small model taking a cheap supervisory role; the abstract claims the best performance-cost trade-off but gives no number.",
+  "found_via": "arXiv query ti:advisor AND abs:\"LLM\" AND abs:agent AND abs:cost",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "jiang-2026-spike",
+  "title": "SPIKE: An Adaptive Dual Controller Framework for Cost-Efficient Long-Horizon Game Agents",
+  "authors": [
+   "Wencan Jiang",
+   "Jiangning Zhang",
+   "Jianbiao Mei",
+   "Jinzhuo Liu",
+   "Yu Yang",
+   "Xiaobin Hu",
+   "Zhucun Xue",
+   "Yong Liu",
+   "Dacheng Tao"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.18636",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C9"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "visual change",
+   "task progress",
+   "repeated actions",
+   "failure signals"
+  ],
+  "cost_reduction_reported": "Token consumption reduced 54.9% and latency 40.8%; +5.0 pp SR and +9.3 pp budgeted SR over strongest baselines on StarDojo Lite-100",
+  "benchmarks": [
+   "StarDojo Lite-100"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "SPIKE splits a long-horizon game agent into a low-frequency strategic controller and a token-budgeted reactive controller. An event trigger decides when to escalate from reactive execution to strategic reasoning, so the expensive reasoning is reused across stable stretches.",
+  "key_idea": "Event-triggered escalation from a cheap reactive controller to an expensive strategic controller.",
+  "relevance_score": 4,
+  "relevance_rationale": "Per-step escalation policy with cost numbers; the controllers differ in reasoning mode, not necessarily in model.",
+  "found_via": "arXiv query ti:\"cost-efficient\" AND ti:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "yang-2026-cogrouter",
+  "title": "Think Fast and Slow: Step-Level Cognitive Depth Adaptation for LLM Agents",
+  "authors": [
+   "Ruihan Yang",
+   "Fanghua Ye",
+   "Xiang We",
+   "Ruoqing Zhao",
+   "Kang Luo",
+   "Xinbo Xu",
+   "Bo Zhao",
+   "Ruotian Ma",
+   "Shanyi Wang",
+   "Zhaopeng Tu",
+   "Xiaolong Li",
+   "Deqing Yang",
+   " Linus"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.12662",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C9"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "RL-online",
+  "signals_used": [
+   "action confidence",
+   "cognitive level"
+  ],
+  "cost_reduction_reported": "With Qwen2.5-7B, 82.3% success on ALFWorld/ScienceWorld, beating GPT-4o (+40.3%) and o3 (+18.3%) while using 62% fewer tokens",
+  "benchmarks": [
+   "ALFWorld",
+   "ScienceWorld"
+  ],
+  "models_studied": [
+   "Qwen2.5-7B",
+   "GPT-4o",
+   "OpenAI-o3"
+  ],
+  "production_evidence": false,
+  "summary": "CogRouter trains an agent to choose among four levels of cognitive depth at each step, from instinctive responses to strategic planning. Training combines cognition-aware SFT with an RL stage that does step-level credit assignment via confidence-weighted advantages.",
+  "key_idea": "Per-step choice of reasoning depth learned with step-level credit assignment.",
+  "relevance_score": 4,
+  "relevance_rationale": "Step-level compute allocation inside agents, which is analogous to step-level model routing; covers sub-themes (a) and (f).",
+  "found_via": "arXiv query ti:\"fast and slow\" AND ti:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhong-2026-dualspec",
+  "title": "DualSpec: Accelerating Deep Research Agents via Dual-Process Action Speculation",
+  "authors": [
+   "Shuzhang Zhong",
+   "Baotong Lu",
+   "Qi Chen",
+   "Chuanjie Liu",
+   "Fan Yang",
+   "Meng Li"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.07416",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C11"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "action-type entropy",
+   "confidence-based semantic verifier"
+  ],
+  "cost_reduction_reported": "Up to 3.28x end-to-end speedup with accuracy comparable to fully reasoning agents",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "DualSpec observes that in deep-research agents Search actions are high-entropy and need explicit reasoning, whereas Visit actions are low-entropy and depend mainly on model capacity. It speculates actions heterogeneously by action type and verifies them with a lightweight confidence-based semantic checker.",
+  "key_idea": "Assign different speculation/reasoning resources by action type in agent loops.",
+  "relevance_score": 4,
+  "relevance_rationale": "Shows action-type heterogeneity in capacity needs, which is direct evidence for step-type routing; the gain reported is latency.",
+  "found_via": "arXiv query ti:\"speculative\" AND ti:\"actions\" AND ti:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "abdollahi-2026-hdlforge",
+  "title": "HDLFORGE: A Two-Stage Multi-Agent Framework for Efficient Verilog Code Generation with Adaptive Model Escalation",
+  "authors": [
+   "Armin Abdollahi",
+   "Saeid Shokoufa",
+   "Negin Ashrafi",
+   "Mehdi Kamal",
+   "Massoud Pedram"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.04646",
+  "code_url": null,
+  "topic_clusters": [
+   "C2",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "compile/lint/smoke-test diagnostics",
+   "calibrated score"
+  ],
+  "cost_reduction_reported": "91.2% and 91.8% Pass@1 on VerilogEval Human/V2 with roughly 50% lower median latency",
+  "benchmarks": [
+   "VerilogEval Human",
+   "VerilogEval V2",
+   "RTLLM"
+  ],
+  "models_studied": [
+   "Qwen"
+  ],
+  "production_evidence": false,
+  "summary": "HDLFORGE runs a medium-sized coder by default and escalates to an ultra-large model only when cheap diagnostics (compilation, lint, smoke tests) give a low calibrated score. A formal agent turns bounded-model-checking traces into micro-tests.",
+  "key_idea": "Diagnostics-gated escalation from medium to ultra-large models in a multi-agent coding pipeline.",
+  "relevance_score": 4,
+  "relevance_rationale": "Agentic escalation using execution signals; domain is Verilog.",
+  "found_via": "arXiv query ti:\"agent\" AND ti:\"escalate\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "agyemang-2026-local-splitter",
+  "title": "Local-Splitter: A Measurement Study of Seven Tactics for Reducing Cloud LLM Token Usage on Coding-Agent Workloads",
+  "authors": [
+   "Justice Owusu Agyemang",
+   "Jerry John Kponyo",
+   "Elliot Amponsah",
+   "Godfred Manu Addo Boakye",
+   "Kwame Opuni-Boachie Obour Agyekum"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2604.12301",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "local triage model",
+   "workload class"
+  ],
+  "cost_reduction_reported": "Local routing + prompt compression gives 45-79% cloud token savings on edit- and explanation-heavy coding-agent workloads; full tactic set incl. draft-review gives 51% on RAG-heavy",
+  "benchmarks": [
+   "four coding-agent workload classes"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "A measurement study of seven tactics for cutting cloud-LLM tokens when a small local model triages requests in front of a frontier model in coding agents: local routing, compression, semantic caching, local draft with cloud review, minimal diffs, intent extraction and batching with prompt caching. The tactics are delivered via an MCP/OpenAI-compatible shim.",
+  "key_idea": "Small local model as a triage layer in front of a frontier model for coding agents; the best tactic mix depends on the workload.",
+  "relevance_score": 5,
+  "relevance_rationale": "Practical big-small split for coding agents, with measured token and dollar savings and open-source tooling.",
+  "found_via": "Semantic Scholar query \"per-turn model routing coding agent\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "khraishi-2026-model-switching-drift",
+  "title": "Evaluating Performance Drift from Model Switching in Multi-Turn LLM Systems",
+  "authors": [
+   "Raad Khraishi",
+   "Iman Zafar",
+   "Katie Myles",
+   "Greig A Cowan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.03111",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C13"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "prefix influence",
+   "suffix susceptibility"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "CoQA",
+   "Multi-IF"
+  ],
+  "models_studied": [
+   "GPT-5-nano",
+   "GPT-5-mini"
+  ],
+  "production_evidence": false,
+  "summary": "The paper measures what happens when a multi-turn system switches models mid-interaction, so that a later model must continue a prefix written by a different model. Even a single-turn handoff moves Multi-IF strict success by -8 to +13 pp; the effect decomposes into per-model prefix influence and suffix susceptibility terms, which explain about 70% of the variance.",
+  "key_idea": "Mid-conversation model handoffs cause significant, model-pair-specific drift.",
+  "relevance_score": 4,
+  "relevance_rationale": "Key risk evidence for per-step routing; complements ganz-2026-handoff-tax.",
+  "found_via": "arXiv query ti:\"model switching\" AND abs:llm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "cai-2026-think-big-search-small",
+  "title": "Think Big, Search Small: Where Capacity Matters in Hierarchical Search Agents?",
+  "authors": [
+   "Qinnan Cai",
+   "Yibo Zhao",
+   "Xiang Li"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.07548",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C8",
+   "C12"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "role capacity sweep"
+  ],
+  "cost_reduction_reported": "Scaling delegation backbone improves EM ~11 points vs ~2.6 for execution; a 1.7B distilled executor matches a frontier sub-agent with 37% fewer sub-agent tokens",
+  "benchmarks": [
+   "five multi-hop QA benchmarks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "The authors factor hierarchical search agents into delegation, execution and answer-generation roles and sweep model capacity per role. Decomposition is the capacity bottleneck, while execution can be downsized; a 1.7B executor trained by quality-filtered trajectory distillation matches a frontier executor.",
+  "key_idea": "Put capacity in the planner/delegator and downsize the executor.",
+  "relevance_score": 5,
+  "relevance_rationale": "A controlled planner-big/executor-small study with measured numbers (sub-theme b).",
+  "found_via": "arXiv query ti:\"big-little\" OR ti:\"big and small\" AND abs:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "he-2025-information-theoretic-agentic-design",
+  "title": "An Information Theoretic Perspective on Agentic System Design",
+  "authors": [
+   "Shizhe He",
+   "A. Narayan",
+   "Ishan S. Khare",
+   "Scott W. Linderman",
+   "Christopher Ré",
+   "Dan Biderman"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2512.21720",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C10",
+   "C12"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "mutual information between context and compression"
+  ],
+  "cost_reduction_reported": "A 7B Qwen-2.5 compressor is 1.6x more accurate, 4.6x more concise and conveys 5.5x more MI per token than its smaller sibling (abstract)",
+  "benchmarks": [
+   "five datasets"
+  ],
+  "models_studied": [
+   "Qwen-2.5"
+  ],
+  "production_evidence": false,
+  "summary": "The paper models agentic systems in which small compressor LMs summarize raw context for larger predictor LMs as a noisy channel. It proposes a mutual-information estimator that predicts downstream performance independent of task, and finds that larger compressors are both more accurate and more token-efficient; this guides how to size each role.",
+  "key_idea": "Choose compressor/predictor sizes in multi-LM agents by mutual information rather than task-specific sweeps.",
+  "relevance_score": 5,
+  "relevance_rationale": "A principled analysis of small-worker/large-predictor splits, the core pattern behind Deep Research and Claude Code style systems.",
+  "found_via": "snowball: cited-by belcak-2025-slms-future-agentic-ai / su-2025-toolorchestra",
+  "cites_or_cited_by": [
+   "belcak-2025-slms-future-agentic-ai",
+   "su-2025-toolorchestra"
+  ]
+ },
+ {
+  "id": "garg-2026-terminus-4b",
+  "title": "Terminus-4B: Can a Smaller Model Replace Frontier LLMs at Agentic Execution Tasks?",
+  "authors": [
+   "Spandan Garg",
+   "V. Nitin",
+   "Yu-Fan Huang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.03195",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C8"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "rubric-based LLM-as-judge reward"
+  ],
+  "cost_reduction_reported": "Up to ~30% lower main-agent token usage vs No-Subagent baseline with no performance impact on SWE-Bench Pro and internal SWE-Bench C#",
+  "benchmarks": [
+   "SWE-Bench Pro",
+   "SWE-Bench C# (internal)"
+  ],
+  "models_studied": [
+   "Qwen3-4B"
+  ],
+  "production_evidence": false,
+  "summary": "Terminus-4B is a Qwen3-4B model post-trained with SFT and judge-reward RL to act as the terminal-execution subagent of a coding agent, a role usually filled by a frontier model. It isolates verbose build and test output from the main agent's context and closes most of the gap to frontier subagents.",
+  "key_idea": "Replace frontier subagents for narrow roles (terminal execution) with a fine-tuned 4B SLM.",
+  "relevance_score": 5,
+  "relevance_rationale": "Direct evidence that a specific subagent role can be downscaled to a small model in production-style coding agents.",
+  "found_via": "snowball: cited-by belcak-2025-slms-future-agentic-ai",
+  "cites_or_cited_by": [
+   "belcak-2025-slms-future-agentic-ai"
+  ]
+ },
+ {
+  "id": "apparaju-2026-compute-allocation-retrieval-agents",
+  "title": "Compute Allocation for Reasoning-Intensive Retrieval Agents",
+  "authors": [
+   "Sreeja Apparaju",
+   "Nilesh Gupta"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.14635",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C9"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "stage-wise capacity sweeps"
+  ],
+  "cost_reduction_reported": "Re-ranking gains +7.5 NDCG@10 from stronger models while query expansion gains only +1.1 from weak to strong (BRIGHT, Gemini 2.5 family)",
+  "benchmarks": [
+   "BRIGHT"
+  ],
+  "models_studied": [
+   "Gemini 2.5 family"
+  ],
+  "production_evidence": false,
+  "summary": "Studies how to spend compute across the stages of reasoning-intensive retrieval pipelines for agents by varying model size, thinking and re-ranking depth per stage. Strong models matter for re-ranking but not query expansion, and thinking helps little at either stage.",
+  "key_idea": "Stage-specific model sizing: spend capacity on re-ranking, not query expansion.",
+  "relevance_score": 4,
+  "relevance_rationale": "Controlled per-stage capacity allocation evidence for agent pipelines.",
+  "found_via": "arXiv query ti:\"compute allocation\" AND abs:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "davidson-2025-collaboration-gap",
+  "title": "The Collaboration Gap",
+  "authors": [
+   "Tim R. Davidson",
+   "Adam Fourney",
+   "Saleema Amershi",
+   "Robert West",
+   "Eric Horvitz",
+   "Ece Kamar"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2511.02687",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C12",
+   "C13"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "pairing type"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "collaborative maze-solving benchmark"
+  ],
+  "models_studied": [
+   "32 open and closed models"
+  ],
+  "production_evidence": false,
+  "summary": "A maze benchmark that isolates collaboration among heterogeneous agents shows that models strong when solo often degrade when paired. A relay in which a stronger agent starts and then hands off to a weaker one closes much of the gap.",
+  "key_idea": "Strong-first, weak-later relay mitigates the heterogeneous collaboration gap.",
+  "relevance_score": 4,
+  "relevance_rationale": "Evidence on ordering big and small models across the steps of a shared task.",
+  "found_via": "snowball: cited-by belcak-2025-slms-future-agentic-ai",
+  "cites_or_cited_by": [
+   "belcak-2025-slms-future-agentic-ai"
+  ]
+ },
+ {
+  "id": "kabir-2026-inframind",
+  "title": "INFRAMIND: Infrastructure-Aware Multi-Agent Orchestration",
+  "authors": [
+   "Ahasan Kabir",
+   "Jiaqi Xue",
+   "Meng Zheng",
+   "Qian Lou"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.11440",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C4",
+   "C11"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "queue depth",
+   "KV-cache pressure",
+   "latency",
+   "task/model features"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "INFRAMIND argues that multi-agent orchestrators and learned routers ignore serving-infrastructure state, so preferred models queue up while equally capable alternatives sit idle. It feeds noisy runtime signals into planning, per-step routing and scheduling decisions for multi-agent pipelines on shared GPU clusters.",
+  "key_idea": "Make per-step model routing in MAS aware of live serving load.",
+  "relevance_score": 4,
+  "relevance_rationale": "Extends MasRouter-style routing with infrastructure signals relevant to production cost and latency.",
+  "found_via": "snowball: cited-by yue-2025-masrouter",
+  "cites_or_cited_by": [
+   "yue-2025-masrouter"
+  ]
+ },
+ {
+  "id": "zhang-2026-hetero-designer",
+  "title": "Hetero-Designer: Automated Design of Multi-Agent Systems with Heterogeneous LLMs",
+  "authors": [
+   "Zhiheng Zhang",
+   "Yuanzhe Zhang",
+   "Bo-Han Yu",
+   "Daojian Zeng",
+   "Kang Liu",
+   "Jun Zhao"
+  ],
+  "year": 2026,
+  "venue_or_source": "ACL 2026",
+  "source_type": "paper",
+  "url": "https://doi.org/10.18653/v1/2026.acl-long.1272",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C4"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "query-LLM-role dependency encoding"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Hetero-Designer introduces automated design of multi-agent systems built from heterogeneous LLMs, jointly choosing roles and which LLM fills each role per query, aiming for cost-effective systems. It encodes dependencies among queries, LLMs and roles to search this joint space efficiently.",
+  "key_idea": "Automated joint design of topology, roles and per-role LLM choice for heterogeneous MAS.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly the role-level model-assignment problem; ACL 2026.",
+  "found_via": "snowball: cited-by ye-2025-x-mas",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "marjanovic-2026-model-pools-mas",
+  "title": "Mo'Models, Mo'Problems: How to best select model pools when designing Multi-Agent Systems",
+  "authors": [
+   "Sara Vera Marjanovic",
+   "Jia-Chen Xu",
+   "A. Laptev",
+   "Grigor Nalbandyan",
+   "Erik Arakelyan",
+   "Evelina Bakhaturina"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.17306",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C12",
+   "C13"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "model size",
+   "accuracy",
+   "answer diversity"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "scientific reasoning benchmarks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Evaluates eight strategies for picking candidate models for multi-agent systems, for routing-based and aggregation-based (voting, judge) architectures. Growing the candidate pool often pushes performance below the best single model; selecting within one model family worked best.",
+  "key_idea": "Bigger heterogeneous model pools often hurt MAS; select candidates carefully.",
+  "relevance_score": 4,
+  "relevance_rationale": "Cautionary evidence for heterogeneous model assignment.",
+  "found_via": "snowball: cited-by su-2025-toolorchestra",
+  "cites_or_cited_by": [
+   "su-2025-toolorchestra"
+  ]
+ },
+ {
+  "id": "guo-2026-sciorch",
+  "title": "SciOrch: Learning to Orchestrate Expert LLMs for Solving Frontier Multimodal Scientific Reasoning Tasks",
+  "authors": [
+   "Jingru Guo",
+   "Xiangyuan Xue",
+   "Lian Zhang",
+   "Wanghan Xu",
+   "Siki Chen",
+   "Philip H. S. Torr",
+   "Wan-Li Ouyang",
+   "Lei Bai",
+   "Zhenfei Yin"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.15872",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C8"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "MCTS-based offline rollouts",
+   "API cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "frontier multimodal scientific reasoning"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "SciOrch trains an 8B orchestrator to decompose scientific questions, delegate sub-problems to selected commercial frontier models via API, and synthesize the answer. Because each action is an expensive API call, the authors replace online RL rollouts with MCTS-based data collection.",
+  "key_idea": "Small trained orchestrator delegating sub-problems to frontier APIs.",
+  "relevance_score": 4,
+  "relevance_rationale": "ToolOrchestra-style small-orchestrator/big-worker design; cost is treated mainly as a training constraint.",
+  "found_via": "snowball: cited-by su-2025-toolorchestra / yue-2025-masrouter",
+  "cites_or_cited_by": [
+   "su-2025-toolorchestra",
+   "yue-2025-masrouter"
+  ]
+ },
+ {
+  "id": "xu-2025-trinity-coordinator",
+  "title": "TRINITY: An Evolved LLM Coordinator",
+  "authors": [
+   "Jinglue Xu",
+   "Qi Sun",
+   "Peter S Schwendeman",
+   "Stefan Nielsen",
+   "Edoardo Cetin",
+   "Yu-Jin Tang"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2512.04695",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C4"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "coordinator hidden states"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "LiveCodeBench",
+   "math",
+   "reasoning",
+   "domain knowledge"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Trinity uses a ~0.6B coordinator plus a ~10K-parameter head, optimized with separable CMA-ES, that at each turn assigns a Thinker, Worker or Verifier role to a chosen LLM. It beats individual models and prior methods, reaching 86.2% on LiveCodeBench.",
+  "key_idea": "Tiny evolved coordinator assigns roles and models per turn.",
+  "relevance_score": 4,
+  "relevance_rationale": "Per-turn role+model assignment by a small coordinator; quality-focused rather than cost-focused.",
+  "found_via": "snowball: cited-by yue-2025-masrouter",
+  "cites_or_cited_by": [
+   "yue-2025-masrouter"
+  ]
+ },
+ {
+  "id": "tang-2026-sakana-fugu",
+  "title": "Sakana Fugu Technical Report",
+  "authors": [
+   "Yu-Jin Tang",
+   "Edoardo Cetin",
+   "Jinglue Xu",
+   "Qi Sun",
+   "Stefan Nielsen",
+   "Vincent Richard",
+   "Haruto Goda",
+   "I. Tymchenko",
+   "N. Nguyen",
+   "Hyunin Lee",
+   "Mari Ashiga",
+   "Shashank Kotyan",
+   "So Kuroki",
+   "Tarin Clanuwat"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.21228",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C14"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "hybrid",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "SWE-Bench Pro",
+   "Terminal Bench",
+   "LiveCodeBench",
+   "GPQA-Diamond",
+   "Humanity's Last Exam",
+   "CharXiv Reasoning"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Sakana Fugu is a family of orchestrator LMs trained to read a query and devise an agentic scaffold over a team of LLM agents. Training combines fine-tuning, evolutionary search and RL, and the report describes the infrastructure for running it as a production service, with a latency-balanced and a quality-maximizing variant.",
+  "key_idea": "Productized orchestrator model that builds per-query multi-model scaffolds.",
+  "relevance_score": 4,
+  "relevance_rationale": "An industry technical report on learned multi-model orchestration; a cost-quality variant split but no cost numbers in the abstract.",
+  "found_via": "snowball: cited-by yue-2025-masrouter",
+  "cites_or_cited_by": [
+   "yue-2025-masrouter"
+  ]
+ },
+ {
+  "id": "yuan-2026-coca-capability-allocation",
+  "title": "Learning What to Activate: Combinatorial Capability Allocation for Long-Horizon Multimodal Agents",
+  "authors": [
+   "Wen-Hao Yuan",
+   "Chen-Chen Lin",
+   "Jian Chen",
+   "Jin-Feng Xu",
+   "Shuo Yang",
+   "Edith C. H. Ngai"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.27869",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C8"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "teacher conditional comparisons",
+   "activation cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "CoCA learns to activate a cost-sensitive subset of specialized capabilities (perception, retrieval, reasoning, verification, execution) at each stage of a long-horizon multimodal agent. A stronger teacher compares marginal capability values on student-visited states; the policy is distilled on-policy and refined with trajectory RL on success and activation cost.",
+  "key_idea": "Per-stage combinatorial selection of which specialist modules to run, trading success against activation cost.",
+  "relevance_score": 5,
+  "relevance_rationale": "Stage-level allocation of expensive components learned with cost-aware RL.",
+  "found_via": "snowball: cited-by zhang-2026-mtrouter",
+  "cites_or_cited_by": [
+   "zhang-2026-mtrouter"
+  ]
+ },
+ {
+  "id": "sedghani-2026-agentic-budget-constraints",
+  "title": "Optimizing Agentic AI Applications Under Budget Constraints",
+  "authors": [
+   "Hamta Sedghani",
+   "Federica Filippini",
+   "Z. Seyedi",
+   "Blerina Spahiu",
+   "Michele Ciavotta",
+   "D. Ardagna"
+  ],
+  "year": 2026,
+  "venue_or_source": "ICPE 2026 Companion",
+  "source_type": "paper",
+  "url": "https://doi.org/10.1145/3777911.3800631",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C4"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "per-config accuracy/latency/energy profiles"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Formulates configuring a multi-step agentic pipeline as choosing one (agent, inference method, parameter) triple per task from a heterogeneous pool of LLMs and SLMs. The objective maximizes end-to-end quality under global time and energy budgets and is solved as a MILP plus complementary methods, accounting for error propagation across steps.",
+  "key_idea": "MILP-based per-step model/config selection under global budgets.",
+  "relevance_score": 5,
+  "relevance_rationale": "Per-step heterogeneous model assignment under explicit budgets (sub-themes b and e).",
+  "found_via": "snowball: cited-by belcak-2025-slms-future-agentic-ai",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "xu-2026-oneflow-single-agent-baseline",
+  "title": "Rethinking the Value of Multi-Agent Workflow: A Strong Single Agent Baseline",
+  "authors": [
+   "Jiawei Xu",
+   "Arief Koesdwiady",
+   "Sisong Bei",
+   "Yan Han",
+   "Baixiang Huang",
+   "Dakuo Wang",
+   "Yutong Chen",
+   "Zheshen Wang",
+   "Peihao Wang",
+   "Pan Li",
+   "Ying Ding"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.12307",
+  "code_url": null,
+  "topic_clusters": [
+   "C12",
+   "C3",
+   "C10"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [],
+  "cost_reduction_reported": "Single-agent execution matches homogeneous workflows with KV-cache reuse efficiency; OneFlow reduces inference costs vs automatic multi-agent design frameworks",
+  "benchmarks": [
+   "seven benchmarks (coding, math, QA, domain reasoning, planning/tool use)"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Shows that homogeneous multi-agent workflows, where all agents share one base LLM, can be simulated by a single agent in multi-turn conversation at equal accuracy while reusing the KV cache. The proposed OneFlow tailors workflows for single-agent execution; the authors note that truly heterogeneous workflows are where multi-agent value may remain.",
+  "key_idea": "Homogeneous MAS is largely reducible to one agent; heterogeneity is what matters.",
+  "relevance_score": 4,
+  "relevance_rationale": "Key baseline for deciding when multi-agent or multi-model splits are worth it.",
+  "found_via": "snowball: cited-by ye-2025-x-mas / yue-2025-masrouter / belcak-2025",
+  "cites_or_cited_by": [
+   "belcak-2025-slms-future-agentic-ai",
+   "ye-2025-x-mas",
+   "yue-2025-masrouter"
+  ]
+ },
+ {
+  "id": "talluri-2026-rgao-topology-budget",
+  "title": "Retrieval-Conditioned Topology Selection with Provable Budget Conservation for Multi-Agent Code Generation",
+  "authors": [
+   "Abhijit Talluri",
+   "Pujith Anne",
+   "Bhagavan Choudary Pendiyala",
+   "Raghavendra Chilukuri"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.05657",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C4"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "structural code complexity vector",
+   "budget vectors"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "RGAO extracts a structural-complexity vector from a code index before choosing the orchestration topology for a multi-agent coding system, whose subagents operate under formal six-dimensional budget contracts. The claimed contribution is provable budget conservation under dynamic topology selection.",
+  "key_idea": "Complexity-conditioned topology routing with formal subagent budgets.",
+  "relevance_score": 3,
+  "relevance_rationale": "Budgeted subagent orchestration; mainly a formal/architectural contribution.",
+  "found_via": "snowball: cited-by yue-2025-masrouter",
+  "cites_or_cited_by": [
+   "yue-2025-masrouter"
+  ]
+ },
+ {
+  "id": "jain-2026-calm-slm-fleet",
+  "title": "CALM: A Self-Adaptive Orchestration Approach for QoS-Aware Routing in Small Language Model based Systems",
+  "authors": [
+   "Hemang Jain",
+   "Divyansh Pandey",
+   "Karthik Vaidhyanathan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.03632",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "QoS metrics",
+   "latency",
+   "energy"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "CALM is a MAPE-K self-adaptive loop that monitors queries and QoS metrics of a fleet of specialized SLMs, then routes each query to the most suitable one and adapts continuously as workloads drift.",
+  "key_idea": "Self-adaptive orchestration of a fleet of SLMs.",
+  "relevance_score": 3,
+  "relevance_rationale": "SLM-fleet routing from a software-engineering view; query-level.",
+  "found_via": "arXiv query ti:orchestrator AND abs:\"small\" AND abs:\"cost\" AND abs:LLMs",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "chen-2025-netgpt-routing-synergy",
+  "title": "Optimizing NetGPT via Routing-Based Synergy and Reinforcement Learning",
+  "authors": [
+   "Yuxuan Chen",
+   "Rong-Peng Li",
+   "Xian-Fu Chen",
+   "Celimuge Wu",
+   "Chenghui Peng",
+   "Zhi-Feng Zhao",
+   "Hong-Gang Zhang"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2511.22217",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C5",
+   "C8"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "bandwidth",
+   "RTT",
+   "scoring policy"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "For edge-deployed network agents, structured tool-calling requests are routed to a cloud or edge agent by a scoring policy that provably reduces to a monotone fallback threshold in bandwidth and RTT. Cloud-routed data is then used for schema-preserving RL to improve the edge agent over time.",
+  "key_idea": "Edge/cloud routing of tool calls with self-improvement of the small edge agent from cloud traces.",
+  "relevance_score": 4,
+  "relevance_rationale": "Combines routing of tool calls with distillation from routed traffic (sub-themes c and d).",
+  "found_via": "snowball: cited-by yue-2025-masrouter",
+  "cites_or_cited_by": [
+   "yue-2025-masrouter"
+  ]
+ },
+ {
+  "id": "lu-2026-meta-policy-delegation",
+  "title": "History Matters: Meta-policy Delegation with Heterogeneous Multi-agent Reinforcement Learning",
+  "authors": [
+   "Ziqing Lu",
+   "Avinash Mudireddy",
+   "Sarra M. Alqahtani",
+   "Weiyu Xu"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.03833",
+  "code_url": null,
+  "topic_clusters": [
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "RL-online",
+  "signals_used": [
+   "interaction history",
+   "execution cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Studies MARL-trained delegation among heterogeneous agents with different capabilities and operating costs, so that tasks are completed under resource constraints. Policies depend on interaction history, and the paper also covers prescribed delegation topologies.",
+  "key_idea": "MARL delegation among heterogeneous-cost agents.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cost-aware delegation formulation; not LLM-specific benchmarks in abstract.",
+  "found_via": "snowball: cited-by yue-2025-masrouter",
+  "cites_or_cited_by": [
+   "yue-2025-masrouter"
+  ]
+ },
+ {
+  "id": "yang-2026-star-agent-router",
+  "title": "STAR: Failure-Aware Markovian Routing for Multi-Agent Spatiotemporal Reasoning",
+  "authors": [
+   "Ruiyi Yang",
+   "Lihuan Li",
+   "Hao Xue",
+   "Flora D. Salim"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.10057",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C6"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "typed execution status",
+   "failure state"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "STAR externalizes routing among heterogeneous specialist agents as a transition matrix conditioned on the current agent, task type and typed failure status. Nominal routes come from experts, and recovery transitions are learned from execution traces.",
+  "key_idea": "Failure-aware inter-agent routing matrix learned from execution traces.",
+  "relevance_score": 3,
+  "relevance_rationale": "Routing among subagents learned from traces; not cost-focused.",
+  "found_via": "arXiv query ti:routing AND ti:\"multi-agent\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "babu-2026-agentbetta",
+  "title": "AgentBetta: Verification-Driven Adaptive Configuration of an AI Nano-Agent through Selective Expansion and Verified Contraction",
+  "authors": [
+   "M. Babu"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.23512",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C4"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "verification outcomes"
+  ],
+  "cost_reduction_reported": "Median context allocation reduced from 64,000 to 8,000 characters and tool exposure from five to zero at 91.38% verified success on AB-ConfigBench",
+  "benchmarks": [
+   "AB-ConfigBench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AgentBetta treats an agent's model capability, context, tools, permissions and memory as an executable configuration. It starts minimal, expands selectively when verification diagnoses a deficiency, and contracts counterfactually after success.",
+  "key_idea": "Verification-driven expand/contract of agent configuration, including model capability.",
+  "relevance_score": 3,
+  "relevance_rationale": "Adaptive per-task resource provisioning for agents.",
+  "found_via": "snowball: cited-by su-2025-toolorchestra",
+  "cites_or_cited_by": [
+   "su-2025-toolorchestra"
+  ]
+ },
+ {
+  "id": "taheri-2026-iffc-function-calling",
+  "title": "Small Reasoning Models are Instruction Followers in Function Calling",
+  "authors": [
+   "Yalda Taheri",
+   "Mohammad Hassan Heydari",
+   "Erfan Naaman",
+   "Afsaneh Fatemi"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.22472",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C8"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "IFFC moves function-calling logic out of the main LLM into a dedicated smaller model that works in a plain instruction-following format. It beats native and prompt-based function calling, especially for reasoning models, and stays robust under aggressive quantization.",
+  "key_idea": "Delegate tool-call formatting to a small instruction-following model.",
+  "relevance_score": 4,
+  "relevance_rationale": "A function-calling small model inside a larger agent (sub-theme d).",
+  "found_via": "snowball: cited-by belcak-2025-slms-future-agentic-ai",
+  "cites_or_cited_by": [
+   "belcak-2025-slms-future-agentic-ai"
+  ]
+ },
+ {
+  "id": "zha-2026-cacherouter",
+  "title": "CacheRouter: A Dual-Path Tool Routing Architecture with Cache-Preserving Main-Model Isolation for Long-Tail Tool Discovery",
+  "authors": [
+   "Donghui Zha",
+   "Lingwei Xu",
+   "Linxiao Wu",
+   "Yixue Dong",
+   "Haochen Li"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.22708",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C10"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "tool search by router sub-model"
+  ],
+  "cost_reduction_reported": "Cache hit rates 90.99% and 95.2%, cutting input cost to ~12.0% and ~8.0% of a no-cache baseline under DeepSeek pricing (55 queries and a 30-turn dialogue)",
+  "benchmarks": [],
+  "models_studied": [
+   "DeepSeek"
+  ],
+  "production_evidence": false,
+  "summary": "CacheRouter keeps the main model's tool list small and fixed so its prompt prefix stays cacheable, while a separate router sub-model searches the full tool catalog, runs the chosen tool and returns the result.",
+  "key_idea": "Offload long-tail tool selection to a router sub-model to keep the main model's cache prefix stable.",
+  "relevance_score": 4,
+  "relevance_rationale": "Subagent offloading as a cost lever that interacts with prompt caching; prototype-scale evaluation.",
+  "found_via": "arXiv query ti:\"routing\" AND ti:\"tool\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "singla-2026-agentweave",
+  "title": "AgentWeave: Routing Before Reasoning for Efficient Function Calling in Tool-Rich Language Models",
+  "authors": [
+   "Saurav Singla",
+   "Aarav Singla",
+   "Advik Gupta",
+   "Parnika Gupta"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.23078",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C10"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "eligibility",
+   "capability",
+   "routing signals"
+  ],
+  "cost_reduction_reported": "70.18% fewer tools exposed, 61.70% fewer input tokens and 50.95% lower local-model latency vs all-tools exposure on BFCL V4 tasks",
+  "benchmarks": [
+   "BFCL V4"
+  ],
+  "models_studied": [
+   "Hammer2.1-1.5b"
+  ],
+  "production_evidence": false,
+  "summary": "AgentWeave is a deterministic pre-inference layer that cuts the candidate tool set before a function-calling model runs, leaving the downstream model unchanged. With a 1.5B model on 48 BFCL tasks it raises success from 0/48 to 6/48.",
+  "key_idea": "Deterministic tool pre-routing to shrink the action space for small function-calling models.",
+  "relevance_score": 3,
+  "relevance_rationale": "Tool routing as a cost lever; small evaluation.",
+  "found_via": "arXiv query ti:\"routing\" AND ti:\"tool\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "chu-2026-lqm-contextroute",
+  "title": "Latency-Quality Routing for Functionally Equivalent Tools in LLM Agents",
+  "authors": [
+   "Kexin Chu",
+   "Dawei Xiang",
+   "Wei Zhang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.14241",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C5"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "latency",
+   "LLM-as-judge feedback",
+   "query-specific quality estimate"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "web search load benchmark",
+   "StrategyQA",
+   "retriever pools"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "LQM-ContextRoute is a contextual-bandit router that picks among functionally equivalent tool providers (search APIs, retrievers, LLM backends) under runtime load. It ranks providers by expected quality per service cycle, avoiding the collapse that additive latency-quality rewards cause, and learns online from judge feedback.",
+  "key_idea": "Online bandit routing among equivalent tool/LLM providers.",
+  "relevance_score": 4,
+  "relevance_rationale": "Tool/backend routing inside agents learned online without gold labels.",
+  "found_via": "arXiv query ti:\"routing\" AND ti:\"tool\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "chen-2026-oats-tool-selection",
+  "title": "Outcome-Aware Tool Selection for Semantic Routers: Latency-Constrained Learning Without LLM Inference",
+  "authors": [
+   "Hua-Min Chen",
+   "Xun-Zhuo Liu",
+   "Junchen Jiang",
+   "Bowei He",
+   "Xue Liu"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.13426",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C6"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "historical success centroids",
+   "tool embeddings"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MetaTool",
+   "ToolBench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "OATS improves tool selection in semantic routers at LLM gateways by shifting tool embeddings toward the centroid of queries where each tool historically succeeded, an offline step that adds no serving latency. NDCG@5 on MetaTool rises from 0.869 to 0.940; learned re-rankers help only when outcome data is plentiful.",
+  "key_idea": "Learn tool routing from historical outcomes offline with zero serving cost.",
+  "relevance_score": 3,
+  "relevance_rationale": "Learning routing from logged outcomes in gateways.",
+  "found_via": "snowball: cited-by su-2025-toolorchestra",
+  "cites_or_cited_by": [
+   "su-2025-toolorchestra"
+  ]
+ },
+ {
+  "id": "bholani-2026-self-healing-router",
+  "title": "Graph-Based Self-Healing Tool Routing for Cost-Efficient LLM Agents",
+  "authors": [
+   "Neeraj Bholani"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.01548",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C12"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "tool health monitors",
+   "cost-weighted tool graph"
+  ],
+  "cost_reduction_reported": "Matches ReAct correctness while reducing control-plane LLM calls by 93% (9 vs 123) across 19 scenarios",
+  "benchmarks": [
+   "19 scenarios over three graph topologies"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Self-Healing Router treats most agent control flow as deterministic routing over a cost-weighted tool graph with Dijkstra. When a tool fails, edges are reweighted and the path recomputed; the LLM is called only when no feasible path exists.",
+  "key_idea": "Replace most LLM control decisions with graph routing; call the LLM only to escalate.",
+  "relevance_score": 4,
+  "relevance_rationale": "An architectural cost lever that removes LLM calls from routine steps.",
+  "found_via": "arXiv query ti:\"cost-efficient\" AND ti:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wu-2026-tiny-critic-rag",
+  "title": "Tiny-Critic RAG: Empowering Agentic Fallback with Parameter-Efficient Small Language Models",
+  "authors": [
+   "Yichao Wu",
+   "Penghao Liang",
+   "Yafei Xiang",
+   "Mengwei Yuan",
+   "Jianan Liu",
+   "Jing Yang",
+   "Xianyou Li",
+   "Weiran Yan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.00846",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C7"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "LoRA SLM binary gate"
+  ],
+  "cost_reduction_reported": "Routing accuracy comparable to GPT-4o-mini with an order of magnitude lower latency (noise-injected datasets)",
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-4o-mini"
+  ],
+  "production_evidence": false,
+  "summary": "Tiny-Critic RAG replaces a large LLM evaluator in agentic RAG with a LoRA-tuned small model that acts as a fast binary gatekeeper over retrieval quality, triggering fallback only when needed.",
+  "key_idea": "Small LoRA critic as the routing gate in agentic RAG.",
+  "relevance_score": 3,
+  "relevance_rationale": "Small-model gate for a step in an agentic pipeline.",
+  "found_via": "arXiv query ti:\"agentic\" AND ti:\"efficient\" AND ti:\"small language models\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "fang-2026-budget-control-search-agents",
+  "title": "Inference-Time Budget Control for LLM Search Agents",
+  "authors": [
+   "Zhengru Fang",
+   "Senkang Forest Hu",
+   "Zhonghao Chang",
+   "Yu Guo",
+   "Yihang Tao",
+   "Hongyao Liu",
+   "Mengzhe Ruan",
+   "Jun Huang",
+   "Yuguang Fang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.05701",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C9"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "value-of-information score",
+   "remaining dual budget"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "four multi-hop QA benchmarks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "For search agents under hard caps on both tool calls and tokens, a controller scores each feasible action (retrieve, decompose, commit) by estimated marginal task value per unit budget. A selective finalizer rewrites the answer only for low-risk form errors; budget-dependent penalties drive most of the gain.",
+  "key_idea": "Value-of-information budget allocation across agent actions under dual hard budgets.",
+  "relevance_score": 4,
+  "relevance_rationale": "Per-task budgeted agent execution (sub-theme e).",
+  "found_via": "arXiv query ti:\"budget\" AND ti:agent AND ti:llm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "mccleary-2026-bcas",
+  "title": "Quantifying the Accuracy and Cost Impact of Design Decisions in Budget-Constrained Agentic LLM Search",
+  "authors": [
+   "Kyle McCleary",
+   "James Ghawaly"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.08877",
+  "code_url": null,
+  "topic_clusters": [
+   "C9",
+   "C13",
+   "C3"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "remaining budget"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "three QA benchmarks"
+  ],
+  "models_studied": [
+   "six LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "BCAS is a harness that exposes remaining budget to agentic RAG systems and gates tool use. It measures how search depth, retrieval strategy and completion budget affect accuracy and cost across six LLMs; accuracy saturates after a few searches and hybrid retrieval with light re-ranking helps most.",
+  "key_idea": "Measurement harness for budget-constrained agentic search design.",
+  "relevance_score": 3,
+  "relevance_rationale": "Budgeted agent-execution evidence.",
+  "found_via": "arXiv query ti:\"budget\" AND ti:agent AND ti:llm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2026-budgeted-act-or-defer",
+  "title": "Budgeted Act-or-Defer Multi-Agent LLM Deliberation with Local Reliability Bounds",
+  "authors": [
+   "Mengdie Flora Wang",
+   "Haochen Xie",
+   "Guanghui Wang",
+   "Devin Zhang",
+   "Jae Oh Woo"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.29654",
+  "code_url": null,
+  "topic_clusters": [
+   "C2",
+   "C7",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "debate-prefix state",
+   "kNN lower confidence bound"
+  ],
+  "cost_reduction_reported": "Uses 9-12% of the pre-declared wrong-action budget, reaching up to 84% automation and 96% acted-on accuracy on six benchmarks",
+  "benchmarks": [
+   "six benchmarks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Frames multi-agent debate deployment as deciding, round by round, whether to act or defer to human review under a user-declared wrong-action budget. A kNN lower confidence bound on correctness, computed from calibration data, sets the act threshold with stated assumptions and diagnostics.",
+  "key_idea": "Per-round act-or-defer with a declared risk budget for multi-agent deliberation.",
+  "relevance_score": 3,
+  "relevance_rationale": "Budgeted per-round stopping in MAS; deferral is to humans, not to models.",
+  "found_via": "arXiv query ti:\"budget\" AND ti:agent AND ti:llm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "gao-2025-turn-control-coding-agents",
+  "title": "More with Less: An Empirical Study of Turn-Control Strategies for Efficient Coding Agents",
+  "authors": [
+   "Pengfei Gao",
+   "Chao Peng"
+  ],
+  "year": 2025,
+  "venue_or_source": "ICSE 2026",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2510.16786",
+  "code_url": null,
+  "topic_clusters": [
+   "C9",
+   "C3",
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "turn count"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "SWE-bench"
+  ],
+  "models_studied": [
+   "Claude 4 Sonnet",
+   "Gemini 2.5 Pro",
+   "GPT 4.1"
+  ],
+  "production_evidence": false,
+  "summary": "An empirical study on SWE-bench of turn-control strategies for coding agents: unrestricted, fixed-turn limits with reminders, and dynamic limits. It frames total turn count as a primary lever on cost, since tokens grow with every turn.",
+  "key_idea": "Turn budgets as a cost lever for coding agents.",
+  "relevance_score": 3,
+  "relevance_rationale": "Budget-constrained agent execution in coding agents; ICSE 2026.",
+  "found_via": "Semantic Scholar query \"per-turn model routing coding agent\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "bengal-2026-marginal-contribution-pg",
+  "title": "Marginal-Contribution Policy Gradients under Filtered Feedback for Multi-Agent LLMs",
+  "authors": [
+   "Elai Ben-Gal",
+   "Stela Tong"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2604.22785",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C8"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "RL-online",
+  "signals_used": [
+   "marginal contribution",
+   "counterfactual evaluations"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "GSM8K (routed)"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Proves that shared-reward training of multi-agent LLM systems cannot distinguish agents that matter from ones that do not, and derives gradient-correct marginal-contribution signals identifiable from filtered feedback, with an optimal budget for exact counterfactual evaluations. In GRPO it improves routed GSM8K over winner-take-all training at no extra generation cost.",
+  "key_idea": "Marginal-contribution credit assignment for routed multi-agent LLMs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Credit assignment theory applicable to deciding which agents matter (sub-theme f).",
+  "found_via": "arXiv query abs:\"credit assignment\" AND abs:\"multi-agent\" AND abs:\"LLM\" AND abs:cost",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zehle-2026-cantante",
+  "title": "CANTANTE: Optimizing Agentic Systems via Contrastive Credit Attribution",
+  "authors": [
+   "Tom Zehle"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.13295",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "contrastive rollouts of joint configurations"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MBPP",
+   "GSM8K",
+   "HotpotQA"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "CANTANTE treats configuring multi-agent systems as credit assignment, decomposing system-level rewards into per-agent signals by contrasting rollouts of multiple joint configurations on the same query. Instantiated for prompt optimization, it gets the best average rank vs GEPA and MIPROv2.",
+  "key_idea": "Contrastive per-agent credit attribution for optimizing agentic configs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Credit attribution that could extend to per-agent model choice.",
+  "found_via": "arXiv query abs:\"credit assignment\" AND abs:\"multi-agent\" AND abs:\"LLM\" AND abs:cost",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "xia-2025-hivemind",
+  "title": "HiveMind: Contribution-Guided Online Prompt Optimization of LLM Multi-Agent Systems",
+  "authors": [
+   "Yihan Xia",
+   "Taotao Wang",
+   "Shengli Zhang",
+   "Zhangyuhua Weng",
+   "Bin Cao",
+   "Soung Chang Liew"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2512.06432",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3",
+   "C7"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "DAG-Shapley contribution"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "HiveMind quantifies each agent's contribution in an LLM multi-agent system with an efficient DAG-Shapley approximation, then refines prompts of underperforming agents online.",
+  "key_idea": "Shapley-based per-agent contribution scoring for MAS optimization.",
+  "relevance_score": 3,
+  "relevance_rationale": "Per-agent credit signals usable for deciding where cheaper models are safe.",
+  "found_via": "arXiv query abs:\"credit assignment\" AND abs:\"multi-agent\" AND abs:\"LLM\" AND abs:cost",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "liu-2026-masprism",
+  "title": "MASPrism: Lightweight Failure Attribution for Multi-Agent Systems Using Prefill-Stage Signals",
+  "authors": [
+   "Yang Liu",
+   "Hongjiang Feng",
+   "Junsong Pu",
+   "Zhuangbin Chen"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.07509",
+  "code_url": null,
+  "topic_clusters": [
+   "C7",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "token NLL",
+   "attention weights (prefill)"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "Who&When",
+   "TRAIL"
+  ],
+  "models_studied": [
+   "Qwen3-0.6B"
+  ],
+  "production_evidence": false,
+  "summary": "MASPrism attributes failures in multi-agent executions to source steps using only two prefill passes of a 0.6B model, reading token NLL and attention instead of decoding, and achieves the best results on three of four Who&When/TRAIL subsets.",
+  "key_idea": "Cheap SLM prefill signals for step-level failure attribution.",
+  "relevance_score": 3,
+  "relevance_rationale": "Low-cost step attribution; a building block for step-level routing decisions.",
+  "found_via": "arXiv query ti:\"failure attribution\" AND abs:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhang-2025-stop-overvaluing-mad",
+  "title": "Stop Overvaluing Multi-Agent Debate -- We Must Rethink Evaluation and Embrace Model Heterogeneity",
+  "authors": [
+   "Hangfan Zhang",
+   "Zhiyao Cui",
+   "Jianhao Chen",
+   "Xinrun Wang",
+   "Qiaosheng Zhang",
+   "Zhen Wang",
+   "Dinghao Wu",
+   "Shuyue Hu"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2502.08788",
+  "code_url": null,
+  "topic_clusters": [
+   "C12",
+   "C3",
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "9 benchmarks"
+  ],
+  "models_studied": [
+   "4 foundation models"
+  ],
+  "production_evidence": false,
+  "summary": "A systematic evaluation of five multi-agent debate methods on nine benchmarks finds they often fail to beat CoT and self-consistency despite using more compute. Mixing heterogeneous models consistently improves MAD.",
+  "key_idea": "MAD rarely pays off; model heterogeneity is the reliable improvement.",
+  "relevance_score": 4,
+  "relevance_rationale": "Key evidence on cost-effectiveness of debate and heterogeneous agents (sub-theme g).",
+  "found_via": "arXiv query ti:debate AND ti:heterogeneous",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "nilayam-2026-heterogeneous-debate-adversarial",
+  "title": "Heterogeneous LLM Debate Under Adversarial Peers: Honest Gains, Replacement Costs, and Resilience",
+  "authors": [
+   "Prashanti Nilayam",
+   "Kiran Kumar Ramanna",
+   "Prashil Tumbade",
+   "Sankalp Nayak"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.19826",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C7"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "revision behavior"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MATH-hard",
+   "three reasoning benchmarks"
+  ],
+  "models_studied": [
+   "Llama-3.1-70B",
+   "four model families"
+  ],
+  "production_evidence": false,
+  "summary": "Measures how a heterogeneous peer changes honest agents' revisions in debate. An honest cross-family peer cuts harmful revision on MATH-hard from 89% to 35% for Llama-3.1-70B defenders, while an adversarial one returns it to 90%.",
+  "key_idea": "Heterogeneous debate peers help when honest but amplify harm when adversarial.",
+  "relevance_score": 3,
+  "relevance_rationale": "Heterogeneous debate dynamics; no cost numbers.",
+  "found_via": "arXiv query ti:debate AND ti:heterogeneous",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "yuan-2026-mixed-vendor-clinical-mas",
+  "title": "Do Mixed-Vendor Multi-Agent LLMs Improve Clinical Diagnosis?",
+  "authors": [
+   "G. C. Yuan",
+   "Xiaoman Zhang",
+   "Sung Eun Kim",
+   "P. Rajpurkar"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.04421",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C12"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "RareBench",
+   "DiagnosisArena"
+  ],
+  "models_studied": [
+   "o4-mini",
+   "Gemini-2.5-Pro",
+   "Claude-4.5-Sonnet"
+  ],
+  "production_evidence": false,
+  "summary": "Compares single-LLM, single-vendor and mixed-vendor multi-agent conversations for clinical diagnosis. Mixed-vendor teams consistently win because they pool complementary inductive biases.",
+  "key_idea": "Vendor diversity beats homogeneous teams in diagnostic MAS.",
+  "relevance_score": 3,
+  "relevance_rationale": "Heterogeneous-model MAS evidence (quality only).",
+  "found_via": "snowball: cited-by ye-2025-x-mas",
+  "cites_or_cited_by": [
+   "ye-2025-x-mas"
+  ]
+ },
+ {
+  "id": "mitra-2026-mosaic-moa-scheduling",
+  "title": "MOSAIC: Efficient Mixture-of-Agent Scheduling via Adaptive Aggregation and Inference Concurrency",
+  "authors": [
+   "Saptarshi Mitra",
+   "Yifan Zhang",
+   "Rachid Karami",
+   "Phyo Pyae Moe Aung",
+   "Nazmul Takbir",
+   "Sreetama Sarkar",
+   "Souvik Kundu",
+   "Sitao Huang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.03014",
+  "code_url": null,
+  "topic_clusters": [
+   "C11",
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "inter-expert agreement",
+   "offline-profiled costs"
+  ],
+  "cost_reduction_reported": "Up to 2.5x expert-stage, 4.23x aggregator-stage and 1.7-2.3x end-to-end speedups vs baseline scheduler, accuracy within 0.1pp (4-GPU system)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "MOSAIC schedules Mixture-of-Agents workloads with an ILP that places experts and assigns prompts per worker using offline-profiled costs. It skips the heavy aggregator LLM when experts already agree.",
+  "key_idea": "Agreement-gated aggregator skipping plus ILP scheduling for MoA.",
+  "relevance_score": 4,
+  "relevance_rationale": "MoA cost study with a selective-skip mechanism (sub-theme g).",
+  "found_via": "arXiv query ti:\"mixture-of-agents\" AND abs:cost",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wu-2026-differentiable-moa",
+  "title": "Differentiable Mixture-of-Agents Incentivizes Swarm Intelligence of Large Language Models",
+  "authors": [
+   "Xingjian Wu",
+   "Junkai Lu",
+   "Siyu Yan",
+   "Xiangfei Qiu",
+   "Jilin Hu",
+   "Chenjuan Guo",
+   "Bin Yang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.15706",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C4"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "predictive entropy",
+   "recurrent context"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "DMoA dynamically activates a sparse subset of agents at each reasoning step through a differentiable, context-aware router, implicitly simulating many communication topologies. Predictive entropy serves as a self-supervised signal for test-time adaptation.",
+  "key_idea": "Step-wise sparse agent activation via a differentiable router.",
+  "relevance_score": 3,
+  "relevance_rationale": "Step-level agent routing in MoA; efficiency claims are qualitative in the abstract.",
+  "found_via": "snowball: cited-by lee-2025-steer",
+  "cites_or_cited_by": [
+   "lee-2025-steer"
+  ]
+ },
+ {
+  "id": "yang-2026-fusion-moa-fleet",
+  "title": "The Fleet Is the Model: Engineering Collective Intelligence with Fusion-MoA Pioneer R1",
+  "authors": [
+   "Zong-You Yang",
+   "Ying-Han Hou"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.26080",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C11",
+   "C14"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "HMMT P1-P10",
+   "Terminal-Bench 2.1"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Fusion-MoA exposes a governed fleet of heterogeneous model \"Cells\" as one OpenAI-compatible model, with read-only Analysts and a single Executor holding tool authority. Members can be promoted or rolled back without changing the API. The collective solves 8/10 HMMT problems vs 6/10 for the best single Cell.",
+  "key_idea": "Operate a heterogeneous model fleet as one governed, evolvable service.",
+  "relevance_score": 3,
+  "relevance_rationale": "Operational architecture for heterogeneous MoA; no cost numbers.",
+  "found_via": "snowball: cited-by belcak-2025 / yue-2025-masrouter",
+  "cites_or_cited_by": [
+   "belcak-2025-slms-future-agentic-ai",
+   "yue-2025-masrouter"
+  ]
+ },
+ {
+  "id": "wang-2026-strong-weak-hmas",
+  "title": "Guided Collaboration in Heterogeneous LLM-Based Multi-Agent Systems via Entropy-Based Understanding Assessment and Experience Retrieval",
+  "authors": [
+   "Linlin Wang",
+   "Tianqing Zhu",
+   "Laiqiao Qin",
+   "Longxiang Gao",
+   "Wanlei Zhou"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.13639",
+  "code_url": null,
+  "topic_clusters": [
+   "C3"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "multi-dimensional entropy"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "In heterogeneous MAS, strong-weak pairings can underperform weak-weak pairings because of cognitive mismatch. The authors propose entropy-based assessment of the weak agent's understanding to adapt guidance, plus experience retrieval.",
+  "key_idea": "Strong-weak agent pairs need adaptive guidance to beat homogeneous teams.",
+  "relevance_score": 3,
+  "relevance_rationale": "Evidence on pitfalls of mixing big and small models across roles.",
+  "found_via": "snowball: cited-by ye-2025-x-mas",
+  "cites_or_cited_by": [
+   "ye-2025-x-mas"
+  ]
+ },
+ {
+  "id": "patel-2026-six-sigma-agent",
+  "title": "The Six Sigma Agent: Achieving Enterprise-Grade Reliability in LLM Systems Through Consensus-Driven Decomposed Execution",
+  "authors": [
+   "Khush Patel",
+   "Siva Surendira",
+   "Jithin George",
+   "Shreyas Kapale"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.22290",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C12",
+   "C14"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "consensus voting across diverse LLMs"
+  ],
+  "cost_reduction_reported": "14,700x reliability improvement over single-agent execution while reducing costs by 80% (three enterprise use cases)",
+  "benchmarks": [
+   "three enterprise use cases"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Six Sigma Agent decomposes tasks into atomic actions, runs each n times across diverse cheaper LLMs, and takes a consensus vote with dynamic scaling. Theory shows error falls exponentially in n.",
+  "key_idea": "Redundant cheap-model micro-agents with voting instead of one expensive model.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cheap-model redundancy as a cost lever; enterprise claims are from an evaluation, not live traffic.",
+  "found_via": "arXiv query ti:enterprise AND ti:agent AND abs:\"model\" AND abs:\"cost\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "ali-2026-harness-effect",
+  "title": "The Harness Effect: How Orchestration Design Sets the Token Economics of Enterprise Agentic AI",
+  "authors": [
+   "Muayad Sayed Ali",
+   "Aliaksandra Novik",
+   "Anji Boddupally",
+   "Artem Yavorskyi",
+   "Chris Nickerson",
+   "Daniel Rica",
+   "Emily DuGranrut",
+   "Felix Leung",
+   "Garrett Prince",
+   "Grace Barnett",
+   "Heath Robinson",
+   "Hosain Al Ahmad",
+   "Jesse Resnick",
+   "Juan Carlos Farah",
+   "Jyothi Swaroop Meruga",
+   "Leonid Kuznetsov",
+   "Luke Gorham",
+   "Marie Schmoll",
+   "Michael Paciullo",
+   "Saumya Das",
+   "Sharath Sheripally",
+   "Tommy Griscom",
+   "Mykyta Osadchyi",
+   "Neha Mantri",
+   "Nick Westrum",
+   "Olivia Benowitz",
+   "Parikshith Kulkarni",
+   "Radik Chernyshov",
+   "Rakshith Vasudev",
+   "Rohith Nadimpally",
+   "Vikas Gangadevi",
+   "Waseem AlShikh"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.06906",
+  "code_url": null,
+  "topic_clusters": [
+   "C12",
+   "C14",
+   "C10",
+   "C3"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "Harness cuts blended cost per task 41% ($0.21->$0.12), wall-clock 44%, tokens 38% at quality parity (0.78->0.81) across six models on 22 tasks; quality per dollar +82%",
+  "benchmarks": [
+   "22 locked enterprise evaluation tasks"
+  ],
+  "models_studied": [
+   "Claude Sonnet 4.6",
+   "Gemini 3.1",
+   "Gemini Flash 3.5",
+   "Qwen 3.6",
+   "GLM 5.1",
+   "Palmyra X6"
+  ],
+  "production_evidence": false,
+  "summary": "A controlled swap that keeps six models fixed and changes only the orchestration layer, comparing a conventional production loop with Writer's agent harness. On this workload the harness moved cost per task more than the whole spread of model choices, and quality gains scaled with model strength.",
+  "key_idea": "Orchestration harness design is a larger cost lever than model choice.",
+  "relevance_score": 4,
+  "relevance_rationale": "Enterprise evidence that bounds the value of model routing relative to harness design.",
+  "found_via": "arXiv query ti:enterprise AND ti:agent AND abs:\"model\" AND abs:\"cost\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "malik-2026-progressive-crystallization",
+  "title": "Progressive Crystallization: Turning Agent Exploration into Deterministic, Lower-Cost Workflows in Production",
+  "authors": [
+   "Arun Malik"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.07052",
+  "code_url": null,
+  "topic_clusters": [
+   "C14",
+   "C8",
+   "C12"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "repeated validated agent behaviors"
+  ],
+  "cost_reduction_reported": "Deterministic execution rose 0% to 45% over eight months; per-incident agent cost reduced >70% despite doubling incident volume (production cloud-networking AIOps)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Progressive crystallization promotes repeatedly validated agent behaviors in a production IT-ops system into deterministic workflows, and demotes them on regression. Over eight months on tens of thousands of incidents per month it shifted executions off the LLM.",
+  "key_idea": "Graduate agent trajectories into deterministic workflows to remove LLM calls.",
+  "relevance_score": 4,
+  "relevance_rationale": "Real production evidence for learning from traces to cut agent cost.",
+  "found_via": "arXiv query ti:\"agent\" AND ti:\"production\" AND abs:\"cost\" AND abs:\"model\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "selvaraj-2026-adept",
+  "title": "ADEPT: adaptive delegation of expert prompts to trained SLMs for agentic AI use cases",
+  "authors": [
+   "Suganya Selvaraj",
+   "Gautam Tripathi",
+   "Chetana Amancharla"
+  ],
+  "year": 2026,
+  "venue_or_source": "International Conference on Artificial Intelligence, Automation, and Algorithms (SPIE) 2026",
+  "source_type": "paper",
+  "url": "https://doi.org/10.1117/12.3097560",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C8",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "novelty/complexity of prompt"
+  ],
+  "cost_reduction_reported": "41.5% reduction in LLM calls and 39.8% cost savings over two months in ITOps and cybersecurity",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "ADEPT starts with LLMs answering novel prompts and progressively fine-tunes SLMs on expert outputs to take over repetitive, well-understood tasks, with routing between them. It was evaluated over two months in IT operations and cybersecurity.",
+  "key_idea": "Progressive LLM-to-SLM delegation trained on the LLM's own production outputs.",
+  "relevance_score": 4,
+  "relevance_rationale": "Production-style evidence for learning delegation from traffic.",
+  "found_via": "snowball: cited-by belcak-2025-slms-future-agentic-ai",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "ryser-2026-shipping-cost-mas",
+  "title": "Measuring Tradeoffs in Multi-Agent Models: a Case Study in Shipping Cost Calculation",
+  "authors": [
+   "André Ryser",
+   "Paolo Rosso",
+   "Julien Audiffren",
+   "Simon Ruffieux",
+   "Philippe Goetschmann",
+   "P. Cudré-Mauroux"
+  ],
+  "year": 2026,
+  "venue_or_source": "Swiss Conference on Data Science (SDS) 2026",
+  "source_type": "paper",
+  "url": "https://doi.org/10.1109/SDS70563.2026.00040",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C14",
+   "C12"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "An industrial case study that decomposes a customer-facing shipping-cost agent into sub-tasks so that smaller open-weight models can handle them in a multi-agent system. With optimization, small models are a cost-effective alternative to frontier models in low-risk settings.",
+  "key_idea": "Decompose an industrial agent so small models can serve subtasks.",
+  "relevance_score": 4,
+  "relevance_rationale": "Industrial mixed-model agent case study (sub-theme h).",
+  "found_via": "snowball: cited-by belcak-2025-slms-future-agentic-ai",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "kolagani-2025-crm-multi-model-routing",
+  "title": "Cost-Aware Agentic Architectures for Multi-Model Routing and Tool-Use Optimisation in CRM Workflows",
+  "authors": [
+   "Sri Hari Deep Kolagani",
+   "Dr Mamata Bhandar"
+  ],
+  "year": 2025,
+  "venue_or_source": "International Journal of Leading Research Publication",
+  "source_type": "paper",
+  "url": "https://doi.org/10.70528/ijlrp.v6.i7.1866",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C14"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "task tier"
+  ],
+  "cost_reduction_reported": "Dynamic task routing saved 33% API cost vs always-largest LLM with CSAT >90% and FCR >85%; up to 35% operating cost savings",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Studies dispatching CRM post-sale tasks such as case escalation and email summarization to small, medium or large LLM tiers on Salesforce Service Cloud, alongside vector-DB query optimization and API-call limits.",
+  "key_idea": "Tiered model routing in CRM agent workflows.",
+  "relevance_score": 3,
+  "relevance_rationale": "Enterprise mixed-tier agent report; low-rigor venue.",
+  "found_via": "Semantic Scholar query \"per-turn model routing coding agent\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "shivam-2026-multi-model-agentic-taxonomy",
+  "title": "Architecting Multi-Model Agentic AI Systems: A Taxonomy and Reference Architecture for Specialized LLMs in Production Agents",
+  "authors": [
+   "Sandeep Shivam",
+   "Milan Parikh",
+   "Venkat Nutalapati",
+   "Vinay R Soni",
+   "Vijaykumar Venganti"
+  ],
+  "year": 2026,
+  "venue_or_source": "ICAISET 2026",
+  "source_type": "paper",
+  "url": "https://doi.org/10.1109/ICAISET66439.2026.11541520",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C15"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Proposes a taxonomy of six model classes (general LLMs, MoE, VLMs, reasoning models, SLMs, large action models) and a four-layer reference architecture with explicit model-to-layer assignments for production agents.",
+  "key_idea": "Reference architecture for heterogeneous model assignment in production agents.",
+  "relevance_score": 3,
+  "relevance_rationale": "Conceptual framework for role-level model assignment.",
+  "found_via": "snowball: cited-by ye-2025-x-mas",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "satija-2026-fastworkflow",
+  "title": "fastWorkflow: Closing the Performance Gap Between Small and Frontier Language Models for Conversational Agents",
+  "authors": [
+   "Sanchit Satija",
+   "Aditya Bhatt",
+   "Priyanshu Jani",
+   "Dharmesh D. Rawal"
+  ],
+  "year": 2026,
+  "venue_or_source": "CAIS 2026",
+  "source_type": "paper",
+  "url": "https://doi.org/10.1145/3786335.3813158",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C8",
+   "C13"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "cascaded NLU intent detection"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "tau-bench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Builds a taxonomy of SLM failure modes in conversational tool-use agents (NLU, tool management, decomposition, reasoning, context) measured on tau-bench, then proposes a dual-mode architecture with a cascaded NLU pipeline to close the gap to frontier models.",
+  "key_idea": "Characterize and engineer around SLM failure modes in agent workflows.",
+  "relevance_score": 3,
+  "relevance_rationale": "Informs where small models fail inside agents.",
+  "found_via": "snowball: cited-by belcak-2025 / su-2025-toolorchestra",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "kabeer-2026-pearl",
+  "title": "PEARL: Performance-Efficient Agentic Retrieval-Augmented Generation Through Learned Orchestration",
+  "authors": [
+   "S. Kabeer",
+   "A. Sirisha",
+   "R. G. Reddy"
+  ],
+  "year": 2026,
+  "venue_or_source": "ICCBI 2026",
+  "source_type": "paper",
+  "url": "https://doi.org/10.1109/ICCBI68589.2026.11619898",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3",
+   "C8"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "GPT-4 routing traces"
+  ],
+  "cost_reduction_reported": "Distilled Flan-T5-small (80M) orchestrator achieves Routing Accuracy Score 0.942 on Indian legal queries",
+  "benchmarks": [
+   "Indian legal queries"
+  ],
+  "models_studied": [
+   "Flan-T5-small",
+   "GPT-4"
+  ],
+  "production_evidence": false,
+  "summary": "PEARL replaces a GPT-4 orchestrator in a multi-agent RAG system with an 80M Flan-T5 trained on 12,000 GPT-4 routing traces, classifying queries into one of four agent pipeline configurations.",
+  "key_idea": "Distill the LLM orchestrator into a tiny classifier from its own traces.",
+  "relevance_score": 4,
+  "relevance_rationale": "A router learned from orchestrator traces (sub-theme c).",
+  "found_via": "snowball: cited-by yue-2025-masrouter",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "bozoglan-2026-slm-database-agent",
+  "title": "What Stops a Small Language Model From Driving a Database Agent",
+  "authors": [
+   "Cevheri Bozoglan",
+   "Yusuf Gundogdu",
+   "Abdullah Kaya",
+   "Koray Sirin"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.21341",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C7",
+   "C13"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "ledger events",
+   "refusal codes"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "39 open-weight models"
+  ],
+  "production_evidence": false,
+  "summary": "Over eleven days the authors drove a real open-source SQL client's agent mode with 39 local open-weight models (8,199 runs). Most small-model losses came from runs that did call tools, mostly transport/argument-shape failures, and five server-side fixes moved model results substantially without changing any model.",
+  "key_idea": "Small-model agent failures are often interface failures, not capability gaps.",
+  "relevance_score": 3,
+  "relevance_rationale": "Practical evidence on making SLMs viable inside agents.",
+  "found_via": "snowball: cited-by belcak-2025-slms-future-agentic-ai",
+  "cites_or_cited_by": [
+   "belcak-2025-slms-future-agentic-ai"
+  ]
+ },
+ {
+  "id": "xu-2026-agent-skills-slm-industrial",
+  "title": "Agent Skill Framework: Perspectives on the Potential of Small to Medium Language Models in Industrial Environments",
+  "authors": [
+   "Yangjie Xu",
+   "Lujun Li",
+   "Lama Sleem",
+   "Niccolò Gentile",
+   "Ye-Wei Song",
+   "Yiqun Wang",
+   "Siming Ji",
+   "Wenbo Wu",
+   "Radu State"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.16653",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C8"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "two open-source tasks",
+   "insurance claims classification"
+  ],
+  "models_studied": [
+   "270M-80B open models"
+  ],
+  "production_evidence": false,
+  "summary": "Studies whether agent Skills work with small and medium open models in resource-constrained industrial settings. Very small models struggle with skill selection, models around 30B-80B benefit, and thinking variants add GPU cost without much gain.",
+  "key_idea": "Skills need ~30B+ models; very small models fail at skill selection.",
+  "relevance_score": 3,
+  "relevance_rationale": "Sizing guidance for open models in industrial agents.",
+  "found_via": "snowball: cited-by belcak-2025-slms-future-agentic-ai",
+  "cites_or_cited_by": [
+   "belcak-2025-slms-future-agentic-ai"
+  ]
+ },
+ {
+  "id": "chen-2026-compression-gateway-cost",
+  "title": "An Empirical Cost Attribution of Context-Compression Gateways in Multi-Turn Coding Agents",
+  "authors": [
+   "Lu Chen",
+   "Jiayu Shi"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.22114",
+  "code_url": null,
+  "topic_clusters": [
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": "Tool-schema filtering removes ~21K-57K tokens per turn; content compression saves only ~2% of cache-priced prefix per turn (real Claude Code/Codex sessions)",
+  "benchmarks": [],
+  "models_studied": [
+   "Claude Sonnet",
+   "GPT-5"
+  ],
+  "production_evidence": true,
+  "summary": "Instruments a production compression gateway between coding agents (Claude Code, Codex) and frontier LLMs and decomposes the token bill into tool-schema filtering, content compression and history summarization under controlled A/B runs. Only schema filtering is reliably positive once prompt caching is priced in.",
+  "key_idea": "With prompt caching, compression savings are much smaller than benchmarks imply.",
+  "relevance_score": 3,
+  "relevance_rationale": "Production cost attribution for coding agents; supporting lever.",
+  "found_via": "Semantic Scholar query \"per-turn model routing coding agent\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "yao-2025-super-agent-hybrid-routers",
+  "title": "Toward Super Agent System with Hybrid AI Routers",
+  "authors": [
+   "Yuhang Yao",
+   "Haixin Wang",
+   "Yibo Chen",
+   "Jiawen Wang",
+   "Min Chang Jordan Ren",
+   "Bosheng Ding",
+   "Salman Avestimehr",
+   "Chaoyang He"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2504.10519",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "intent",
+   "task complexity"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "A position paper describing a super-agent system that detects intent, routes requests to specialized task agents or generated workflows, and uses a hybrid router choosing between on-device and cloud models by task complexity.",
+  "key_idea": "Blueprint for intent routing plus local/cloud model routing in a super agent.",
+  "relevance_score": 3,
+  "relevance_rationale": "Position paper; architectural framing only.",
+  "found_via": "arXiv query ti:router AND ti:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "si-2025-ccpo",
+  "title": "Conformal Constrained Policy Optimization for Cost-Effective LLM Agents",
+  "authors": [
+   "Wenwen Si",
+   "Sooyong Jang",
+   "Insup Lee",
+   "Osbert Bastani"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2511.11828",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C2",
+   "C6"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "conformal threshold",
+   "cost-aware score"
+  ],
+  "cost_reduction_reported": "Up to 30% cost reduction vs other cost-aware baselines and LLM-guided methods without compromising reliability on two multi-hop QA benchmarks",
+  "benchmarks": [
+   "two multi-hop QA benchmarks"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "CCPO trains an orchestration policy that runs models and tools of different cost in sequence, minimizing cost subject to a user-specified reliability level formalized with conformal prediction. It combines constrained policy optimization with off-policy RL and online conformal prediction.",
+  "key_idea": "Cost-minimizing multi-model agent orchestration with conformal reliability constraints.",
+  "relevance_score": 5,
+  "relevance_rationale": "Sequential multi-model orchestration in agents with guarantees and cost numbers.",
+  "found_via": "arXiv query ti:\"cost-effective\" AND ti:agents",
+  "cites_or_cited_by": [
+   "si-2026-policy-guided-stepwise-routing"
+  ]
+ },
+ {
+  "id": "ni-2026-chimera",
+  "title": "Chimera: Latency- and Performance-Aware Multi-agent Serving for Heterogeneous LLMs",
+  "authors": [
+   "Kangqi Ni",
+   "Wenyue Hua",
+   "Xiaoxiang Shi",
+   "Jiang Guo",
+   "Shiyu Chang",
+   "Tianlong Chen"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.22206",
+  "code_url": null,
+  "topic_clusters": [
+   "C11",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "semantic routing confidence",
+   "predicted remaining output length",
+   "congestion"
+  ],
+  "cost_reduction_reported": "End-to-end latency reduced 1.2-2.4x and task performance +8.0-9.5 pp on average vs baselines incl. vLLM",
+  "benchmarks": [
+   "code generation and math reasoning workflows"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Chimera schedules multi-agent workflow stages across a heterogeneous LLM cluster. It combines semantic routing for per-model confidence, prediction of remaining workflow output length, and congestion estimates for load balancing.",
+  "key_idea": "Joint per-stage model routing and load balancing for heterogeneous MAS serving.",
+  "relevance_score": 4,
+  "relevance_rationale": "Per-stage heterogeneous model assignment at the serving layer.",
+  "found_via": "arXiv query ti:heterogeneous AND ti:\"multi-agent\" AND ti:llm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2026-latency-aware-mas-gpus",
+  "title": "Latency-Aware Orchestration for Multi-Agent LLM Workflows on Heterogeneous GPUs",
+  "authors": [
+   "Jinghao Wang",
+   "Yifeng Zhang",
+   "Xiao Zhou",
+   "Yao Lu",
+   "Yihui Zhang",
+   "Xiaoyang Sun",
+   "Tianyu Wo",
+   "Xu Wang",
+   "Chunming Hu",
+   "Renyu Yang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.03335",
+  "code_url": null,
+  "topic_clusters": [
+   "C11",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "predicted activation latency",
+   "memory",
+   "model-loading cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "A prediction-guided runtime for concurrent multi-agent workflows on heterogeneous GPU pools: it forecasts per-device latency, memory and model-loading cost through workflow dependencies, then jointly chooses fusion, placement and order.",
+  "key_idea": "Workflow-aware placement and scheduling of multi-model agents on heterogeneous GPUs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Serving support for multi-model agents.",
+  "found_via": "arXiv query ti:heterogeneous AND ti:\"multi-agent\" AND ti:llm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "da-2026-routebalance",
+  "title": "RouteBalance: Fused Model Routing and Load Balancing for Heterogeneous LLM Serving",
+  "authors": [
+   "Wei Da",
+   "E. Kalyvianaki"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.17949",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C11"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "quality/cost predictors",
+   "instance load"
+  ],
+  "cost_reduction_reported": "At its cost-priority corner, per-request cost ties the cheapest baseline; highest routing-decision quality (DeepEval 0.419) on a 13-instance 28-GPU cluster",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "RouteBalance fuses model routing and load balancing into one online assignment over concrete model instances, trading off quality, latency and cost with a ~32 ms decision path on a heterogeneous cluster.",
+  "key_idea": "Fuse router and load balancer for heterogeneous LLM serving.",
+  "relevance_score": 3,
+  "relevance_rationale": "Serving-aware routing relevant to multi-model agent deployments.",
+  "found_via": "snowball: cited-by belcak-2025-slms-future-agentic-ai",
+  "cites_or_cited_by": [
+   "belcak-2025-slms-future-agentic-ai"
+  ]
+ },
+ {
+  "id": "woo-2026-prefillshare",
+  "title": "PrefillShare: A Shared Prefill Module for KV Reuse in Multi-LLM Disaggregated Serving",
+  "authors": [
+   "Sunghyeon Woo",
+   "Hoseung Kim",
+   "S. Shim",
+   "Minjung Jo",
+   "Hyunjoon Jeong",
+   "Jeongtae Lee",
+   "Joonghoon Kim",
+   "Sungjae Lee",
+   "Jiwon Ryu",
+   "Baeseong Park",
+   "S. Kwon",
+   "Dongsoo Lee"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.12029",
+  "code_url": null,
+  "topic_clusters": [
+   "C11",
+   "C10"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "supervised-offline",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "PrefillShare lets multiple fine-tuned task-specific models in a multi-agent system share one frozen prefill module and its KV cache over a shared context in disaggregated serving, fine-tuning only decode modules.",
+  "key_idea": "Share prefill/KV across specialized models in multi-agent serving.",
+  "relevance_score": 3,
+  "relevance_rationale": "Systems lever that makes multi-model agent pipelines cheaper.",
+  "found_via": "snowball: cited-by su-2025-toolorchestra",
+  "cites_or_cited_by": [
+   "su-2025-toolorchestra"
+  ]
+ },
+ {
+  "id": "lu-2025-autoannotator",
+  "title": "From LLM-anation to LLM-orchestrator: Coordinating Small Models for Data Labeling",
+  "authors": [
+   "Yao Lu",
+   "Zhaiyuan Ji",
+   "Jiawei Du",
+   "Yu Shanqing",
+   "Qi Xuan",
+   "Tianyi Zhou"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2506.16393",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C8"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "multi-model voting",
+   "difficult samples"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "AutoAnnotator uses an LLM meta-controller to choose SLMs, generate annotation code and review hard samples, while a layer of task-specialist SLMs labels by voting; hard samples continually fine-tune the SLMs.",
+  "key_idea": "LLM as orchestrator of cheap specialist SLMs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Big-orchestrator/small-worker split with continual learning.",
+  "found_via": "arXiv query ti:orchestrator AND abs:\"small\" AND abs:\"cost\" AND abs:LLMs",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "jiao-2025-weak-strong-collaboration",
+  "title": "Synergistic Weak-Strong Collaboration by Aligning Preferences",
+  "authors": [
+   "Yizhu Jiao",
+   "Xuchao Zhang",
+   "Zhaoyang Wang",
+   "Yubo Ma",
+   "Zhun Deng",
+   "Rujia Wang",
+   "Chetan Bansal",
+   "Saravan Rajmohan",
+   "Jiawei Han",
+   "Huaxiu Yao"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2504.15188",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C8"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "collaborative feedback influence"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "three domains"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Pairs a domain-specialized weak model that drafts with a general strong model that refines, and preference-tunes the weak model with feedback quantifying how much its drafts helped the collaboration.",
+  "key_idea": "Weak drafter plus strong refiner, with the weak model tuned on collaboration feedback.",
+  "relevance_score": 3,
+  "relevance_rationale": "Big-small collaboration pattern.",
+  "found_via": "arXiv query ti:\"weak-strong\" OR ti:\"weak-to-strong\" AND ti:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2026-heterogeneous-vuln-detection",
+  "title": "Strategic Heterogeneous Multi-Agent Architecture for Cost-Effective Code Vulnerability Detection",
+  "authors": [
+   "Zhaohui Geoffrey Wang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2604.21282",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C12"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [],
+  "cost_reduction_reported": "77.2% F1 at $0.002 per sample vs single-expert LLM F1 71.4% (262 NIST Juliet samples)",
+  "benchmarks": [
+   "NIST Juliet Test Suite"
+  ],
+  "models_studied": [
+   "DeepSeek-V3",
+   "Qwen3-8B"
+  ],
+  "production_evidence": false,
+  "summary": "A \"3+1\" architecture runs three cloud DeepSeek-V3 experts with complementary perspectives in parallel and a local Qwen3-8B verifier that adversarially validates at zero marginal cost.",
+  "key_idea": "Cloud experts plus a local small verifier.",
+  "relevance_score": 3,
+  "relevance_rationale": "Role-level big/small split with cost per sample.",
+  "found_via": "arXiv query abs:\"multi-agent\" AND abs:\"heterogeneous\" AND abs:\"cost\" AND abs:\"LLMs\" AND ti:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "fan-2025-core-cloud-local-mobile",
+  "title": "CORE: Reducing UI Exposure in Mobile Agents via Collaboration Between Cloud and Local LLMs",
+  "authors": [
+   "Gucongcong Fan",
+   "Chaoyue Niu",
+   "Chengfei Lyu",
+   "Fan Wu",
+   "Guihai Chen"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.15455",
+  "code_url": "https://github.com/Entropy-Fighter/CORE",
+  "topic_clusters": [
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "UI block ranking"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "CORE splits mobile-agent decisions between a local LLM that ranks UI blocks and a cloud LLM that selects elements within the top block, with co-planning of sub-tasks. It reduces UI exposure by up to 55.6% while staying slightly below cloud-only success.",
+  "key_idea": "Per-step local/cloud division of labour in mobile agents.",
+  "relevance_score": 3,
+  "relevance_rationale": "Step-level local/cloud split; motivated by privacy rather than cost.",
+  "found_via": "arXiv query ti:\"cloud\" AND ti:\"local\" AND ti:\"agent\" AND abs:\"llm\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "ye-2026-ecotab-stepwise-table-routing",
+  "title": "Rethinking Stepwise Model Routing: A Cost-Efficient Table Reasoning Perspective",
+  "authors": [
+   "Shenghao Ye",
+   "Yuxiang Wang",
+   "Yu Guo",
+   "Dong Jin",
+   "Shuangwu Chen",
+   "Jian Yang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.29319",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C9"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "table-token uncertainty",
+   "text-token uncertainty"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "EcoTab adapts stepwise model routing to table reasoning, modeling the uncertainty of table-grounded tokens and surrounding text tokens separately because both predict errors in the next step.",
+  "key_idea": "Table-aware uncertainty signals for stepwise small/large routing.",
+  "relevance_score": 3,
+  "relevance_rationale": "Stepwise routing variant; not agentic.",
+  "found_via": "snowball: cited-by lee-2025-steer",
+  "cites_or_cited_by": [
+   "lee-2025-steer"
+  ]
+ },
+ {
+  "id": "ye-2026-roro-process-reward-routing",
+  "title": "Rubric-Guided Process Reward for Stepwise Model Routing",
+  "authors": [
+   "Shenghao Ye",
+   "Yu Guo",
+   "Zhengheng Li",
+   "Shuangwu Chen",
+   "Jian Yang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.29310",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C7",
+   "C9"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "rubric-guided process reward",
+   "cost"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "RoRo supervises RL-trained stepwise routers with process rewards instead of only outcome rewards. A Rubricor writes a query-specific rubric and a Judge scores routing trajectories, both trained on preference pairs built from outcome, cost and process quality.",
+  "key_idea": "Process-level rewards for training stepwise model routers.",
+  "relevance_score": 4,
+  "relevance_rationale": "Credit assignment for step routing decisions (sub-theme f).",
+  "found_via": "snowball: cited-by lee-2025-steer / kapoor-2026-trim-stepwise-routing",
+  "cites_or_cited_by": [
+   "kapoor-2026-trim-stepwise-routing",
+   "lee-2025-steer"
+  ]
+ },
+ {
+  "id": "si-2026-policy-guided-stepwise-routing",
+  "title": "Policy-Guided Stepwise Model Routing for Cost-Effective Reasoning",
+  "authors": [
+   "Wenwen Si",
+   "Insup Lee",
+   "Osbert Bastani"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.06116",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C9",
+   "C2"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "RL-online",
+  "signals_used": [
+   "CoT state",
+   "threshold calibration"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "GSM8K",
+   "MATH500",
+   "OmniMath"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Formulates routing intermediate CoT states to models of different sizes as constrained decision making, solved with a small RL-trained control policy plus threshold calibration, avoiding a large PRM. It improves the accuracy-cost trade-off over handcrafted routers on open and closed models.",
+  "key_idea": "Small RL control policy for stepwise model routing.",
+  "relevance_score": 4,
+  "relevance_rationale": "Learned per-step router without a big PRM.",
+  "found_via": "snowball: cited-by lee-2025-steer / si-2025-ccpo",
+  "cites_or_cited_by": [
+   "lee-2025-steer",
+   "si-2025-ccpo"
+  ]
+ },
+ {
+  "id": "lan-2026-searchswarm",
+  "title": "SearchSwarm: Towards Delegation Intelligence in Agentic LLMs for Long-Horizon Deep Research",
+  "authors": [
+   "Xiaochong Lan",
+   "Quan Chen",
+   "Kun Tao",
+   "Xinyu Tang",
+   "Tianshu Wang",
+   "Qianggang Cao",
+   "Xinyu Kong",
+   "Zujie Wen",
+   "Zhiqiang Zhang",
+   "Jun Zhou"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.09730",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C8"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "harness-guided delegation trajectories"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "SearchSwarm trains a main agent to decompose deep-research tasks and decide when and what to delegate to subagents that return summarized results, using harness-guided trajectories as SFT data.",
+  "key_idea": "Learn delegation intelligence for main-agent/subagent splits.",
+  "relevance_score": 3,
+  "relevance_rationale": "Learned delegation to subagents; cost framed as context budget.",
+  "found_via": "arXiv query ti:delegation AND ti:llm",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "nie-2026-enumgrpo",
+  "title": "Cost-Aware Optimization for Agentic Query Execution",
+  "authors": [
+   "Lunyiu Nie",
+   "Yilin Xia",
+   "Yiren Liu",
+   "Christopher Jermaine",
+   "Swarat Chaudhuri"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.03152",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "quality-cost feedback"
+  ],
+  "cost_reduction_reported": "35.4% execution accuracy at $0.011 per query, ~317x cost reduction over hybrid query baseline with 18% relative accuracy improvement (SWAN)",
+  "benchmarks": [
+   "SWAN"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Formalizes agentic query execution, where the placement, ordering and granularity of LLM operators jointly set dollar cost and quality. EnumGRPO enumerates plans and distills quality-cost feedback into planning heuristics via in-context RL.",
+  "key_idea": "Cost-aware optimization of where LLM operators run in agentic query plans.",
+  "relevance_score": 3,
+  "relevance_rationale": "Per-operator cost-quality planning.",
+  "found_via": "arXiv query ti:\"cost-aware\" AND ti:agent",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "roig-2025-kami",
+  "title": "Towards a Standard, Enterprise-Relevant Agentic AI Benchmark: Lessons from 5.5 billion tokens' worth of agentic AI evaluations",
+  "authors": [
+   "JV Roig"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2511.08042",
+  "code_url": null,
+  "topic_clusters": [
+   "C13",
+   "C14"
+  ],
+  "routing_granularity": "none",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "KAMI v0.1"
+  ],
+  "models_studied": [
+   "35 model configurations incl. Llama 4, Qwen 3"
+  ],
+  "production_evidence": false,
+  "summary": "KAMI is an enterprise-focused agentic benchmark run over 170,000 items and 5.5B tokens across 35 model configurations. Traditional benchmark rankings poorly predict agentic enterprise performance, and the paper reports cost-performance trade-offs.",
+  "key_idea": "Enterprise agentic benchmark with cost-performance trade-offs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Evaluation evidence for picking models per enterprise agent task.",
+  "found_via": "snowball: cited-by ye-2025-x-mas",
+  "cites_or_cited_by": []
+ }
+]

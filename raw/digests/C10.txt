@@ -1,0 +1,984 @@
+# C10: 174 records (full detail for rel>=4; one-liners for rel<=3)
+
+[agyemang-2026-local-splitter] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C10,C14)
+  title: Local-Splitter: A Measurement Study of Seven Tactics for Reducing Cloud LLM Token Usage on Coding-Agent Workloads
+  key_idea: Small local model as a triage layer in front of a frontier model for coding agents; the best tactic mix depends on the workload.
+  cost: Local routing + prompt compression gives 45-79% cloud token savings on edit- and explanation-heavy coding-agent workloads; full tactic set incl. draft-review gives 51% on RAG-heavy
+  summary: A measurement study of seven tactics for cutting cloud-LLM tokens when a small local model triages requests in front of a frontier model in coding agents: local routing, compression, semantic caching, local draft with cloud review, minimal diffs, intent extraction and batching with prompt caching. The tactics are delivered via an MCP/OpenAI-compatible shim.
+  benchmarks: four coding-agent workload classes
+  signals: local triage model, workload class
+
+[anthropic-2026-optimizing-cost-and-intelligence] (2026, Claude Platform documentation, rel=5, gran=step, regime=n/a, prod=N, clusters=C3,C9,C10,C12,C14)
+  title: Optimizing for cost and intelligence
+  key_idea: Vendor-measured playbook of per-step and architecture cost levers, including when delegation to cheaper workers loses.
+  cost: Examples reported: prompt caching cut DeepResearch Bench II cost 81% (Fable 5.1) and 62.5% (Sonnet 5); on SWE-bench Pro, Opus 5.5 low effort with failures re-run at high reached 97% at ~$0.17/task vs 95.3% at $0.29 all-high; Fable 5 coordinator + Sonnet 5 worker cost ~50% of solo Fable 5 on an easy BrowseComp slice; on full BrowseComp, solo Fable 5 at lower effort was 22-30% cheaper than the orchestrator at same accuracy
+  summary: Anthropic documentation with measured results on cost levers: caching, trimming tools and context, effort tuning, retrying failures at higher effort, task budgets, advisor pairing and orchestrator-worker delegation. It reports that advisor gains shrink as the executor approaches the advisor's capability and that cheaper-worker delegation helps on easy slices but can lose to a solo model at lower effort on the full set.
+  benchmarks: SWE-bench Pro, DeepResearch Bench II, BrowseComp, GPQA Diamond, Terminal-Bench 3, internal benchmarks
+  signals: effort level, advisor consultation, task budget
+
+[bai-2026-agents-spend-your-money] (2026, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C9,C10,C12,C13)
+  title: How Do AI Agents Spend Your Money? Analyzing and Predicting Token Consumption in Agentic Coding Tasks
+  key_idea: Where coding-agent tokens go and why they are hard to predict.
+  cost: Agentic coding uses ~1000x more tokens than code chat; runs on the same task vary up to 30x; Kimi-K2 and Claude-Sonnet-4.5 use over 1.5M more tokens than GPT-5 on average
+  summary: The first systematic token-consumption study of coding agents across eight frontier models on SWE-bench Verified. Input tokens dominate cost, usage is highly stochastic, accuracy saturates at intermediate cost, human difficulty ratings poorly predict tokens, and models underestimate their own token use.
+  benchmarks: SWE-bench Verified
+  signals: token usage
+
+[fireworks-2026-firerouter-with-opus] (2026, Fireworks AI blog, rel=5, gran=step, regime=None, prod=Y, clusters=C1,C3,C5,C10,C14)
+  title: Introducing FireRouter with Opus
+  key_idea: Turn-level routing in coding agents with explicit pricing of cache loss, validated by a randomised live-traffic A/B test.
+  cost: Internal A/B test (>1 month, sessions randomised to router vs Opus-only): cost per session $15.36 -> $6.63 (57% +/- 19 ppts lower); graded-turn accuracy 78.7% vs 80.2% (98.1% of Opus-only); cache hit rate 94.2% vs 97.8% (vendor-reported)
+  summary: Fireworks releases a per-turn, cache-aware router for coding agents that routes each user turn among Claude Opus 5.5, GLM 5.3 and GLM 5.3 Flash, trading off estimated suitability against cost including the prompt-cache value lost by switching. It reports a randomised A/B test on internal coding traffic, scoring accuracy by task completion, correctness and whether the user corrected the next turn.
+  benchmarks: internal coding traffic A/B test
+  signals: per-turn task suitability estimate, estimated cost per model, prompt-cache loss cost
+
+[kwartler-2026-harness-tokenomics] (2026, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C1,C3,C10,C12,C14)
+  title: Harness Tokenomics: A Router for the Enterprise Agentic Control Plane
+  key_idea: Prompt-cache-aware routing inside agent harnesses.
+  cost: Recovers 13-21% of model spend ($3.3M-$5.1M/year) in an emulated 10,000-seat enterprise at Anthropic list prices; finds highest-priced model can cost less than the next tier on long tool-heavy sessions
+  summary: Builds a cache-aware router for enterprise coding-agent harnesses that routes at session start, side lanes and subagent launch while avoiding cache rebuilds, and derives when mid-task model switches pay back.
+  benchmarks: ~10,000 real sessions from public datasets
+  signals: calibrated prompt classifier, prompt-cache state, price sheet, calibrated prompt classifier over request taxonomy
+
+[liskowski-2026-compositional-online-learning] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=Y, clusters=C2,C5,C10,C14)
+  title: Compositional Online Learning for Semantic Data Processing Systems
+  key_idea: Compose online learners (caching, ordering, cascade routing) at the LLM call boundary in production.
+  cost: Learning components compose to an 11.4x upper bound on per-row LLM cost reduction for a representative conjunction-filter workload, reduced to a realistic ~8x after self-selection, sample-budget shrinkage and selectivity drift
+  summary: Argues that LLM calls in semantic data processing are slow enough to hide online learner updates inside each round-trip, and builds compositional online learning: memoization, an online filter-ordering learner and an online per-batch cascade-routing learner. A production case study in Snowflake Cortex AISQL decomposes per-row LLM cost by component.
+  benchmarks: Cortex AISQL production case study
+  signals: per-call outcomes, filter selectivity, cascade confidence
+
+[liu-2026-vllm-sr-session-aware-agentic-routing] (2026, vLLM blog, rel=5, gran=step, regime=training-free, prod=N, clusters=C1,C3,C10,C11,C14)
+  title: Session-Aware Agentic Routing: Continuity-Aware Model Selection for Long-Horizon LLM Agents
+  key_idea: Turn-level routing in agent sessions must price switches (lost cache, broken tool state), not just pick the best model per prompt.
+  cost: Across 21,600 deterministic turns: 79.29% fewer model switches, 3,836 unsafe switches eliminated, 78.71% estimated physical-model cost reduction vs single-turn routing (quality delta -0.0453); sticky sessions 98.65% cost reduction but -0.1433 quality. 2,896 live AMD ROCm requests with 0 continuity violations (project-reported)
+  summary: Introduces SAAR in vLLM Semantic Router: per-turn semantic routing augmented with router-owned session memory, hard locks during tool loops and around non-portable provider state, safe reset boundaries (drift, idle), and prefix-cache-aware pricing of model switches. Ablations show each component's contribution to switch reduction, unsafe-switch elimination and cost.
+  benchmarks: deterministic replay of 21,600 agent turns, live AMD ROCm requests
+  signals: semantic signals, session memory, tool-loop state, provider-state portability, task drift, prefix-cache warmth / switch cost
+
+[notdiamond-2026-interactive-benchmarks-routing] (2026, Not Diamond blog, rel=5, gran=step, regime=None, prod=N, clusters=C1,C3,C10,C13,C14)
+  title: Interactive benchmarks: a new methodology for evaluating model routing
+  key_idea: Evaluate agent routers on interactive, simulated-user sessions where cache dynamics and session length drive cost.
+  cost: Approximates or exceeds Opus 5 xhigh quality at 20-80% cost reduction; SWE-Interact 50.7% at $4.28/attempt, SWE-Together 67.6% at $4.16, Dialogue SWE-Bench-Pro 57.6% at $3.00; adding GLM 5.2 and DeepSeek V4 Flash raised accuracy 3.6% and savings from 39% to 66% vs Opus xhigh. Companion 'Not Diamond Code' post: 39% (Poly-SWE-Bench Verified) and 61% (LongCodeQA) cost reduction vs Opus 4.8 xhigh, >20% savings in enterprise early access (all vendor-reported)
+  summary: Argues that single-turn routing breaks the KV cache and first-turn routing is brittle to mid-session shifts, and describes Not Diamond Code, which predicts future reward and cost for each (model, reasoning effort) pair at every agent step in a cache-aware way. Because static benchmarks miss long sessions and cache expiry (a 10-20x input-cost jump), it evaluates on interactive benchmarks with simulated users built on the Harbor framework and releases a benchmark repo so clients can reproduce comparisons.
+  benchmarks: SWE-Interact, SWE-Together, Dialogue SWE-Bench-Pro, Poly-SWE-Bench Verified, LongCodeQA
+  signals: session state, message and token counts, task complexity, KV-cache state, intermediate and final rewards, reasoning effort
+
+[rajib-2026-gated-memory-routing] (2026, EMNLP 2026, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C3,C10)
+  title: Learning What to Retain: Gated-Memory Routing for Efficient Collaboration in Multi-Agent LLM Systems
+  key_idea: Per-step role/backbone routing on a compact learned memory with adaptive halting.
+  cost: +2.44 points average accuracy over strongest baseline with 31.9% lower HumanEval inference cost
+  summary: Gated-Memory Routing chooses the next role and backbone at each step from the query plus a compact learned memory, with gates that write only non-redundant steps and retrieve relevant subsets, and a halting controller that stops once evidence suffices.
+  benchmarks: five reasoning and code-generation benchmarks
+  signals: learned execution memory, write/retrieval gates, halting controller
+
+[yang-2026-harness-adaptation-slm] (2026, arXiv, rel=5, gran=none, regime=training-free, prod=N, clusters=C3,C4,C8,C10,C12)
+  title: Better Harnesses, Smaller Models: Building 90% Cheaper Agents via Automated Harness Adaptation
+  key_idea: Lift task difficulty into the harness so small models suffice.
+  cost: best small-model agent recovered 89.7% of LLM performance at 4% of the cost; optimized harnesses improved 16 of 21 task-SLM pairs, closing the gap in seven
+  summary: Shows that SLM agents can match frontier agents on many routine business tasks at about 90% lower cost if the harness (instructions, tools, orchestration loops) is adapted, and builds a meta-agent that discovers adaptations from failure trajectories. Works best on repetitive workflows and capable-enough SLMs.
+  benchmarks: seven business-oriented agentic tasks, routine business tasks (21 task-SLM pairs)
+  signals: failure trajectories, automated harness adaptation
+
+[he-2025-information-theoretic-agentic-design] (2025, arXiv, rel=5, gran=subagent, regime=n/a, prod=N, clusters=C3,C10,C12)
+  title: An Information Theoretic Perspective on Agentic System Design
+  key_idea: Choose compressor/predictor sizes in multi-LM agents by mutual information rather than task-specific sweeps.
+  cost: A 7B Qwen-2.5 compressor is 1.6x more accurate, 4.6x more concise and conveys 5.5x more MI per token than its smaller sibling (abstract)
+  summary: The paper models agentic systems in which small compressor LMs summarize raw context for larger predictor LMs as a noisy channel. It proposes a mutual-information estimator that predicts downstream performance independent of task, and finds that larger compressors are both more accurate and more token-efficient; this guides how to size each role.
+  benchmarks: five datasets
+  signals: mutual information between context and compression
+
+[zhang-2025-agentic-plan-caching] (2025, NeurIPS 2025, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C10)
+  title: Agentic Plan Caching: Test-Time Memory for Fast and Cost-Efficient LLM Agents
+  key_idea: Cache and adapt plans, not answers, so a small model can replace frontier planning on repeat task types.
+  cost: 50.31% average cost reduction and 27.28% average latency reduction while maintaining performance across real-world agent applications
+  summary: Agentic Plan Caching extracts plan templates from completed agent runs, matches new requests to cached plans using keyword extraction, and has a lightweight model adapt the template to the new task, avoiding expensive frontier-model planning. The authors argue response/context caching designed for chatbots fails for agents whose outputs depend on external data.
+  benchmarks: multiple real-world agent applications
+  signals: keyword extraction match, cached plan templates, small-LM plan adaptation
+
+[zhang-2024-agentprune] (2024, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C10,C12)
+  title: Cut the Crap: An Economical Communication Pipeline for LLM-based Multi-Agent Systems
+  key_idea: One-shot pruning of the inter-agent message graph removes redundant communication.
+  cost: Comparable results to SOTA topologies at $5.6 vs $43.7; 28.1%-72.8% token reduction when plugged into existing MAS
+  summary: AgentPrune identifies communication redundancy in multi-agent pipelines and does one-shot pruning on the spatial-temporal message-passing graph to keep only useful messages. It reaches state-of-the-art-level accuracy at a fraction of token cost and improves robustness to adversarial agents.
+  benchmarks: six benchmarks
+  signals: message-graph importance
+
+[ali-2026-harness-effect] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C3,C10,C12,C14)
+  title: The Harness Effect: How Orchestration Design Sets the Token Economics of Enterprise Agentic AI
+  key_idea: Orchestration harness design is a larger cost lever than model choice.
+  cost: Harness cuts blended cost per task 41% ($0.21->$0.12), wall-clock 44%, tokens 38% at quality parity (0.78->0.81) across six models on 22 tasks; quality per dollar +82%
+  summary: A controlled swap that keeps six models fixed and changes only the orchestration layer, comparing a conventional production loop with Writer's agent harness. On this workload the harness moved cost per task more than the whole spread of model choices, and quality gains scaled with model strength.
+  benchmarks: 22 locked enterprise evaluation tasks
+
+[basu-2026-w5h2-intent-caching] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C10)
+  title: Why Agent Caching Fails and How to Fix It: Structured Intent Canonicalization with Few-Shot Learning
+  key_idea: Key agent caches on canonicalized structured intent, with a local-first cascade.
+  cost: intent matching 91.1% on MASSIVE in ~2 ms vs 37.9% for GPTCache and 68.8% for a 20B LLM at 3,447 ms; a five-tier cascade handles 85% of interactions locally, projecting 97.5% cost reduction
+  summary: Argues agent caches fail because surface similarity misses task intent; decomposes requests into a structured intent (W5H2) predicted by a few-shot SetFit classifier and keys the cache on it, inside a multi-tier cascade with risk-controlled selective prediction guarantees.
+  benchmarks: MASSIVE, NyayaBench v2
+  signals: structured intent decomposition (W5H2), SetFit few-shot classifier, risk-controlled selective prediction
+
+[bussing-2026-mo-capo] (2026, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C4,C10)
+  title: MO-CAPO: Multi-Objective Cost-Aware Prompt Optimization
+  key_idea: Multi-objective prompt optimization with a deployment-realistic token-cost objective.
+  cost: Outperforms NSGA-II baseline on 8 of 12 cases (noisy R2), often at considerably lower budget
+  summary: MO-CAPO extends CAPO to true multi-objective prompt optimization of performance and a deployment-oriented inference-cost objective covering input and output tokens, with budget allocation for efficient search, returning a Pareto set of prompts.
+  signals: performance, input/output token cost
+
+[chang-2026-agentic-workload-characterization] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=Y, clusters=C10,C11,C14)
+  title: From LLM Inference to Agentic Workloads: Characterization and Implications for Serving Systems
+  key_idea: Agent workloads have exploitable redundancy and structure beyond LLM inference.
+  cost: task-aware serving cut latency 29-40%; communication-aware placement up to 4.5x; state offloading cut memory 4.6x; tool-result caching removed 35.2% of redundant search calls and 19.3% of aggregate search latency
+  summary: Characterizes agentic workloads versus plain LLM inference and, using production traces from three applications, finds heavy redundancy in search queries and web fetches; four design explorations show these findings translate into latency, memory and tool-call savings.
+  benchmarks: production traces from three agent applications
+  signals: cross-request redundancy
+
+[chillara-2026-semanticalli] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C10,C14)
+  title: SemanticALLI: Caching Reasoning, Not Just Responses, in Agentic Systems
+  key_idea: Cache structured intermediate artifacts of the agent pipeline rather than final responses.
+  cost: baseline monolithic caching capped at 38.7% hit rate; caching the structured Visualization Synthesis stage reached 83.10% hit rate, bypassing 4,023 LLM calls with 2.66 ms median hit latency
+  summary: In an analytics agent, decomposing generation into intent resolution and visualization synthesis makes structured intermediate representations cacheable. Even when users rarely repeat themselves, pipeline stages repeat at structured checkpoints where caching is reliable.
+  benchmarks: analytics/visualization agent workload
+  signals: structured intermediate representation matches
+
+[hajimiri-2026-skill-memory-worth-tokens] (2026, EMNLP 2026, rel=4, gran=none, regime=n/a, prod=N, clusters=C10,C12,C13)
+  title: Are Online Skill and Memory Modules Always Worth Their Tokens? A Budget-Constrained Study of Web Agents
+  key_idea: Many agent add-on modules lose to a budget-matched plain actor.
+  cost: Token-matched vanilla actor matches or beats AWM, ASI and ReasoningBank in aggregate success while often using fewer tokens
+  summary: Re-evaluates memory, workflow and skill modules for web agents under a fixed total token budget and finds a vanilla actor given the same tokens for extra steps matches or beats them. Run-to-run variance is large and should be reported.
+  benchmarks: WebArena (four domains), WorkArena-L1
+  signals: token-matched budget
+
+[hu-2026-cost-inefficient-coding-agents] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C10,C12,C13)
+  title: Analyzing and Mitigating Cost-Inefficient Behaviors in Coding Agents
+  key_idea: Target recurring wasteful behaviors in coding agents with human-designed skills.
+  cost: developer-designed skills reduced cost by up to 41.73%; subsumed retrieval, similar script generation and test re-execution account for up to 22.75% of task cost
+  summary: Analyzes 1,200 coding-agent trajectories (Claude Code, Mini-SWE-Agent) and identifies three recurring wasteful behaviors: subsumed retrieval, similar script generation and test re-execution. Developer-written skills reduce cost up to 42%, while structure-aware retrieval and agent-synthesized skills help less or even raise cost.
+  benchmarks: SWE-bench Verified, SWE-bench Pro
+  signals: trace analysis, trajectory analysis
+
+[hussain-2026-coverage-illusion-rag] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=Y, clusters=C2,C6,C10,C14)
+  title: The Coverage Illusion: From Pre-retrieval Routing Failure to Post-retrieval Cascades in a Production RAG System
+  key_idea: Escalate pipeline steps only after cheap steps fail on real traffic.
+  cost: Post-retrieval cascade: +0.140 Composite Overall vs Always-HyDE, 31.8% lower latency, 72.2% of real queries served without LLM augmentation
+  summary: Case study on a production RAG system showing synthetic queries overstate the need for LLM query augmentation (90% vs 27.8% on real traffic). A cheapest-first post-retrieval cascade escalates only when retrieval fails.
+  benchmarks: Danish National Encyclopedia production traffic (20,000 query-workflow pairs), 20,000 query-workflow pairs from production traffic
+  signals: retrieval returned no documents, retrieval result emptiness
+
+[katz-2026-cursor-token-efficiency] (2026, Cursor blog, rel=4, gran=subagent, regime=n/a, prod=Y, clusters=C3,C10,C12,C14)
+  title: Improved token efficiency for longer agent runs
+  key_idea: Many small harness-level context changes compound into measurable production token savings without quality loss.
+  cost: Harness changes cut user token costs 7% with no quality loss: system prompt trimmed ~66%; MCP tools moved to dynamic context (-46.9% total tokens in sessions calling an MCP tool); offloading built-in tools cut static tool-description tokens 60%; cold cache misses -20%; line numbers every 10th line cut cache-read tokens 1.6% (vendor-reported, production traffic)
+  summary: Breaks down where agent inference spend goes in production (output, uncached and cached input by context source) and reports harness changes: trimming instructions models now follow natively, loading rarely needed tools on demand, reordering static context for cache reuse, compressing file-read line numbers, and restraining subagent spawning and subagent model switching. Notes the coordination tax of context-isolated subagents.
+  benchmarks: Cursor production traffic
+
+[kim-2026-agent-memory-distillation] (2026, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C8,C10)
+  title: Agent Memory Distillation: Empowering Small LLM Agents with Hierarchical Teacher Memory
+  key_idea: Memory-based distillation for small agents.
+  cost: Average accuracy gains of 27.2, 11.2 and 3.4 points on AppWorld, BFCL V3 and ToolSandbox for 4B-8B students with GPT-5-mini teacher
+  summary: Distills a teacher's successful experience into hierarchical memory (task, subtask) that small agents retrieve, rather than updating weights.
+  benchmarks: AppWorld, BFCL V3, ToolSandbox
+  signals: hierarchical teacher memory
+
+[koster-2026-memboost] (2026, ICML MemFM Workshop 2026, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C10)
+  title: MemBoost: A Memory-Boosted Framework for Cost-Aware LLM Inference
+  key_idea: Memory-backed answer reuse plus cost-aware escalation.
+  summary: MemBoost lets a cheap model answer using retrieved past answers and supporting information, reuses answers when possible, grows memory continuously and escalates hard or uncertain queries to a stronger model. It reports large reductions in large-model calls at near strong-model quality.
+  benchmarks: simulated interactive workloads
+  signals: retrieved memory relevance, uncertainty-based escalation
+
+[lumer-2026-dont-break-the-cache] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C10,C13,C14)
+  title: Don't Break the Cache: An Evaluation of Prompt Caching for Long-Horizon Agentic Tasks
+  key_idea: How you place cache breakpoints in agent prompts decides whether caching helps.
+  cost: prompt caching reduced API cost by 41-80% and improved time-to-first-token by 13-31% across providers; naive full-context caching can paradoxically increase latency
+  summary: Evaluates provider prompt caching for long-horizon agents over 500+ sessions with 10,000-token system prompts, comparing full-context caching, system-prompt-only caching and caching that excludes dynamic tool results. Placing dynamic content at the end and excluding dynamic tool results gives more consistent gains than caching everything.
+  benchmarks: DeepResearch Bench
+  signals: cache block placement strategy
+
+[mohamed-2026-workload-aware-caching] (2026, arXiv, rel=4, gran=subagent, regime=training-free, prod=N, clusters=C10,C11)
+  title: Workload-Aware Caching for Multi-Agent Systems
+  key_idea: Evict multi-agent cache entries by value to the workflow, not recency.
+  cost: up to 64.7% latency reduction vs uncached baseline and 31.1% average latency reduction over the next-best finite-capacity cache, with accuracy on par or better
+  summary: A content-cache replacement policy for multi-agent systems that scores entries by recomputation cost, dependency count in the agent DAG and invocation frequency. It is shown to be complementary to plan caching and parallel agent execution.
+  benchmarks: three multi-agent benchmarks
+  signals: recomputation cost, DAG dependency count, agent invocation frequency
+
+[peng-2026-inference-economics-coding-agents] (2026, arXiv (industrial case study), rel=4, gran=none, regime=n/a, prod=Y, clusters=C10,C12,C14)
+  title: Inference Economics of Enterprise Coding Agents: A Case Study of Cloud vs. On-Premise LLMs
+  key_idea: Real telemetry: caching reshapes cloud vs on-prem agent economics.
+  cost: Prompt caching (99.3% hit rate) cut realized API cost 88.6% to $0.57 per million tokens; on-prem saves 40.1% TCO under shared GPUs but dedicated reservation costs 43.8% more; local config had fix-commit ratio 74.9% vs 45.9%
+  summary: A longitudinal single-developer case study on a production monorepo comparing API Claude Opus in Claude Code against on-prem quantized GLM in Opencode. Caching makes the API cheaper per token than on-prem, the local model causes far more repair commits, and hybrid routing gateways trade defect rate for savings rather than dominating.
+  benchmarks: production monorepo, two 28-day periods
+  signals: LLM telemetry, Git history
+
+[singh-2026-nl2code-semantic-cache] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=Y, clusters=C10,C14)
+  title: Semantic Caching and Intent-Driven Context Optimization for Multi-Agent Natural Language to Code Systems
+  key_idea: Pair semantic caching with intent-driven context pruning in a deployed multi-agent system.
+  cost: 67% cache hit rate on production queries; 40-60% token reduction from table-aware context filtering; >10,000 production queries at 8.2 s average latency and 94.3% semantic accuracy
+  summary: Production multi-agent natural-language-to-code analytics system that combines semantic caching (LLM-judged equivalence with adaptation hints), a dual threshold separating exact reuse from reference-guided generation, and intent-driven prompt assembly that filters table context.
+  benchmarks: enterprise inventory-management NL-to-code queries
+  signals: LLM-based equivalence detection, dual thresholds, intent-driven context filtering
+
+[srivastava-2026-effgen] (2026, ICML 2026, rel=4, gran=query, regime=training-free, prod=N, clusters=C3,C8,C10)
+  title: EffGen: Enabling Small Language Models as Capable Autonomous Agents
+  key_idea: Agent framework engineered for SLMs with complexity routing.
+  cost: Prompt compression of 70-80% (57% average); outperforms LangChain, AutoGen and Smolagents on 13 benchmarks
+  summary: EffGen is an open-source agent framework tuned for small models, combining prompt compression for tool calling, dependency-aware task decomposition, complexity-based routing and a unified memory system. Prompt optimization helps small models more while routing helps larger ones more.
+  benchmarks: 13 benchmarks
+  signals: five-factor complexity score
+
+[weinberger-2026-token-reduction-not-cost] (2026, arXiv, rel=4, gran=step, regime=n/a, prod=N, clusters=C10,C13)
+  title: Token Reduction Is Not Cost Reduction
+  key_idea: Measure cost per solved task, not tokens removed.
+  cost: Largest compression cut tool-output tokens by 38.4% but increased billed cost by 6.8%; token reduction correlated weakly with cost reduction (r=0.15)
+  summary: Shows that compressing context in tool-heavy coding agents can trigger extra retrieval, diagnosis, testing and turns that offset token savings, and aggressive compression reduced successful patches. Argues for evaluating cost per successful task including cache behaviour.
+  benchmarks: SWE-bench Go subset, controlled coding tasks
+  signals: billed cost, cache traffic
+
+[xu-2026-oneflow-single-agent-baseline] (2026, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C3,C10,C12)
+  title: Rethinking the Value of Multi-Agent Workflow: A Strong Single Agent Baseline
+  key_idea: Homogeneous MAS is largely reducible to one agent; heterogeneity is what matters.
+  cost: Single-agent execution matches homogeneous workflows with KV-cache reuse efficiency; OneFlow reduces inference costs vs automatic multi-agent design frameworks
+  summary: Shows that homogeneous multi-agent workflows, where all agents share one base LLM, can be simulated by a single agent in multi-turn conversation at equal accuracy while reusing the KV cache. The proposed OneFlow tailors workflows for single-agent execution; the authors note that truly heterogeneous workflows are where multi-agent value may remain.
+  benchmarks: seven benchmarks (coding, math, QA, domain reasoning, planning/tool use)
+
+[xu-2026-tokenpilot] (2026, Findings of EMNLP 2026, rel=4, gran=step, regime=training-free, prod=N, clusters=C10)
+  title: TokenPilot: Cache-Efficient Context Management for LLM Agents
+  key_idea: Compact context in a cache-friendly way so savings compound with prompt caching.
+  cost: costs reduced 61% and 56% in isolated mode and 61% and 87% in continuous mode on PinchBench and Claw-Eval with competitive performance
+  summary: Context management for agents designed to keep prompt caches valid: volatile runtime values in tool responses are replaced by stable placeholders before ingestion, and segments are evicted only when their relevance expires, in batched turns to limit cache invalidation.
+  benchmarks: PinchBench, Claw-Eval
+  signals: ingestion-aware compaction, residual-utility eviction
+
+[zha-2026-cacherouter] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C10)
+  title: CacheRouter: A Dual-Path Tool Routing Architecture with Cache-Preserving Main-Model Isolation for Long-Tail Tool Discovery
+  key_idea: Offload long-tail tool selection to a router sub-model to keep the main model's cache prefix stable.
+  cost: Cache hit rates 90.99% and 95.2%, cutting input cost to ~12.0% and ~8.0% of a no-cache baseline under DeepSeek pricing (55 queries and a 30-turn dialogue)
+  summary: CacheRouter keeps the main model's tool list small and fixed so its prompt prefix stays cacheable, while a separate router sub-model searches the full tool catalog, runs the chosen tool and returns the result.
+  signals: tool search by router sub-model
+
+[zhang-2026-cachescout] (2026, arXiv, rel=4, gran=subagent, regime=bandit-online, prod=N, clusters=C10,C11)
+  title: Learning Agent Execution for KV-Cache Management in Agentic Serving
+  key_idea: Learn which agent runs next to decide what KV to keep.
+  cost: KV hit rate +10-18 points, mean TTFT -18-45%, per-turn latency -29-38%, peak throughput up to +57% (TTFT up to -54% on larger models)
+  summary: CacheScout learns agent execution transitions online, without predefined workflow graphs, and uses them to guide KV eviction and prefetching in vLLM off the critical path.
+  benchmarks: real-world multi-agent workloads
+  signals: online-learned agent execution transitions
+
+[chakraborty-2025-gencache] (2025, NeurIPS 2025, rel=4, gran=step, regime=training-free, prod=N, clusters=C10)
+  title: Generative Caching for Structurally Similar Prompts and Responses
+  key_idea: Cache response templates for structurally similar agent prompts and fill in the differences.
+  cost: 83% cache hit rate with minimal incorrect hits on datasets without prompt repetition; in agentic workflows ~20% higher hit rate and ~34% lower end-to-end latency vs standard prompt matching
+  summary: A generative cache for prompts that share structure but differ in details (common in agent steps): it learns reusable response patterns and synthesizes a customized response for a new prompt instead of returning a stale exact answer.
+  benchmarks: agentic workflow traces, structurally similar prompt datasets
+  signals: prompt structure similarity, response pattern templates
+
+[cheema-2025-tweakllm] (2025, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C10)
+  title: TweakLLM: A Routing Architecture for Dynamic Tailoring of Cached Responses
+  key_idea: Cache hit + small-model rewrite as a cheap route.
+  summary: Routes semantically matched queries to a small LLM that edits the cached response to fit the new prompt, instead of returning it verbatim or calling the frontier model. User studies and LLM debates suggest quality comparable to frontier models with better cache effectiveness.
+  benchmarks: real-world query datasets, user studies
+  signals: semantic cache hit, lightweight LLM adaptation
+
+[feng-2025-agentrr] (2025, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C10)
+  title: Get Experience from Practice: LLM Agents with Record & Replay
+  key_idea: Record-and-replay of agent experiences to reuse work and allow smaller models.
+  summary: AgentRR records agent interaction traces, summarizes them into multi-level experiences, and replays them on similar tasks, with check functions acting as safety anchors. It discusses large-small model collaboration (a small model replays what a large model recorded) as a way to cut deployment cost.
+  signals: recorded traces, check functions
+
+[ji-2025-manus-context-engineering] (2025, Manus blog, rel=4, gran=none, regime=n/a, prod=Y, clusters=C10,C14)
+  title: Context Engineering for AI Agents: Lessons from Building Manus
+  key_idea: Design agent context around the KV cache: stable prefix, append-only, mask rather than remove.
+  cost: cached vs uncached input on Claude Sonnet: $0.30 vs $3 per MTok (10x); Manus average input:output token ratio ~100:1
+  summary: Practitioner lessons from a production agent: KV-cache hit rate is the key cost/latency metric, so keep prompt prefixes stable and context append-only with deterministic serialization, mask tools via logits rather than removing them, use the file system as external memory, recite goals to steer attention, and keep failed actions in context.
+  signals: KV-cache hit rate
+
+[kang-2025-acon] (2025, ICML 2026, rel=4, gran=step, regime=hybrid, prod=N, clusters=C8,C10)
+  title: ACON: Optimizing Context Compression for Long-horizon LLM Agents
+  key_idea: Optimize the compression prompt from failure cases, then distil the compressor.
+  cost: peak token usage reduced by 26-54% while improving task success over compression baselines; distilled compressors let smaller LMs gain up to 46% as long-horizon agents
+  summary: ACON compresses both interaction history and environment observations for long-horizon agents. It optimizes the compression guideline in natural language by contrasting failures under compressed vs full context, then distils the optimized compressor into smaller models to cut overhead.
+  benchmarks: AppWorld, OfficeBench, Multi-objective QA
+  signals: failure analysis of compressed vs full contexts, natural-language compression guidelines
+
+[li-2025-continuum] (2025, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: Continuum: Efficient and Robust Multi-Turn LLM Agent Scheduling with KV Cache Time-to-Live
+  key_idea: KV cache TTL across tool calls plus program-level FCFS.
+  cost: average job completion time improved by over 8x with higher throughput on SWE-Bench, BFCL and OpenHands agents
+  summary: For multi-turn agents, Continuum pins the KV cache of requests that issue tool calls with a time-to-live chosen from reload cost and eviction-induced queueing, and combines this with program-level FCFS to keep multi-turn continuity.
+  benchmarks: SWE-Bench, BFCL, OpenHands
+  signals: KV reload cost, queueing delay, tool-call duration
+
+[lin-2025-sleep-time-compute] (2025, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C9,C10)
+  title: Sleep-time Compute: Beyond Inference Scaling at Test-time
+  key_idea: Move reasoning compute to idle time over shared context.
+  cost: ~5x less test-time compute for the same accuracy on Stateful GSM-Symbolic and Stateful AIME; 2.5x lower average cost per query when amortised over related queries
+  summary: Lets models think offline about a context before queries arrive, pre-computing useful inferences so test-time reasoning is cheaper; gains depend on how predictable queries are. Includes an agentic SWE case study.
+  benchmarks: Stateful GSM-Symbolic, Stateful AIME, Multi-Query GSM-Symbolic, agentic SWE case study
+  signals: offline pre-computation over context
+
+[lin-2025-supervisoragent] (2025, ICLR 2026, rel=4, gran=step, regime=training-free, prod=N, clusters=C7,C10,C12)
+  title: Stop Wasting Your Tokens: Towards Efficient Runtime Multi-Agent Systems
+  key_idea: Runtime supervision triggered cheaply to stop wasteful agent behavior.
+  cost: Reduces Smolagents token consumption by 29.68% on GAIA without lowering success rate
+  summary: SupervisorAgent is a lightweight runtime supervisor triggered by an LLM-free filter that intervenes at critical points to correct errors, curb inefficient behavior and clean observations, without changing the base agent. It cuts token usage by about 30% on GAIA at equal success.
+  benchmarks: GAIA, math reasoning, code generation, QA
+  signals: LLM-free adaptive filter
+
+[lindenbauer-2025-complexity-trap] (2025, DL4C Workshop @ NeurIPS 2025, rel=4, gran=step, regime=training-free, prod=N, clusters=C10,C13)
+  title: The Complexity Trap: Simple Observation Masking Is as Efficient as LLM Summarization for Agent Context Management
+  key_idea: Just mask old observations; LLM summarization rarely pays for itself.
+  cost: simple observation masking roughly halves cost relative to the raw agent while matching (sometimes slightly exceeding) the solve rate of LLM summarization on SWE-bench Verified
+  summary: Systematic comparison in SWE-agent (with evidence for OpenHands) of LLM-based trajectory summarization versus simply masking older environment observations. Masking is as effective and cheaper; summarization can even lengthen trajectories.
+  benchmarks: SWE-bench Verified
+  signals: observation masking window
+
+[pan-2025-kvflow] (2025, arXiv, rel=4, gran=subagent, regime=training-free, prod=N, clusters=C10,C11)
+  title: KVFlow: Efficient Prefix Caching for Accelerating LLM-Based Multi-Agent Workflows
+  key_idea: Evict and prefetch KV by each agent's distance to its next turn.
+  cost: up to 1.83x speedup for single workflows with large prompts and up to 2.19x with many concurrent workflows vs SGLang with hierarchical radix cache
+  summary: Workflow-aware KV management for multi-agent systems: it models the execution schedule as an Agent Step Graph, evicts prefix-cache nodes of agents far from their next activation, and prefetches KV from CPU for agents scheduled next.
+  signals: agent step graph, steps-to-execution
+
+[ren-2025-agserve] (2025, NeurIPS 2025, rel=4, gran=step, regime=training-free, prod=N, clusters=C2,C3,C10,C11)
+  title: Transcending Cost-Quality Tradeoff in Agent Serving via Session-Awareness
+  key_idea: Session-aware per-round model cascading plus KV-cache management for agent serving.
+  cost: Comparable response quality to GPT-4o at 16.5% of the cost; 1.8x quality improvement relative to the tradeoff curve
+  summary: AgServe is an agent-serving system with a session-aware server that improves KV-cache reuse, a client that cascades models within a session from real-time quality assessment, and a dynamic GPU scheduler. Agents can pick and upgrade models during a session, reaching GPT-4o-level quality at a fraction of the cost on real testbeds.
+  signals: real-time quality assessment, session state
+
+[schroeder-2025-vcache] (2025, ICLR 2026, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C7,C10)
+  title: vCache: Verified Semantic Prompt Caching
+  key_idea: Learn per-entry thresholds online to give a guaranteed maximum error rate for semantic cache hits.
+  cost: up to 12.5x higher cache hit rate and 26x lower error rate than static-threshold and fine-tuned-embedding baselines while meeting the user-specified error bound
+  summary: Replaces the single global similarity threshold of semantic caches with per-cached-prompt thresholds learned online, and makes a probabilistic hit/explore decision that provably keeps the error rate under a user-chosen bound. This turns semantic caching into a controllable cost-quality tradeoff.
+  benchmarks: four released semantic-cache benchmarks
+  signals: per-entry similarity thresholds, online correctness feedback, user error bound delta
+
+[sun-2025-context-folding] (2025, arXiv, rel=4, gran=step, regime=RL-online, prod=N, clusters=C9,C10)
+  title: Scaling Long-Horizon LLM Agent via Context-Folding
+  key_idea: Learned branch-and-fold keeps agent working context small.
+  cost: matches or outperforms ReAct baselines on Deep Research and SWE tasks with a 10x smaller active context, and beats summarization-based context management
+  summary: Agents learn to branch into a sub-trajectory for a subtask and fold it on return, keeping only a short summary of the outcome in the main context. An RL method (FoldGRPO) with process rewards trains effective decomposition and context management.
+  benchmarks: Deep Research tasks, SWE tasks
+  signals: branch/return actions, process rewards (FoldGRPO)
+
+[wu-2025-inter-cascade] (2025, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C8,C10)
+  title: From Deferral to Learning: Online In-Context Knowledge Distillation for LLM Cascades
+  key_idea: Strong model acts as an in-context teacher; stored strategies reduce future deferrals.
+  cost: Up to 33.06% weak-model and 6.35% system accuracy gain; up to 48.05% fewer strong-model calls and up to 49.63% fee savings vs standard cascades
+  summary: When the strong model resolves a deferred query, it also writes a reusable strategy that is stored and retrieved for similar future queries to help the weak model. The cascade thus learns online without fine-tuning.
+  benchmarks: multiple reasoning benchmarks
+  signals: weak-model confidence, similarity retrieval of stored strategies, deferral, strategy retrieval, retrieved strategies
+
+[xiao-2025-agentdiet-trajectory-reduction] (2025, FSE 2026, rel=4, gran=step, regime=training-free, prod=N, clusters=C10,C12)
+  title: Reducing Cost of LLM Agents with Trajectory Reduction
+  key_idea: Prune waste from growing agent trajectories during execution.
+  cost: input tokens reduced 39.9%-59.7% and total computational cost reduced 21.1%-35.9% while maintaining agent performance
+  summary: AgentDiet removes useless, redundant and expired information from coding-agent trajectories at inference time, using a cheaper reflection model over a sliding window. It cuts input tokens and total cost substantially with no loss in resolve rate.
+  benchmarks: SWE-bench Verified, Multi-SWE-bench (two benchmarks), two coding-agent benchmarks
+  signals: redundancy/expiry of trajectory content, useless/redundant/expired trajectory content detection
+
+[ye-2025-kvcomm] (2025, NeurIPS 2025, rel=4, gran=subagent, regime=training-free, prod=N, clusters=C10,C11)
+  title: KVCOMM: Online Cross-context KV-cache Communication for Efficient LLM-based Multi-agent Systems
+  key_idea: Cross-agent KV reuse with online-estimated offset correction.
+  cost: over 70% KV reuse rate across multi-agent workloads without quality degradation; up to 7.8x speedup (TTFT ~430 ms to ~55 ms) in a five-agent setting
+  summary: Lets agents in a multi-agent system reuse each other's KV caches for shared content despite different prefixes by estimating the prefix-induced deviation from a pool of cached anchor examples maintained online.
+  benchmarks: RAG, math reasoning, collaborative coding
+  signals: anchor pool of KV deviations
+
+[shekhar-2024-optimizing-costs-llm-usage] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C2,C6,C10)
+  title: Towards Optimizing the Costs of LLM Usage
+  key_idea: Quality prediction plus LP model selection plus prompt shortening.
+  cost: Reduces costs by 40%-90% while improving quality by 4%-7% (enterprise and open-source document-processing datasets)
+  summary: Predicts LLM output quality without calling the models and solves an LP-rounding selection under budget and latency, plus token-reduction heuristics for prompts.
+  benchmarks: enterprise document datasets, open-source summarisation/QA datasets, enterprise datasets, annotated open-source datasets
+  signals: predicted output quality, token-reduction heuristics, token count
+
+[wang-2024-agent-workflow-memory] (2024, arXiv, rel=4, gran=step, regime=hybrid, prod=N, clusters=C8,C10)
+  title: Agent Workflow Memory
+  key_idea: Induce and reuse workflows so agents solve recurring tasks in fewer steps.
+  cost: 24.6% and 51.1% relative success-rate improvement on Mind2Web and WebArena, with fewer steps taken on successful WebArena tasks
+  summary: AWM induces reusable routines (workflows) from agent trajectories, offline from training examples or online from test queries, and adds the relevant ones to the agent's memory to guide later tasks. It improves success and reduces the number of steps needed.
+  benchmarks: Mind2Web, WebArena
+  signals: induced workflows from trajectories
+
+[zhang-2024-ecoact] (2024, ICLR 2025 Workshop, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C10,C12)
+  title: EcoAct: Economic Agent Determines When to Register What Action
+  key_idea: Register tools lazily inside the reasoning loop to shrink per-step context.
+  cost: Over 50% reduction in computational cost on multi-step reasoning tasks while maintaining performance
+  summary: EcoAct gives the agent a single meta-tool to register tools on demand from their names, instead of loading all tool descriptions into context every step. Integrating tool registration into reasoning cuts cost by more than half on multi-step tasks without hurting accuracy.
+  benchmarks: multi-step reasoning tool-use tasks
+  signals: tool names
+
+[ramirez-2023-cache-and-distil] (2023, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C8,C10)
+  title: Cache & Distil: Optimising API Calls to Large Language Models
+  key_idea: Online student distillation with active-learning deferral.
+  summary: Neural caching: a student model is continuously trained on LLM responses and a policy decides which requests the student handles alone. Margin sampling and query-by-committee policies work best.
+  benchmarks: classification tasks
+  signals: active-learning criteria (margin sampling, query by committee), active learning criteria (margin, QBC)
+
+[stogiannidis-2023-cache-me-if-you-can] (2023, Conference on Empirical Methods in Natural Language Processing, rel=4, gran=query, regime=hybrid, prod=N, clusters=C5,C8,C10)
+  title: Cache me if you Can: an Online Cost-aware Teacher-Student framework to Reduce the Calls to Large Language Models
+  key_idea: Distill an LLM into a cheap student online from live calls and route to the student when it is confident.
+  cost: Reports significant operating-expense savings with only slightly lower performance on intent recognition and sentiment analysis (GPT-3.5/GPT-4 teachers)
+  summary: Proposes an online teacher-student framework in which a cheap local model is trained on LLM responses as they arrive and gradually answers more queries itself, calling the LLM only when needed. Gives a method to tune the call criteria and measure the cost-performance trade-off on business classification tasks.
+  signals: student confidence, LLM teacher labels
+
+[zhang-2023-ecoassistant] (2023, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C3,C10)
+  title: EcoAssistant: Using LLM Assistant More Affordably and Accurately
+  key_idea: Assistant hierarchy plus solution retrieval for agentic code queries.
+  cost: Surpasses GPT-4 by 10 points of success rate with less than 50% of GPT-4's cost
+  summary: For code-driven assistant queries, tries cheaper LLMs first with an execution loop and backs off to stronger ones, and retrieves solutions from past successful queries as demonstrations.
+  benchmarks: code-driven API QA
+  signals: code execution feedback, success of past queries
+
+[zheng-2023-sglang] (2023, NeurIPS 2024, rel=4, gran=none, regime=n/a, prod=N, clusters=C10,C11)
+  title: SGLang: Efficient Execution of Structured Language Model Programs
+  key_idea: Co-design a program frontend with a runtime that reuses KV prefixes automatically.
+  cost: up to 6.4x higher throughput than state-of-the-art inference systems on agent control, reasoning, few-shot, JSON decoding, RAG and multi-turn chat
+  summary: SGLang pairs a frontend language for LLM programs (generation and parallelism primitives) with a runtime featuring RadixAttention, which keeps KV caches in a radix tree for automatic prefix reuse across calls, and compressed finite-state machines for fast structured decoding. The LMSYS blog (lmsys.org/blog/2024-01-17-sglang) introduced RadixAttention.
+  benchmarks: agent control, logical reasoning, few-shot benchmarks, JSON decoding, RAG pipelines, multi-turn chat
+  signals: radix-tree prefix matching
+
+[anthropic-2026-compaction-docs] (2026, Claude Platform documentation, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C14)
+  title: Compaction overview (Claude Platform docs)
+  key_idea: Provider-managed summarization of history keeps long agent tasks within a small active context.
+
+[baral-2026-semantic-cache-operational-gap] (2026, EMNLP 2026 Industry Track, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C10,C13)
+  title: Closing the Operational Gap in Semantic Caching
+  key_idea: Evaluate semantic-cache models at deployment thresholds, not by offline ranking.
+
+[chen-2026-coact] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C8,C10)
+  title: CoACT: Action-Preserving Observation Compression for Coding Agents
+  key_idea: Train a small compressor that keeps the agent's next action unchanged.
+  cost: average total token consumption reduced 33.0% on SWE-bench Verified with near-uncompressed task success
+
+[chen-2026-compression-gateway-cost] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C14)
+  title: An Empirical Cost Attribution of Context-Compression Gateways in Multi-Turn Coding Agents
+  key_idea: With prompt caching, compression savings are much smaller than benchmarks imply.
+  cost: Tool-schema filtering removes ~21K-57K tokens per turn; content compression saves only ~2% of cache-priced prefix per turn (real Claude Code/Codex sessions)
+
+[dhanani-2026-dynamo-agentic-inference] (2026, NVIDIA Technical Blog, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C11,C14)
+  title: Full-Stack Optimizations for Agentic Inference with NVIDIA Dynamo
+  key_idea: Agent hints plus KV-aware routing and tiered KV retention for agentic workloads.
+  cost: Claude Code agents: 85-97% cache hit rates on repeated calls to the same worker; four-agent teams reach 97.2% aggregate cache hit rate; 11.7x read/write ratio for lead agents
+
+[dixit-2026-focus] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10)
+  title: FOCUS: Training-Free Decision-Preserving Context Compression for LLM Agents
+  key_idea: Compress agent history at span granularity while preserving decisions.
+  cost: peak context cut by up to 48% and dependency by 73% while improving task success by up to 8.9 points over uncompressed execution
+
+[dubey-2026-psmas-phase-scheduled] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C10,C12)
+  title: Phase-Scheduled Multi-Agent Systems for Token-Efficient Coordination
+  key_idea: Temporal scheduling of agent activation with compressed context for idle agents.
+  cost: Mean 27.3% token reduction (21.4-34.8%) within 2.1 points of fully activated baseline
+
+[fang-2026-recache] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10,C11)
+  title: ReCache: Efficient KV Cache Reuse and Compression for Tool-Augmented LLM Agents
+  key_idea: Precompute tool-schema KV once and attend selectively.
+  cost: resource-wise attention matches dense invocation (82.3% vs 82.4% Inv-F1) with 3.655x TTFT speedup; full framework reduces KV memory 92.43% and speeds attention 1.423x
+
+[gu-2026-peek] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10)
+  title: PEEK: Context Map as an Orientation Cache for Long-Context LLM Agents
+  key_idea: Cache an orientation map of recurring external contexts.
+  cost: 1.7-5.8x lower cost than ACE with fewer iterations; 1.4x lower cost than ACE on context learning
+
+[guo-2026-cascade-deployment-time-learning] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C5,C10)
+  title: CASCADE: Case-Based Continual Adaptation for Large Language Models During Deployment
+  key_idea: Frame experience reuse during deployment as a contextual bandit.
+
+[katz-2026-cursor-dynamic-context-discovery] (2026, Cursor blog, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C14)
+  title: Dynamic context discovery
+  key_idea: Replace static context with files the agent discovers on demand.
+  cost: A/B test: loading only needed MCP tools reduced total agent tokens by 46.9% in runs that called an MCP tool (statistically significant, high variance by number of MCPs installed; vendor-reported)
+
+[khailo-2026-keepalive-economics] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C14)
+  title: Keeping the Cache Warm Pays: Keepalive Economics for Agentic Workloads
+  key_idea: Keepalive pings preserve prompt caches across agent pauses.
+  cost: a client-side keepalive keeps provider prefixes warm through tool/approval pauses; breaks even against re-prefill at idle gaps of ~46 min (Anthropic) and ~36 min (OpenAI, DeepSeek)
+
+[kim-2026-agenticcache] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10)
+  title: AgenticCache: Cache-Driven Asynchronous Planning for Embodied AI Agents
+  key_idea: Cache-driven asynchronous planning takes the LLM off the critical path.
+  cost: 22% average task-success improvement across 12 configurations, 65% lower simulation latency and 50% lower token usage
+
+[kovacs-2026-squeez] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C8,C10)
+  title: Squeez: Task-Conditioned Tool-Output Pruning for Coding Agents
+  key_idea: A tiny fine-tuned model truncates tool outputs for the frontier agent.
+  cost: removes 92% of tool-output input tokens at 0.86 recall / 0.80 F1, beating zero-shot Qwen 3.5 35B-A3B by 11 recall points
+
+[kulkarni-2026-cache-eviction-study] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C10,C13)
+  title: Which Eviction Policy Should an LLM Cache Use? A Systematic Study Across Workloads, Capacities, and Encoders
+  key_idea: Most semantic-cache hits at standard thresholds are not valid substitutes.
+  cost: raw semantic-cache hit rates of 51-60% on LMSYS and QQP fall to quality-adjusted rates of 1.1-2.2% when only answer-substitutable hits are counted
+
+[kumar-2026-craft] (2026, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C10)
+  title: CRAFT: Cost-aware Refinement And Front-aware Tuning of Prompts
+  key_idea: Pareto-front prompt optimization with validation-budget-aware acquisition.
+
+[kumar-2026-tvcache] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10)
+  title: TVCACHE: A Stateful Tool-Value Cache for Post-Training LLM Agents
+  key_idea: Cache tool results keyed by the whole tool-call prefix to keep state correct.
+  cost: cache hit rates up to 70% and median tool-call execution time reduced up to 6.9x, with no degradation in post-training reward
+
+[lenton-2026-distilling-repeated-work-into-code] (2026, Unify blog, rel=3, gran=step, regime=training-free, prod=N, clusters=C8,C10,C12)
+  title: Distilling repeated work into code
+  key_idea: Compile recurring agent trajectories into code with targeted model calls and self-repair.
+  cost: Hourly triage task, 8 runs x 12 inquiries: first run 6 model calls and ~251,000 tokens; each later run one call of ~645 tokens (~390x fewer), all 96 inquiries correct; one-off setup and review cost 1.2M tokens (vendor-reported)
+
+[litellm-2026-auto-routing] (2026, LiteLLM documentation, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C10,C14)
+  title: [Beta] Auto Routing (LiteLLM proxy docs: complexity, semantic and adaptive routing)
+  key_idea: Open-source gateway combining tiered complexity classification with per-tier bandits and cache-preserving session pinning.
+
+[lodha-2026-less-context-better-agents] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10,C14)
+  title: Less Context, Better Agents: Efficient Context Engineering for Long-Horizon Tool-Using LLM Agents
+  key_idea: Recent-window plus summary beats full history in enterprise tool-use agents.
+
+[merchant-2026-temporal-semantic-cache-mcp] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10,C12)
+  title: Evaluating Temporal Semantic Caching and Workflow Optimization in Agentic Plan-Execute Pipelines
+  key_idea: Caching and parallelism help plan-execute agents but semantic caching breaks on parameter-rich queries.
+  cost: MCP workflow optimizations gave 1.67x speedup and ~40% lower median end-to-end latency; temporal cache achieved 30.6x median speedup on hits
+
+[pan-2026-smoothagent] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10,C11)
+  title: SmoothAgent: Efficient Long-Horizon LLM-Based Agent Serving with Lookahead Context Engineering
+  key_idea: Do context engineering asynchronously ahead of need.
+  cost: eliminates context-transformation overhead and reduces TTFT by up to 11.9x
+
+[piriyakulkij-2026-subagents-vs-skills] (2026, arXiv, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C10,C12)
+  title: Subagents vs Agent Skills: Executing Reusable Knowledge for Long-Horizon Agentic Tasks
+  key_idea: When to run reusable knowledge as subagents vs in-context skills.
+
+[satish-2026-beyond-token-savings] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C10,C13)
+  title: Beyond Token Savings: A Systematic Study of Context Compression in LLM Agents
+  key_idea: Compression effects must be judged on execution, not token counts.
+  cost: on Terminal-Bench with Qwen, policies using roughly one-third of the tokens can take 20-80% longer than the uncompressed agent
+
+[shen-2026-dynbranch] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10,C11)
+  title: DynBranch: Speculative Subgraph Reuse for Dynamic Agentic LLM Serving
+  key_idea: Speculative reuse of workflow subgraphs at the API boundary.
+  cost: mean latency reduced up to 32% over the strongest prior system per workload and 46-66% vs no reuse, preserving workflow results
+
+[singh-2026-krites] (2026, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C7,C10)
+  title: Asynchronous Verified Semantic Caching for Tiered LLM Architectures
+  key_idea: Off-critical-path LLM-judge verification grows the reach of a curated cache safely.
+  cost: up to 3.9x more requests served with curated static answers for conversational and search-style traffic vs tuned baselines, with unchanged critical-path latency
+
+[singh-2026-total-cost-of-agency] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C12,C14)
+  title: Total Cost of Agency: Exact Attribution of Memory Injection Cost in Multi-Agent LLM Workflows
+  key_idea: Attribute MAS bills to memory injection and control it.
+  cost: Memory injection is ~12% of full billed cost, rising to 27.6% at workflow depth six; shrinking retrieval window 32 to 2 cuts injected tokens 28.7%
+
+[singla-2026-agentweave] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C10)
+  title: AgentWeave: Routing Before Reasoning for Efficient Function Calling in Tool-Rich Language Models
+  key_idea: Deterministic tool pre-routing to shrink the action space for small function-calling models.
+  cost: 70.18% fewer tools exposed, 61.70% fewer input tokens and 50.95% lower local-model latency vs all-tools exposure on BFCL V4 tasks
+
+[tiwari-2026-cachewise] (2026, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C10,C11)
+  title: CacheWise: Understanding Workloads and Optimizing KVCache Management for Efficiently Serving LLM Coding Agents
+  key_idea: Use tool-call metadata to predict KV reuse in coding-agent serving.
+  cost: KV cache evictions reduced 2-2.6x and total agent session completion time improved up to 3.5x on collected coding-assistant traces
+
+[vllm-2026-agentx-agentic-serving] (2026, vLLM blog, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C11,C13)
+  title: vLLM x AgentX: Optimizing for Real-World Agentic Serving
+  key_idea: Agentic workloads are prefill- and cache-dominated; serving must optimise the latency-cost frontier around prefix reuse.
+  cost: Up to 130K total tokens per GPU-second on DeepSeek V4 Pro; 14.6x-106x serving-cost advantage over Opus 5 API pricing across DeepSeek V4 Pro, MiniMax M3, Kimi K3 on SemiAnalysis AgentX (project-reported)
+
+[wadlom-2026-helium] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C11)
+  title: Efficient LLM Serving for Agentic Workflows: A Data Systems Perspective
+  key_idea: Data-systems view of agent serving.
+  cost: up to 1.56x speedup over state-of-the-art agent serving systems
+
+[wang-2026-swe-pruner] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C10)
+  title: SWE-Pruner: Self-Adaptive Context Pruning for Coding Agents
+  key_idea: Goal-conditioned line-level pruning by a tiny model.
+  cost: 23-54% token reduction on agent tasks such as SWE-Bench Verified while improving success rates; up to 14.84x compression on LongCodeQA
+
+[wei-2026-triage-trajectory-reuse] (2026, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C10,C12)
+  title: TRIAGE: Three-level Routing and Intelligent Agent Guidance for Efficient Execution
+  key_idea: Reuse past trajectories as skills to skip LLM reasoning.
+  cost: 62.3% token savings on 1,007 security monitoring queries; 76.3% token reduction on ToolBench
+
+[woo-2026-prefillshare] (2026, arXiv, rel=3, gran=subagent, regime=supervised-offline, prod=N, clusters=C10,C11)
+  title: PrefillShare: A Shared Prefill Module for KV Reuse in Multi-LLM Disaggregated Serving
+  key_idea: Share prefill/KV across specialized models in multi-agent serving.
+
+[yao-2026-ace-router] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C3,C10)
+  title: ACE-Router: Generalizing History-Aware Routing from MCP Tools to the Agent Web
+  key_idea: History-aware router for tools and agents in large ecosystems.
+
+[anthropic-2025-advanced-tool-use] (2025, Anthropic engineering blog, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C12,C14)
+  title: Introducing advanced tool use on the Claude Developer Platform
+  key_idea: Deferred tool loading and code-orchestrated tool calls cut agent context tokens while improving tool-selection accuracy.
+  cost: Tool Search Tool: ~85% reduction in upfront tool-definition tokens (~77K to ~8.7K for 50+ MCP tools); MCP-eval accuracy Opus 4 49%->74%, Opus 4.5 79.5%->88.1%. Programmatic tool calling: average tokens 43,588->27,297 (37% reduction) on complex research tasks. Tool use examples: 72%->90% on complex parameter handling (all vendor-reported internal testing)
+
+[anthropic-2025-code-execution-with-mcp] (2025, Anthropic engineering blog, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C12)
+  title: Code execution with MCP: building more efficient AI agents
+  key_idea: Present tools as code APIs and let the agent execute code so tool definitions and intermediate results stay out of the context window.
+  cost: Example workflow: tool-related context reduced from 150,000 tokens to 2,000 tokens (98.7% saving) by loading tool definitions on demand as code files (vendor-reported, illustrative example)
+
+[anthropic-2025-context-management] (2025, Claude blog; Claude Platform docs (Context editing), rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C14)
+  title: Managing context on the Claude Developer Platform (context editing and memory tool)
+  key_idea: Rule-based clearing of old tool results plus external memory keeps long agent loops within context at far lower token cost.
+  cost: Memory tool + context editing improved performance 39% over baseline; context editing alone 29%; in a 100-turn web-search evaluation, context editing cut token consumption by 84% (vendor-reported internal evaluation)
+
+[chase-2025-how-when-multi-agent] (2025, LangChain blog, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C12)
+  title: How and when to build multi-agent systems
+  key_idea: Multi-agent fits parallel read-heavy tasks worth the token cost; avoid it for tightly coupled writes.
+
+[chhikara-2025-mem0] (2025, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C14)
+  title: Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory
+  key_idea: Extract-and-retrieve memory instead of full-context replay.
+  cost: 91% lower p95 latency and more than 90% token-cost savings vs the full-context method, with gains in LLM-as-a-Judge score over OpenAI memory on LOCOMO
+
+[fu-hinthorn-2025-benchmarking-multi-agent-architectures] (2025, LangChain blog, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C10,C12,C13)
+  title: Benchmarking Multi-Agent Architectures
+  key_idea: Multi-agent decomposition pays off mainly when context grows; supervisor overhead comes from relaying messages.
+  cost: Supervisor architecture improved by nearly 50% on the tau-bench variant after removing handoff messages and letting sub-agents respond directly; single agent's token use grows with distractor domains while supervisor and swarm stay flat (qualitative token comparison, vendor-reported)
+
+[kilpatrick-2025-gemini-implicit-caching] (2025, Google Developers Blog, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C14)
+  title: Gemini 2.5 Models now support implicit caching
+  key_idea: Automatic prefix caching discount.
+  cost: (vendor-reported) 75% token discount on implicit cache hits (min 1,024 tokens Flash, 2,048 Pro)
+
+[lee-2025-prints] (2025, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C7,C10)
+  title: PRInTS: Reward Modeling for Long-Horizon Information Seeking
+  key_idea: PRM with built-in context compression for long trajectories.
+
+[liu-2025-context-as-a-tool] (2025, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C10)
+  title: Context as a Tool: Context Management for Long-Horizon SWE-Agents
+  key_idea: Make context management an explicit, trained agent action.
+
+[liu-2025-off-cmab] (2025, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C10)
+  title: Offline Learning for Combinatorial Multi-armed Bandits
+  key_idea: Offline pessimistic learning for combinatorial bandits.
+
+[liu-2025-rcr-router] (2025, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C10)
+  title: RCR-Router: Efficient Role-Aware Context Routing for Multi-Agent LLM Systems with Structured Memory
+  key_idea: Role- and stage-aware context routing to each agent under a token budget.
+  cost: Up to 30% token reduction while improving or maintaining answer quality
+
+[molinari-2025-rp-react] (2025, AAAI 2026 Workshop, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C10)
+  title: Reason-Plan-ReAct: A Reasoner-Planner Supervising a ReAct Executor for Complex Enterprise Tasks
+  key_idea: Reasoning-model planner supervising ReAct executors.
+
+[rajasekaran-2025-effective-context-engineering] (2025, Anthropic engineering blog, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C10,C12)
+  title: Effective context engineering for AI agents
+  key_idea: Treat context as a finite budget; compact, clear tool results, take notes, and isolate work in sub-agents.
+
+[ruan-2025-cortex-knowledge-cache] (2025, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10,C11)
+  title: Cortex: Achieving Low-Latency, Cost-Efficient Remote Data Access For LLM via Semantic-Aware Knowledge Caching
+  key_idea: Semantic cache for agent tool/data accesses validated by a small LLM judge.
+  cost: up to 3.6x throughput with >85% cache hit rate on search workloads at accuracy nearly identical to non-cached baselines; 20% throughput gain on coding tasks
+
+[wang-2025-kvcache-in-the-wild] (2025, USENIX ATC 2025, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C11,C14)
+  title: KVCache Cache in the Wild: Characterizing and Optimizing KVCache Cache at a Large Cloud Provider
+  key_idea: Real traces show where KV reuse comes from and how to evict for it.
+  cost: ideal KV hit rates of 62% and 54% on two production traces; workload-aware eviction improves hit ratio by up to 23.9% and reduces latency by up to 42% vs LRU/FIFO
+
+[wu-2025-resum] (2025, arXiv, rel=3, gran=step, regime=RL-online, prod=N, clusters=C10)
+  title: ReSum: Unlocking Long-Horizon Search Intelligence via Context Summarization
+  key_idea: Periodic summarization plus RL adaptation for unbounded search horizons.
+
+[xia-2025-tokenskip] (2025, EMNLP 2025, rel=3, gran=token, regime=supervised-offline, prod=N, clusters=C9,C10)
+  title: TokenSkip: Controllable Chain-of-Thought Compression in LLMs
+  key_idea: Learn to skip low-importance CoT tokens.
+  cost: On Qwen2.5-14B-Instruct, reduces reasoning tokens by 40% (313 to 181) on GSM8K with less than 0.4% performance drop
+
+[xu-2025-chain-of-draft] (2025, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C9,C10)
+  title: Chain of Draft: Thinking Faster by Writing Less
+  key_idea: Terse drafts instead of verbose CoT.
+  cost: Matches or surpasses CoT accuracy while using as little as 7.6% of the tokens
+
+[yan-2025-dont-build-multi-agents] (2025, Cognition blog, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C10,C12,C14)
+  title: Don't Build Multi-Agents
+  key_idea: Context sharing, not agent count, determines reliability; prefer single-threaded agents plus history compression over parallel subagents.
+
+[ye-2025-agentfold] (2025, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C10)
+  title: AgentFold: Long-Horizon Web Agents with Proactive Context Management
+  key_idea: Proactive multi-scale folding of agent history.
+
+[zehle-2025-capo] (2025, AutoML 2025, rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C10)
+  title: CAPO: Cost-Aware Prompt Optimization
+  key_idea: AutoML-style cost-aware prompt optimization (racing plus length penalty).
+  cost: Outperforms SOTA discrete prompt optimizers in 11/15 cases (up to 21%p); reduces average prompt length via length penalty and saves evaluations via racing
+
+[zhang-2025-ace] (2025, ICLR 2026, rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C10)
+  title: Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models
+  key_idea: Grow and curate a structured playbook instead of rewriting prompts wholesale.
+  cost: +10.6% on agents and +8.6% on finance benchmarks over strong baselines, with lower adaptation latency and rollout cost
+
+[zhou-2025-mem1] (2025, arXiv, rel=3, gran=step, regime=RL-online, prod=N, clusters=C8,C10)
+  title: MEM1: Learning to Synergize Memory and Reasoning for Efficient Long-Horizon Agents
+  key_idea: Learn to keep constant-size memory by consolidating state each turn.
+  cost: MEM1-7B improves performance 3.5x while reducing memory usage 3.7x vs Qwen2.5-14B-Instruct on a 16-objective multi-hop QA task
+
+[anthropic-2024-prompt-caching] (2024, Anthropic documentation / Anthropic news, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C14)
+  title: Prompt caching (Claude API documentation) and "Prompt caching with Claude" announcement
+  key_idea: Explicit, prefix-exact KV caching priced at a fraction of input tokens.
+  cost: announcement (anthropic.com/news/prompt-caching): up to 90% lower cost and up to 85% lower latency for long prompts; docs: cache reads billed at 0.1x base input price, 5-minute writes at 1.25x and 1-hour writes at 2x
+
+[anthropic-2024-prompt-caching-b] (2024, Anthropic news, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C14)
+  title: Prompt caching with Claude
+  key_idea: Explicit prefix caching with priced writes and cheap reads.
+  cost: (vendor-reported) Up to 90% cost and 79% latency reduction (100K-token book chat); 53% cost / 75% latency for 10-turn conversation
+
+[gao-2024-cachedattention] (2024, USENIX ATC 2024, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: Cost-Efficient Large Language Model Serving for Multi-turn Conversations with CachedAttention
+  key_idea: Persist multi-turn KV caches in a memory hierarchy.
+  cost: TTFT reduced by up to 87%, prefill throughput up to 7.8x higher for multi-turn conversations, and end-to-end inference cost reduced by up to 70%
+
+[gill-2024-meancache] (2024, IPDPS 2025, rel=3, gran=query, regime=hybrid, prod=N, clusters=C10)
+  title: MeanCache: User-Centric Semantic Caching for LLM Web Services
+  key_idea: Federated, context-aware semantic caching to cut repeated LLM calls while reducing false hits.
+  cost: ~17% higher F-score and 20% higher precision on semantic cache hit/miss decisions; 83% less storage; 11% faster hit/miss decisions
+
+[google-2024-gemini-context-caching] (2024, Google AI for Developers documentation, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C14)
+  title: Context caching (Gemini API documentation)
+  key_idea: Implicit plus explicit, TTL-managed context caches.
+
+[jha-2024-prompt-compression-characterization] (2024, ES-FoMo workshop @ ICML 2024, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C13)
+  title: Characterizing Prompt Compression Methods for Long Context Inference
+  key_idea: Under standardized evaluation, extractive compression beats token pruning.
+  cost: extractive compression enables up to 10x compression with minimal accuracy degradation; token pruning often lags extractive compression
+
+[openai-2024-prompt-caching] (2024, OpenAI API documentation, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C14)
+  title: Prompt caching (OpenAI API guide) and "Prompt Caching in the API"
+  key_idea: Automatic prefix caching with cache-key-aware routing.
+  cost: cached input tokens discounted up to 95% (docs); automatic for prompts of at least 1,024 tokens
+
+[pan-2024-llmlingua-2] (2024, Findings of ACL 2024, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C10)
+  title: LLMLingua-2: Data Distillation for Efficient and Faithful Task-Agnostic Prompt Compression
+  key_idea: Distil a frontier model's compression judgments into a small token classifier.
+  cost: 3x-6x faster than prior prompt-compression methods; end-to-end latency accelerated 1.6x-2.9x at 2x-5x compression ratios
+
+[qin-2024-mooncake] (2024, arXiv, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C11,C14)
+  title: Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving
+  key_idea: Trade storage for compute with a cluster-wide KV cache pool.
+  cost: up to 525% throughput increase in simulated scenarios under SLOs; under real workloads Kimi handles 75% more requests
+
+[schnabel-2024-sammo] (2024, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C10)
+  title: Symbolic Prompt Program Search: A Structure-Aware Approach to Efficient Compile-Time Prompt Optimization
+  key_idea: Symbolic structure-aware search over prompt programs.
+
+[srivatsa-2024-preble] (2024, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C11)
+  title: Preble: Efficient Distributed Prompt Scheduling for LLM Serving
+  key_idea: Prefix-aware distributed scheduling.
+  cost: 1.5x-14.5x average and 2x-10x p99 latency improvement over SGLang (and similarly vs vLLM)
+
+[yao-2024-cacheblend] (2024, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: CacheBlend: Fast Large Language Model Serving for RAG with Cached Knowledge Fusion
+  key_idea: Selective KV recompute makes non-prefix KV cache reuse accurate.
+  cost: time-to-first-token reduced 2.2-3.3x and throughput increased 2.8-5x vs full KV recompute without compromising quality
+
+[bang-2023-gptcache] (2023, NLP-OSS Workshop 2023 (ACL Anthology), rel=3, gran=query, regime=training-free, prod=N, clusters=C10,C14)
+  title: GPTCache: An Open-Source Semantic Cache for LLM Applications Enabling Faster Answers and Cost Savings
+  key_idea: Embedding-similarity cache in front of an LLM API to skip repeated or paraphrased calls.
+  cost: response speed improves 2-10x on cache hits
+
+[gim-2023-prompt-cache] (2023, MLSys 2024, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: Prompt Cache: Modular Attention Reuse for Low-Latency Inference
+  key_idea: Modular, position-aware reuse of attention states for recurring prompt segments.
+  cost: time-to-first-token improved 8x on GPU and 60x on CPU for long prompts while maintaining output accuracy
+
+[jiang-2023-llmlingua] (2023, EMNLP 2023, rel=3, gran=none, regime=training-free, prod=N, clusters=C10)
+  title: LLMLingua: Compressing Prompts for Accelerated Inference of Large Language Models
+  key_idea: Use a small LM's perplexity to prune prompt tokens before sending to an expensive black-box LLM.
+  cost: up to 20x prompt compression with little performance loss on GSM8K/BBH/ShareGPT/Arxiv-March23
+
+[jiang-2023-longllmlingua] (2023, ACL 2024, rel=3, gran=none, regime=training-free, prod=N, clusters=C10)
+  title: LongLLMLingua: Accelerating and Enhancing LLMs in Long Context Scenarios via Prompt Compression
+  key_idea: Question-aware compression plus reordering fixes both cost and lost-in-the-middle effects.
+  cost: up to 17.1% accuracy gain over the original prompt with ~4x fewer tokens on NaturalQuestions (GPT-3.5-Turbo); cost savings of $28.5 and $27.4 per 1,000 samples on LongBench and ZeroScrolls
+
+[li-2023-selective-context] (2023, EMNLP 2023, rel=3, gran=none, regime=training-free, prod=N, clusters=C10)
+  title: Compressing Context to Enhance Inference Efficiency of Large Language Models
+  key_idea: Drop low self-information spans from the context.
+  cost: 50% reduction in context cost, 36% lower inference memory and 32% lower inference time, with a 0.023 BERTScore and 0.038 faithfulness drop
+
+[packer-2023-memgpt] (2023, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C10)
+  title: MemGPT: Towards LLMs as Operating Systems
+  key_idea: Virtual context management: page information in and out of the context window.
+
+[xu-2023-recomp] (2023, ICLR 2024, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C10)
+  title: RECOMP: Improving Retrieval-Augmented LMs with Compression and Selective Augmentation
+  key_idea: Compress retrieved documents into query-focused summaries, or skip them entirely.
+  cost: compression rate as low as 6% with minimal loss in performance on language modeling and open-domain QA
+
+[openai-prompt-caching] (None, OpenAI API docs, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C14)
+  title: Prompt caching
+  key_idea: Automatic prefix KV caching with discounted cached tokens.
+  cost: (vendor-reported) Cached input discounted up to 95% (0.1x standard rate for recent models)
+
+[chen-2026-governance-decay] (2026, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C7,C10)
+  title: Governance Decay: How Context Compaction Silently Erases Safety Constraints in Long-Horizon LLM Agents
+  key_idea: Compaction can erase policy constraints; pin them.
+
+[cim-2026-parallel-context-compaction] (2026, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C10,C11)
+  title: Parallel Context Compaction for Long-Horizon LLM Agent Serving
+  key_idea: Parallel block-wise compaction for serving.
+
+[lenton-2026-continual-arc] (2026, Unify blog, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C10,C13)
+  title: Why we built Continual-ARC
+  key_idea: Agent memory features often fail to reduce cost on recurring work; simple example caches or stored programs do better.
+  cost: Pooled over 600 instances: persistent memory changed prime-agent's budget use by +0.4/+0.1/-0.1 points (low/medium/high effort); hermes-agent's memory cost ~6 points at low effort; none beat a bare model with a demo-cache floor (vendor-reported)
+
+[liang-2026-lacache] (2026, arXiv, rel=2, gran=query, regime=training-free, prod=N, clusters=C10)
+  title: LaCache: Robust Semantic Caching for LLM Serving
+  key_idea: Verify cache hits on early response tokens, not just the query.
+
+[nguyen-2026-cliffcompaction] (2026, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C10)
+  title: CliffCompaction: Cost-Efficient Compaction for Long-Horizon Coding Agents
+  key_idea: Harness-agnostic compaction proxy for very long coding sessions.
+
+[openai-2026-compaction-docs] (2026, OpenAI API documentation, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C14)
+  title: Compaction (OpenAI API guide)
+  key_idea: Threshold-triggered server-side compaction of agent history into an opaque state item.
+
+[petrova-2026-agents-dont-paginate] (2026, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C10)
+  title: Agents Don't Paginate: First-Chunk Selection for LLM Tool Responses
+  key_idea: Tool-response truncation decisions matter because agents do not paginate.
+
+[together-2026-cache-aware-pd-disaggregation] (2026, Together AI blog, rel=2, gran=query, regime=training-free, prod=N, clusters=C10,C11)
+  title: Cache-aware prefill-decode disaggregation (CPD) for up to 40% faster long-context LLM serving
+  key_idea: Route requests to prefill pools by cache warmth to exploit context reuse.
+  cost: Up to 35-40% higher sustainable QPS than existing disaggregated designs (~1.1-1.15 QPS per GPU) with lower TTFT on long-context mixed traffic (vendor-reported)
+
+[vllm-2026-tiered-kv-offloading] (2026, vLLM blog, rel=2, gran=none, regime=n/a, prod=N, clusters=C10,C11)
+  title: Tiered KV Cache Offloading in vLLM
+  key_idea: Reloading KV from cheaper tiers beats re-prefill for multi-turn and agentic sessions.
+
+[wang-2026-actkv] (2026, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C10,C11)
+  title: ActKV: Efficient LLM Agents through Action-Guided KV Cache Management
+  key_idea: Compress agent KV cache guided by action relevance.
+  cost: retains 98.53% of FullKV accuracy with 25.98% of peak KV memory and 3.97x token / 3.58x task throughput on long-trace tasks
+
+[zhang-2026-cacheattack] (2026, ICML 2026, rel=2, gran=query, regime=n/a, prod=N, clusters=C10)
+  title: From Similarity to Vulnerability: Key Collision Attack on LLM Semantic Caching
+  key_idea: Semantic caches are fuzzy hashes and can be poisoned via collisions.
+
+[zhang-2026-semantic-cache-poisoning] (2026, arXiv, rel=2, gran=query, regime=training-free, prod=N, clusters=C10)
+  title: Similarity Is Not Validity: Defending LLM Semantic Caches Against Poisoning
+  key_idea: Detect poisoned cache entries via deletion-based similarity tests.
+  cost: blocks 82.0%-98.2% of poisoned cache entries at a 5% false-positive rate with negligible serving overhead
+
+[gu-2025-auditing-prompt-caching] (2025, ICML 2025, rel=2, gran=none, regime=n/a, prod=Y, clusters=C10)
+  title: Auditing Prompt Caching in Language Model APIs
+  key_idea: Prompt caching is detectable via timing and can leak across users.
+
+[iyengar-2025-generative-caching] (2025, arXiv, rel=2, gran=query, regime=training-free, prod=N, clusters=C10)
+  title: A Generative Caching System for Large Language Models
+  key_idea: Combine multiple cached answers to respond to new queries.
+
+[langchain-2025-context-engineering] (2025, LangChain blog, rel=2, gran=none, regime=n/a, prod=N, clusters=C10)
+  title: Context Engineering (for agents)
+  key_idea: Write, select, compress, isolate.
+
+[nvidia-dynamo-repo] (2025, GitHub (ai-dynamo/dynamo), rel=2, gran=query, regime=training-free, prod=Y, clusters=C10,C11)
+  title: NVIDIA Dynamo: A Datacenter Scale Distributed Inference Serving Framework
+  key_idea: Cache-aware routing and disaggregated serving to cut the cost of prefill-heavy multi-turn traffic.
+  cost: Repo-listed results: 2x faster TTFT with KV-aware routing (Qwen3-Coder 480B, Baseten benchmark); 80% fewer SLA breaches from Planner autoscaling at 5% lower TCO (Alibaba, APSARA 2025); 7x higher throughput per GPU for DeepSeek R1 on GB200 NVL72 vs B200 without Dynamo (vendor/partner-reported)
+
+[openai-agents-sdk-handoffs] (2025, OpenAI Agents SDK documentation, rel=2, gran=subagent, regime=n/a, prod=N, clusters=C3,C10,C12)
+  title: Handoffs (OpenAI Agents SDK documentation)
+  key_idea: LLM-driven delegation as tool calls, with configurable history passed to each specialist (and its model).
+
+[redis-langcache] (2025, Redis documentation, rel=2, gran=query, regime=training-free, prod=N, clusters=C10,C14)
+  title: Redis LangCache (semantic caching service)
+  key_idea: Managed semantic caching with tunable similarity thresholds in front of LLM calls.
+
+[varda-2025-cloudflare-code-mode] (2025, Cloudflare blog, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C12)
+  title: Code Mode: the better way to use MCP
+  key_idea: Agents call tools more efficiently by writing code against a generated API than by emitting tool calls.
+
+[xu-2025-a-mem] (2025, NeurIPS 2025, rel=2, gran=none, regime=training-free, prod=N, clusters=C10)
+  title: A-MEM: Agentic Memory for LLM Agents
+  key_idea: Self-organizing linked memory for agents.
+
+[chan-2024-cache-augmented-generation] (2024, WWW 2025 (short paper), rel=2, gran=none, regime=training-free, prod=N, clusters=C10)
+  title: Don't Do RAG: When Cache-Augmented Generation is All You Need for Knowledge Tasks
+  key_idea: Preload and cache a small knowledge base instead of retrieving.
+
+[jin-2024-ragcache] (2024, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: RAGCache: Efficient Knowledge Caching for Retrieval-Augmented Generation
+  key_idea: Cache KV of popular retrieved documents across GPU/host memory.
+  cost: TTFT reduced by up to 4x and throughput improved by up to 2.1x vs vLLM integrated with Faiss
+
+[juravsky-2024-hydragen] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C10,C11)
+  title: Hydragen: High-Throughput LLM Inference with Shared Prefixes
+  key_idea: Batch attention over shared prefixes.
+  cost: CodeLlama-13b end-to-end throughput up to 32x vs competitive baselines; 55% less inference time on competitive programming with tree-shaped sharing
+
+[li-2024-prompt-compression-survey] (2024, NAACL 2025, rel=2, gran=none, regime=n/a, prod=N, clusters=C10,C15)
+  title: Prompt Compression for Large Language Models: A Survey
+  key_idea: Taxonomy of prompt compression methods.
+
+[li-2024-snapkv] (2024, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: SnapKV: LLM Knows What You are Looking for Before Generation
+  key_idea: Compress prompt KV using attention from an observation window.
+
+[regmi-2024-gpt-semantic-cache] (2024, arXiv, rel=2, gran=query, regime=training-free, prod=N, clusters=C10)
+  title: GPT Semantic Cache: Reducing LLM Costs and Latency via Semantic Embedding Caching
+  key_idea: In-memory embedding cache for LLM responses.
+  cost: API calls reduced by up to 68.8% with cache hit rates of 61.6%-68.8% and positive-hit accuracy above 97%
+
+[renze-2024-concise-cot] (2024, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C9,C10)
+  title: The Benefits of a Concise Chain of Thought on Problem-Solving in Large Language Models
+  key_idea: Concise CoT prompting is nearly free except on hard math.
+  cost: CCoT reduced average response length by 48.70% for GPT-3.5 and GPT-4 with negligible impact; average per-token cost reduction 22.67%; GPT-3.5 math penalty 27.69%
+
+[ye-2024-chunkattention] (2024, ACL 2024, rel=2, gran=none, regime=n/a, prod=N, clusters=C10,C11)
+  title: ChunkAttention: Efficient Self-Attention with Prefix-Aware KV Cache and Two-Phase Partition
+  key_idea: Prefix-tree KV with shared-prompt-aware kernel.
+  cost: self-attention kernel 3.2-4.8x faster than state of the art for system prompts of 1024-4096 tokens
+
+[chevalier-2023-autocompressors] (2023, EMNLP 2023, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C10)
+  title: Adapting Language Models to Compress Contexts
+  key_idea: Learn soft summary vectors that replace long context segments.
+
+[ge-2023-icae] (2023, ICLR 2024, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C10)
+  title: In-context Autoencoder for Context Compression in a Large Language Model
+  key_idea: Autoencode context into memory slots readable by the base LLM.
+  cost: 4x context compression on Llama with ~1% additional parameters, improving latency and GPU memory
+
+[liu-2023-cachegen] (2023, SIGCOMM 2024, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: CacheGen: KV Cache Compression and Streaming for Fast Large Language Model Serving
+  key_idea: Compress and stream KV caches to reuse long contexts across machines.
+  cost: KV cache size reduced 3.5-4.3x and context fetch+processing delay reduced 3.2-3.7x with negligible quality impact
+
+[liu-2023-lost-in-the-middle] (2023, TACL 2024, rel=2, gran=none, regime=n/a, prod=N, clusters=C10)
+  title: Lost in the Middle: How Language Models Use Long Contexts
+  key_idea: More context is not free: position-dependent degradation motivates pruning and reordering.
+
+[mu-2023-gist] (2023, NeurIPS 2023, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C10)
+  title: Learning to Compress Prompts with Gist Tokens
+  key_idea: Compress a recurring prompt into cacheable gist tokens.
+  cost: up to 26x prompt compression, up to 40% FLOPs reduction and 4.2% wall-time speedup with minimal quality loss
+
+[xiao-2023-streamingllm] (2023, ICLR 2024, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: Efficient Streaming Language Models with Attention Sinks
+  key_idea: Keep attention-sink tokens plus a recent window.
+  cost: up to 22.2x speedup over sliding-window recomputation in streaming settings
+
+[zhang-2023-h2o] (2023, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: H2O: Heavy-Hitter Oracle for Efficient Generative Inference of Large Language Models
+  key_idea: Evict KV entries by accumulated attention.
+  cost: with 20% heavy hitters, throughput improves up to 29x over DeepSpeed Zero-Inference and HF Accelerate and 3x over FlexGen; latency reduced up to 1.9x
+
+[aws-bedrock-prompt-caching] (None, Amazon Bedrock User Guide, rel=2, gran=none, regime=n/a, prod=N, clusters=C10,C14)
+  title: Prompt caching for faster model inference (Amazon Bedrock)
+  key_idea: Cloud-platform prompt caching.
+
+[cloudflare-ai-gateway] (None, Cloudflare docs, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C14)
+  title: Cloudflare AI Gateway
+  key_idea: Edge gateway with caching and fallback.
+
+[litellm-router] (None, LiteLLM docs / GitHub, rel=2, gran=query, regime=training-free, prod=N, clusters=C10,C14)
+  title: LiteLLM Router and AI Gateway
+  key_idea: Load-balancing router with cost-based strategy.
+
+[portkey-ai-gateway] (None, Portkey docs / GitHub, rel=2, gran=query, regime=training-free, prod=N, clusters=C10,C14)
+  title: Portkey AI Gateway
+  key_idea: Rule-based routing plus semantic caching and budgets.
+

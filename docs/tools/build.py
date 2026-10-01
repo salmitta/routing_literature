@@ -40,10 +40,10 @@ def main():
     data = json.dumps(rows, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
     extras = []
-    for name in ("taxonomy.md", "synthesis.md"):
+    for name in ("synthesis.md", "taxonomy.md", "UNVERIFIED.md"):
         if os.path.exists(os.path.join(ROOT, name)):
             shutil.copy(os.path.join(ROOT, name), os.path.join(SITE, name))
-            extras.append(f' · <a href="{name}">{name.split(".")[0]}</a>')
+            extras.append(f' · <a href="{name}">{name.split(".")[0].lower()}</a>')
     shutil.copy(os.path.join(ROOT, "literature_db.json"), os.path.join(SITE, "literature_db.json"))
     shutil.copy(os.path.join(ROOT, "literature_db.csv"), os.path.join(SITE, "literature_db.csv"))
     with open(os.path.join(SITE, "literature_db.jsonl"), "w") as f:

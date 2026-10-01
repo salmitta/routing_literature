@@ -7362,5 +7362,957 @@
   "db_title": "The Benefits of a Concise Chain of Thought on Problem-Solving in Large Language Models",
   "arxiv_title": "The Benefits of a Concise Chain of Thought on Problem-Solving in Large Language Models",
   "published": "2024-01-11T01:52:25Z"
+ },
+ "2604.12301": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Local-Splitter: A Measurement Study of Seven Tactics for Reducing Cloud LLM Token Usage on Coding-Agent Workloads",
+  "arxiv_title": "Local-Splitter: A Measurement Study of Seven Tactics for Reducing Cloud LLM Token Usage on Coding-Agent Workloads",
+  "published": "2026-04-14T05:19:33Z"
+ },
+ "2607.07548": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Think Big, Search Small: Where Capacity Matters in Hierarchical Search Agents?",
+  "arxiv_title": "Think Big, Search Small: Where Capacity Matters in Hierarchical Search Agents?",
+  "published": "2026-07-08T15:46:48Z"
+ },
+ "2607.26865": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Think Short, Defer Smart, Act, and Repeat: Calibrated Reasoning and Uncertainty-Aware Deferral for Edge LLM Agents",
+  "arxiv_title": "Think Short, Defer Smart, Act, and Repeat: Calibrated Reasoning and Uncertainty-Aware Deferral for Edge LLM Agents",
+  "published": "2026-07-29T12:47:05Z"
+ },
+ "2608.29560": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Which LLM for Which Work? Budgeted Model Allocation under Uncertain Evaluation",
+  "arxiv_title": "Which LLM for Which Work? Budgeted Model Allocation under Uncertain Evaluation",
+  "published": "2026-08-30T05:00:43Z"
+ },
+ "2608.27244": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Compositional Online Learning for Semantic Data Processing Systems",
+  "arxiv_title": "Compositional Online Learning for Semantic Data Processing Systems",
+  "published": "2026-08-27T15:25:05Z"
+ },
+ "2606.05558": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Autoregressive Diffusion World Models for Off-Policy Evaluation of LLM Agents",
+  "arxiv_title": "Autoregressive Diffusion World Models for Off-Policy Evaluation of LLM Agents",
+  "published": "2026-06-04T01:13:24Z"
+ },
+ "2602.11931": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "AdaptEvolve: Improving Efficiency of Evolutionary AI Agents through Adaptive Model Selection",
+  "arxiv_title": "AdaptEvolve: Improving Efficiency of Evolutionary AI Agents through Adaptive Model Selection",
+  "published": "2026-02-12T13:26:56Z"
+ },
+ "2609.27869": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Learning What to Activate: Combinatorial Capability Allocation for Long-Horizon Multimodal Agents",
+  "arxiv_title": "Learning What to Activate: Combinatorial Capability Allocation for Long-Horizon Multimodal Agents",
+  "published": "2026-08-20T13:39:47Z"
+ },
+ "2604.23530": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "MTRouter: Cost-Aware Multi-Turn LLM Routing with History-Model Joint Embeddings",
+  "arxiv_title": "MTRouter: Cost-Aware Multi-Turn LLM Routing with History-Model Joint Embeddings",
+  "published": "2026-04-26T04:42:21Z"
+ },
+ "2512.21720": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "An Information Theoretic Perspective on Agentic System Design",
+  "arxiv_title": "An Information Theoretic Perspective on Agentic System Design",
+  "published": "2025-12-25T15:45:31Z"
+ },
+ "2510.11221": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "WebRouter: Query-specific Router via Variational Information Bottleneck for Cost-sensitive Web Agent",
+  "arxiv_title": "WebRouter: Query-specific Router via Variational Information Bottleneck for Cost-sensitive Web Agent",
+  "published": "2025-10-13T10:05:43Z"
+ },
+ "2511.11828": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Conformal Constrained Policy Optimization for Cost-Effective LLM Agents",
+  "arxiv_title": "Conformal Constrained Policy Optimization for Cost-Effective LLM Agents",
+  "published": "2025-11-14T19:39:28Z"
+ },
+ "2603.04646": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "HDLFORGE: A Two-Stage Multi-Agent Framework for Efficient Verilog Code Generation with Adaptive Model Escalation",
+  "arxiv_title": "HDLFORGE: A Two-Stage Multi-Agent Framework for Efficient Verilog Code Generation with Adaptive Model Escalation",
+  "published": "2026-03-04T22:18:36Z"
+ },
+ "2607.06906": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "The Harness Effect: How Orchestration Design Sets the Token Economics of Enterprise Agentic AI",
+  "arxiv_title": "The Harness Effect: How Orchestration Design Sets the Token Economics of Enterprise Agentic AI",
+  "published": "2026-07-08T01:58:12Z"
+ },
+ "2603.14635": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Compute Allocation for Reasoning-Intensive Retrieval Agents",
+  "arxiv_title": "Compute Allocation for Reasoning-Intensive Retrieval Agents",
+  "published": "2026-03-15T22:12:17Z"
+ },
+ "2602.02061": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Learning to Route and Schedule LLMs from User Retrials via Contextual Queueing Bandits",
+  "arxiv_title": "Learning to Route and Schedule LLMs from User Retrials via Contextual Queueing Bandits",
+  "published": "2026-02-02T13:01:41Z"
+ },
+ "2603.01548": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Graph-Based Self-Healing Tool Routing for Cost-Efficient LLM Agents",
+  "arxiv_title": "Graph-Based Self-Healing Tool Routing for Cost-Efficient LLM Agents",
+  "published": "2026-03-02T07:21:15Z"
+ },
+ "2609.25647": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Testing-Driven Reliability Audit of Trajectory-Based Early Outcome Prediction for LLM Agents: Target-Specific Calibration Transfer Persists Within a Single Benchmark",
+  "arxiv_title": "Testing-Driven Reliability Audit of Trajectory-Based Early Outcome Prediction for LLM Agents: Target-Specific Calibration Transfer Persists Within a Single Benchmark",
+  "published": "2026-09-22T03:57:30Z"
+ },
+ "2605.14241": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Latency-Quality Routing for Functionally Equivalent Tools in LLM Agents",
+  "arxiv_title": "Latency-Quality Routing for Functionally Equivalent Tools in LLM Agents",
+  "published": "2026-05-14T01:14:13Z"
+ },
+ "2605.12340": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Online Learning-to-Defer with Varying Experts",
+  "arxiv_title": "Online Learning-to-Defer with Varying Experts",
+  "published": "2026-05-12T16:19:44Z"
+ },
+ "2605.05701": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Inference-Time Budget Control for LLM Search Agents",
+  "arxiv_title": "Inference-Time Budget Control for LLM Search Agents",
+  "published": "2026-05-07T05:45:58Z"
+ },
+ "2605.25998": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Causal Methods for LLM Development and Evaluation",
+  "arxiv_title": "Causal methods for LLM development and evaluation",
+  "published": "2026-05-25T16:15:44Z"
+ },
+ "2609.05274": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "How to Speculate about Uncertainty in Agentic Coding? A Draft-Model Gate Method",
+  "arxiv_title": "How to Speculate about Uncertainty in Agentic Coding? A Draft-Model Gate Method",
+  "published": "2026-09-04T15:30:22Z"
+ },
+ "2606.15872": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "SciOrch: Learning to Orchestrate Expert LLMs for Solving Frontier Multimodal Scientific Reasoning Tasks",
+  "arxiv_title": "SciOrch: Learning to Orchestrate Expert LLMs for Solving Frontier Multimodal Scientific Reasoning Tasks",
+  "published": "2026-06-14T15:45:34Z"
+ },
+ "2609.37902": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "You Cannot Pick a Provider From the Price List: Market-Aware Routing for Open-Weight LLM Inference",
+  "arxiv_title": "You Cannot Pick a Provider From the Price List: Market-Aware Routing for Open-Weight LLM Inference",
+  "published": "2026-09-29T16:02:18Z"
+ },
+ "2603.02630": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "MASPOB: Bandit-Based Prompt Optimization for Multi-Agent Systems with Graph Neural Networks",
+  "arxiv_title": "MASPOB: Bandit-Based Prompt Optimization for Multi-Agent Systems with Graph Neural Networks",
+  "published": "2026-03-03T05:59:05Z"
+ },
+ "2605.30898": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "UniScale: Adaptive Unified Inference Scaling via Online Joint Optimization of Model Routing and Test-Time Scaling",
+  "arxiv_title": "UniScale: Adaptive Unified Inference Scaling via Online Joint Optimization of Model Routing and Test-Time Scaling",
+  "published": "2026-05-29T06:31:21Z"
+ },
+ "2608.21027": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Don't Solve, Just Compare: Tiny Advisors for Runtime Intervention in LLM Agents",
+  "arxiv_title": "Don't Solve, Just Compare: Tiny Advisors for Runtime Intervention in LLM Agents",
+  "published": "2026-08-21T12:20:14Z"
+ },
+ "2605.18636": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "SPIKE: An Adaptive Dual Controller Framework for Cost-Efficient Long-Horizon Game Agents",
+  "arxiv_title": "SPIKE: An Adaptive Dual Controller Framework for Cost-Efficient Long-Horizon Game Agents",
+  "published": "2026-05-18T16:43:32Z"
+ },
+ "2606.11440": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "INFRAMIND: Infrastructure-Aware Multi-Agent Orchestration",
+  "arxiv_title": "INFRAMIND: Infrastructure-Aware Multi-Agent Orchestration",
+  "published": "2026-06-09T20:50:12Z"
+ },
+ "2601.10245": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "TRIM: Hybrid Inference via Targeted Stepwise Routing in Multi-Step Reasoning Tasks",
+  "arxiv_title": "TRIM: Hybrid Inference via Targeted Stepwise Routing in Multi-Step Reasoning Tasks",
+  "published": "2026-01-15T10:06:06Z"
+ },
+ "2603.03111": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Evaluating Performance Drift from Model Switching in Multi-Turn LLM Systems",
+  "arxiv_title": "Evaluating Performance Drift from Model Switching in Multi-Turn LLM Systems",
+  "published": "2026-03-03T15:44:57Z"
+ },
+ "2606.18774": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "RouteJudge: An Open Platform for Reproducible and Preference-Aware LLM Routing",
+  "arxiv_title": "RouteJudge: An Open Platform for Reproducible and Preference-Aware LLM Routing",
+  "published": "2026-06-17T07:35:10Z"
+ },
+ "2608.08245": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Privacy-Preserving Data Drift Detection and Recovery for Large-Scale LLM Applications via Proxy Representations",
+  "arxiv_title": "Privacy-Preserving Data Drift Detection and Recovery for Large-Scale LLM Applications via Proxy Representations",
+  "published": "2026-08-08T17:15:18Z"
+ },
+ "2609.22819": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Counterfactual Tool Ranking under Utility, Cost, and Privilege Constraints",
+  "arxiv_title": "Counterfactual Tool Ranking under Utility, Cost, and Privilege Constraints",
+  "published": "2026-09-19T06:40:09Z"
+ },
+ "2607.07052": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Progressive Crystallization: Turning Agent Exploration into Deterministic, Lower-Cost Workflows in Production",
+  "arxiv_title": "Progressive Crystallization: Turning Agent Exploration into Deterministic, Lower-Cost Workflows in Production",
+  "published": "2026-07-08T06:27:36Z"
+ },
+ "2609.17306": {
+  "status": "ok",
+  "sim": 0.988,
+  "db_title": "Mo'Models, Mo'Problems: How to best select model pools when designing Multi-Agent Systems",
+  "arxiv_title": "Mo' Models, Mo' Problems: How to best select model pools when designing Multi-Agent Systems",
+  "published": "2026-09-15T15:17:29Z"
+ },
+ "2606.03014": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "MOSAIC: Efficient Mixture-of-Agent Scheduling via Adaptive Aggregation and Inference Concurrency",
+  "arxiv_title": "MOSAIC: Efficient Mixture-of-Agent Scheduling via Adaptive Aggregation and Inference Concurrency",
+  "published": "2026-06-02T01:40:33Z"
+ },
+ "2603.22206": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Chimera: Latency- and Performance-Aware Multi-agent Serving for Heterogeneous LLMs",
+  "arxiv_title": "Chimera: Latency- and Performance-Aware Multi-agent Serving for Heterogeneous LLMs",
+  "published": "2026-03-23T17:01:42Z"
+ },
+ "2605.15206": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "AgentStop: Terminating Local AI Agents Early to Save Energy in Consumer Devices",
+  "arxiv_title": "AgentStop: Terminating Local AI Agents Early to Save Energy in Consumer Devices",
+  "published": "2026-05-01T14:45:37Z"
+ },
+ "2605.06116": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Policy-Guided Stepwise Model Routing for Cost-Effective Reasoning",
+  "arxiv_title": "Policy-Guided Stepwise Model Routing for Cost-Effective Reasoning",
+  "published": "2026-05-07T12:26:56Z"
+ },
+ "2608.22472": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Small Reasoning Models are Instruction Followers in Function Calling",
+  "arxiv_title": "Small Reasoning Models are Instruction Followers in Function Calling",
+  "published": "2026-08-23T15:51:26Z"
+ },
+ "2606.21228": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Sakana Fugu Technical Report",
+  "arxiv_title": "Sakana Fugu Technical Report",
+  "published": "2026-06-19T08:47:40Z"
+ },
+ "2606.12702": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Deployment-Centered Evaluation: Predicting Query-Level Rejection Risk in a Clinical LLM System",
+  "arxiv_title": "Deployment-Centered Evaluation: Predicting Query-Level Rejection Risk in a Clinical LLM System",
+  "published": "2026-06-10T21:44:20Z"
+ },
+ "2601.12307": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Rethinking the Value of Multi-Agent Workflow: A Strong Single Agent Baseline",
+  "arxiv_title": "Rethinking the Value of Multi-Agent Workflow: A Strong Single Agent Baseline",
+  "published": "2026-01-18T08:16:09Z"
+ },
+ "2602.12662": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Think Fast and Slow: Step-Level Cognitive Depth Adaptation for LLM Agents",
+  "arxiv_title": "Think Fast and Slow: Step-Level Cognitive Depth Adaptation for LLM Agents",
+  "published": "2026-02-13T06:52:09Z"
+ },
+ "2605.29310": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Rubric-Guided Process Reward for Stepwise Model Routing",
+  "arxiv_title": "Rubric-Guided Process Reward for Stepwise Model Routing",
+  "published": "2026-05-28T03:42:24Z"
+ },
+ "2608.22708": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "CacheRouter: A Dual-Path Tool Routing Architecture with Cache-Preserving Main-Model Isolation for Long-Tail Tool Discovery",
+  "arxiv_title": "CacheRouter: A Dual-Path Tool Routing Architecture with Cache-Preserving Main-Model Isolation for Long-Tail Tool Discovery",
+  "published": "2026-08-24T01:56:01Z"
+ },
+ "2604.12385": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "From Myopic Selection to Long-Horizon Awareness: Sequential LLM Routing for Multi-Turn Dialogue",
+  "arxiv_title": "From Myopic Selection to Long-Horizon Awareness: Sequential LLM Routing for Multi-Turn Dialogue",
+  "published": "2026-04-14T07:18:06Z"
+ },
+ "2603.06403": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Adapter-Augmented Bandits for Online Multi-Constrained Multi-Modal Inference Scheduling",
+  "arxiv_title": "Adapter-Augmented Bandits for Online Multi-Constrained Multi-Modal Inference Scheduling",
+  "published": "2026-03-06T15:45:33Z"
+ },
+ "2605.27999": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Learning to Assign Prediction Tasks to Agents with Capacity Constraints",
+  "arxiv_title": "Learning to Assign Prediction Tasks to Agents with Capacity Constraints",
+  "published": "2026-05-27T05:45:47Z"
+ },
+ "2605.15706": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Differentiable Mixture-of-Agents Incentivizes Swarm Intelligence of Large Language Models",
+  "arxiv_title": "Differentiable Mixture-of-Agents Incentivizes Swarm Intelligence of Large Language Models",
+  "published": "2026-05-15T07:54:46Z"
+ },
+ "2601.20251": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Efficient Evaluation of LLM Performance with Statistical Guarantees",
+  "arxiv_title": "Efficient Evaluation of LLM Performance with Statistical Guarantees",
+  "published": "2026-01-28T04:59:20Z"
+ },
+ "2603.00846": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Tiny-Critic RAG: Empowering Agentic Fallback with Parameter-Efficient Small Language Models",
+  "arxiv_title": "Tiny-Critic RAG: Empowering Agentic Fallback with Parameter-Efficient Small Language Models",
+  "published": "2026-03-01T00:16:31Z"
+ },
+ "2602.16653": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Agent Skill Framework: Perspectives on the Potential of Small to Medium Language Models in Industrial Environments",
+  "arxiv_title": "Agent Skill Framework: Perspectives on the Potential of Small to Medium Language Models in Industrial Environments",
+  "published": "2026-02-18T17:52:17Z"
+ },
+ "2609.26080": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "The Fleet Is the Model: Engineering Collective Intelligence with Fusion-MoA Pioneer R1",
+  "arxiv_title": "The Fleet Is the Model: Engineering Collective Intelligence with Fusion-MoA Pioneer R1",
+  "published": "2026-08-03T15:59:03Z"
+ },
+ "2605.10057": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "STAR: Failure-Aware Markovian Routing for Multi-Agent Spatiotemporal Reasoning",
+  "arxiv_title": "STAR: Failure-Aware Markovian Routing for Multi-Agent Spatiotemporal Reasoning",
+  "published": "2026-05-11T06:34:49Z"
+ },
+ "2605.29319": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Rethinking Stepwise Model Routing: A Cost-Efficient Table Reasoning Perspective",
+  "arxiv_title": "Rethinking Stepwise Model Routing: A Cost-Efficient Table Reasoning Perspective",
+  "published": "2026-05-28T03:49:10Z"
+ },
+ "2605.11169": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "OLIVIA: Online Learning via Inference-time Action Adaptation for Decision Making in LLM ReAct Agents",
+  "arxiv_title": "OLIVIA: Online Learning via Inference-time Action Adaptation for Decision Making in LLM ReAct Agents",
+  "published": "2026-05-11T19:28:20Z"
+ },
+ "2603.04421": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Do Mixed-Vendor Multi-Agent LLMs Improve Clinical Diagnosis?",
+  "arxiv_title": "Do Mixed-Vendor Multi-Agent LLMs Improve Clinical Diagnosis?",
+  "published": "2026-02-14T18:42:58Z"
+ },
+ "2605.13295": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "CANTANTE: Optimizing Agentic Systems via Contrastive Credit Attribution",
+  "arxiv_title": "CANTANTE: Optimizing Agentic Systems via Contrastive Credit Attribution",
+  "published": "2026-05-13T10:09:10Z"
+ },
+ "2606.21399": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention",
+  "arxiv_title": "Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention",
+  "published": "2026-06-19T13:08:17Z"
+ },
+ "2608.19760": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Credit Without Ground Truth: Auditing Step-Level Credit Assignment in LLM Agents Against Executed Replay",
+  "arxiv_title": "Credit Without Ground Truth: Auditing Step-Level Credit Assignment in LLM Agents Against Executed Replay",
+  "published": "2026-08-20T08:04:00Z"
+ },
+ "2605.02801": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Reinforcement Learning for LLM-based Multi-Agent Systems through Orchestration Traces",
+  "arxiv_title": "Reinforcement Learning for LLM-based Multi-Agent Systems through Orchestration Traces",
+  "published": "2026-05-04T16:42:18Z"
+ },
+ "2510.15455": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "CORE: Reducing UI Exposure in Mobile Agents via Collaboration Between Cloud and Local LLMs",
+  "arxiv_title": "CORE: Reducing UI Exposure in Mobile Agents via Collaboration Between Cloud and Local LLMs",
+  "published": "2025-10-17T09:11:05Z"
+ },
+ "2510.16786": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "More with Less: An Empirical Study of Turn-Control Strategies for Efficient Coding Agents",
+  "arxiv_title": "More with Less: An Empirical Study of Turn-Control Strategies for Efficient Coding Agents",
+  "published": "2025-10-19T10:32:18Z"
+ },
+ "2509.22957": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Doubly-Robust LLM-as-a-Judge: Externally Valid Estimation with Imperfect Personas",
+  "arxiv_title": "Doubly-Robust LLM-as-a-Judge: Externally Valid Estimation with Imperfect Personas",
+  "published": "2025-09-26T21:42:51Z"
+ },
+ "2505.14946": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Reinforcement Learning from User Feedback",
+  "arxiv_title": "Reinforcement Learning from User Feedback",
+  "published": "2025-05-20T22:14:44Z"
+ },
+ "2504.15188": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Synergistic Weak-Strong Collaboration by Aligning Preferences",
+  "arxiv_title": "Synergistic Weak-Strong Collaboration by Aligning Preferences",
+  "published": "2025-04-21T15:57:33Z"
+ },
+ "2507.23158": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "User Feedback in Human-LLM Dialogues: A Lens to Understand Users But Noisy as a Learning Signal",
+  "arxiv_title": "User Feedback in Human-LLM Dialogues: A Lens to Understand Users But Noisy as a Learning Signal",
+  "published": "2025-07-30T23:33:29Z"
+ },
+ "2506.00152": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Aligning Language Models with Observational Data: Opportunities and Risks from a Causal Perspective",
+  "arxiv_title": "Aligning Language Models with Observational Data: Opportunities and Risks from a Causal Perspective",
+  "published": "2025-05-30T18:44:09Z"
+ },
+ "2506.16393": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "From LLM-anation to LLM-orchestrator: Coordinating Small Models for Data Labeling",
+  "arxiv_title": "From LLM-anation to LLM-orchestrator: Coordinating Small Models for Data Labeling",
+  "published": "2025-06-19T15:26:08Z"
+ },
+ "2511.08042": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Towards a Standard, Enterprise-Relevant Agentic AI Benchmark: Lessons from 5.5 billion tokens' worth of agentic AI evaluations",
+  "arxiv_title": "Towards a Standard, Enterprise-Relevant Agentic AI Benchmark: Lessons from 5.5 billion tokens' worth of agentic AI evaluations",
+  "published": "2025-11-11T09:46:25Z"
+ },
+ "2510.02341": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "DRIFT: Learning from Abundant User Dissatisfaction in Real-World Preference Learning",
+  "arxiv_title": "DRIFT: Learning from Abundant User Dissatisfaction in Real-World Preference Learning",
+  "published": "2025-09-27T03:06:27Z"
+ },
+ "2510.02850": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Reward Model Routing in Alignment",
+  "arxiv_title": "Reward Model Routing in Alignment",
+  "published": "2025-10-03T09:37:59Z"
+ },
+ "2512.06432": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "HiveMind: Contribution-Guided Online Prompt Optimization of LLM Multi-Agent Systems",
+  "arxiv_title": "HiveMind: Contribution-Guided Online Prompt Optimization of LLM Multi-Agent Systems",
+  "published": "2025-12-06T13:41:16Z"
+ },
+ "2504.10519": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Toward Super Agent System with Hybrid AI Routers",
+  "arxiv_title": "Toward Super Agent System with Hybrid AI Routers",
+  "published": "2025-04-11T00:54:56Z"
+ },
+ "2403.07008": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "AutoEval Done Right: Using Synthetic Data for Model Evaluation",
+  "arxiv_title": "AutoEval Done Right: Using Synthetic Data for Model Evaluation",
+  "published": "2024-03-09T02:47:11Z"
+ },
+ "2406.04291": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Stratified Prediction-Powered Inference for Hybrid Language Model Evaluation",
+  "arxiv_title": "Stratified Prediction-Powered Inference for Hybrid Language Model Evaluation",
+  "published": "2024-06-06T17:37:39Z"
+ },
+ "2410.19133": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Hybrid Preferences: Learning to Route Instances for Human vs. AI Feedback",
+  "arxiv_title": "Hybrid Preferences: Learning to Route Instances for Human vs. AI Feedback",
+  "published": "2024-10-24T20:04:15Z"
+ },
+ "2301.09633": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Prediction-powered inference",
+  "arxiv_title": "Prediction-Powered Inference",
+  "published": "2023-01-23T18:59:28Z"
+ },
+ "2311.01453": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "PPI++: Efficient Prediction-Powered Inference",
+  "arxiv_title": "PPI++: Efficient Prediction-Powered Inference",
+  "published": "2023-11-02T17:59:04Z"
+ },
+ "2307.09009": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "How is ChatGPT's behavior changing over time?",
+  "arxiv_title": "How is ChatGPT's behavior changing over time?",
+  "published": "2023-07-18T06:56:08Z"
+ },
+ "2311.11123": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "(Why) Is My Prompt Getting Worse? Rethinking Regression Testing for Evolving LLM APIs",
+  "arxiv_title": "(Why) Is My Prompt Getting Worse? Rethinking Regression Testing for Evolving LLM APIs",
+  "published": "2023-11-18T17:11:12Z"
+ },
+ "2307.14117": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Leveraging Implicit Feedback from Deployment Data in Dialogue",
+  "arxiv_title": "Leveraging Implicit Feedback from Deployment Data in Dialogue",
+  "published": "2023-07-26T11:34:53Z"
+ },
+ "2311.14110": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "When is Off-Policy Evaluation (Reward Modeling) Useful in Contextual Bandits? A Data-Centric Perspective",
+  "arxiv_title": "When is Off-Policy Evaluation (Reward Modeling) Useful in Contextual Bandits? A Data-Centric Perspective",
+  "published": "2023-11-23T17:13:37Z"
+ },
+ "2602.03584": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "V_0: A Generalist Value Model for Any Policy at State Zero",
+  "arxiv_title": "$V_0$: A Generalist Value Model for Any Policy at State Zero",
+  "published": "2026-02-03T14:35:23Z"
+ },
+ "2603.07416": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "DualSpec: Accelerating Deep Research Agents via Dual-Process Action Speculation",
+  "arxiv_title": "DualSpec: Accelerating Deep Research Agents via Dual-Process Action Speculation",
+  "published": "2026-03-08T02:03:58Z"
+ },
+ "2601.17551": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "GreenServ: Energy-Efficient Context-Aware Dynamic Routing for Multi-Model LLM Inference",
+  "arxiv_title": "GreenServ: Energy-Efficient Context-Aware Dynamic Routing for Multi-Model LLM Inference",
+  "published": "2026-01-24T18:42:16Z"
+ },
+ "2511.22217": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Optimizing NetGPT via Routing-Based Synergy and Reinforcement Learning",
+  "arxiv_title": "Optimizing NetGPT via Routing-Based Synergy and Reinforcement Learning",
+  "published": "2025-11-27T08:40:08Z"
+ },
+ "2511.02687": {
+  "status": "title_mismatch",
+  "sim": 0.404,
+  "db_title": "The Collaboration Gap",
+  "arxiv_title": "The Collaboration Gap: Exploration and Benchmarking of Open-World Agentic Cooperation",
+  "published": "2025-11-04T16:10:57Z"
+ },
+ "2506.14067": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Online Conformal Abstention for Factuality Control Under Adversarial Bandit Feedback",
+  "arxiv_title": "Online Conformal Abstention for Factuality Control Under Adversarial Bandit Feedback",
+  "published": "2025-06-16T23:51:30Z"
+ },
+ "2512.23631": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "BOAD: Discovering Hierarchical Software Engineering Agents via Bandit Optimization",
+  "arxiv_title": "BOAD: Discovering Hierarchical Software Engineering Agents via Bandit Optimization",
+  "published": "2025-12-29T17:41:11Z"
+ },
+ "2512.04695": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "TRINITY: An Evolved LLM Coordinator",
+  "arxiv_title": "TRINITY: An Evolved LLM Coordinator",
+  "published": "2025-12-04T11:45:21Z"
+ },
+ "2502.08788": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Stop Overvaluing Multi-Agent Debate -- We Must Rethink Evaluation and Embrace Model Heterogeneity",
+  "arxiv_title": "Stop Overvaluing Multi-Agent Debate -- We Must Rethink Evaluation and Embrace Model Heterogeneity",
+  "published": "2025-02-12T21:01:10Z"
+ },
+ "2310.13395": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Cache me if you Can: an Online Cost-aware Teacher-Student framework to Reduce the Calls to Large Language Models",
+  "arxiv_title": "Cache me if you Can: an Online Cost-aware Teacher-Student framework to Reduce the Calls to Large Language Models",
+  "published": "2023-10-20T10:05:07Z"
+ },
+ "2609.23512": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "AgentBetta: Verification-Driven Adaptive Configuration of an AI Nano-Agent through Selective Expansion and Verified Contraction",
+  "arxiv_title": "AgentBetta: Verification-Driven Adaptive Configuration of an AI Nano-Agent through Selective Expansion and Verified Contraction",
+  "published": "2026-09-20T09:56:10Z"
+ },
+ "2604.22785": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Marginal-Contribution Policy Gradients under Filtered Feedback for Multi-Agent LLMs",
+  "arxiv_title": "Marginal-Contribution Policy Gradients under Filtered Feedback for Multi-Agent LLMs",
+  "published": "2026-04-03T22:55:23Z"
+ },
+ "2609.21341": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "What Stops a Small Language Model From Driving a Database Agent",
+  "arxiv_title": "What Stops a Small Language Model From Driving a Database Agent",
+  "published": "2026-09-18T05:51:31Z"
+ },
+ "2609.26707": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Optimal Sequential Annotations for Off-Policy Evaluation",
+  "arxiv_title": "Optimal Sequential Annotations for Off-Policy Evaluation",
+  "published": "2026-09-22T17:00:22Z"
+ },
+ "2609.22114": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "An Empirical Cost Attribution of Context-Compression Gateways in Multi-Turn Coding Agents",
+  "arxiv_title": "An Empirical Cost Attribution of Context-Compression Gateways in Multi-Turn Coding Agents",
+  "published": "2026-08-19T07:43:01Z"
+ },
+ "2603.13426": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Outcome-Aware Tool Selection for Semantic Routers: Latency-Constrained Learning Without LLM Inference",
+  "arxiv_title": "Outcome-Aware Tool Selection for Semantic Routers: Latency-Constrained Learning Without LLM Inference",
+  "published": "2026-03-13T02:13:05Z"
+ },
+ "2607.08665": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Resample or Reroute? Recoverable Stopping Debt Without Identified Action Selection",
+  "arxiv_title": "Resample or Reroute? Recoverable Stopping Debt Without Identified Action Selection",
+  "published": "2026-07-09T16:34:15Z"
+ },
+ "2607.03436": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "What Does a Routing Oracle Measure Under Stochastic Decoding? Coupling, Scorer Choice, and Single-Commit Ceilings",
+  "arxiv_title": "What Does a Routing Oracle Measure Under Stochastic Decoding? Coupling, Scorer Choice, and Single-Commit Ceilings",
+  "published": "2026-07-03T15:49:40Z"
+ },
+ "2608.26846": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Evaluating Confidence-Gated Retrieval with Matched Trajectory Replay",
+  "arxiv_title": "Evaluating Confidence-Gated Retrieval with Matched Trajectory Replay",
+  "published": "2026-08-27T09:15:33Z"
+ },
+ "2602.20332": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "No One Size Fits All: QueryBandits for Hallucination Mitigation",
+  "arxiv_title": "No One Size Fits All: QueryBandits for Hallucination Mitigation",
+  "published": "2026-02-23T20:28:48Z"
+ },
+ "2606.17949": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "RouteBalance: Fused Model Routing and Load Balancing for Heterogeneous LLM Serving",
+  "arxiv_title": "RouteBalance: Fused Model Routing and Load Balancing for Heterogeneous LLM Serving",
+  "published": "2026-06-16T14:02:34Z"
+ },
+ "2606.14929": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Policy Regret for Embedding Model Routing: Contextual Bandits with Low-Rank Experts",
+  "arxiv_title": "Policy Regret for Embedding Model Routing: Contextual Bandits with Low-Rank Experts",
+  "published": "2026-06-12T20:09:03Z"
+ },
+ "2605.06702": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "CASCADE: Case-Based Continual Adaptation for Large Language Models During Deployment",
+  "arxiv_title": "CASCADE: Case-Based Continual Adaptation for Large Language Models During Deployment",
+  "published": "2026-05-05T12:16:59Z"
+ },
+ "2605.06455": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "PrefixGuard: Online Failure Warning and Trace-Grounded Diagnosis for LLM Agents",
+  "arxiv_title": "PrefixGuard: Online Failure Warning and Trace-Grounded Diagnosis for LLM Agents",
+  "published": "2026-05-07T15:49:48Z"
+ },
+ "2602.03632": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "CALM: A Self-Adaptive Orchestration Approach for QoS-Aware Routing in Small Language Model based Systems",
+  "arxiv_title": "CALM: A Self-Adaptive Orchestration Approach for QoS-Aware Routing in Small Language Model based Systems",
+  "published": "2026-02-03T15:20:14Z"
+ },
+ "2605.07171": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Cost-Ordered Feasibility for Multi-Armed Bandits with Cost Subsidy",
+  "arxiv_title": "Cost-Ordered Feasibility for Multi-Armed Bandits with Cost Subsidy",
+  "published": "2026-05-08T03:07:25Z"
+ },
+ "2604.20658": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Cooperative Profiles Predict Multi-Agent LLM Team Performance in AI for Science Workflows",
+  "arxiv_title": "Cooperative Profiles Predict Multi-Agent LLM Team Performance in AI for Science Workflows",
+  "published": "2026-04-22T15:07:54Z"
+ },
+ "2606.09730": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "SearchSwarm: Towards Delegation Intelligence in Agentic LLMs for Long-Horizon Deep Research",
+  "arxiv_title": "SearchSwarm: Towards Delegation Intelligence in Agentic LLMs for Long-Horizon Deep Research",
+  "published": "2026-06-08T16:52:26Z"
+ },
+ "2605.02821": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "When Is the Same Model Not the Same Service? A Measurement Study of Hosted Open-Weight LLM APIs",
+  "arxiv_title": "When Is the Same Model Not the Same Service? A Measurement Study of Hosted Open-Weight LLM APIs",
+  "published": "2026-05-04T16:59:07Z"
+ },
+ "2605.07509": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "MASPrism: Lightweight Failure Attribution for Multi-Agent Systems Using Prefill-Stage Signals",
+  "arxiv_title": "MASPrism: Lightweight Failure Attribution for Multi-Agent Systems Using Prefill-Stage Signals",
+  "published": "2026-05-08T09:40:53Z"
+ },
+ "2608.03833": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "History Matters: Meta-policy Delegation with Heterogeneous Multi-agent Reinforcement Learning",
+  "arxiv_title": "History Matters: Meta-policy Delegation with Heterogeneous Multi-agent Reinforcement Learning",
+  "published": "2026-08-04T15:39:40Z"
+ },
+ "2603.08877": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Quantifying the Accuracy and Cost Impact of Design Decisions in Budget-Constrained Agentic LLM Search",
+  "arxiv_title": "Quantifying the Accuracy and Cost Impact of Design Decisions in Budget-Constrained Agentic LLM Search",
+  "published": "2026-03-09T19:42:21Z"
+ },
+ "2602.11619": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "When Agents Disagree With Themselves: Behavioral Consistency as an Uncertainty Signal for LLM Agents",
+  "arxiv_title": "When Agents Disagree With Themselves: Behavioral Consistency as an Uncertainty Signal for LLM Agents",
+  "published": "2026-02-12T06:15:14Z"
+ },
+ "2605.12177": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Correcting Selection Bias in Sparse User Feedback for Large Language Model Quality Estimation: A Multi-Agent Hierarchical Bayesian Approach",
+  "arxiv_title": "Correcting Selection Bias in Sparse User Feedback for Large Language Model Quality Estimation: A Multi-Agent Hierarchical Bayesian Approach",
+  "published": "2026-05-12T14:22:06Z"
+ },
+ "2606.00846": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "CUPID in the Model Zoo: Online Matchmaking for Selecting Your Dream LLM",
+  "arxiv_title": "CUPID in the Model Zoo: Online Matchmaking for Selecting Your Dream LLM",
+  "published": "2026-05-30T18:47:03Z"
+ },
+ "2606.03152": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Cost-Aware Optimization for Agentic Query Execution",
+  "arxiv_title": "Cost-Aware Optimization for Agentic Query Execution",
+  "published": "2026-06-02T04:52:26Z"
+ },
+ "2606.19826": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Heterogeneous LLM Debate Under Adversarial Peers: Honest Gains, Replacement Costs, and Resilience",
+  "arxiv_title": "Heterogeneous LLM Debate Under Adversarial Peers: Honest Gains, Replacement Costs, and Resilience",
+  "published": "2026-06-18T06:06:28Z"
+ },
+ "2601.22290": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "The Six Sigma Agent: Achieving Enterprise-Grade Reliability in LLM Systems Through Consensus-Driven Decomposed Execution",
+  "arxiv_title": "The Six Sigma Agent: Achieving Enterprise-Grade Reliability in LLM Systems Through Consensus-Driven Decomposed Execution",
+  "published": "2026-01-29T20:04:29Z"
+ },
+ "2608.29204": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "AgentLogs: A Dataset for Opening the Black Box of GitHub's Cloud Agent",
+  "arxiv_title": "AgentLogs: A Dataset for Opening the Black Box of GitHub's Cloud Agent",
+  "published": "2026-08-29T11:38:19Z"
+ },
+ "2608.23078": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "AgentWeave: Routing Before Reasoning for Efficient Function Calling in Tool-Rich Language Models",
+  "arxiv_title": "AgentWeave: Routing Before Reasoning for Efficient Function Calling in Tool-Rich Language Models",
+  "published": "2026-08-24T10:38:08Z"
+ },
+ "2605.05657": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Retrieval-Conditioned Topology Selection with Provable Budget Conservation for Multi-Agent Code Generation",
+  "arxiv_title": "Retrieval-Conditioned Topology Selection with Provable Budget Conservation for Multi-Agent Code Generation",
+  "published": "2026-05-07T04:18:53Z"
+ },
+ "2602.15809": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Decision Quality Evaluation Framework at Pinterest",
+  "arxiv_title": "Decision Quality Evaluation Framework at Pinterest",
+  "published": "2026-02-17T18:45:55Z"
+ },
+ "2605.10405": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Valid Best-Model Identification for LLM Evaluation via Low-Rank Factorization",
+  "arxiv_title": "Valid Best-Model Identification for LLM Evaluation via Low-Rank Factorization",
+  "published": "2026-05-11T11:43:28Z"
+ },
+ "2606.29654": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Budgeted Act-or-Defer Multi-Agent LLM Deliberation with Local Reliability Bounds",
+  "arxiv_title": "Budgeted Act-or-Defer Multi-Agent LLM Deliberation with Local Reliability Bounds",
+  "published": "2026-06-28T23:46:56Z"
+ },
+ "2603.18736": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "CausalRM: Causal-Theoretic Reward Modeling for RLHF from Observational User Feedbacks",
+  "arxiv_title": "CausalRM: Causal-Theoretic Reward Modeling for RLHF from Observational User Feedbacks",
+  "published": "2026-03-19T10:37:34Z"
+ },
+ "2604.21282": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Strategic Heterogeneous Multi-Agent Architecture for Cost-Effective Code Vulnerability Detection",
+  "arxiv_title": "Strategic Heterogeneous Multi-Agent Architecture for Cost-Effective Code Vulnerability Detection",
+  "published": "2026-04-23T04:58:18Z"
+ },
+ "2603.23184": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "ImplicitRM: Unbiased Reward Modeling from Implicit Preference Data for LLM alignment",
+  "arxiv_title": "ImplicitRM: Unbiased Reward Modeling from Implicit Preference Data for LLM alignment",
+  "published": "2026-03-24T13:32:14Z"
+ },
+ "2609.03335": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Latency-Aware Orchestration for Multi-Agent LLM Workflows on Heterogeneous GPUs",
+  "arxiv_title": "Latency-Aware Orchestration for Multi-Agent LLM Workflows on Heterogeneous GPUs",
+  "published": "2026-09-03T03:48:39Z"
+ },
+ "2602.13639": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "Guided Collaboration in Heterogeneous LLM-Based Multi-Agent Systems via Entropy-Based Understanding Assessment and Experience Retrieval",
+  "arxiv_title": "Guided Collaboration in Heterogeneous LLM-Based Multi-Agent Systems via Entropy-Based Understanding Assessment and Experience Retrieval",
+  "published": "2026-02-14T07:10:04Z"
+ },
+ "2602.12029": {
+  "status": "ok",
+  "sim": 1.0,
+  "db_title": "PrefillShare: A Shared Prefill Module for KV Reuse in Multi-LLM Disaggregated Serving",
+  "arxiv_title": "PrefillShare: A Shared Prefill Module for KV Reuse in Multi-LLM Disaggregated Serving",
+  "published": "2026-02-12T14:59:50Z"
  }
 }

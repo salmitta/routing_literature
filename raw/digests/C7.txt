@@ -1,0 +1,1208 @@
+# C7: 229 records (full detail for rel>=4; one-liners for rel<=3)
+
+[gandhi-2026-steer-dont-solve-critic] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C3,C7,C8)
+  title: Steer, Don't Solve: Training Small Critic Models for Large Code Agents
+  key_idea: A small trained critic steers a large agent cheaply.
+  cost: 30-92x lower critic cost than a strong teacher; on Qwen3-Next-80B-A3B both more accurate (25.2% vs 20.8%) and cheaper ($0.04 vs $0.11)
+  summary: Freezes the code agent and trains a small critic on agent trajectories to steer strategy-level reasoning; the critic transfers to unseen agents and improves accuracy at lower cost.
+  benchmarks: SWE-bench Verified
+  signals: small critic model
+
+[hemadri-2026-r2v-agent] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C7,C8)
+  title: R2V Agent: Teaching SLMs When to Ask for Help
+  key_idea: Calibrated per-step risk router decides when a distilled SLM should hand off to an LLM.
+  cost: 94.3% HumanEval+ success with 0.60% LLM escalation; TextWorld 64.6% to 98.2% at 41.7% escalation; 93.3% TerminalBench at 33.9% LLM calls, about half heuristic-router cost
+  summary: R2V-Agent distills an SLM policy from a teacher LLM (behavior cloning then verifier-guided DPO), then trains a calibrated step-level router on the SLM's residual failures with a CVaR-constrained objective. The router escalates to the LLM only when failure risk warrants, improving the reliability-cost frontier.
+  benchmarks: HumanEval+, TextWorld, TerminalBench
+  signals: process verifier scores, Brier-calibrated failure risk, CVaR objective
+
+[li-2026-jev-as-a-judge] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: JEV-as-a-Judge: Accept When Confident, Escalate When Unsure
+  key_idea: Accept confident cheap verdicts, escalate uncertain ones.
+  cost: Within 3 points of a SOTA LLM judge at 0.36% of its fee; cascade retains 99% of comparator accuracy at lower cost
+  summary: A decision-only judge provides an economical first-pass evaluation and escalates uncertain cases to a stronger judge; compared against 16 judges with blinded human adjudication.
+  signals: decision-only judge confidence
+
+[lugoloobi-2026-llms-encode-failures] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7)
+  title: LLMs Encode Their Failures: Predicting Success from Pre-Generation Activations
+  key_idea: Pre-generation probes drive cost-aware routing.
+  cost: Routing with probes exceeds the best single model while reducing inference cost by up to 70% on MATH
+  summary: Probes on pre-generation activations predict policy-specific success on math and code; models encode a model-specific difficulty distinct from human difficulty, and probe-based routing across a model pool beats the best model at up to 70% lower cost.
+  benchmarks: MATH, E2H-AMC, coding
+  signals: pre-generation probe
+
+[okeefe-2026-cursor-router] (2026, Cursor blog, rel=5, gran=step, regime=supervised-offline, prod=Y, clusters=C1,C3,C5,C6,C7,C14)
+  title: How Cursor Router chooses the right model for the task
+  key_idea: Learn step-level routing from implicit feedback in production logs, with offline-to-online validation and budgeted confidence-gated upgrades.
+  cost: Auto Intelligence: above Fable-level user satisfaction at 68% lower cost; Auto Balance: outperforms Opus 4.8 at 41% lower cost with +3% satisfaction (relative to frontier models, measured on live traffic; vendor-reported). Compass top-rated turns got positive signal 96% of the time vs 71% for lowest-rated
+  summary: Cursor's per-turn router is trained on hundreds of thousands of production agent turns labelled with implicit satisfaction (user moves on vs corrects the agent) and actual cost including switch-induced cache misses. A complexity predictor (Compass) thresholds turns to a cheap model or to a taxonomy router, which admits a frontier model for a task label only if it beats the cheap model with 75% one-sided confidence, then chooses a traffic-weighted mix within a per-mode cost budget. Policies are tuned by cross-validation, checked on held-out logs, and validated on live traffic before launch.
+  benchmarks: live Cursor traffic, held-out offline split of production turns
+  signals: task category, recent tool calls, conversation state, Compass complexity score (predicted user satisfaction), learned task/domain/modifier taxonomy, implicit user feedback (moves on vs corrects), per-
+
+[piatrashyn-2026-redact] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C2,C3,C7)
+  title: ReDAct: Uncertainty-Aware Deferral for LLM Agents
+  key_idea: Per-step uncertainty-based deferral inside an agent loop.
+  cost: Deferring about 15% of decisions to the large model matches exclusive large-model quality at significantly lower cost; search summary reports 64% savings vs GPT-5.2 alone
+  summary: An agent runs a small model by default and defers individual decisions to a large model when the small model's uncertainty exceeds a calibrated threshold. Evaluated in text-based embodied environments.
+  benchmarks: ALFWorld, MiniGrid
+  signals: small-model predictive uncertainty, calibrated threshold, token-level predictive uncertainty
+
+[ruan-2026-early-abort-agent-episodes] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C7)
+  title: Doomed from the Start: Early Abort of LLM Agent Episodes via a Recall-Controlled Probe Cascade
+  key_idea: Abort doomed agent trajectories early with guaranteed recall.
+  cost: Saves 1.5-8.8x more compute than best single-gate baseline at 90% recall; up to 60.2% (TextCraft) and 54.9% (WebShop) fewer generated tokens at 90% recall
+  summary: Linear probes on activations predict agent task failure from the first round; a recall-controlled cascade of per-round gates aborts doomed episodes with a certified recall guarantee.
+  benchmarks: TextCraft, WebShop
+  signals: hidden-state failure probes, calibrated per-round thresholds
+
+[sridhar-2026-correlated-bandits-routing] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C7,C15)
+  title: Correlation-Aware Contextual Bandits with Surrogate Rewards for LLM Routing
+  key_idea: Bandits with surrogate (judge) rewards for routing.
+  summary: Contextual bandit algorithms for routing that exploit correlated arms and noisy surrogate rewards (e.g. judge predictions), with regret guarantees robust to surrogate misspecification.
+  benchmarks: LLM routing benchmarks
+  signals: surrogate reward model, inter-arm correlation, bandit feedback
+
+[wang-2026-dropbox-dash-dspy] (2026, Dropbox Tech blog, rel=5, gran=none, regime=training-free, prod=Y, clusters=C4,C7,C14)
+  title: How we optimized Dash's relevance judge with DSPy
+  key_idea: Treat model swaps as re-optimization problems so prompts transfer to cheaper models.
+  cost: Adapting the production relevance judge from o3 to gpt-oss-120b with GEPA cut NMSE 45% (8.83 to 4.86); enabled 10-100x more labeling at the same cost; on gemma-3-12b (MIPROv2) NMSE 46.88 to 17.26 and malformed JSON down >97%
+  summary: Dropbox used DSPy optimizers (GEPA, MIPROv2) to migrate an LLM relevance judge used across Dash production pipelines from an expensive model to cheaper open models, measured against human labels. Model adaptation time fell from 1-2 weeks to 1-2 days.
+  benchmarks: Dropbox Dash relevance judgments (internal)
+  signals: human-annotated relevance labels, NMSE
+
+[wei-2026-step-level-cua-cascade] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C7)
+  title: Step-level Optimization for Efficient Computer-use Agents
+  key_idea: Learned stuck and milestone monitors trigger per-step escalation in GUI agents.
+  summary: Observes that computer-use trajectories are heterogeneous, with errors concentrated at a few high-risk moments, and proposes an event-driven step-level cascade that runs a small policy by default and escalates when learned monitors detect stalls or semantic drift. The design layers on existing agents without retraining the large model.
+  benchmarks: computer-use benchmarks
+  signals: Stuck Monitor (progress stall), Milestone Monitor (semantic drift checkpoints)
+
+[xiang-2026-otrope] (2026, NeurIPS 2026, rel=5, gran=n/a, regime=n/a, prod=N, clusters=C6,C7)
+  title: OTROPE: Optimal Transport-based Robust Off-policy Evaluation for Large Language Models
+  key_idea: Optimal-transport doubly-robust OPE for black-box LLMs.
+  summary: OTROPE evaluates a new target LLM using scarce human labels collected on a behavior LLM, aligning samples in semantic space via optimal transport and combining corrected residuals with proxy predictors in a doubly-robust style, without needing response likelihoods.
+  benchmarks: synthetic and real LLM evaluation tasks
+  signals: human labels from behavior model, proxy evaluator predictions, semantic embeddings
+
+[fan-2025-imad] (2025, AAAI 2026, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7,C12)
+  title: iMAD: Intelligent Multi-Agent Debate for Efficient and Accurate LLM Inference
+  key_idea: Escalate from single agent to debate only when it is likely to help.
+  cost: Up to 92% token reduction with up to 13.5% accuracy improvement
+  summary: iMAD triggers multi-agent debate only when a lightweight classifier on self-critique features predicts debate will fix a wrong single-agent answer, avoiding debate costs and harmful overturns on easy queries.
+  benchmarks: six (visual) QA datasets
+  signals: 41 self-critique hesitation features, debate-decision classifier
+
+[bhargava-2024-ope-logged-human-feedback] (2024, arXiv, rel=5, gran=n/a, regime=n/a, prod=N, clusters=C6,C7)
+  title: Off-Policy Evaluation from Logged Human Feedback
+  key_idea: OPE of LLM policies from logged human feedback.
+  summary: Formalizes evaluating a new model using human feedback logged on another model's responses, proposing model-based and model-free estimators that estimate absolute policy values, rank policies, and can be optimized.
+  signals: logged human feedback on responses
+
+[jung-2024-trust-or-escalate] (2024, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Trust or Escalate: LLM Judges with Provable Guarantees for Human Agreement
+  key_idea: Cascade of judges with provable human-agreement guarantees.
+  cost: On a Chatbot Arena subset where GPT-4 almost never reaches 80% human agreement, cascaded selective evaluation with models like Mistral-7B guarantees over 80% agreement at almost 80% coverage
+  summary: Selective LLM-as-judge evaluation that trusts a judge only when its calibrated confidence is high, providing a provable human-agreement guarantee. Cascaded Selective Evaluation starts with cheap judges and escalates to stronger ones.
+  benchmarks: Chatbot Arena subset, Chatbot Arena
+  signals: judge confidence (Simulated Annotators), calibrated thresholds, judge confidence, simulated annotators, conformal-style guarantee
+
+[yao-2024-tau-bench] (2024, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains
+  key_idea: pass^k exposes reliability gaps that pass@1 hides in customer-service agents.
+  summary: Benchmark of multi-turn conversations between an LLM-simulated user and a tool-using agent bound by domain policies, graded by comparing the final database state to an annotated goal. Introduces the pass^k metric for consistency across repeated trials; gpt-4o succeeds on under 50% of tasks and pass^8 falls below 25% in retail.
+  benchmarks: τ-retail, τ-airline
+  signals: database end-state comparison
+
+[bouchard-2026-trajectory-uq-agents] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C7)
+  title: Beyond Single-Turn Confidence: Trajectory-Adapted Uncertainty Quantification for LLM Agents
+  key_idea: Trajectory-adapted UQ; self-assessment is a cheap strong baseline.
+  summary: Evaluates UQ for multi-turn tool-use agents at trajectory level; reflexive self-assessment is the strongest low-cost baseline in most settings, and token-probability scores are sensitive to aggregation across turns.
+  benchmarks: BFCL-v4, tau2-bench
+  signals: token probability, resampled consistency, reflexive self-assessment
+
+[cao-2026-early-outcome-prediction-audit] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C6,C7,C13)
+  title: Testing-Driven Reliability Audit of Trajectory-Based Early Outcome Prediction for LLM Agents: Target-Specific Calibration Transfer Persists Within a Single Benchmark
+  key_idea: Early-outcome predictors for agents need target-specific calibration checks.
+  summary: Audits whether trajectory-based early-outcome predictors, used to stop agent runs once the result is predictable, stay calibrated when applied to agents they were not trained on, using leave-one-agent-out tests on public SWE-bench trajectories. Finds that calibration failures are concentrated in specific target agent and head combinations.
+  benchmarks: SWE-bench Verified, TerminalBench
+  signals: trajectory prefix features
+
+[chatrath-2026-ready] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C2,C7,C13)
+  title: READY or Not: Reliable Enterprise Agent Deployment
+  key_idea: Qualify agents by min-cost oversight policy at a reliability target.
+  cost: Two systems 0.3 points apart in autonomous accuracy need 39.2% vs 29.6% human review to reach 76% reliability
+  summary: Framework to qualify agents for enterprise deployment by measuring reliability and operating cost of the human-AI system under candidate oversight policies, selecting the cheapest policy that meets a reliability target, and statistically qualifying it on held-out cases.
+  benchmarks: clinical-audit case study (16 agent systems, 750 cases)
+  signals: reliability target, human oversight policy, cost
+
+[chen-2026-signals-trajectory-triage] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C6,C7,C8)
+  title: Signals: Trajectory Sampling and Triage for Agentic Interactions
+  key_idea: Cheap signals to triage production trajectories.
+  cost: Signal-based sampling: 82% informativeness vs 54% random, 1.52x efficiency per informative trajectory on tau-bench
+  summary: Computes cheap signals from live agent interactions and attaches them as attributes to triage which trajectories are worth reviewing, without affecting online behavior.
+  benchmarks: tau-bench
+  signals: cheap interaction signals
+
+[dip-2026-sevra-selective-verification] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7,C9)
+  title: Think Again or Think Longer? Selective Verification for Budget-Aware Reasoning
+  key_idea: Tune initial budget first, then selectively verify.
+  cost: MATH: 76.3% vs 75.5% for always-verify with 26.8% fewer post-generation tokens; GSM8K: verifies 3.0% of examples, accuracy 93.4% to 94.5%, 91.2% fewer verification tokens; a longer initial solve matches with fewer tokens
+  summary: A serving-layer gate decides whether to keep a solver's answer or invoke verification. Finds selective verification helps but tuning the initial budget first is often cheaper.
+  benchmarks: MATH, GSM8K, CommonsenseQA
+  signals: serving-visible attempt state, recoverability gate
+
+[dou-2026-conformal-cascade] (2026, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Conformal Cascade: Distribution-Free Accuracy Guarantees for Multi-Tier LLM Inference
+  key_idea: Conformal set size as a guaranteed deferral rule.
+  cost: Strictly improves over strongest calibration-tuned heuristic cascade on most family-benchmark pairs (18 MC benchmarks); on easy benchmarks most queries stay on the small model at no accuracy cost
+  summary: Defers whenever the calibrated conformal prediction set at a tier contains more than one answer, giving a distribution-free finite-sample accuracy guarantee for the cascade. Cost is characterised as a function of the risk level.
+  benchmarks: 18 multiple-choice benchmarks
+  signals: conformal prediction set size
+
+[dubey-2026-telemetry-failure-detection] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: Real-Time Detection and Repair of LLM Agent Failures
+  key_idea: Cheap telemetry monitors instead of LLM step judges.
+  cost: Microsecond-cost monitors detect 0.71 of failures at 5% false-alarm (AUROC 0.872), versus per-step LLM judging that costs more than the agent
+  summary: Detects mid-episode agent failures (loops, cascading tool errors, drift) from observable step telemetry with microsecond-cost monitors instead of an LLM judge per step.
+  benchmarks: AFTraj-2K, 2,823 agent episodes
+  signals: step telemetry, echo-state network, CUSUM
+
+[grotov-2026-speculative-uncertainty] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C3,C6,C7)
+  title: How to Speculate about Uncertainty in Agentic Coding? A Draft-Model Gate Method
+  key_idea: A small draft model scores a black-box agent's actions to predict failure before execution.
+  cost: Pre-execution veto gate cuts execution error rate by 6-8 pp and token cost by 14-19% in deployment
+  summary: Recovers a failure-likelihood signal for a black-box coding agent by having a small open draft model score the agent's generated trajectory in one forward pass and calibrating phase-aware features. The score can drive routing, human intervention or extra compute; a veto gate is demonstrated.
+  signals: draft-model cross-likelihoods, phase-aware features
+
+[hasanaliyev-2026-expected-reward-prediction] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C7)
+  title: Expected Reward Prediction, with Applications to Model Routing
+  key_idea: Predict expected reward-model score per model per prompt for routing.
+  summary: Shows the expected reward an LLM would earn on a prompt under repeated sampling can be predicted before generation, and uses this prediction for cost-controlled routing that beats category-level baselines.
+  benchmarks: open-perfectblend
+  signals: reward model scores, prompt
+
+[healy-2026-tool-selection-hallucination-probes] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: Internal Representations as Indicators of Hallucinations in Agent Tool Selection
+  key_idea: Single-pass probe for tool-call errors.
+  summary: Detects tool-calling hallucinations (wrong tool, malformed params, tool bypass) in real time from internal representations in the same forward pass, up to 86.4% accuracy.
+  signals: internal representations
+
+[jiang-2026-cota-tiny-advisors] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C3,C7)
+  title: Don't Solve, Just Compare: Tiny Advisors for Runtime Intervention in LLM Agents
+  key_idea: A tiny comparator model as a cheap runtime advisor in place of a big expert model.
+  summary: COTA adds a 0.5B comparator to an LLM agent at runtime. The comparator judges the actor's proposed action against alternatives and returns non-binding advice, rather than acting as a costly expert solver or task-capable critic. It is trained from counterfactual branches with the same prefix.
+  benchmarks: WebShop, ALFWorld, tau^3-Retail
+  signals: counterfactual same-prefix branches, pairwise action comparison
+
+[kotte-2026-ucci] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C2,C7)
+  title: UCCI: Calibrated Uncertainty for Cost-Optimal LLM Cascade Routing
+  key_idea: Calibrate first, then threshold: cost-optimal escalation with guarantees.
+  cost: Cuts inference cost by 31% (95% CI 27-35%) at micro-F1 0.91 on a production NER workload of 75,000 queries (4B/12B LLMs); ECE from 0.12 to 0.03
+  summary: Calibrates token-margin uncertainty into per-query error probabilities with isotonic regression and picks the escalation threshold by constrained cost minimisation. Evaluated on a production named-entity workload, beating entropy thresholds, split-conformal routing and FrugalGPT-style thresholds.
+  benchmarks: production NER workload
+  signals: token margin uncertainty, isotonic calibration
+
+[li-2026-afanet-gnn-attribution] (2026, arXiv, rel=4, gran=subagent, regime=supervised-offline, prod=N, clusters=C7)
+  title: Beyond LLM-Based Reasoning: Lightweight GNNs for Agent Failure Attribution
+  key_idea: Cheap GNN replaces LLM judges for failure attribution.
+  cost: Near-zero inference cost while matching or beating LLM-based attribution baselines
+  summary: Frames agent failure attribution as graph learning and trains lightweight GNNs (AFANet) that match or exceed LLM-based attributors with far fewer parameters and near-zero inference cost.
+  benchmarks: Who&When
+  signals: graph neural network over traces
+
+[oh-2026-progress-advantage] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C7)
+  title: Neglected Free Lunch from Post-training: Progress Advantage for LLM Agents
+  key_idea: Free process reward from the post-trained policy itself.
+  summary: Shows RL-post-trained agent policies implicitly provide a step-level progress signal (progress advantage) that outperforms confidence baselines and trained reward models without extra training.
+  signals: policy log-prob progress advantage
+
+[rabanser-2026-agent-reliability] (2026, ICML 2026, rel=4, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: Towards a Science of AI Agent Reliability
+  key_idea: Multi-dimensional reliability profile beyond accuracy.
+  summary: Proposes twelve metrics that break agent reliability into consistency, robustness, predictability and safety, borrowing from safety-critical engineering, and shows single success rates hide operational flaws.
+  benchmarks: multiple agent benchmarks
+  signals: consistency, robustness, predictability, safety metrics
+
+[rajput-2026-cheap-verifiers-blind-spots] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7,C8)
+  title: Cheap Verifiers, Large Blind Spots: Measuring the Reliability Cost of Cost-Saving Cascades
+  key_idea: Metrics computed through a cheap verifier cannot certify a cascade.
+  cost: Frontier verifier drives blind spot to ~0.05 but escalates 46% of hard-MATH queries vs a 39% true error rate; cascade dashboard shows flat 3% error while true error swings up to 32%
+  summary: Measures self-improving cascades where the cheap model is fine-tuned on verifier rejections. Finds verifier blind spots grow with student capability, corrective fine-tuning collapses the student, and in-loop metrics hide real degradation.
+  benchmarks: MATH
+  signals: verifier acceptance
+
+[sethi-2026-trace-action-agreement] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C7,C9)
+  title: Don't Overthink It: Inter-Rollout Action Agreement as a Free Adaptive-Compute Signal for LLM Agents
+  key_idea: Action agreement across rollouts sets per-step compute.
+  cost: TrACE-4 matches SC-4 accuracy with 33% (GSM8K) and 39% (MiniHouse) fewer LLM calls; TrACE-8 matches SC-8 with 55% and 65% fewer calls
+  summary: At each agent step, samples a few candidate actions and commits immediately if they agree, otherwise samples more up to a cap. Training-free per-timestep adaptive compute; small-scale evaluation.
+  benchmarks: GSM8K (n=50), MiniHouse (n=30), GSM8K, MiniHouse
+  signals: inter-rollout action agreement
+
+[shaikh-2026-bayesian-self-escalation] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C7)
+  title: Knowing When to Ask for Help: Bayesian Self-Escalation in Hierarchical LLM Agents
+  key_idea: Escalate mid-reasoning via optimal stopping on a learned competence belief.
+  cost: On a Qwen2.5-Coder 1.5B->7B code cascade (MBPP, 257 tasks) the escalation frontier dominates post-hoc routing at equal cost
+  summary: Treats intra-generation delegation as Bayesian optimal stopping over a learned belief about eventual task success, and proves the optimal policy is a time-varying threshold with regret and sample guarantees. Validated in simulation and a small real code cascade.
+  benchmarks: MBPP, MBPP (Qwen2.5-Coder 1.5B to 7B cascade), simulation
+  signals: learned competence posterior during generation, learned competence posterior
+
+[together-2026-deepswe-cascade-deepseek-gpt] (2026, Together AI blog, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C3,C7,C13)
+  title: DeepSeek V4 Pro 0813 vs GPT-5.6 Sol on DeepSWE: Cost, Coding, and Routing
+  key_idea: For agentic coding, a verifier-gated cascade (cheap model, escalate on failing tests) dominates either model alone.
+  cost: Cascade (DeepSeek V4 Pro first, escalate to GPT-5.6 Sol on test failure): 83.0% of DeepSWE tasks at $3.35/task vs Sol alone 72.7% at $8.37 (10 pts better, 60% cheaper); 904 rollouts (vendor-reported)
+  summary: Compares a cheap open model and a frontier closed model over 904 DeepSWE agent rollouts, reporting pass@k, cost, steps and regressions. The cheap model's pass@4 exceeds the frontier model's, and a test-gated cascade that escalates only on failing tests beats both in accuracy and cost; the frontier model's failures more often break already-passing tests.
+  benchmarks: DeepSWE
+  signals: unit-test pass/fail
+
+[tsang-2026-orchrm] (2026, arXiv, rel=4, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C7)
+  title: Reward Modeling for Multi-Agent Orchestration
+  key_idea: Reward model at the orchestrator level.
+  cost: Up to 10x training efficiency in token usage and up to 8% higher MAS test-time scaling accuracy
+  summary: OrchRM is a self-supervised reward model that scores orchestration decisions in multi-agent systems directly, avoiding costly sub-agent rollouts for orchestrator training and test-time scaling.
+  signals: orchestration reward model
+
+[unell-2026-deployment-centered-rejection-risk] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C6,C7,C14)
+  title: Deployment-Centered Evaluation: Predicting Query-Level Rejection Risk in a Clinical LLM System
+  key_idea: Pre-generation predictor of user rejection trained on sparse real deployment feedback.
+  summary: Trains a pre-response classifier, inside an EHR-embedded clinical LLM system, that predicts before generation whether the user will reject the response, using query content and deployment context. A prospective 4.5-month evaluation gives AUROC 0.719, and the authors estimate value for guardrail triggering and abstention.
+  signals: query content, deployment context (department, provider type, model used), user rejection feedback
+
+[varshney-2026-prefill-activation-router] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7)
+  title: LLM Router: Rethinking Routing with Prefill Activations
+  key_idea: Prefill activations as routing features.
+  cost: Closes 45.58% of the gap between best single model and oracle while saving 74.31% cost relative to the most expensive model
+  summary: Routes using internal activations of an open-weight encoder model to predict correctness of target models including closed ones, with a shared multi-output MLP (NVIDIA authors).
+  signals: prefill residual-stream activations of an open encoder model, prefill activations, residual stream
+
+[wang-2026-conformal-thinking] (2026, ICML 2026, rel=4, gran=token, regime=supervised-offline, prod=N, clusters=C7,C9)
+  title: Conformal Thinking: Risk Control for Reasoning on a Compute Budget
+  key_idea: Risk-controlled early stopping in both directions.
+  summary: Casts reasoning budget setting as risk control: stop when confident, and preemptively stop likely unsolvable instances, with thresholds set by distribution-free risk control on a validation set.
+  benchmarks: diverse reasoning tasks
+  signals: confidence upper threshold, parametric lower threshold for unsolvable instances
+
+[yang-2026-protocol-routing-cost-aware] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7,C12)
+  title: LLMs Can Predict Failure Risk, But Struggle to Predict Which Collaboration Protocol Pays Off: Cost-Aware Protocol Routing Across Reasoning Tasks
+  key_idea: Predicting failure is easy; predicting which collaboration pays off is hard.
+  cost: Self-confidence gate reaches 78.0% solve at 45K tokens vs 73.8% at 71.3K for a frozen gpt-oss-120b router
+  summary: Runs every problem under four protocols (direct, self-correction, planner-executor-reviewer, multi-agent deliberation) to study when to pay for collaboration. LLM probes predict baseline failure well (0.88 AUROC) but struggle to predict which collaboration protocol helps; routers tend to under- or over-escalate.
+  benchmarks: 4,181 competition math problems, biology and science benchmarks
+  signals: post-answer failure probe, self-confidence gate, failure-risk probe
+
+[ye-2026-roro-process-reward-routing] (2026, arXiv, rel=4, gran=step, regime=RL-offline, prod=N, clusters=C3,C7,C9)
+  title: Rubric-Guided Process Reward for Stepwise Model Routing
+  key_idea: Process-level rewards for training stepwise model routers.
+  summary: RoRo supervises RL-trained stepwise routers with process rewards instead of only outcome rewards. A Rubricor writes a query-specific rubric and a Judge scores routing trajectories, both trained on preference pairs built from outcome, cost and process quality.
+  signals: rubric-guided process reward, cost
+
+[zhang-2026-agentforesight] (2026, arXiv, rel=4, gran=step, regime=RL-offline, prod=N, clusters=C7)
+  title: AgentForesight: Online Auditing for Early Failure Prediction in Multi-Agent Systems
+  key_idea: Small online auditor predicts failures before they cascade.
+  summary: Reframes failure attribution as online early failure prediction and trains a compact 7B auditor with RL on the AFTraj-2K corpus to flag decisive errors during multi-agent execution.
+  benchmarks: AFTraj-2K
+  signals: online auditor, risk anticipation
+
+[zhang-2026-cauc] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Calibration-Aware Uncertainty Cascades for Efficient Heterogeneous Model Collaboration
+  key_idea: Per-model calibration gives cascade thresholds a common reliability scale.
+  cost: Average relative accuracy +1.9% over strong-model-only inference while avoiding ~47% of strong-model calls across six language benchmarks
+  summary: Calibrates each model's confidence separately so that one threshold has a selective-risk meaning across heterogeneous models, then chooses accept, escalate or combine policies on validation data.
+  benchmarks: six language benchmarks, image classification benchmarks
+  signals: per-model calibrated confidence
+
+[zhang-2026-corea] (2026, EACL 2026, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C2,C7)
+  title: Confidence-Calibrated Small-Large Language Model Collaboration for Cost-Efficient Reasoning
+  key_idea: RL-calibrated verbalised confidence for SLM-to-LLM deferral.
+  cost: Reduces cost by 21.5% and 16.8% on out-of-domain math and non-math datasets vs LLM alone, with absolute pass@1 drop within 2%
+  summary: Cascades a small model that outputs an answer plus verbalised confidence with a large model, deferring low-confidence questions. RL with a calibration reward improves both reasoning and confidence calibration of the small model.
+  signals: verbalized confidence (RL-calibrated)
+
+[zhang-2026-racer] (2026, ICML 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7,C9)
+  title: Reasoning Is Not Free: Robust Adaptive Cost-Efficient Routing for LLM-as-a-Judge
+  key_idea: Budgeted, shift-robust routing between reasoning and non-reasoning judges.
+  cost: Superior accuracy-cost trade-offs under distribution shift (no single number in abstract)
+  summary: Shows reasoning judges help on math and code verification but not on simpler evaluations, and routes between reasoning and non-reasoning judges under a fixed budget via distributionally robust optimisation.
+  signals: judge task features, KL uncertainty set
+
+[zhang-2026-xconf-experiential-confidence] (2026, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C7)
+  title: Confidence Comes from Experience: Experiential Confidence Estimation from Reasoning to Agents
+  key_idea: Confidence from past experience, one generation.
+  cost: Matches or beats ten-sample self-consistency AUROC on 23/24 comparisons at a tenth of the generation cost
+  summary: XConf estimates confidence using experience from past inferences rather than only the current process; needs no logits or weight updates and costs one generation, across reasoning, coding, multimodal QA and agent tasks.
+  signals: experiential confidence
+
+[cemri-2025-mast-why-mas-fail] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C7,C12)
+  title: Why Do Multi-Agent LLM Systems Fail?
+  key_idea: Taxonomy and dataset of why multi-agent systems fail.
+  summary: Builds MAST, a taxonomy of 14 multi-agent failure modes in three categories (system design, inter-agent misalignment, task verification) from expert annotation of traces, plus an LLM-judge annotator and a 1600+ trace dataset. Shows that MAS gains on benchmarks are often minimal and that simple fixes give limited improvement.
+  benchmarks: MAST-Data (1600+ traces, 7 MAS frameworks), MAST annotated traces (5 MAS frameworks, 150+ tasks)
+  signals: LLM-as-judge failure annotation, failure taxonomy, LLM judge
+
+[cencerrado-2025-no-answer-needed] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C7)
+  title: No Answer Needed: Predicting LLM Answer Accuracy from Question-Only Linear Probes
+  key_idea: Pre-generation correctness probes.
+  summary: Linear probes on activations after reading a question, before generation, predict whether the model's answer will be correct, generalizing out of distribution except on math.
+  benchmarks: trivia and OOD knowledge datasets, TriviaQA, OOD knowledge datasets
+  signals: pre-generation activations (linear probe), pre-generation linear probe
+
+[chae-2025-web-shepherd] (2025, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: Web-Shepherd: Advancing PRMs for Reinforcing Web Agents
+  key_idea: Small dedicated web-agent PRM replaces expensive MLLM judges.
+  cost: About 30 points better accuracy than GPT-4o on WebRewardBench; as verifier on WebArena-lite with GPT-4o-mini policy, 10.9 points better at roughly 10x less cost than GPT-4o-mini as verifier
+  summary: First process reward model for web navigation, trained on 40K step-level preference pairs with checklists; outperforms GPT-4o as a step-level judge while being far cheaper.
+  benchmarks: WebRewardBench, WebArena-lite
+  signals: process reward, checklists
+
+[choudhury-2025-agentprm-choudhury] (2025, arXiv, rel=4, gran=step, regime=RL-online, prod=N, clusters=C7,C8)
+  title: Process Reward Models for LLM Agents: Practical Framework and Directions
+  key_idea: Lightweight process reward models for agents, learned from rollouts or demonstrations.
+  cost: 3B models trained with AgentPRM/InversePRM outperform GPT-4o baselines on ALFWorld
+  summary: Presents AgentPRM, an actor-critic style framework where Monte Carlo rollouts produce process-reward targets used to train and improve LLM agents, plus InversePRM that learns process rewards from demonstrations. Small 3B models trained this way beat GPT-4o baselines on ALFWorld; the paper also analyzes test-time scaling and reward hacking.
+  benchmarks: ALFWorld
+  signals: process reward, Monte Carlo rollouts, inverse PRM
+
+[chuang-2025-confident-or-seek-stronger] (2025, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C2,C7,C13)
+  title: Confident or Seek Stronger: Exploring Uncertainty-Based On-device LLM Routing From Benchmarking to Generalization
+  key_idea: Large benchmark of UQ-based SLM-to-LLM escalation.
+  summary: Benchmarks uncertainty-based routing from on-device small models to LLMs across 1500+ settings, finding that uncertainty-correctness alignment matters most and depends on SLM and UQ method. Proposes a calibration-data pipeline for generalising routing thresholds.
+  benchmarks: 1500+ settings
+  signals: uncertainty quantification methods, calibration data, uncertainty quantification
+
+[databricks-2025-tao] (2025, Databricks blog, rel=4, gran=n/a, regime=RL-offline, prod=N, clusters=C6,C7,C8)
+  title: TAO: Using test-time compute to train efficient LLMs without labeled data
+  key_idea: Convert test-time compute plus a reward model into a cheaper specialised model using only unlabeled usage data.
+  cost: Brings Llama 3.1 8B and Llama 3.3 70B close to GPT-4o and o3-mini on FinanceBench, DB Enterprise Arena and BIRD-SQL without labels, at the base model's inference cost; multi-task TAO +2.4% for Llama 3.3 70B on a broad enterprise benchmark; notes o3-mini emits 5-10x more output tokens (vendor-reported)
+  summary: TAO uses only unlabeled task inputs such as production prompts: it samples many candidate responses with test-time compute, scores them with an enterprise reward model, and trains the model with RL so the tuned model answers directly with no extra inference compute. It outperforms labeled fine-tuning on three enterprise tasks and scales with tuning compute budget.
+  benchmarks: FinanceBench, DB Enterprise Arena, BIRD-SQL (Databricks dialect)
+  signals: unlabeled usage inputs, reward model (DBRM) scores
+
+[lee-2025-online-conformal-abstention] (2025, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C7)
+  title: Online Conformal Abstention for Factuality Control Under Adversarial Bandit Feedback
+  key_idea: Online risk-controlled answer/abstain gating learned from partial user feedback with FDR guarantees.
+  summary: Proposes ExAUL, an online conformal abstention method that controls false discovery rate when the deployed system only receives partial (thumbs-style) feedback on answered queries, possibly from a non-stationary or adversarial stream. A conversion lemma turns bandit regret into an FDR bound, and a feedback-unlocking trick extracts extra signal from the abstention structure.
+  signals: thumbs up/down partial feedback, confidence score
+
+[lin-2025-supervisoragent] (2025, ICLR 2026, rel=4, gran=step, regime=training-free, prod=N, clusters=C7,C10,C12)
+  title: Stop Wasting Your Tokens: Towards Efficient Runtime Multi-Agent Systems
+  key_idea: Runtime supervision triggered cheaply to stop wasteful agent behavior.
+  cost: Reduces Smolagents token consumption by 29.68% on GAIA without lowering success rate
+  summary: SupervisorAgent is a lightweight runtime supervisor triggered by an LLM-free filter that intervenes at critical points to correct errors, curb inefficient behavior and clean observations, without changing the base agent. It cuts token usage by about 30% on GAIA at equal success.
+  benchmarks: GAIA, math reasoning, code generation, QA
+  signals: LLM-free adaptive filter
+
+[ni-2025-uncertainty-heads] (2025, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: ReProbe: Efficient Test-Time Scaling of Multi-Step Reasoning by Probing Internal States of Large Language Models
+  key_idea: Tiny heads replace large PRMs for step verification.
+  cost: Match or surpass PRMs up to 810x larger
+  summary: Trains tiny uncertainty heads on frozen LLM states to verify reasoning steps, with labels from a larger LLM or self-supervision; they rival PRMs up to 810x larger.
+  benchmarks: math, planning, QA
+  signals: uncertainty heads (<10M params)
+
+[pacchiardi-2025-predictaboard] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C6,C7,C13)
+  title: PredictaBoard: Benchmarking LLM Score Predictability
+  key_idea: Benchmark for instance-level LLM success prediction.
+  summary: PredictaBoard benchmarks assessors that predict whether an LLM will fail on a given prompt, scoring LLM-assessor pairs by rejection rate at different error tolerances.
+  benchmarks: PredictaBoard
+  signals: assessor predictions
+
+[ro-2025-sherlock] (2025, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C7,C11)
+  title: Sherlock: Reliable and Efficient Agentic Workflow Execution
+  key_idea: Speculate past verification and roll back on failure.
+  cost: 18.3% average accuracy gain vs non-verifying baseline; workflow execution time reduced up to 48.7% vs non-speculative execution; verification cost 26.0% lower than Monte Carlo search-based verification
+  summary: Selectively verifies error-prone steps of agentic workflows, continues speculatively while verification runs, and rolls back to the last verified output on failure.
+  signals: fault-aware verification, speculative execution with rollback
+
+[schroeder-2025-vcache] (2025, ICLR 2026, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C7,C10)
+  title: vCache: Verified Semantic Prompt Caching
+  key_idea: Learn per-entry thresholds online to give a guaranteed maximum error rate for semantic cache hits.
+  cost: up to 12.5x higher cache hit rate and 26x lower error rate than static-threshold and fine-tuned-embedding baselines while meeting the user-specified error bound
+  summary: Replaces the single global similarity threshold of semantic caches with per-cached-prompt thresholds learned online, and makes a probabilistic hit/explore decision that provably keeps the error rate under a user-chosen bound. This turns semantic caching into a controllable cost-quality tradeoff.
+  benchmarks: four released semantic-cache benchmarks
+  signals: per-entry similarity thresholds, online correctness feedback, user error bound delta
+
+[soiffer-2025-semantic-agreement-cascades] (2025, EMNLP 2025 Industry Track, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Semantic Agreement Enables Efficient Open-Ended LLM Cascades
+  key_idea: Semantic consensus of cheap ensemble outputs as a black-box deferral signal.
+  cost: Semantic cascades match or surpass target-model quality at 40% of the cost and reduce latency by up to 60%
+  summary: For open-ended generation, uses meaning-level agreement among several cheap models' outputs as the deferral signal instead of token confidence. Works with black-box APIs and is robust to model updates.
+  benchmarks: open-ended generation benchmarks
+  signals: semantic agreement among ensemble outputs
+
+[xi-2025-agentprm-xi] (2025, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: AgentPRM: Process Reward Models for LLM Agents via Step-Wise Promise and Progress
+  key_idea: Agent PRM scoring promise and progress per step, trained with TD/GAE labels.
+  cost: Reported as over 8x more compute-efficient than baselines when scaling test-time compute
+  summary: Redefines PRMs for agent tasks: instead of step correctness, it scores each step's promise (proximity to goal) and progress, capturing interdependence between sequential decisions. Labels are obtained scalably with TD-based estimation combined with GAE; experiments cover agentic tasks such as web shopping and browser navigation.
+  signals: process reward, promise, progress, TD/GAE labels
+
+[xiao-2025-generalized-correctness-models] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C6,C7)
+  title: Generalized Correctness Models: Learning Calibrated and Model-Agnostic Correctness Predictors from Historical Patterns
+  key_idea: Model-agnostic correctness predictors from logged outcomes.
+  summary: Trains correctness predictors on historical correctness data across many models and finds they generalize across models, suggesting confidence estimation is learnable from history rather than self-introspection.
+  benchmarks: MMLU, TriviaQA
+  signals: historical correctness patterns, answer phrasing
+
+[xu-2025-verimap] (2025, arXiv, rel=4, gran=subagent, regime=training-free, prod=N, clusters=C3,C7)
+  title: Verification-Aware Planning for Multi-Agent Systems
+  key_idea: Planner writes per-subtask verifiers so executors can be smaller.
+  summary: VeriMAP's planner decomposes tasks, models dependencies and writes verification functions for each subtask, so executors can be checked and retried. Because executors get well-scoped subtasks, cheaper models can execute them, partly offsetting planner cost.
+  benchmarks: diverse datasets
+  signals: planner-defined verification functions
+
+[yazdani-2025-masprm] (2025, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C3,C7)
+  title: MASPRM: Multi-Agent System Process Reward Model
+  key_idea: Process rewards for which agent message advanced progress.
+  cost: +30.7 EM on GSM8K and +22.9 on MATH over a single MAS pass when guiding search
+  summary: MASPRM is a process reward model for multi-agent transcripts, trained from MCTS rollouts with only terminal rewards, that guides step-level beam search and MCTS over agent messages. It beats size-matched outcome reward models under comparable search budgets.
+  benchmarks: GSM8K, MATH, MMLU, LogiQA
+  signals: process reward over agent messages, multi-agent process reward, value per agent turn
+
+[zeighami-2025-bargain] (2025, SIGMOD 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Cut Costs, Not Accuracy: LLM-Powered Data Processing with Guarantees
+  key_idea: Cascades with statistical accuracy guarantees via adaptive sampling.
+  cost: Reduces cost on average by up to 86% more than state of the art across 8 real-world datasets, with stronger accuracy guarantees
+  summary: For LLM-powered data processing, uses adaptive sampling of expensive-model labels and tight statistical estimation to decide which records the cheap model can handle, with guarantees on accuracy, precision or recall.
+  benchmarks: 8 real-world datasets
+  signals: log-probability confidence, adaptive sampling, statistical estimation
+
+[zhang-2025-agentracer] (2025, arXiv, rel=4, gran=subagent, regime=RL-offline, prod=N, clusters=C7,C8)
+  title: AgenTracer: Who Is Inducing Failure in the LLM Agentic Systems?
+  key_idea: Small RL-trained tracer beats frontier LLMs at failure attribution.
+  cost: AgenTracer-8B outperforms Gemini-2.5-Pro and Claude-4-Sonnet by up to 18.18% on Who&When
+  summary: Builds annotated failure trajectories via counterfactual replay and fault injection, then trains an 8B failure tracer with multi-granular RL that outperforms large proprietary LLMs at failure attribution and improves agent systems via feedback.
+  benchmarks: Who&When
+  signals: failure tracer model
+
+[zhang-2025-confidence-driven-router] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7)
+  title: Leveraging Uncertainty Estimation for Efficient LLM Routing
+  key_idea: Uncertainty-based edge-cloud routing evaluated by judges.
+  summary: Proposes a confidence-driven router for edge-cloud deployments that uses uncertainty estimation to decide routing, and evaluates response quality with LLM-as-a-judge as a proxy for human preference. Reports better quality than prior routers at similar cost.
+  benchmarks: MT-Bench, GSM8K, MMLU
+  signals: uncertainty estimate, LLM-as-a-judge ratings
+
+[zhang-2025-meta-router] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C7)
+  title: Meta-Router: Bridging Gold-standard and Preference-based Evaluations in Large Language Model Routing
+  key_idea: Causal debiasing of judge-labeled routing supervision.
+  summary: Meta-Router casts training with combined gold-standard and preference-based labels as causal inference, correcting bias in cheap judge/crowd labels via a conditional average treatment effect estimate.
+  signals: gold-standard labels, preference/judge labels, causal CATE correction
+
+[zhang-2025-reasoning-models-know-right] (2025, arXiv, rel=4, gran=token, regime=supervised-offline, prod=N, clusters=C7,C9)
+  title: Reasoning Models Know When They're Right: Probing Hidden States for Self-Verification
+  key_idea: Hidden states encode correctness; use a probe to stop reasoning early.
+  cost: Probe-based early exit reduces inference tokens by 24% without compromising performance
+  summary: Probes reasoning-model hidden states to verify intermediate answers with high accuracy and calibration, even predicting correctness before the answer is fully formed. Using the probe for early exit cuts reasoning tokens by 24% at equal accuracy.
+  signals: hidden-state probe, intermediate answer correctness
+
+[zhang-2025-which-agent-when] (2025, ICML 2025, rel=4, gran=subagent, regime=training-free, prod=N, clusters=C3,C7)
+  title: Which Agent Causes Task Failures and When? On Automated Failure Attribution of LLM Multi-Agent Systems
+  key_idea: Benchmark and baselines for who-and-when failure attribution in MAS.
+  summary: Defines automated failure attribution for LLM multi-agent systems: identify the responsible agent and the decisive error step in a failed trace. Releases the Who&When dataset (failure logs from 127 MAS); the best method reaches 53.5% agent accuracy but only 14.2% step accuracy.
+  benchmarks: Who&When
+  signals: LLM judge, failure attribution
+
+[chan-2024-agentmonitor] (2024, arXiv, rel=4, gran=subagent, regime=supervised-offline, prod=N, clusters=C7,C12)
+  title: AgentMonitor: A Plug-and-Play Framework for Predictive and Secure Multi-Agent Systems
+  key_idea: Predict MAS performance from agent-level features before/while running.
+  summary: AgentMonitor captures per-agent inputs/outputs in a multi-agent system and trains a regression model (XGBoost) to predict task performance (Spearman 0.89 in-domain), also filtering harmful content.
+  signals: agent input/output features, XGBoost predictor
+
+[chuang-2024-self-ref] (2024, ICML (per Semantic Scholar), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C7)
+  title: Learning to Route LLMs with Confidence Tokens
+  key_idea: Train the model to emit calibrated confidence tokens for routing/deferral.
+  cost: Significant improvements in downstream routing and rejection tasks vs verbalised confidence and token probabilities (no single number in abstract)
+  summary: Self-REF fine-tunes LLMs to emit confidence tokens indicating whether an answer is correct, from which a confidence score is extracted. These scores outperform verbalized confidence and token probabilities for routing to another model or rejecting.
+  signals: learned confidence tokens, confidence tokens
+
+[gupta-2024-lm-cascades-token-uncertainty] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Language Model Cascades: Token-level uncertainty and beyond
+  key_idea: Learned deferral over token-level uncertainty beats naive sequence-probability thresholds.
+  summary: Systematically studies deferral rules for generative LM cascades and shows that sequence-level uncertainty suffers from length bias. Learned post-hoc deferral rules over token-level uncertainty vectors, plus embeddings from both models, give better cost-quality trade-offs.
+  benchmarks: range of NLP benchmarks, FLAN-T5 NLP benchmarks
+  signals: token-level uncertainty, small-model embeddings, large-model intermediate layers, embeddings
+
+[han-2024-uala-uncertainty-aware-agent] (2024, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C7)
+  title: Towards Uncertainty-Aware Language Agent
+  key_idea: Gate tool use by uncertainty to cut agent cost.
+  cost: Improves performance while substantially reducing tool calls and tokens versus ReAct
+  summary: UALA uses uncertainty estimates to decide when an agent should act on its own answer versus call external tools, improving accuracy with fewer tool calls and tokens than ReAct; finds verbalized confidence unreliable.
+  signals: answer uncertainty, tool-call gating
+
+[kossen-2024-semantic-entropy-probes] (2024, ICML 2024, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C7)
+  title: Semantic Entropy Probes: Robust and Cheap Hallucination Detection in LLMs
+  key_idea: Approximate semantic entropy from one forward pass with a probe.
+  cost: Reduces semantic-uncertainty overhead to almost zero versus 5-10x sampling cost of semantic entropy
+  summary: Trains linear probes on hidden states of a single generation to predict semantic entropy, removing the need for multiple samples. SEPs keep strong hallucination detection and generalize out of distribution better than probes trained directly on accuracy.
+  signals: hidden states, linear probe, semantic entropy
+
+[ramirez-2024-two-tier] (2024, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C2,C7)
+  title: Optimising Calls to Large Language Models with Uncertainty-Based Two-Tier Selection
+  key_idea: Small-model uncertainty as a simple escalation criterion.
+  cost: Outperforms existing cascading and routing methods on 25 of 27 setups (three model pairs, nine tasks)
+  summary: Uses only the uncertainty of the small LLM's generation to decide whether to call the large model, and beats routing and cascading methods requiring extra neural models in 25 of 27 setups.
+  benchmarks: nine tasks
+  signals: small-model generation uncertainty
+
+[tang-2024-minicheck] (2024, arXiv, rel=4, gran=none, regime=supervised-offline, prod=N, clusters=C7,C8)
+  title: MiniCheck: Efficient Fact-Checking of LLMs on Grounding Documents
+  key_idea: Distill a frontier verifier into a tiny model.
+  cost: GPT-4-level fact-checking accuracy at 400x lower cost (MiniCheck-FT5, 770M)
+  summary: Trains small fact-checkers on GPT-4-generated synthetic errors, reaching GPT-4 accuracy on grounding verification at 400x lower cost.
+  benchmarks: LLM-AggreFact
+  signals: grounding fact-check
+
+[verga-2024-poll-juries] (2024, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C7)
+  title: Replacing Judges with Juries: Evaluating LLM Generations with a Panel of Diverse Models
+  key_idea: A jury of small judges beats one big judge at a fraction of the cost.
+  cost: Panel of smaller judges outperforms a single GPT-4 judge while being over seven times less expensive
+  summary: Proposes evaluating with a panel of diverse smaller LLM judges (PoLL) and finds it outperforms a single large judge, has less intra-model bias and costs over 7x less.
+  signals: panel of small judges
+
+[zhuge-2024-agent-as-a-judge] (2024, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C7,C13)
+  title: Agent-as-a-Judge: Evaluate Agents with Agents
+  key_idea: Use an agent with tools as the evaluator of agent trajectories.
+  summary: Proposes using agentic systems (with tools to inspect workspaces and traces) to judge other agents, giving intermediate feedback over the whole task process. Introduces DevAI, 55 AI-development tasks with 365 hierarchical requirements, and finds Agent-as-a-Judge is far more reliable than LLM-as-a-Judge and comparable to human evaluators.
+  benchmarks: DevAI
+  signals: agent judge, requirement satisfaction
+
+[aggarwal-2023-automix] (2023, NeurIPS 2024, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C7)
+  title: AutoMix: Automatically Mixing Language Models
+  key_idea: Self-verification plus POMDP escalation policy.
+  cost: Reduces computational cost by over 50% for comparable performance (five LMs, five datasets)
+  summary: AutoMix lets a small model answer, estimates correctness through few-shot self-verification, and uses a POMDP-based router to decide whether to escalate to larger models given noisy verification. Across five models and datasets it cuts cost by over half at comparable quality.
+  benchmarks: five datasets, five context-grounded reasoning datasets
+  signals: few-shot self-verification, POMDP router over confidence, answer confidence, POMDP belief, self-verification, POMDP router
+
+[yue-2023-mot-cascades] (2023, ICLR 2024, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Large Language Model Cascades with Mixture of Thoughts Representations for Cost-efficient Reasoning
+  key_idea: Answer consistency across mixed thought representations as a label-free deferral signal.
+  cost: Performance comparable to GPT-4 alone at 40% of its cost (GPT-3.5-turbo as weak model), six reasoning benchmarks
+  summary: Uses the agreement among multiple sampled answers from a cheap LLM as a difficulty signal for escalating reasoning questions. Mixing chain-of-thought and program-of-thought samples makes the consistency check more discriminative.
+  benchmarks: six reasoning benchmarks (math, causal)
+  signals: answer consistency (sampling vote), CoT vs PoT agreement, answer consistency, mixture of thought representations
+
+[ashley-2026-rpra] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: RPRA: Predicting an LLM-Judge for Efficient but Performant Inference
+  key_idea: Predict your own judge score to decide deferral.
+
+[bachar-2026-llm-performance-predictors] (2026, AAMAS 2026, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: LLM Performance Predictors: Learning When to Escalate in Hybrid Human-AI Moderation Systems
+  key_idea: Supervised meta-model on output features for when-to-escalate decisions.
+  cost: Significant improvements in accuracy-cost trade-offs over existing uncertainty estimators (no single number in abstract)
+
+[barke-2026-agentrx] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C7)
+  title: AgentRx: Diagnosing AI Agent Failures from Execution Trajectories
+  key_idea: Automated critical-step diagnosis for agent failures.
+
+[bozoglan-2026-slm-database-agent] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C3,C7,C13)
+  title: What Stops a Small Language Model From Driving a Database Agent
+  key_idea: Small-model agent failures are often interface failures, not capability gaps.
+
+[burleigh-2026-slm-know-when-wrong] (2026, NCME 2026, rel=3, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Do Small Language Models Know When They're Wrong? Confidence-Based Cascade Scoring for Educational Assessment
+  key_idea: Discrimination of verbalised confidence determines cascade value.
+  cost: Best cascade approached large-LM accuracy (kappa 0.802 vs 0.819) at 76% lower cost and 61% lower latency
+
+[chae-2026-optimal-sequential-annotations-ope] (2026, arXiv, rel=3, gran=n/a, regime=RL-offline, prod=N, clusters=C6,C7)
+  title: Optimal Sequential Annotations for Off-Policy Evaluation
+  key_idea: Variance-optimal choice of which logged steps to label expertly for doubly robust OPE.
+
+[chhikara-2026-matched-trajectory-replay] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C6,C7,C13)
+  title: Evaluating Confidence-Gated Retrieval with Matched Trajectory Replay
+  key_idea: Compare agent gating policies by replaying matched trajectories with fixed costs.
+
+[cho-2026-querybandits] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C5,C7)
+  title: No One Size Fits All: QueryBandits for Hallucination Mitigation
+  key_idea: Contextual bandit choosing a prompt transformation per query online.
+  cost: Top QueryBandit (Thompson Sampling) achieves 87.5% win rate over No-Rewrite across 16 QA scenarios
+
+[fan-2026-agent-rrm] (2026, arXiv, rel=3, gran=step, regime=RL-online, prod=N, clusters=C7)
+  title: Exploring Reasoning Reward Model for Agents
+  key_idea: Structured reward model feedback for agent RL.
+
+[fan-2026-agentprocessbench] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C7,C13)
+  title: AgentProcessBench: Diagnosing Step-Level Process Quality in Tool-Using Agents
+  key_idea: Human-labeled step-quality benchmark for tool agents.
+
+[felicia-2026-stepshield] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: StepShield: When, Not Whether to Intervene on Rogue Agents
+  key_idea: Timeliness metrics and a cascaded monitor for agents.
+  cost: Cascaded HybridGuard reduces monitoring costs by 75%
+
+[furman-2026-replit-closing-the-loop-evals] (2026, Replit blog, rel=3, gran=n/a, regime=hybrid, prod=Y, clusters=C5,C7,C13,C14)
+  title: Closing the loop: Evaluating and improving Replit Agent at scale
+  key_idea: Pair offline spec-grounded agent evals with live A/B tests and trace clustering to validate changes such as model swaps.
+
+[garg-2026-unsolvability-ceiling] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C7,C13)
+  title: Unsolvability Ceiling in Multi-LLM Routing: An Empirical Study of Evaluation Artifacts
+  key_idea: Evaluation artifacts corrupt router training signals.
+
+[hao-2026-racer] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7,C15)
+  title: RACER: Risk-Aware Calibrated Efficient Routing for Large Language Models
+  key_idea: Conformal set-valued routing with risk guarantees.
+
+[huang-2026-prefixguard] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C6,C7)
+  title: PrefixGuard: Online Failure Warning and Trace-Grounded Diagnosis for LLM Agents
+  key_idea: Online failure prediction from agent trace prefixes with symbolic diagnosis.
+
+[koh-2026-graft] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C4,C7)
+  title: Global Optimization and Inference-Time Region Grafting for Agentic Workflows
+  key_idea: Inference-time local region replacement in a globally optimized workflow.
+
+[laddha-2026-slmjury] (2026, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C7,C13)
+  title: SLMJury: Can Small Language Models Judge as Well as Large Ones?
+  key_idea: When small judges suffice.
+
+[li-2026-coca-confidence-before-answering] (2026, arXiv, rel=3, gran=query, regime=RL-online, prod=N, clusters=C6,C7)
+  title: Confidence Before Answering: A Paradigm Shift for Efficient LLM Uncertainty Estimation
+  key_idea: Confidence-first outputs trained with RL.
+
+[li-2026-toolprmbench] (2026, Findings of ACL 2026, rel=3, gran=step, regime=n/a, prod=N, clusters=C7,C13)
+  title: ToolPRMBench: Evaluating and Advancing Process Reward Models for Tool-using Agents
+  key_idea: PRM benchmark for tool-using agents.
+
+[lin-2026-bagen-budget-aware-agents] (2026, arXiv, rel=3, gran=step, regime=hybrid, prod=N, clusters=C7,C9,C12)
+  title: BAGEN: Are LLM Agents Budget-Aware?
+  key_idea: Agents should predict remaining budget and stop doomed runs early.
+  cost: Early stop saves 28-64% tokens on failed trajectories
+
+[liu-2026-masprism] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C7)
+  title: MASPrism: Lightweight Failure Attribution for Multi-Agent Systems Using Prefill-Stage Signals
+  key_idea: Cheap SLM prefill signals for step-level failure attribution.
+
+[mehta-2026-behavioral-consistency] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C2,C7)
+  title: When Agents Disagree With Themselves: Behavioral Consistency as an Uncertainty Signal for LLM Agents
+  key_idea: Run-to-run behavioral consistency as an agent success predictor.
+
+[morandi-2026-selection-bias-sparse-feedback] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C7,C14)
+  title: Correcting Selection Bias in Sparse User Feedback for Large Language Model Quality Estimation: A Multi-Agent Hierarchical Bayesian Approach
+  key_idea: Correct thumbs-feedback selection bias with topic-stratified hierarchical Bayes before using it as a quality metric.
+
+[nilayam-2026-heterogeneous-debate-adversarial] (2026, arXiv, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C3,C7)
+  title: Heterogeneous LLM Debate Under Adversarial Peers: Honest Gains, Replacement Costs, and Resilience
+  key_idea: Heterogeneous debate peers help when honest but amplify harm when adversarial.
+
+[okamoto-2026-topaz-explainable-routing] (2026, CHI 2026 Workshop (HCXAI), rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C7)
+  title: Explainable Model Routing for Agentic Workflows
+  key_idea: Interpretable, auditable subtask-level model routing.
+
+[pona-2026-calibrate-then-delegate] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Calibrate-Then-Delegate: Safety Monitoring with Risk and Budget Guarantees via Model Cascades
+  key_idea: Delegate on predicted value of the expert call.
+
+[qiao-2026-verifymas] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C7)
+  title: VerifyMAS: Hypothesis Verification for Failure Attribution in LLM Multi-Agent Systems
+  key_idea: Verify error hypotheses, then localize agent.
+
+[raj-2026-consistency-testable] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: Consistency as a Testable Property: Statistical Methods to Evaluate AI Agent Reliability
+  key_idea: Statistical tests for agent consistency.
+
+[rosset-2026-universal-verifier-cua] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C7)
+  title: The Art of Building Verifiers for Computer Use Agents
+  key_idea: Design principles for CUA verifiers.
+
+[saha-2026-llm-judge-on-budget] (2026, arXiv, rel=3, gran=none, regime=bandit-online, prod=N, clusters=C7)
+  title: LLM-as-Judge on a Budget
+  key_idea: Budget-optimal judge query allocation.
+
+[shi-2026-dynsteer] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C7,C9)
+  title: DynSTEER: Dynamic Stage-wise Trajectory Evaluation and Execution-time Review for Agents
+  key_idea: Stage-level trajectory evaluation at execution time.
+  cost: Improves evaluation discriminability by over 85% vs whole-trajectory evaluation and saves 17.74% of execution steps
+
+[singh-2026-krites] (2026, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C7,C10)
+  title: Asynchronous Verified Semantic Caching for Tiered LLM Architectures
+  key_idea: Off-critical-path LLM-judge verification grows the reach of a curated cache safely.
+  cost: up to 3.9x more requests served with curated static answers for conversational and search-style traffic vs tuned baselines, with unchanged critical-path latency
+
+[wang-2026-budgeted-act-or-defer] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C7)
+  title: Budgeted Act-or-Defer Multi-Agent LLM Deliberation with Local Reliability Bounds
+  key_idea: Per-round act-or-defer with a declared risk budget for multi-agent deliberation.
+  cost: Uses 9-12% of the pre-declared wrong-action budget, reaching up to 84% automation and 96% acted-on accuracy on six benchmarks
+
+[wang-2026-causalrm] (2026, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C7)
+  title: CausalRM: Causal-Theoretic Reward Modeling for RLHF from Observational User Feedbacks
+  key_idea: Debias reward models trained on observational user feedback with causal corrections.
+
+[wang-2026-confidently-wrong-finqa] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C7)
+  title: Confidently Wrong: Detecting Hallucinations in Financial Question Answering from LLM Internal States
+  key_idea: Probes catch confident errors that consistency misses.
+
+[wang-2026-implicitrm] (2026, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C7)
+  title: ImplicitRM: Unbiased Reward Modeling from Implicit Preference Data for LLM alignment
+  key_idea: Unbiased reward learning from positive-only, propensity-biased implicit feedback.
+
+[wu-2026-routerxbench] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7,C13)
+  title: Towards Fair and Comprehensive Evaluation of Routers in Collaborative LLM Systems
+  key_idea: Hidden-state probe routers and a fairer benchmark.
+  cost: 16.68% and 18.86% relative improvements over best baselines in router ability and high-accuracy scenarios (abstract)
+
+[wu-2026-tiny-critic-rag] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C3,C7)
+  title: Tiny-Critic RAG: Empowering Agentic Fallback with Parameter-Efficient Small Language Models
+  key_idea: Small LoRA critic as the routing gate in agentic RAG.
+  cost: Routing accuracy comparable to GPT-4o-mini with an order of magnitude lower latency (noise-injected datasets)
+
+[xuan-2026-confidence-dichotomy-tool-agents] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C7)
+  title: The Confidence Dichotomy: Analyzing and Mitigating Miscalibration in Tool-Use Agents
+  key_idea: Tool-use changes agent calibration.
+
+[zeng-2026-relope] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7)
+  title: ReLope: KL-Regularized LoRA Probes for Multimodal LLM Routing
+  key_idea: Improve hidden states to make probe routing work for MLLMs.
+
+[zhang-2026-calibration-not-control] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C6,C7)
+  title: Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention
+  key_idea: Estimate intervention advantage, not failure risk, to decide when to intervene in agents.
+
+[zhang-2026-credit-without-ground-truth] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C6,C7)
+  title: Credit Without Ground Truth: Auditing Step-Level Credit Assignment in LLM Agents Against Executed Replay
+  key_idea: Executed replay as ground truth reveals step-level credit signals are unreliable.
+
+[zhang-2026-duotrace-cascade-attribution] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C7)
+  title: Detect Before You Attribute: Cascade Failure Attribution for Multi-Agent Systems
+  key_idea: Detect failures first, then attribute.
+
+[zhong-2026-zclawbench-trajectory-reliability] (2026, Journal of Technology Informatics and Engineering, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C6,C7)
+  title: Trajectory Reliability Prediction for Generalist AI Agents: Tool-Use Failure Analysis and Success Forecasting on ZClawBench
+  key_idea: Predict agent task success from operational trace features before manual evaluation.
+
+[alexandru-2025-atla-selene-mini] (2025, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C7)
+  title: Atla Selene Mini: A General Purpose Evaluation Model
+  key_idea: Strong 8B general judge.
+
+[barrak-2025-cargo] (2025, CASCON 2025, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7)
+  title: CARGO: A Framework for Confidence-Aware Routing of Large Language Models
+  key_idea: Judge-supervised two-stage confidence-aware router.
+
+[bouchard-2025-uqlm-suite] (2025, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C7)
+  title: Uncertainty Quantification for Language Models: A Suite of Black-Box, White-Box, LLM Judge, and Ensemble Scorers
+  key_idea: Ensemble of UQ scorers.
+
+[deshpande-2025-trail] (2025, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: TRAIL: Trace Reasoning and Agentic Issue Localization
+  key_idea: Benchmark for locating errors in agent traces.
+
+[farinhas-2025-qe-deferral-translation] (2025, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Translate Smart, not Hard: Cascaded Translation Systems with Quality-Aware Deferral
+  key_idea: Off-the-shelf QE metrics as deferral rules.
+  cost: Matches larger-model performance while invoking it for 30%-50% of examples
+
+[ge-2025-famas-spectrum-attribution] (2025, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C7)
+  title: Who is Introducing the Failure? Automatically Attributing Failures of Multi-Agent Systems via Spectrum Analysis
+  key_idea: Software-engineering spectrum fault localization applied to multi-agent traces.
+
+[geuter-2025-robon] (2025, arXiv, rel=3, gran=token, regime=training-free, prod=N, clusters=C5,C7,C9)
+  title: RoBoN: Routed Online Best-of-n for Test-Time Scaling with Multiple LLMs
+  key_idea: Online routing within best-of-n across multiple LLMs.
+  cost: up to 3.4% absolute accuracy gain over single-model best-of-n at compute parity
+
+[guerdan-2025-doubly-robust-llm-judge] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C7)
+  title: Doubly-Robust LLM-as-a-Judge: Externally Valid Estimation with Imperfect Personas
+  key_idea: Doubly robust estimation of deployment quality using imperfect LLM-judge personas.
+
+[jackson-2025-cursor-tab-online-rl] (2025, Cursor blog, rel=3, gran=query, regime=RL-online, prod=Y, clusters=C5,C7,C14)
+  title: Improving Cursor Tab with online RL
+  key_idea: Frequent on-policy deployment turns live user feedback into an RL signal that also learns when not to act.
+  cost: New Tab model makes 21% fewer suggestions with a 28% higher accept rate (production, >400M requests/day; vendor-reported)
+
+[jiang-2025-flashthink] (2025, arXiv, rel=3, gran=token, regime=supervised-offline, prod=N, clusters=C7,C9)
+  title: FlashThink: An Early Exit Method For Efficient Reasoning
+  key_idea: External verifier decides when to stop thinking.
+  cost: Reasoning length reduced by 77.04% (DeepSeek-R1) and 77.47% (QwQ-32B) without reducing accuracy
+
+[kadu-2025-reflexgrad] (2025, ICML 2026 Workshop (FoGen), rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C7)
+  title: ReflexGrad: Within-Episode Failure Recovery in LLM Agents via Progress-Gated Dual-Process Routing
+  key_idea: Progress-gated switching between fast and slow processes inside a trajectory.
+
+[lee-2025-prints] (2025, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C7,C10)
+  title: PRInTS: Reward Modeling for Long-Horizon Information Seeking
+  key_idea: PRM with built-in context compression for long trajectories.
+
+[lin-2025-cuarewardbench] (2025, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C7,C13)
+  title: CUARewardBench: A Benchmark for Evaluating Reward Models on Computer-using Agent
+  key_idea: Benchmark for ORMs/PRMs on computer-use agents.
+
+[liu-2025-user-feedback-noisy-signal] (2025, Conference on Empirical Methods in Natural Language Processing, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C7)
+  title: User Feedback in Human-LLM Dialogues: A Lens to Understand Users But Noisy as a Learning Signal
+  key_idea: Implicit feedback in chat logs explains users but is a noisy training signal.
+
+[lu-2025-agentrewardbench] (2025, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C7,C13)
+  title: AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories
+  key_idea: Meta-evaluation of LLM judges for web-agent trajectories.
+
+[mcnamara-2025-shopify-sidekick] (2025, Shopify Engineering blog, rel=3, gran=none, regime=n/a, prod=Y, clusters=C7,C13,C14)
+  title: Building production-ready agentic systems: Lessons from Shopify Sidekick
+  key_idea: Production-grounded judges and simulators for agent evaluation.
+
+[nath-2025-toolcomp] (2025, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C7,C13)
+  title: ToolComp: A Multi-Tool Reasoning & Process Supervision Benchmark
+  key_idea: Process labels for tool-use trajectories.
+
+[rabanser-2025-gatekeeper] (2025, ICML 2025 workshop (TTODLer-FM), rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Gatekeeper: Improving Model Cascades Through Confidence Tuning
+  key_idea: Confidence-tuning loss for the small model so deferral decisions are sharper.
+
+[vllm-2025-halugate] (2025, vLLM blog, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C7,C11)
+  title: Token-Level Truth: Real-Time Hallucination Detection for Production LLMs (HaluGate)
+  key_idea: Cheap gated, non-LLM verifiers can provide per-response quality signals at the gateway without an LLM judge.
+  cost: Pre-classification skips detection for non-factual queries, a 72.2% efficiency gain where ~35% of queries are non-factual; detection ~125ms for typical RAG context, ~365ms at 16K tokens (project-reported)
+
+[warren-2025-bidirectional-cascading] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Bi-directional Model Cascading with Proxy Confidence
+  key_idea: Consider large-model confidence via a proxy before deferring.
+
+[xia-2025-agentrm] (2025, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C7,C8)
+  title: AgentRM: Enhancing Agent Generalization with Reward Modeling
+  key_idea: A generalizable agent reward model for test-time search.
+
+[xia-2025-hivemind] (2025, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C4,C7)
+  title: HiveMind: Contribution-Guided Online Prompt Optimization of LLM Multi-Agent Systems
+  key_idea: Shapley-based per-agent contribution scoring for MAS optimization.
+
+[xiang-2025-spo] (2025, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C7)
+  title: Self-Supervised Prompt Optimization
+  key_idea: Reference-free prompt optimization via pairwise LLM judging.
+  cost: Comparable or superior results to SOTA prompt optimizers at 1.1%-5.6% of their cost, using about three samples
+
+[zheng-2025-disrouter] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7)
+  title: DiSRouter: Distributed Self-Routing for LLM Selections
+  key_idea: Distributed self-routing via self-awareness training.
+
+[zhu-2025-agentdebug] (2025, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C7)
+  title: Where LLM Agents Fail and How They can Learn From Failures
+  key_idea: Root-cause error localization and targeted recovery for agents.
+
+[brown-2024-large-language-monkeys] (2024, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C7,C9,C13,C15)
+  title: Large Language Monkeys: Scaling Inference Compute with Repeated Sampling
+  key_idea: Inference-time scaling laws for repeated sampling.
+  cost: SWE-bench Lite: DeepSeek-V2-Coder solves 56% with 250 samples vs 15.9% with one; five cheap samples solve more issues at lower cost than a premium frontier single attempt
+
+[chatzi-2024-prediction-powered-ranking] (2024, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C7,C13)
+  title: Prediction-Powered Ranking of Large Language Models
+  key_idea: Statistically valid ranking from few human plus many judge labels.
+
+[deshpande-2024-glider] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C7)
+  title: GLIDER: Grading LLM Interactions and Decisions using Explainable Ranking
+  key_idea: Tiny explainable judge.
+  cost: 3B judge matches LLMs 17x its size
+
+[farquhar-2024-semantic-entropy-nature] (2024, Nature, rel=3, gran=none, regime=training-free, prod=N, clusters=C7)
+  title: Detecting hallucinations in large language models using semantic entropy
+  key_idea: Entropy over semantic clusters of samples detects confabulation.
+
+[guha-2024-smoothie] (2024, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C1,C7)
+  title: Smoothie: Label Free Language Model Routing
+  key_idea: Unsupervised routing from output agreement.
+
+[kapoor-2024-taught-to-know-uncertainty] (2024, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C7)
+  title: Large Language Models Must Be Taught to Know What They Don't Know
+  key_idea: A small labeled set suffices to train reliable uncertainty estimators.
+
+[kim-2024-prometheus-2] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C7)
+  title: Prometheus 2: An Open Source Language Model Specialized in Evaluating Other Language Models
+  key_idea: Open small judge model mirrors GPT-4 grading.
+
+[liu-2024-meta-ranking] (2024, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Enabling Weak LLMs to Judge Response Reliability via Meta Ranking
+  key_idea: Weak-model reliability judging by comparison to references.
+  cost: Model cascade of open and closed LLMs reaches performance comparable to GPT-4-turbo at lower cost (no single number in abstract)
+
+[pan-2024-autonomous-eval-digital-agents] (2024, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C7,C8)
+  title: Autonomous Evaluation and Refinement of Digital Agents
+  key_idea: Cheap automatic evaluators both judge and improve digital agents.
+
+[pan-2024-swe-gym] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C7,C8)
+  title: Training Software Engineering Agents and Verifiers with SWE-Gym
+  key_idea: Train agents and verifiers from executable environments.
+  cost: Up to 19% absolute gains in resolve rate; 32.0% on SWE-Bench Verified with verifier
+
+[setlur-2024-rewarding-progress-pav] (2024, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: Rewarding Progress: Scaling Automated Process Verifiers for LLM Reasoning
+  key_idea: Process reward = change in success probability under a prover.
+
+[wang-2024-difficulty-adaptive-sc] (2024, NAACL 2025 Findings, rel=3, gran=query, regime=training-free, prod=N, clusters=C7,C9)
+  title: Make Every Penny Count: Difficulty-Adaptive Self-Consistency for Cost-Efficient Reasoning
+  key_idea: Difficulty-aware sample allocation.
+  cost: Consistently surpasses ASC and ESC in cost by a significant margin at comparable performance (six benchmarks)
+
+[wu-2024-ocean] (2024, arXiv, rel=3, gran=n/a, regime=RL-offline, prod=N, clusters=C6,C7)
+  title: OCEAN: Offline Chain-of-thought Evaluation and Alignment in Large Language Models
+  key_idea: IPS-based offline evaluation of LLM reasoning paths.
+
+[xiong-2024-ipr-step-level-refinement] (2024, arXiv, rel=3, gran=step, regime=hybrid, prod=N, clusters=C7,C8)
+  title: Watch Every Step! LLM Agent Learning via Iterative Step-Level Process Refinement
+  key_idea: Step-level rewards to refine agent training.
+
+[zhang-2024-genrm-generative-verifiers] (2024, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C7)
+  title: Generative Verifiers: Reward Modeling as Next-Token Prediction
+  key_idea: Reward modeling as next-token prediction.
+
+[zhao-2024-saup] (2024, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C7)
+  title: SAUP: Situation Awareness Uncertainty Propagation on LLM Agent
+  key_idea: Aggregate per-step uncertainty over agent trajectories.
+
+[aggarwal-2023-adaptive-consistency] (2023, EMNLP 2023, rel=3, gran=query, regime=training-free, prod=N, clusters=C7,C9)
+  title: Let's Sample Step by Step: Adaptive-Consistency for Efficient Reasoning and Coding with LLMs
+  key_idea: Adaptive number of samples per question.
+  cost: Reduces sample budget by up to 7.9x with average accuracy drop below 0.1% (17 datasets, three LLMs)
+
+[kuhn-2023-semantic-uncertainty] (2023, ICLR 2023, rel=3, gran=n/a, regime=training-free, prod=N, clusters=C2,C7)
+  title: Semantic Uncertainty: Linguistic Invariances for Uncertainty Estimation in Natural Language Generation
+  key_idea: Semantic entropy over meaning clusters.
+
+[lightman-2023-lets-verify-step-by-step] (2023, ICLR 2024, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: Let's Verify Step by Step
+  key_idea: Step-level (process) reward models beat outcome reward models for verification.
+
+[lin-2023-generating-with-confidence] (2023, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Generating with Confidence: Uncertainty Quantification for Black-box Large Language Models
+  key_idea: Black-box UQ for selective generation.
+
+[manakul-2023-selfcheckgpt] (2023, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C7)
+  title: SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models
+  key_idea: Inconsistency across samples flags hallucination.
+
+[ren-2023-self-eval-selective-generation] (2023, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Self-Evaluation Improves Selective Generation in Large Language Models
+  key_idea: Self-evaluation scores beat sequence likelihood for abstention.
+
+[tian-2023-just-ask-for-calibration] (2023, EMNLP 2023, rel=3, gran=n/a, regime=training-free, prod=N, clusters=C2,C7)
+  title: Just Ask for Calibration: Strategies for Eliciting Calibrated Confidence Scores from Language Models Fine-Tuned with Human Feedback
+  key_idea: Verbalised confidence can be the better escalation signal for RLHF models.
+
+[wang-2023-math-shepherd] (2023, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: Math-Shepherd: Verify and Reinforce LLMs Step-by-step without Human Annotations
+  key_idea: Automatic step labels from completion rollouts train a PRM.
+
+[xiong-2023-llms-express-uncertainty] (2023, ICLR 2024, rel=3, gran=n/a, regime=training-free, prod=N, clusters=C2,C7)
+  title: Can LLMs Express Their Uncertainty? An Empirical Evaluation of Confidence Elicitation in LLMs
+  key_idea: Black-box confidence elicitation benchmark.
+
+[zheng-2023-mt-bench] (2023, NeurIPS 2023 (Datasets and Benchmarks), rel=3, gran=n/a, regime=n/a, prod=N, clusters=C5,C7,C13)
+  title: Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena
+  key_idea: LLM-as-a-judge validated against crowdsourced preferences.
+
+[zhu-2023-judgelm] (2023, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C7)
+  title: JudgeLM: Fine-tuned Large Language Models are Scalable Judges
+  key_idea: Distill GPT-4 judging into smaller judge models.
+
+[kadavath-2022-lms-know-what-they-know] (2022, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Language Models (Mostly) Know What They Know
+  key_idea: Self-evaluation and "I know" probability as confidence signals.
+
+[wang-2022-self-consistency] (2022, ICLR 2023, rel=3, gran=query, regime=training-free, prod=N, clusters=C7,C9)
+  title: Self-Consistency Improves Chain of Thought Reasoning in Language Models
+  key_idea: Majority vote over sampled reasoning paths; agreement doubles as a confidence signal.
+  cost: Accuracy gains reported: GSM8K +17.9%, SVAMP +11.0%, AQuA +12.2% over greedy CoT (cost: multiple samples)
+
+[jiang-2021-enigma-dialog-ope] (2021, EMNLP 2021, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C7)
+  title: Towards Automatic Evaluation of Dialog Systems: A Model-Free Off-Policy Evaluation Approach
+  key_idea: OPE to evaluate dialog policies without live humans.
+
+[amin-2026-bayesian-orchestration-multi-llm] (2026, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C3,C7)
+  title: Bayesian Orchestration of Multi-LLM Agents for Cost-Aware Sequential Decision-Making
+  key_idea: Bayesian aggregation of multiple LLMs for cost-aware sequential decisions.
+  cost: Total cost reduced by $294,000 (34%) vs best single-LLM baseline on 1000-resume screening simulation
+
+[chen-2026-governance-decay] (2026, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C7,C10)
+  title: Governance Decay: How Context Compaction Silently Erases Safety Constraints in Long-Horizon LLM Agents
+  key_idea: Compaction can erase policy constraints; pin them.
+
+[qiu-2026-dataprm] (2026, arXiv, rel=2, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: Rewarding the Scientific Process: Process-Level Reward Modeling for Agentic Data Analysis
+  key_idea: Active-verifier PRM for data-analysis agents.
+
+[wang-2026-plan-rewardbench] (2026, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: Aligning Agents via Planning: A Benchmark for Trajectory-Level Reward Modeling
+  key_idea: Benchmark for trajectory-level agent RMs.
+
+[wang-2026-reflect-judges-research-agents] (2026, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: Time to REFLECT: Can We Trust LLM Judges for Evidence-based Research Agents?
+  key_idea: Judges for deep-research agents are unreliable.
+
+[zhao-2026-catchbench] (2026, arXiv, rel=2, gran=step, regime=n/a, prod=N, clusters=C7,C13)
+  title: CatchBench: When Can an Agent Failure Be Caught?
+  key_idea: When are agent failures detectable at all.
+
+[estornell-2025-acc-collab] (2025, arXiv, rel=2, gran=subagent, regime=RL-offline, prod=N, clusters=C7,C8)
+  title: ACC-Collab: An Actor-Critic Approach to Multi-Agent LLM Collaboration
+  key_idea: Learned critic agent for multi-agent collaboration.
+
+[joey-2025-temporal-predictors-outcome] (2025, arXiv, rel=2, gran=token, regime=supervised-offline, prod=N, clusters=C7,C9)
+  title: Temporal Predictors of Outcome in Reasoning Language Models
+  key_idea: Outcome predictable early in CoT.
+
+[khalifa-2025-thinkprm] (2025, arXiv, rel=2, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: Process Reward Models That Think
+  key_idea: Data-efficient generative PRMs.
+
+[kirchhof-2025-uq-agents-position] (2025, arXiv, rel=2, gran=step, regime=n/a, prod=N, clusters=C7,C15)
+  title: Position: Uncertainty Quantification Needs Reassessment for Large-language Model Agents
+  key_idea: UQ must be rethought for agents.
+
+[liu-2025-deepseek-grm] (2025, arXiv, rel=2, gran=none, regime=RL-online, prod=N, clusters=C7)
+  title: Inference-Time Scaling for Generalist Reward Modeling
+  key_idea: Reward models that improve with more inference compute.
+
+[peng-2025-agentic-reward-modeling] (2025, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C7)
+  title: Agentic Reward Modeling: Integrating Human Preferences with Verifiable Correctness Signals for Reliable Reward Systems
+  key_idea: Combine RM with verifiable correctness checkers.
+
+[ren-2025-predicting-zero-shot-success] (2025, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6,C7)
+  title: Predicting Language Models' Success at Zero-Shot Probabilistic Prediction
+  key_idea: Label-free task-level prediction of LLM suitability.
+
+[song-2025-prmbench] (2025, arXiv, rel=2, gran=step, regime=n/a, prod=N, clusters=C7,C13)
+  title: PRMBench: A Fine-grained and Challenging Benchmark for Process-Level Reward Models
+  key_idea: Benchmark for PRM error detection.
+
+[yoon-2025-reasoning-models-confidence] (2025, NeurIPS 2025, rel=2, gran=n/a, regime=training-free, prod=N, clusters=C2,C7,C9)
+  title: Reasoning Models Better Express Their Confidence
+  key_idea: Slow thinking improves confidence calibration.
+
+[zhang-2025-lessons-developing-prms] (2025, arXiv, rel=2, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: The Lessons of Developing Process Reward Models in Mathematical Reasoning
+  key_idea: MC step labels are noisy; combine with judge consensus.
+
+[zheng-2025-survey-process-reward-models] (2025, arXiv, rel=2, gran=step, regime=n/a, prod=N, clusters=C7,C15)
+  title: A Survey of Process Reward Models: From Outcome Signals to Process Supervisions for Large Language Models
+  key_idea: PRM survey.
+
+[chen-2024-inside-eigenscore] (2024, arXiv, rel=2, gran=query, regime=training-free, prod=N, clusters=C7)
+  title: INSIDE: LLMs' Internal States Retain the Power of Hallucination Detection
+  key_idea: Internal-state consistency for hallucination detection.
+
+[gu-2024-survey-llm-as-a-judge] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7,C15)
+  title: A Survey on LLM-as-a-Judge
+  key_idea: Survey on building reliable LLM judges.
+
+[lambert-2024-rewardbench] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: RewardBench: Evaluating Reward Models for Language Modeling
+  key_idea: Standard reward model benchmark.
+
+[luo-2024-omegaprm] (2024, arXiv, rel=2, gran=step, regime=supervised-offline, prod=N, clusters=C7)
+  title: Improve Mathematical Reasoning in Language Models by Automated Process Supervision
+  key_idea: Binary-search MCTS for cheap process labels.
+
+[nguyen-2024-laser] (2024, arXiv, rel=2, gran=none, regime=bandit-online, prod=N, clusters=C5,C7)
+  title: LASeR: Learning to Adaptively Select Reward Models with Multi-Armed Bandits
+  key_idea: Bandit selection among reward models.
+  cost: about 2x speedup vs RM ensemble
+
+[nikitin-2024-kernel-language-entropy] (2024, arXiv, rel=2, gran=query, regime=training-free, prod=N, clusters=C7)
+  title: Kernel Language Entropy: Fine-grained Uncertainty Quantification for LLMs from Semantic Similarities
+  key_idea: Soft semantic clustering for UQ.
+
+[orgad-2024-llms-know-more-than-show] (2024, arXiv, rel=2, gran=query, regime=supervised-offline, prod=N, clusters=C7)
+  title: LLMs Know More Than They Show: On the Intrinsic Representation of LLM Hallucinations
+  key_idea: Probe the exact-answer tokens; beware poor cross-task generalization.
+
+[plaut-2024-msp-predicts-correctness] (2024, arXiv, rel=2, gran=query, regime=n/a, prod=N, clusters=C6,C7)
+  title: Probabilities of Chat LLMs Are Miscalibrated but Still Predict Correctness on Multiple-Choice Q&A
+  key_idea: Softmax confidence predicts correctness despite miscalibration.
+
+[qiu-2024-semantic-density] (2024, arXiv, rel=2, gran=query, regime=training-free, prod=N, clusters=C7)
+  title: Semantic Density: Uncertainty Quantification for Large Language Models through Confidence Measurement in Semantic Space
+  key_idea: Semantic density UQ.
+
+[ravi-2024-lynx] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C7)
+  title: Lynx: An Open Source Hallucination Evaluation Model
+  key_idea: Specialized RAG hallucination judge.
+
+[thakur-2024-judging-the-judges] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7)
+  title: Judging the Judges: Evaluating Alignment and Vulnerabilities in LLMs-as-Judges
+  key_idea: Meta-evaluation of judge models.
+
+[tomani-2024-uncertainty-abstention] (2024, arXiv, rel=2, gran=query, regime=training-free, prod=N, clusters=C2,C7)
+  title: Uncertainty-Based Abstention in LLMs Improves Safety and Reduces Hallucinations
+  key_idea: Uncertainty-based abstention for reliability.
+
+[wen-2024-abstention-survey] (2024, TACL 2024, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C2,C7,C15)
+  title: Know Your Limits: A Survey of Abstention in Large Language Models
+  key_idea: Framework and survey of LLM abstention.
+
+[ye-2024-calm-judge-biases] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7)
+  title: Justice or Prejudice? Quantifying Biases in LLM-as-a-Judge
+  key_idea: Catalog of judge biases.
+
+[zheng-2024-processbench] (2024, arXiv, rel=2, gran=step, regime=n/a, prod=N, clusters=C7,C13)
+  title: ProcessBench: Identifying Process Errors in Mathematical Reasoning
+  key_idea: Benchmark for step-error detection.
+
+[azaria-2023-internal-state-lying] (2023, arXiv, rel=2, gran=query, regime=supervised-offline, prod=N, clusters=C7)
+  title: The Internal State of an LLM Knows When its Lying
+  key_idea: Hidden-state probes reveal statement veracity.
+
+[chen-2023-universal-self-consistency] (2023, arXiv, rel=2, gran=query, regime=training-free, prod=N, clusters=C7)
+  title: Universal Self-Consistency for Large Language Model Generation
+  key_idea: LLM-judged consistency for open-ended outputs.
+
+[duan-2023-shifting-attention-relevance] (2023, arXiv, rel=2, gran=query, regime=training-free, prod=N, clusters=C7)
+  title: Shifting Attention to Relevance: Towards the Uncertainty Estimation of Large Language Models
+  key_idea: Relevance-weighted uncertainty.
+
+[fadeeva-2023-lm-polygraph] (2023, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: LM-Polygraph: Uncertainty Estimation for Language Models
+  key_idea: Toolkit for uncertainty estimation.
+
+[geng-2023-survey-confidence-calibration] (2023, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7,C15)
+  title: A Survey of Confidence Estimation and Calibration in Large Language Models
+  key_idea: Survey of LLM confidence estimation.
+
+[gou-2023-critic] (2023, arXiv, rel=2, gran=query, regime=training-free, prod=N, clusters=C7)
+  title: CRITIC: Large Language Models Can Self-Correct with Tool-Interactive Critiquing
+  key_idea: Tool-grounded critique beats self-critique.
+
+[huang-2023-cannot-self-correct] (2023, arXiv, rel=2, gran=query, regime=n/a, prod=N, clusters=C7)
+  title: Large Language Models Cannot Self-Correct Reasoning Yet
+  key_idea: Intrinsic self-correction is not a reliable quality signal.
+
+[kim-2023-prometheus] (2023, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C7)
+  title: Prometheus: Inducing Fine-grained Evaluation Capability in Language Models
+  key_idea: Open rubric-based judge.
+
+[li-2023-auto-j] (2023, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C7)
+  title: Generative Judge for Evaluating Alignment
+  key_idea: Generative judge model.
+
+[liu-2023-calibrating-llm-evaluator] (2023, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C7)
+  title: Calibrating LLM-Based Evaluator
+  key_idea: Calibrate judge criteria with few labels.
+
+[liu-2023-g-eval] (2023, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C7)
+  title: G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment
+  key_idea: CoT-based LLM judge.
+
+[quach-2023-conformal-language-modeling] (2023, arXiv, rel=2, gran=query, regime=supervised-offline, prod=N, clusters=C7)
+  title: Conformal Language Modeling
+  key_idea: Conformal guarantees for generation.
+
+[wang-2023-llms-not-fair-evaluators] (2023, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C7)
+  title: Large Language Models are not Fair Evaluators
+  key_idea: Position bias in LLM judges and its mitigation.
+
+[xie-2023-self-eval-guided-decoding] (2023, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C7,C9)
+  title: Self-Evaluation Guided Beam Search for Reasoning
+  key_idea: Self-evaluation as step-level guidance.
+
+[yin-2023-selfaware] (2023, arXiv, rel=2, gran=query, regime=n/a, prod=N, clusters=C7)
+  title: Do Large Language Models Know What They Don't Know?
+  key_idea: Measures LLM self-knowledge.
+
+[lin-2022-verbalized-probability] (2022, arXiv, rel=2, gran=query, regime=supervised-offline, prod=N, clusters=C7)
+  title: Teaching Models to Express Their Uncertainty in Words
+  key_idea: Models can be taught verbalized calibrated uncertainty.
+
+[verma-2022-calibrated-l2d-ova] (2022, ICML 2022, rel=2, gran=n/a, regime=supervised-offline, prod=N, clusters=C2,C7)
+  title: Calibrated Learning to Defer with One-vs-All Classifiers
+  key_idea: Calibrated L2D via one-vs-all classifiers.
+
+[cobbe-2021-gsm8k-verifiers] (2021, arXiv, rel=2, gran=query, regime=supervised-offline, prod=N, clusters=C7)
+  title: Training Verifiers to Solve Math Word Problems
+  key_idea: Train an outcome verifier and rerank samples.
+
+[gibbs-2021-adaptive-conformal] (2021, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C5,C7)
+  title: Adaptive Conformal Inference Under Distribution Shift
+  key_idea: Online conformal calibration under drift.
+

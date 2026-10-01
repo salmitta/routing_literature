@@ -1,0 +1,2635 @@
+[
+ {
+  "id": "bae-2026-contextual-queueing-bandits",
+  "title": "Learning to Route and Schedule LLMs from User Retrials via Contextual Queueing Bandits",
+  "authors": [
+   "Seoungbin Bae",
+   "Junyoung Son",
+   "Dabeen Lee"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.02061",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5",
+   "C11"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "query embedding",
+   "user retrials (implicit feedback)",
+   "queue state"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "SPROUT",
+   "EmbedLLM",
+   "RouterBench",
+   "WildChat-1M"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Formulates joint LLM routing and request scheduling as a contextual queueing bandit in which an unsatisfied user retrying a query serves as implicit negative feedback, avoiding explicit ratings. A Thompson-sampling algorithm with decaying forced exploration achieves sublinear routing regret while keeping queues stable, and is evaluated on offline routing datasets and real WildChat conversation logs.",
+  "key_idea": "Treat user retrials as free implicit feedback to learn query-to-LLM routing online under queueing dynamics.",
+  "relevance_score": 4,
+  "relevance_rationale": "Online routing learned from implicit production-style feedback (retrials); directly fills the implicit-feedback gap for routers.",
+  "found_via": "query: abs:\"bandit\" AND abs:\"LLM\" AND abs:\"routing\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "huang-2026-uniscale",
+  "title": "UniScale: Adaptive Unified Inference Scaling via Online Joint Optimization of Model Routing and Test-Time Scaling",
+  "authors": [
+   "Kaiyu Huang",
+   "Xingyu Wang",
+   "Mingze Kong",
+   "Zhubo Shi",
+   "Yuqian Hou",
+   "Hong Xu",
+   "Zhongxiang Dai",
+   "Minchen Yu",
+   "Qingjiang Shi"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.30898",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5",
+   "C9"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "query features",
+   "cost model",
+   "reward feedback"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Unifies model routing and test-time-scaling choices into a single action space and learns the joint policy online as a contextual bandit with LinUCB plus explicit cost modeling. Reports better quality-cost trade-offs than routing-only or TTS-only baselines in dynamic inference settings.",
+  "key_idea": "Learn routing and test-time compute jointly online with a LinUCB contextual bandit.",
+  "relevance_score": 4,
+  "relevance_rationale": "Online bandit over combined model-choice and compute-budget actions; transferable to agent step configuration.",
+  "found_via": "query: abs:\"bandit\" AND abs:\"LLM\" AND abs:\"routing\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "ziller-2026-greenserv",
+  "title": "GreenServ: Energy-Efficient Context-Aware Dynamic Routing for Multi-Model LLM Inference",
+  "authors": [
+   "Thomas Ziller",
+   "Shashikant Ilager",
+   "Alessandro Tundo",
+   "Ezio Bartocci",
+   "Leonardo Mariani",
+   "Ivona Brandic"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.17551",
+  "code_url": "https://github.com/TZData1/llm-inference-router",
+  "topic_clusters": [
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "task type",
+   "semantic cluster",
+   "text complexity",
+   "observed accuracy",
+   "energy"
+  ],
+  "cost_reduction_reported": "Compared with random routing, 22% higher accuracy with 31% lower cumulative energy across five tasks and 16 open LLMs; 71.7% average accuracy on RouterBench",
+  "benchmarks": [
+   "RouterBench"
+  ],
+  "models_studied": [
+   "16 open-access LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Routes each query among 16 open LLMs with a contextual multi-armed bandit that uses lightweight query features and learns online from partial feedback on accuracy and energy. It needs no offline calibration and new models can be added without retraining.",
+  "key_idea": "Contextual bandit routing that optimizes accuracy against energy and onboards new models online.",
+  "relevance_score": 4,
+  "relevance_rationale": "Online partial-feedback routing with cold-start for new models; code released.",
+  "found_via": "query: abs:\"bandit\" AND abs:\"LLM\" AND abs:\"routing\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "dai-2026-policy-regret-embedding-routing",
+  "title": "Policy Regret for Embedding Model Routing: Contextual Bandits with Low-Rank Experts",
+  "authors": [
+   "Yan Dai",
+   "Negin Golrezaei",
+   "Patrick Jaillet"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.14929",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "query context",
+   "bandit feedback"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Formalizes routing queries across multiple embedding models as an adversarial contextual linear bandit with low-rank experts and shows that standard regret notions are misspecified or intractable for this setting. Proposes a log-quadratic policy class and a policy-gradient algorithm with policy-regret guarantees under bandit feedback.",
+  "key_idea": "Policy-regret theory for online model routing under bandit feedback with low-rank expert structure.",
+  "relevance_score": 3,
+  "relevance_rationale": "Theory for online routing under partial feedback; embedding-model setting rather than generative LLMs.",
+  "found_via": "snowball: cited-by tsiourvas-2025-causal-routing",
+  "cites_or_cited_by": [
+   "tsiourvas-2025-causal-routing"
+  ]
+ },
+ {
+  "id": "nguyen-2026-cupid-model-zoo",
+  "title": "CUPID in the Model Zoo: Online Matchmaking for Selecting Your Dream LLM",
+  "authors": [
+   "S. Nguyen",
+   "Xin-Yu Liu",
+   "Ransalu Senanayake"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.00846",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "pairwise user preference",
+   "cost budget"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Treats choosing an LLM for a user as interactive active learning: a dueling-bandit algorithm shows pairs of model responses, collects the user's preference, and updates a belief over latent preferences. A belief-aware UCB rule trades off exploration against user-specified cost and time budgets, validated with simulations and human studies.",
+  "key_idea": "Dueling-bandit matchmaking that learns which LLM a user prefers from pairwise feedback under a budget.",
+  "relevance_score": 3,
+  "relevance_rationale": "Arena-style pairwise feedback used online for model selection; per-user rather than per-query.",
+  "found_via": "snowball: cited-by tsiourvas-2025-causal-routing",
+  "cites_or_cited_by": [
+   "tsiourvas-2025-causal-routing"
+  ]
+ },
+ {
+  "id": "lee-2025-online-conformal-abstention",
+  "title": "Online Conformal Abstention for Factuality Control Under Adversarial Bandit Feedback",
+  "authors": [
+   "Minjae Lee",
+   "Yoonjae Jung",
+   "Sangdon Park"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2506.14067",
+  "code_url": null,
+  "topic_clusters": [
+   "C2",
+   "C5",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "thumbs up/down partial feedback",
+   "confidence score"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Proposes ExAUL, an online conformal abstention method that controls false discovery rate when the deployed system only receives partial (thumbs-style) feedback on answered queries, possibly from a non-stationary or adversarial stream. A conversion lemma turns bandit regret into an FDR bound, and a feedback-unlocking trick extracts extra signal from the abstention structure.",
+  "key_idea": "Online risk-controlled answer/abstain gating learned from partial user feedback with FDR guarantees.",
+  "relevance_score": 4,
+  "relevance_rationale": "Fills the online conformal / risk-controlled deferral gap; the abstain decision maps directly onto an escalate decision.",
+  "found_via": "query: abs:\"thumbs\" AND abs:feedback AND abs:LLM",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "duy-2026-online-l2d-varying-experts",
+  "title": "Online Learning-to-Defer with Varying Experts",
+  "authors": [
+   "Dang Hoang Duy",
+   "Yannis Montreuil",
+   "Maxime Meyer",
+   "Axel Carlier",
+   "Lai Xing Ng",
+   "Wei Tsang Ooi"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.12340",
+  "code_url": null,
+  "topic_clusters": [
+   "C2",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "model score",
+   "queried-action bandit feedback"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Introduces an online multiclass learning-to-defer algorithm for streaming data where the pool of experts changes and feedback is observed only for the chosen action. Gives regret bounds for true deferral loss that scale with the number of models and experts.",
+  "key_idea": "Learning-to-defer under bandit feedback with a time-varying expert pool.",
+  "relevance_score": 4,
+  "relevance_rationale": "Online deferral with changing experts and partial feedback is the theoretical core of online cascades with model churn.",
+  "found_via": "query: learning to defer online bandit feedback",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "juneja-2026-cost-ordered-feasibility",
+  "title": "Cost-Ordered Feasibility for Multi-Armed Bandits with Cost Subsidy",
+  "authors": [
+   "Ishank Juneja",
+   "Carlee Joe-Wong",
+   "Osman Yagan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.07171",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C15"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "reward feedback",
+   "known arm costs"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Studies multi-armed bandits with cost subsidy, where the goal is to minimize cost while keeping reward within a tolerance of the unknown best arm. Derives instance-dependent lower bounds and the Cost-Ordered Feasibility algorithm, which pools samples across arms to test whether a cheap arm is good enough.",
+  "key_idea": "Bandit algorithm for picking the cheapest arm that is near-best in quality.",
+  "relevance_score": 3,
+  "relevance_rationale": "Exactly the objective of cheap-model-first online routing; generic bandit theory.",
+  "found_via": "snowball: cited-by tsiourvas-2025-causal-routing",
+  "cites_or_cited_by": [
+   "tsiourvas-2025-causal-routing"
+  ]
+ },
+ {
+  "id": "stogiannidis-2023-cache-me-if-you-can",
+  "title": "Cache me if you Can: an Online Cost-aware Teacher-Student framework to Reduce the Calls to Large Language Models",
+  "authors": [
+   "Ilias Marios Stogiannidis",
+   "Stavros Vassos",
+   "Prodromos Malakasiotis",
+   "Ion Androutsopoulos"
+  ],
+  "year": 2023,
+  "venue_or_source": "Conference on Empirical Methods in Natural Language Processing",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2310.13395",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C8",
+   "C10"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "student confidence",
+   "LLM teacher labels"
+  ],
+  "cost_reduction_reported": "Reports significant operating-expense savings with only slightly lower performance on intent recognition and sentiment analysis (GPT-3.5/GPT-4 teachers)",
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-3.5",
+   "GPT-4",
+   "k-NN",
+   "MLP"
+  ],
+  "production_evidence": false,
+  "summary": "Proposes an online teacher-student framework in which a cheap local model is trained on LLM responses as they arrive and gradually answers more queries itself, calling the LLM only when needed. Gives a method to tune the call criteria and measure the cost-performance trade-off on business classification tasks.",
+  "key_idea": "Distill an LLM into a cheap student online from live calls and route to the student when it is confident.",
+  "relevance_score": 4,
+  "relevance_rationale": "Online learning from live traffic to cut LLM calls; directly applicable to repetitive enterprise subtasks.",
+  "found_via": "snowball: related work of nie-2024-online-cascade-learning",
+  "cites_or_cited_by": [
+   "nie-2024-online-cascade-learning"
+  ]
+ },
+ {
+  "id": "zhang-2026-m-cmab",
+  "title": "Adapter-Augmented Bandits for Online Multi-Constrained Multi-Modal Inference Scheduling",
+  "authors": [
+   "Xianzhi Zhang",
+   "Yue Xu",
+   "Yin-Lin Zhu",
+   "Di Wu",
+   "Yi-Peng Zhou",
+   "Miao Hu",
+   "Guo-Cong Quan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.06403",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C11"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "task representation",
+   "backend cost",
+   "budget consumption"
+  ],
+  "cost_reduction_reported": "Up to 14.18% higher reward than state-of-the-art baselines across budget regimes on a composite multimodal benchmark",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Schedules multimodal LLM requests across heterogeneous backends whose costs vary over time, using an adapter-based reward predictor, a primal-dual constraint handler for multiple long-horizon budgets, and a two-phase explore-exploit scheduler. Provides regret bounds under multi-dimensional knapsack constraints.",
+  "key_idea": "Online constrained bandit routing across backends with time-varying costs and multiple budgets.",
+  "relevance_score": 4,
+  "relevance_rationale": "Online budget-paced routing with non-stationary costs.",
+  "found_via": "snowball: cited-by li-2025-llm-bandit",
+  "cites_or_cited_by": [
+   "li-2025-llm-bandit"
+  ]
+ },
+ {
+  "id": "chu-2026-lqm-contextroute",
+  "title": "Latency-Quality Routing for Functionally Equivalent Tools in LLM Agents",
+  "authors": [
+   "Kexin Chu",
+   "Dawei Xiang",
+   "Wei Zhang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.14241",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C5"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "latency",
+   "LLM-as-judge feedback",
+   "query-specific quality estimate"
+  ],
+  "cost_reduction_reported": "+2.18 pp F1 over SW-UCB on web-search load benchmark; up to +18 pp accuracy over SW-UCB on StrategyQA high-heterogeneity setting",
+  "benchmarks": [
+   "StrategyQA"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Addresses agents that can call the same tool type through several equivalent providers differing in latency, reliability and quality. A contextual-bandit router ranks providers by expected answer quality per service cycle, combining capacity-aware scores with query-specific quality estimates and LLM-judge feedback without gold labels.",
+  "key_idea": "Online contextual bandit for tool/provider choice inside agents using judge feedback and latency-as-capacity.",
+  "relevance_score": 4,
+  "relevance_rationale": "Step-level online routing inside agents under runtime load, learning without ground truth.",
+  "found_via": "snowball: cited-by taberner-miller-2026-paretobandit",
+  "cites_or_cited_by": [
+   "taberner-miller-2026-paretobandit"
+  ]
+ },
+ {
+  "id": "he-2026-market-aware-routing",
+  "title": "You Cannot Pick a Provider From the Price List: Market-Aware Routing for Open-Weight LLM Inference",
+  "authors": [
+   "Liang He",
+   "Jing-Bo Wen",
+   "Yi-Xiong Chen",
+   "Yue Yang",
+   "Qi-Zhen Lan",
+   "Kang-Ning Cui",
+   "Xi-Lu Wang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.37902",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "measured provider quality",
+   "latency",
+   "availability",
+   "price"
+  ],
+  "cost_reduction_reported": "Certification moved live traffic from a premium anchor provider to a substantially cheaper certified endpoint (matched quality)",
+  "benchmarks": [],
+  "models_studied": [
+   "open-weight LLMs across multiple providers"
+  ],
+  "production_evidence": true,
+  "summary": "Measures live inference endpoints across providers serving the same open-weight models over several waves and finds that quality, latency and availability vary widely and are not predicted by price, and that the map drifts over time. Proposes FACET, an online provider router that certifies per-provider, per-task feasibility and fails safe to an anchor provider.",
+  "key_idea": "Same-model provider routing with online feasibility certification under drifting provider quality.",
+  "relevance_score": 4,
+  "relevance_rationale": "Real endpoint measurements show drift; online safe routing design is directly usable in gateways.",
+  "found_via": "snowball: cited-by woisetschlager-2026-slarouter",
+  "cites_or_cited_by": [
+   "woisetschlager-2026-slarouter"
+  ]
+ },
+ {
+  "id": "li-2026-same-model-not-same-service",
+  "title": "When Is the Same Model Not the Same Service? A Measurement Study of Hosted Open-Weight LLM APIs",
+  "authors": [
+   "Haorui Li",
+   "Zhenghui He",
+   "Xuanzi Liu",
+   "Yang Xu",
+   "Dongsheng Liu",
+   "Jiakang Ma",
+   "Lupan Wu",
+   "Yangjie Wu",
+   "Xiongchao Tang",
+   "Tianhui Shi"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.02821",
+  "code_url": "https://github.com/haoruilee/llm_api_measurement_study",
+  "topic_clusters": [
+   "C5",
+   "C14",
+   "C13"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "request logs",
+   "latency measurements",
+   "pricing snapshots"
+  ],
+  "cost_reduction_reported": "In two counterfactuals, routing lowers Qwen3-32B cost by 37.8% and raises DeepSeek-V3.2 throughput ~90% relative to direct official access",
+  "benchmarks": [],
+  "models_studied": [
+   "Qwen3-32B",
+   "DeepSeek-V3.2"
+  ],
+  "production_evidence": true,
+  "summary": "A measurement study of hosted open-weight LLM APIs using sampled request logs, provider metadata and continuous latency measurements from a routing platform in Q4 2025. Shows that the same model behaves as different, time-varying services across providers and that routing over provider-model-task-time tuples can lower cost.",
+  "key_idea": "Hosted models are time-varying services; routing must track provider-level drift.",
+  "relevance_score": 3,
+  "relevance_rationale": "Production-log evidence on non-stationarity of the action set a router chooses from.",
+  "found_via": "query: abs:\"logged\" AND abs:\"counterfactual\" AND abs:\"LLM\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "ma-2023-prompt-getting-worse",
+  "title": "(Why) Is My Prompt Getting Worse? Rethinking Regression Testing for Evolving LLM APIs",
+  "authors": [
+   "Wanqing Ma",
+   "Chenyang Yang",
+   "Christian Kästner"
+  ],
+  "year": 2023,
+  "venue_or_source": "2024 IEEE/ACM 3rd International Conference on AI Engineering – Software Engineering for AI (CAIN)",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2311.11123",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C13"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Case study showing that silent updates and deprecations of LLM APIs cause regressions in downstream prompts (toxicity detection). Argues that regression testing for LLM APIs needs new approaches because of fuzzy correctness, prompt brittleness and non-determinism.",
+  "key_idea": "LLM API updates silently regress downstream behavior, requiring dedicated regression testing.",
+  "relevance_score": 3,
+  "relevance_rationale": "Model-swap drift is a core risk for any learned router or config; motivates continuous re-evaluation.",
+  "found_via": "snowball: related work of taberner-miller-2026-paretobandit",
+  "cites_or_cited_by": [
+   "taberner-miller-2026-paretobandit"
+  ]
+ },
+ {
+  "id": "chen-2023-chatgpt-behavior-over-time",
+  "title": "How is ChatGPT's behavior changing over time?",
+  "authors": [
+   "Lingjiao Chen",
+   "Matei A. Zaharia",
+   "James Y. Zou"
+  ],
+  "year": 2023,
+  "venue_or_source": "Special Issue 5: Grappling With the Generative AI Revolution",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2307.09009",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C13"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "math",
+   "code generation",
+   "USMLE",
+   "multi-hop QA",
+   "visual reasoning"
+  ],
+  "models_studied": [
+   "GPT-3.5",
+   "GPT-4"
+  ],
+  "production_evidence": false,
+  "summary": "Compares March and June 2023 versions of GPT-3.5 and GPT-4 on several tasks and finds large behavior changes, such as GPT-4 prime identification falling from 84% to 51% accuracy. Highlights the need for continuous monitoring of LLM services.",
+  "key_idea": "The same API model can change substantially over months.",
+  "relevance_score": 3,
+  "relevance_rationale": "Canonical evidence for non-stationarity in the arms a router selects among.",
+  "found_via": "snowball: related work of taberner-miller-2026-paretobandit",
+  "cites_or_cited_by": [
+   "taberner-miller-2026-paretobandit"
+  ]
+ },
+ {
+  "id": "levit-2026-proxydrift",
+  "title": "Privacy-Preserving Data Drift Detection and Recovery for Large-Scale LLM Applications via Proxy Representations",
+  "authors": [
+   "Michael Levit",
+   "Josh Ledgard",
+   "Haoyu Dong",
+   "Vishwas Suryanarayanan",
+   "Eyal Kolman",
+   "Sharon Tan",
+   "Qiang Gan",
+   "Vishal Chowdhary"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.08245",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C6",
+   "C14"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "LLM-derived proxy descriptors",
+   "user satisfaction linkage"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Presents ProxyDrift, which measures drift between production traffic and offline evaluation sets using non-PII proxy descriptors produced by LLM classification of interactions, and refreshes evaluation sets with synthetic queries generated to match. Deployed for an application serving hundreds of millions of users, it also links proxy distributions to user satisfaction.",
+  "key_idea": "Privacy-preserving drift monitoring and eval-set refresh from proxy representations of production traffic.",
+  "relevance_score": 4,
+  "relevance_rationale": "Production-scale method to keep offline evaluation (and thus router training data) aligned with live traffic.",
+  "found_via": "query: \"drift\" production LLM monitoring evaluation",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "han-2025-rluf",
+  "title": "Reinforcement Learning from User Feedback",
+  "authors": [
+   "Eric Han",
+   "Jun Chen",
+   "Karthik Abinav Sankararaman",
+   "Xiao-Liang Peng",
+   "Tengyu Xu",
+   "Eryk Helenowski",
+   "Kaiyan Peng",
+   "Mrinal Kumar",
+   "Si-Yuan Wang",
+   "Han Fang",
+   "Arya Talebzadeh"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2505.14946",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C6",
+   "C14"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "emoji Love reactions (implicit user feedback)"
+  ],
+  "cost_reduction_reported": "28% increase in Love Reactions in live A/B tests",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Trains a reward model P[Love] to predict whether a response will receive a lightweight positive user reaction in production and uses it alongside helpfulness and safety objectives in policy optimization. Shows P[Love] predicts future user behavior offline and raises positive feedback in live A/B tests, while noting reward-hacking risks.",
+  "key_idea": "Reward model trained on sparse binary production user reactions, validated by live A/B tests.",
+  "relevance_score": 3,
+  "relevance_rationale": "Production evidence that implicit user signals can be modeled offline and validated with A/B tests; same machinery could score routes.",
+  "found_via": "query: implicit user feedback LLM production",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "liu-2025-user-feedback-noisy-signal",
+  "title": "User Feedback in Human-LLM Dialogues: A Lens to Understand Users But Noisy as a Learning Signal",
+  "authors": [
+   "Yuhan Liu",
+   "Michael J.Q. Zhang",
+   "Eunsol Choi"
+  ],
+  "year": 2025,
+  "venue_or_source": "Conference on Empirical Methods in Natural Language Processing",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2507.23158",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "implicit user feedback in conversation logs"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "MT-Bench",
+   "WildBench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Analyzes when and why users give implicit feedback in WildChat and LMSYS logs, then tests whether that feedback improves models. Gains appear on short MT-Bench questions but not on longer WildBench tasks, showing the signal is informative but noisy.",
+  "key_idea": "Implicit feedback in chat logs explains users but is a noisy training signal.",
+  "relevance_score": 3,
+  "relevance_rationale": "Direct evidence on how reliable log-mined feedback is for learning quality predictors.",
+  "found_via": "query: implicit user feedback LLM production",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2025-drift-dissatisfaction",
+  "title": "DRIFT: Learning from Abundant User Dissatisfaction in Real-World Preference Learning",
+  "authors": [
+   "Yifan Wang",
+   "Bolian Li",
+   "Junlin Wu",
+   "Zhaoxuan Tan",
+   "Zheli Liu",
+   "Ruqi Zhang",
+   "Ananth Grama",
+   "Qingkai Zeng"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.02341",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C8"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "implicit dissatisfaction signals (refinements, corrections)"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "WildBench",
+   "AlpacaEval 2",
+   "WildFeedback",
+   "UltraFeedback"
+  ],
+  "models_studied": [
+   "7B",
+   "14B"
+  ],
+  "production_evidence": false,
+  "summary": "Observes that deployments produce abundant implicit dissatisfaction signals (users refining or correcting) but few explicit positives, and proposes DRIFT, which anchors preference training on dissatisfaction examples and samples positives from the evolving policy. Reports up to +7.61% WildBench task score and +12.29% AlpacaEval2 win rate at 14B over base models.",
+  "key_idea": "Learn from plentiful dissatisfaction signals in real logs instead of scarce positive labels.",
+  "relevance_score": 3,
+  "relevance_rationale": "Shows how regenerations and corrections in production logs become a usable learning signal.",
+  "found_via": "query: \"regenerate\" user dissatisfaction signal",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "pang-2023-implicit-feedback-deployment-dialogue",
+  "title": "Leveraging Implicit Feedback from Deployment Data in Dialogue",
+  "authors": [
+   "Richard Yuanzhe Pang",
+   "Stephen Roller",
+   "Kyunghyun Cho",
+   "He He",
+   "Jason Weston"
+  ],
+  "year": 2023,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2307.14117",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C14"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "user response length",
+   "sentiment",
+   "reactions"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "BlenderBot deployment data"
+  ],
+  "models_studied": [
+   "BlenderBot"
+  ],
+  "production_evidence": true,
+  "summary": "Uses publicly released BlenderBot deployment conversations to learn from implicit signals such as the length, sentiment and reactions of the following user turn. Human evaluation shows improvements, but some proxies such as conversation length push the model toward controversial outputs.",
+  "key_idea": "Next-user-turn signals from deployment logs act as implicit quality labels, with proxy-hacking risks.",
+  "relevance_score": 3,
+  "relevance_rationale": "Early production-data study of implicit feedback proxies and their failure modes.",
+  "found_via": "query: \"regenerate\" user dissatisfaction signal",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2026-causalrm",
+  "title": "CausalRM: Causal-Theoretic Reward Modeling for RLHF from Observational User Feedbacks",
+  "authors": [
+   "Hao Wang",
+   "Licheng Pan",
+   "Zhichao Chen",
+   "Chunyuan Zheng",
+   "Zhixuan Chu",
+   "Xiaoxi Li",
+   "Yuan Lu",
+   "Xinggao Liu",
+   "Haoxuan Li",
+   "Zhouchen Lin"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.18736",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "clicks",
+   "copies",
+   "upvotes"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Defines observational reward modeling from user feedback such as clicks, copies and upvotes and identifies two problems: label noise and self-selection of which responses receive feedback. CausalRM adds a noise-aware surrogate loss and propensity-style reweighting to learn unbiased reward models.",
+  "key_idea": "Debias reward models trained on observational user feedback with causal corrections.",
+  "relevance_score": 3,
+  "relevance_rationale": "Selection-bias correction is needed to train routing quality predictors from production thumbs data.",
+  "found_via": "query: counterfactual learning router logged bandit feedback",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wang-2026-implicitrm",
+  "title": "ImplicitRM: Unbiased Reward Modeling from Implicit Preference Data for LLM alignment",
+  "authors": [
+   "Hao Wang",
+   "Haochen Yang",
+   "Li-Cheng Pan",
+   "Lei Shen",
+   "Xiaoxi Li",
+   "Yi-Nuo Wang",
+   "Zhichao Chen",
+   "Yuan Lu",
+   "Hao-Xuan Li",
+   "Zhou-Chen Lin"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.23184",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "implicit clicks and copies"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Learns reward models from implicit feedback that has no definite negatives and whose propensity to be observed varies by response. Stratifies samples into latent groups and derives an unbiased learning objective.",
+  "key_idea": "Unbiased reward learning from positive-only, propensity-biased implicit feedback.",
+  "relevance_score": 3,
+  "relevance_rationale": "Same issue arises when using production signals to train routers.",
+  "found_via": "query: implicit user feedback LLM production",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "morandi-2026-selection-bias-sparse-feedback",
+  "title": "Correcting Selection Bias in Sparse User Feedback for Large Language Model Quality Estimation: A Multi-Agent Hierarchical Bayesian Approach",
+  "authors": [
+   "Andrea Morandi",
+   "Mahesh Viswanathan"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.12177",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7",
+   "C14"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "thumbs feedback",
+   "topic clusters"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "UltraFeedback (simulated selection bias)"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Shows that averaging thumbs feedback in production can misestimate system quality by 40-50 points because feedback arrives mainly from the tails. Proposes a hierarchical Bayesian, topic-stratified correction that estimates per-topic selection and quality, plus drift signals, and evaluates it under simulated biases on UltraFeedback.",
+  "key_idea": "Correct thumbs-feedback selection bias with topic-stratified hierarchical Bayes before using it as a quality metric.",
+  "relevance_score": 3,
+  "relevance_rationale": "Practical guide to making sparse thumbs data usable for monitoring or route evaluation.",
+  "found_via": "query: implicit user feedback LLM production",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "unell-2026-deployment-centered-rejection-risk",
+  "title": "Deployment-Centered Evaluation: Predicting Query-Level Rejection Risk in a Clinical LLM System",
+  "authors": [
+   "Alyssa Unell",
+   "Miguel Fuentes",
+   "Brenna Li",
+   "Bridget Lin",
+   "Meena Jagadeesan",
+   "Sanmi Koyejo",
+   "Nigam Shah"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.12702",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "query content",
+   "deployment context (department, provider type, model used)",
+   "user rejection feedback"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Trains a pre-response classifier, inside an EHR-embedded clinical LLM system, that predicts before generation whether the user will reject the response, using query content and deployment context. A prospective 4.5-month evaluation gives AUROC 0.719, and the authors estimate value for guardrail triggering and abstention.",
+  "key_idea": "Pre-generation predictor of user rejection trained on sparse real deployment feedback.",
+  "relevance_score": 4,
+  "relevance_rationale": "Real production quality predictor that runs before generation; the same design can drive routing or escalation.",
+  "found_via": "query: \"user feedback\" \"rejection\" LLM deployment prediction",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "lai-2026-routejudge",
+  "title": "RouteJudge: An Open Platform for Reproducible and Preference-Aware LLM Routing",
+  "authors": [
+   "Guannan Lai",
+   "Haoran Hu",
+   "Han-Jia Ye"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.18774",
+  "code_url": "https://github.com/LAMDA-Model-Reuse/ORBIT",
+  "topic_clusters": [
+   "C1",
+   "C5",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "anonymous pairwise user preferences",
+   "cost",
+   "latency"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "An online platform where several routing strategies each pick a model for the same query, and anonymous pairwise user preferences between the resulting responses are attributed back to the routers. Logs query, decisions, responses, preferences, cost and latency, and ships ORBIT, a toolbox for implementing and submitting routers.",
+  "key_idea": "Arena-style live preference evaluation at the router level rather than the model level.",
+  "relevance_score": 4,
+  "relevance_rationale": "Closest thing to an A/B/interleaving harness for routers; logs are reusable for off-policy learning.",
+  "found_via": "snowball: cited-by tsiourvas-2025-causal-routing",
+  "cites_or_cited_by": [
+   "tsiourvas-2025-causal-routing"
+  ]
+ },
+ {
+  "id": "miranda-2024-hybrid-preferences",
+  "title": "Hybrid Preferences: Learning to Route Instances for Human vs. AI Feedback",
+  "authors": [
+   "Lester James V. Miranda",
+   "Yizhong Wang",
+   "Yanai Elazar",
+   "Sachin Kumar",
+   "Valentina Pyatkin",
+   "Faeze Brahman",
+   "Noah A. Smith",
+   "Hannaneh Hajishirzi",
+   "Pradeep Dasigi"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2410.19133",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C13"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "instance features",
+   "performance prediction"
+  ],
+  "cost_reduction_reported": "Hybrid human/LM mixture yields better reward-model performance than either source alone while reducing human annotation",
+  "benchmarks": [
+   "MultiPref"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Routes each preference instance to human or LM annotation by training a performance-prediction model that estimates downstream reward-model quality for a given mix. Releases MultiPref (10K instances with both label types) and shows generalization to three other datasets.",
+  "key_idea": "Predict where human labels add value and route only those instances to humans.",
+  "relevance_score": 3,
+  "relevance_rationale": "Performance-prediction-driven routing of costly feedback; relevant to budgeting labels for router training.",
+  "found_via": "query: Chatbot Arena preference data train router",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wu-2025-bayesianrouter-reward-models",
+  "title": "Reward Model Routing in Alignment",
+  "authors": [
+   "Xinle Wu",
+   "Yao Lu"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2510.02850",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "hybrid",
+  "signals_used": [
+   "preference data",
+   "Thompson sampling posterior"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Selects one reward model per query from a pool during RLHF, combining an offline multi-task router trained on preference data with an online Bayesian Thompson-sampling selector that addresses cold start and exploration.",
+  "key_idea": "Offline-warm-started, online Thompson-sampling routing among reward models.",
+  "relevance_score": 3,
+  "relevance_rationale": "Offline-to-online router template; applied to reward models rather than generators.",
+  "found_via": "query: abs:\"preference data\" AND abs:\"routing\" AND abs:\"LLM\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "guo-2026-cascade-deployment-time-learning",
+  "title": "CASCADE: Case-Based Continual Adaptation for Large Language Models During Deployment",
+  "authors": [
+   "Siyuan Guo",
+   "Yali Du",
+   "Hechang Chen",
+   "Yi Chang",
+   "Jun Wang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.06702",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C10"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "episodic case memory",
+   "task feedback"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Defines deployment-time learning, in which agents improve from experience without changing weights, and implements it as CASCADE, an evolving episodic case memory whose reuse is framed as a contextual bandit with no-regret guarantees.",
+  "key_idea": "Frame experience reuse during deployment as a contextual bandit.",
+  "relevance_score": 3,
+  "relevance_rationale": "Online learning from live traffic at the agent level; not cost-targeted.",
+  "found_via": "query: abs:\"bandit\" AND abs:\"cascade\" AND abs:\"language model\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "cho-2026-querybandits",
+  "title": "No One Size Fits All: QueryBandits for Hallucination Mitigation",
+  "authors": [
+   "Nicole Cho",
+   "William Watson",
+   "Alec Koppel",
+   "Sumitra Ganesh",
+   "Manuela Veloso"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.20332",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C7"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "semantic query features",
+   "calibrated reward"
+  ],
+  "cost_reduction_reported": "Top QueryBandit (Thompson Sampling) achieves 87.5% win rate over No-Rewrite across 16 QA scenarios",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Learns online which query-rewrite strategy to apply per query, using a contextual bandit over semantic features and a calibrated reward, to reduce hallucination in closed-source models. Finds no single rewrite policy is best and some static ones are worse than none.",
+  "key_idea": "Contextual bandit choosing a prompt transformation per query online.",
+  "relevance_score": 3,
+  "relevance_rationale": "Per-query online configuration choice for black-box models; same pattern as config routing.",
+  "found_via": "query: contextual bandit prompt optimization online",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "hong-2026-maspob",
+  "title": "MASPOB: Bandit-Based Prompt Optimization for Multi-Agent Systems with Graph Neural Networks",
+  "authors": [
+   "Zhi Hong",
+   "Qian Zhang",
+   "Jiahang Sun",
+   "Zhiwei Shang",
+   "Mingze Kong",
+   "Xiangyi Wang",
+   "Yao Shu",
+   "Zhongxiang Dai"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2603.02630",
+  "code_url": null,
+  "topic_clusters": [
+   "C4",
+   "C5"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "UCB uncertainty",
+   "GNN topology embedding"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Optimizes the prompts of a fixed multi-agent workflow under a tight evaluation budget by treating the problem as a bandit with UCB exploration, a graph neural network to capture coupling induced by topology, and coordinate ascent to make the search linear rather than exponential.",
+  "key_idea": "Sample-efficient bandit optimization of per-agent prompts in a multi-agent system.",
+  "relevance_score": 4,
+  "relevance_rationale": "Budgeted configuration optimization for multi-agent systems.",
+  "found_via": "query: contextual bandit prompt optimization online",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "xu-2025-boad",
+  "title": "BOAD: Discovering Hierarchical Software Engineering Agents via Bandit Optimization",
+  "authors": [
+   "Iris Xu",
+   "Guangtao Zeng",
+   "Zexue He",
+   "Charles Jin",
+   "Aldo Pareja",
+   "Dan Gutfreund",
+   "Chuang Gan",
+   "Zhang-Wei Hong"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2512.23631",
+  "code_url": "https://github.com/iamxjy/BOAD-SWE-Agent",
+  "topic_clusters": [
+   "C3",
+   "C4",
+   "C5"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "sub-agent helpfulness reward"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "SWE-bench Verified",
+   "SWE-bench Live"
+  ],
+  "models_studied": [
+   "36B system"
+  ],
+  "production_evidence": false,
+  "summary": "Discovers a hierarchical SWE agent by treating candidate sub-agents as bandit arms whose reward is their helpfulness when collaborating, allowing efficient exploration under limited evaluation budgets. The discovered 36B system ranked second on SWE-bench Live at evaluation time.",
+  "key_idea": "Multi-armed bandit search over sub-agent designs for hierarchical agents.",
+  "relevance_score": 4,
+  "relevance_rationale": "Bandit-driven agent configuration search with credit to sub-agents.",
+  "found_via": "query: \"bandit\" \"cascade\" LLM",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "liskowski-2026-compositional-online-learning",
+  "title": "Compositional Online Learning for Semantic Data Processing Systems",
+  "authors": [
+   "Paweł Liskowski",
+   "Fuheng Zhao",
+   "Benjamin Han",
+   "Anupam Datta",
+   "Dimitris Tsirogiannis"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.27244",
+  "code_url": null,
+  "topic_clusters": [
+   "C2",
+   "C5",
+   "C10",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "per-call outcomes",
+   "filter selectivity",
+   "cascade confidence"
+  ],
+  "cost_reduction_reported": "Learning components compose to an 11.4x upper bound on per-row LLM cost reduction for a representative conjunction-filter workload, reduced to a realistic ~8x after self-selection, sample-budget shrinkage and selectivity drift",
+  "benchmarks": [
+   "Cortex AISQL production case study"
+  ],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Argues that LLM calls in semantic data processing are slow enough to hide online learner updates inside each round-trip, and builds compositional online learning: memoization, an online filter-ordering learner and an online per-batch cascade-routing learner. A production case study in Snowflake Cortex AISQL decomposes per-row LLM cost by component.",
+  "key_idea": "Compose online learners (caching, ordering, cascade routing) at the LLM call boundary in production.",
+  "relevance_score": 5,
+  "relevance_rationale": "Production online cascade learning with explicit cost decomposition, including drift effects.",
+  "found_via": "query: cascade threshold online adaptation",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wu-2026-assign-tasks-capacity",
+  "title": "Learning to Assign Prediction Tasks to Agents with Capacity Constraints",
+  "authors": [
+   "Shanglin Wu",
+   "Saatvik Kher",
+   "Padhraic Smyth"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.27999",
+  "code_url": null,
+  "topic_clusters": [
+   "C2",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "task context",
+   "observed agent outcomes"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "LLMs",
+   "human decision-makers"
+  ],
+  "production_evidence": false,
+  "summary": "Studies sequential learning of which agent (human or AI model) should handle each prediction task when each agent can take only a fraction of tasks. Gives a theoretical characterization and explore-exploit policy-learning algorithms that beat non-contextual baselines on tabular, image and text tasks.",
+  "key_idea": "Contextual explore-exploit assignment of tasks to capacity-limited agents.",
+  "relevance_score": 3,
+  "relevance_rationale": "Capacity-constrained online routing, as with rate-limited frontier models.",
+  "found_via": "snowball: cited-by taberner-miller-2026-paretobandit",
+  "cites_or_cited_by": [
+   "taberner-miller-2026-paretobandit"
+  ]
+ },
+ {
+  "id": "zhang-2026-dialrouter",
+  "title": "From Myopic Selection to Long-Horizon Awareness: Sequential LLM Routing for Multi-Turn Dialogue",
+  "authors": [
+   "Jia-Rui Zhang",
+   "Xiangyu Liu",
+   "Yong-Hao Hu",
+   "Chao-Yue Niu",
+   "H. Zeng",
+   "Shaojie Tang",
+   "Fan Wu",
+   "Gui-Hai Chen"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2604.12385",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C3",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "dialogue state",
+   "retrieval-based future state approximation",
+   "cost-aware reward"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "open-source and closed-source LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Moves LLM routing from single-turn to multi-turn dialogue by running MCTS over dialogue branches induced by different model choices, then training a lightweight routing policy on the high-return trajectories. The policy routes per turn without online search and improves task success and the cost trade-off over single LLMs and routers.",
+  "key_idea": "Learn a per-turn sequential routing policy from search-generated trajectories with delayed rewards.",
+  "relevance_score": 4,
+  "relevance_rationale": "Sequential, delayed-reward routing is the multi-turn analogue of step-level agent routing.",
+  "found_via": "query: off-policy evaluation LLM routing",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "yu-2026-olivia",
+  "title": "OLIVIA: Online Learning via Inference-time Action Adaptation for Decision Making in LLM ReAct Agents",
+  "authors": [
+   "Sheldon Yu",
+   "Junda Wu",
+   "Xintong Li",
+   "Nikki Lijing Kuang",
+   "Sizhe Zhou",
+   "Tong Yu",
+   "Jiawei Han",
+   "Jingbo Shang",
+   "Julian McAuley"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.11169",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C3"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "frozen hidden states",
+   "action-level feedback",
+   "UCB"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Adds an explicit decision layer to ReAct agents, modeling final action selection as a contextual linear bandit over candidate actions with frozen hidden states as context. It updates online from action-level feedback during deployment and outperforms static ReAct and prompt-based adaptation on four benchmarks.",
+  "key_idea": "Online bandit layer over agent action selection learned during deployment.",
+  "relevance_score": 3,
+  "relevance_rationale": "Deployment-time online learning at the step level, not cost-targeted.",
+  "found_via": "query: online model selection LLM agents bandit tool",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "frauen-2026-causal-methods-llm",
+  "title": "Causal Methods for LLM Development and Evaluation",
+  "authors": [
+   "Dennis Frauen",
+   "Marie Brockschmidt",
+   "Konstantin Hess",
+   "Hao-Rui Ma",
+   "Yu-Chen Ma",
+   "Abdurahman Maarouf",
+   "Maresa Schröder",
+   "J. Schweisthal",
+   "Yu-Xin Wang",
+   "Athiya Deviyani",
+   "S. Parbhoo",
+   "R. G. Krishnan",
+   "S. Feuerriegel"
+  ],
+  "year": 2026,
+  "venue_or_source": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2605.25998",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C15"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "logged data",
+   "judge scores"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Position and tutorial paper (KDD 2026) arguing that many LLM development questions, including whether to route a prompt to a larger or smaller model under cost limits, are causal. It reviews how confounded logs, biased judges and non-stationary deployment call for causal inference and off-policy methods.",
+  "key_idea": "Routing and evaluation from logs should be treated as causal inference.",
+  "relevance_score": 4,
+  "relevance_rationale": "Frames router learning from logged data as causal and points to concrete estimators.",
+  "found_via": "snowball: cited-by tsiourvas-2025-causal-routing",
+  "cites_or_cited_by": [
+   "tsiourvas-2025-causal-routing"
+  ]
+ },
+ {
+  "id": "liu-2026-adwm-ope-llm-agents",
+  "title": "Autoregressive Diffusion World Models for Off-Policy Evaluation of LLM Agents",
+  "authors": [
+   "Kai Liu",
+   "Guo-Jun Xiong",
+   "Weinan Zhang",
+   "Sheng Tang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.05558",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C13"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "pre-collected trajectories",
+   "policy-conditioned score"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Estimates the value of a new LLM agent policy in multi-turn environments using only pre-collected trajectories, by learning a latent diffusion world model whose per-step denoising is guided by the evaluated agent. Alternating agent and world-model steps avoids the compounding errors of autoregressive world models.",
+  "key_idea": "Off-policy evaluation of LLM agents with an agent-guided diffusion world model.",
+  "relevance_score": 5,
+  "relevance_rationale": "Direct OPE for agent policies from logs, the core method needed to vet agent configuration changes offline.",
+  "found_via": "query: off-policy evaluation LLM routing",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "chae-2026-optimal-sequential-annotations-ope",
+  "title": "Optimal Sequential Annotations for Off-Policy Evaluation",
+  "authors": [
+   "Woojin Chae",
+   "Ezinne Nwankwo",
+   "Hai-Tong Qin",
+   "Angela Zhou"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.26707",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "RL-offline",
+  "signals_used": [
+   "LLM-as-judge labels",
+   "expert annotations"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Shows how to spend a limited budget for expert reward annotation in sequential OPE when cheap LLM-judge labels are biased, using doubly robust OPE with missing rewards and variance-optimal annotation probabilities. Motivated by casenotes from a homelessness services nonprofit.",
+  "key_idea": "Variance-optimal choice of which logged steps to label expertly for doubly robust OPE.",
+  "relevance_score": 3,
+  "relevance_rationale": "Label-budget allocation for evaluating logged policies when rewards come from judges.",
+  "found_via": "query: off-policy evaluation LLM routing",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "sun-2023-datacope",
+  "title": "When is Off-Policy Evaluation (Reward Modeling) Useful in Contextual Bandits? A Data-Centric Perspective",
+  "authors": [
+   "Hao Sun",
+   "Alex J. Chan",
+   "Nabeel Seedat",
+   "Alihan Hüyük",
+   "Mihaela van der Schaar"
+  ],
+  "year": 2023,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2311.14110",
+  "code_url": null,
+  "topic_clusters": [
+   "C6"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "logged dataset"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Proposes DataCOPE, a data-centric framework that forecasts how accurate off-policy evaluation will be on a given logged dataset, identifies subgroups where OPE is unreliable, and compares data-collection strategies.",
+  "key_idea": "Assess whether a logged dataset can support OPE for a target policy before trusting it.",
+  "relevance_score": 3,
+  "relevance_rationale": "Diagnoses when router or config logs are adequate for OPE.",
+  "found_via": "query: abs:\"off-policy evaluation\" AND abs:\"large language model\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "loghmani-2025-deconfoundlm",
+  "title": "Aligning Language Models with Observational Data: Opportunities and Risks from a Causal Perspective",
+  "authors": [
+   "Erfan Loghmani"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2506.00152",
+  "code_url": null,
+  "topic_clusters": [
+   "C6"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "observational business outcomes"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Studies fine-tuning LLMs on historical observational outcomes such as conversion rates instead of A/B test data, showing that naive training learns spurious correlations. Proposes DeconfoundLM to remove known confounders from the reward signal, evaluated on real datasets.",
+  "key_idea": "Observational outcome logs need deconfounding before use as LLM training signal.",
+  "relevance_score": 3,
+  "relevance_rationale": "The confounding issue applies equally to learning routers from production outcomes.",
+  "found_via": "query: counterfactual learning to route observed outcome only",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "khosravi-2026-which-llm-which-work",
+  "title": "Which LLM for Which Work? Budgeted Model Allocation under Uncertain Evaluation",
+  "authors": [
+   "Hamed Khosravi",
+   "Xiao-Ming Huo"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.29560",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C6",
+   "C14"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "proxy quality scores",
+   "production log"
+  ],
+  "cost_reduction_reported": "On paid software tasks, better information about model quality yields more savings than further optimization of the assignment",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Frames a company assigning LLMs to recurring workloads under a fixed budget as a knapsack whose quality table is uncertain because models are rarely compared on the same work and scores are proxies. Gives a two-solve certificate for when an assignment is optimal across all tables consistent with evidence and CASE, which targets evaluation at the pairs that matter, tested on a production log.",
+  "key_idea": "Certify a budgeted model-to-workload assignment under uncertain, proxy-based evaluation and spend evaluation where it changes the decision.",
+  "relevance_score": 5,
+  "relevance_rationale": "Directly about choosing models per workload from logged, confounded evaluation data under a budget.",
+  "found_via": "snowball: cited-by tsiourvas-2025-causal-routing",
+  "cites_or_cited_by": [
+   "tsiourvas-2025-causal-routing"
+  ]
+ },
+ {
+  "id": "zhang-2026-v0-generalist-value-model",
+  "title": "V_0: A Generalist Value Model for Any Policy at State Zero",
+  "authors": [
+   "Yi-Kai Zhang",
+   "Zhiyuan Yao",
+   "Hongyan Hao",
+   "Yueqing Sun",
+   "Qi Gu",
+   "Hui Su",
+   "Xunliang Cai",
+   "De-Chuan Zhan",
+   "Han-Jia Ye"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.03584",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C6",
+   "C9"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "instruction-performance history",
+   "prompt"
+  ],
+  "cost_reduction_reported": "Pareto-optimal performance-cost trade-off in LLM routing tasks (qualitative)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Trains a generalist value model that predicts the expected success of any model on an unseen prompt by conditioning on a history of that model's instruction-performance pairs instead of fitting parameters. Used to allocate GRPO rollout budgets and, at deployment, as a router.",
+  "key_idea": "Predict per-prompt success of any model from its performance profile and route by it.",
+  "relevance_score": 4,
+  "relevance_rationale": "Performance prediction that adapts to new models without retraining; used as a router.",
+  "found_via": "query: off-policy evaluation LLM routing",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "chhikara-2026-matched-trajectory-replay",
+  "title": "Evaluating Confidence-Gated Retrieval with Matched Trajectory Replay",
+  "authors": [
+   "Prateek Chhikara"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.26846",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7",
+   "C13"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "verbalized confidence",
+   "isotonic calibration"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "HotpotQA",
+   "MuSiQue"
+  ],
+  "models_studied": [
+   "Mistral",
+   "GPT",
+   "Qwen"
+  ],
+  "production_evidence": false,
+  "summary": "Proposes matched trajectory replay, a protocol that fixes candidate answer states, evidence, budgets and action costs so different confidence-to-action policies can be compared on the same agent trajectories. Calibration increased accuracy among committed answers by up to 41 points but changed coverage and retrieval use.",
+  "key_idea": "Compare agent gating policies by replaying matched trajectories with fixed costs.",
+  "relevance_score": 3,
+  "relevance_rationale": "Replay-based evaluation method for agent decision policies.",
+  "found_via": "query: replay evaluation agent model change",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "li-2026-counterfactual-tool-ranking",
+  "title": "Counterfactual Tool Ranking under Utility, Cost, and Privilege Constraints",
+  "authors": [
+   "Jiapeng Li"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.22819",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C6"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "exact-propensity logs",
+   "doubly robust",
+   "direct regression"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "BFCL"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Evaluates counterfactual tool-selection policies from logs with exact propensities over eleven enterprise-style tools and MCP transport, plus 1,930 BFCL tasks. Finds that direct regression can beat doubly robust estimation in-distribution (MAE 0.0139 vs 0.0272) while DR is better under environment shift.",
+  "key_idea": "Empirical comparison of OPE estimators for agent tool-choice policies, including under shift.",
+  "relevance_score": 4,
+  "relevance_rationale": "One of few OPE studies on agent action choices with propensity-logged data.",
+  "found_via": "query: doubly robust estimator LLM evaluation",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "fisch-2024-stratified-ppi",
+  "title": "Stratified Prediction-Powered Inference for Hybrid Language Model Evaluation",
+  "authors": [
+   "Adam Fisch",
+   "Joshua Maynez",
+   "R. Alex Hofer",
+   "Bhuwan Dhingra",
+   "Amir Globerson",
+   "William W. Cohen"
+  ],
+  "year": 2024,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2406.04291",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C13"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "autorater labels",
+   "human labels"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Improves prediction-powered inference for language-model evaluation by stratifying data, yielding provably valid and tighter confidence intervals when combining a few human labels with many autorater labels.",
+  "key_idea": "Stratified PPI for hybrid human/autorater evaluation.",
+  "relevance_score": 3,
+  "relevance_rationale": "Label-efficient, valid evaluation of candidate routes or configs.",
+  "found_via": "snowball: related work of xiang-2026-otrope",
+  "cites_or_cited_by": [
+   "xiang-2026-otrope"
+  ]
+ },
+ {
+  "id": "boyeau-2024-autoeval-done-right",
+  "title": "AutoEval Done Right: Using Synthetic Data for Model Evaluation",
+  "authors": [
+   "Pierre Boyeau",
+   "Anastasios Nikolas Angelopoulos",
+   "Tian-Le Li",
+   "N. Yosef",
+   "Jitendra Malik",
+   "Michael I. Jordan"
+  ],
+  "year": 2024,
+  "venue_or_source": "International Conference on Machine Learning",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2403.07008",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C13"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "AI-labeled synthetic data",
+   "human labels"
+  ],
+  "cost_reduction_reported": "Effective human-labeled sample size increased by up to 50% in GPT-4 experiments",
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-4"
+  ],
+  "production_evidence": false,
+  "summary": "Uses prediction-powered inference to combine AI-labeled data with a small set of human labels for model evaluation, giving unbiased estimates with better sample efficiency.",
+  "key_idea": "Unbiased model evaluation mixing AI and human labels.",
+  "relevance_score": 3,
+  "relevance_rationale": "Supporting technique for evaluating configs with few ground-truth labels.",
+  "found_via": "snowball: related work of xiang-2026-otrope",
+  "cites_or_cited_by": [
+   "xiang-2026-otrope"
+  ]
+ },
+ {
+  "id": "angelopoulos-2023-ppi",
+  "title": "Prediction-powered inference",
+  "authors": [
+   "Anastasios Nikolas Angelopoulos",
+   "Stephen Bates",
+   "Clara Fannjiang",
+   "Michael I. Jordan",
+   "Tijana Zrnic"
+  ],
+  "year": 2023,
+  "venue_or_source": "Science",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2301.09633",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C15"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "ML predictions",
+   "small labeled set"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Introduces prediction-powered inference, which combines many model predictions with a small labeled set to produce valid confidence intervals for population quantities.",
+  "key_idea": "Valid inference from predictions plus a small labeled correction set.",
+  "relevance_score": 3,
+  "relevance_rationale": "Foundation for judge-assisted evaluation of routing policies with guarantees.",
+  "found_via": "snowball: related work of xiang-2026-otrope",
+  "cites_or_cited_by": [
+   "xiang-2026-otrope"
+  ]
+ },
+ {
+  "id": "angelopoulos-2023-ppi-plus-plus",
+  "title": "PPI++: Efficient Prediction-Powered Inference",
+  "authors": [
+   "Anastasios Nikolas Angelopoulos",
+   "John C. Duchi",
+   "Tijana Zrnic"
+  ],
+  "year": 2023,
+  "venue_or_source": "Annals of Applied Statistics",
+  "source_type": "paper",
+  "url": "https://arxiv.org/abs/2311.01453",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C15"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "ML predictions",
+   "small labeled set"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "PPI++ makes prediction-powered inference computationally light and adapts automatically to prediction quality, so its intervals always improve on labeled-only ones.",
+  "key_idea": "Adaptive, efficient prediction-powered inference.",
+  "relevance_score": 3,
+  "relevance_rationale": "Practical estimator for evaluating routing with judge labels.",
+  "found_via": "snowball: related work of xiang-2026-otrope",
+  "cites_or_cited_by": [
+   "xiang-2026-otrope"
+  ]
+ },
+ {
+  "id": "guerdan-2025-doubly-robust-llm-judge",
+  "title": "Doubly-Robust LLM-as-a-Judge: Externally Valid Estimation with Imperfect Personas",
+  "authors": [
+   "Luke Guerdan",
+   "Justin Whitehouse",
+   "Kimberly Truong",
+   "Kenneth Holstein",
+   "Zhiwei Steven Wu"
+  ],
+  "year": 2025,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2509.22957",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "persona-prompted LLM judge ratings",
+   "human ratings"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Addresses the gap between lab evaluation samples and deployment distributions with a doubly robust estimator that combines human ratings and persona-conditioned LLM-judge ratings to estimate deployment-time system quality.",
+  "key_idea": "Doubly robust estimation of deployment quality using imperfect LLM-judge personas.",
+  "relevance_score": 3,
+  "relevance_rationale": "Off-policy-style correction when eval traffic differs from production traffic.",
+  "found_via": "query: doubly robust estimator LLM evaluation",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "wu-2026-faq-efficient-evaluation",
+  "title": "Efficient Evaluation of LLM Performance with Statistical Guarantees",
+  "authors": [
+   "Skyler Wu",
+   "Yash Nair",
+   "Emmanuel J. Candès"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2601.20251",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C13"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "historical eval data",
+   "Bayesian factor model"
+  ],
+  "cost_reduction_reported": "Up to 5x effective sample size gains; matches uniform-sampling CI width with up to 5x fewer queries",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Treats benchmarking as finite-population inference and selects questions adaptively using a Bayesian factor model on historical results, while keeping valid confidence intervals through a finite-population active inference extension.",
+  "key_idea": "Active, statistically valid LLM evaluation reusing historical results.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cuts the cost of evaluating candidate models or configs before swapping them.",
+  "found_via": "query: active evaluation LLM selection budget",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "tolochinsky-2026-valid-best-model-identification",
+  "title": "Valid Best-Model Identification for LLM Evaluation via Low-Rank Factorization",
+  "authors": [
+   "Elad Tolochinsky",
+   "Yaniv Tenzer",
+   "Yaniv Romano"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.10405",
+  "code_url": null,
+  "topic_clusters": [
+   "C5",
+   "C6",
+   "C13"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "low-rank predicted scores",
+   "doubly robust estimates"
+  ],
+  "cost_reduction_reported": "Reduces the number of required evaluations while still identifying the best model (qualitative)",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Combines multi-armed bandit evaluation with low-rank predictions of the model-example score matrix, using doubly robust estimators to keep finite-sample confidence intervals valid while selecting the best model with fewer evaluations.",
+  "key_idea": "Bandit best-model identification with doubly robust use of predicted scores.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cheap, valid model selection when onboarding new models.",
+  "found_via": "query: doubly robust estimator LLM evaluation",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "tian-2026-pinterest-decision-quality",
+  "title": "Decision Quality Evaluation Framework at Pinterest",
+  "authors": [
+   "Yuqi Tian",
+   "Robert Paine",
+   "Attila Dobi",
+   "Kevin O'Sullivan",
+   "Aravindh Manickavasagam",
+   "Faisal Farooq"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.15809",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C13",
+   "C14"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "expert golden set",
+   "propensity-score sampling"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": true,
+  "summary": "Describes a deployed framework at Pinterest for evaluating human and LLM moderation decisions, built around an expert golden set expanded with propensity-score-based sampling. Used to benchmark cost-performance trade-offs among LLM agents, optimize prompts and track policy evolution.",
+  "key_idea": "Production evaluation pipeline using propensity sampling to compare LLM agents on cost and quality.",
+  "relevance_score": 3,
+  "relevance_rationale": "Production example of logged-data evaluation infrastructure for choosing LLM configurations.",
+  "found_via": "query: off-policy evaluation prompt policy",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "cao-2026-early-outcome-prediction-audit",
+  "title": "Testing-Driven Reliability Audit of Trajectory-Based Early Outcome Prediction for LLM Agents: Target-Specific Calibration Transfer Persists Within a Single Benchmark",
+  "authors": [
+   "Yan-Ze Cao"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.25647",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7",
+   "C13"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "trajectory prefix features"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "SWE-bench Verified",
+   "TerminalBench"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Audits whether trajectory-based early-outcome predictors, used to stop agent runs once the result is predictable, stay calibrated when applied to agents they were not trained on, using leave-one-agent-out tests on public SWE-bench trajectories. Finds that calibration failures are concentrated in specific target agent and head combinations.",
+  "key_idea": "Early-outcome predictors for agents need target-specific calibration checks.",
+  "relevance_score": 4,
+  "relevance_rationale": "Checks the reliability of success prediction used to cut agent costs.",
+  "found_via": "query: predicting agent success trajectory",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "huang-2026-prefixguard",
+  "title": "PrefixGuard: Online Failure Warning and Trace-Grounded Diagnosis for LLM Agents",
+  "authors": [
+   "Xinmiao Huang",
+   "Jinwei Hu",
+   "Qisong He",
+   "Rajarshi Roy",
+   "Changshun Wu",
+   "Yi Dong",
+   "Xiaowei Huang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.06455",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "learned trace events",
+   "GRU risk",
+   "DFA state"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Predicts horizon-specific failure risk from execution prefixes of LLM agent traces with a GRU over learned events, and organizes event histories into a finite automaton for diagnosis. Connects online failure warning with compact symbolic explanations.",
+  "key_idea": "Online failure prediction from agent trace prefixes with symbolic diagnosis.",
+  "relevance_score": 3,
+  "relevance_rationale": "Mid-run success prediction that could trigger escalation or early stopping.",
+  "found_via": "query: abs:\"predict\" AND abs:\"trajectory\" AND abs:\"failure\" AND abs:\"LLM agent\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "mehta-2026-behavioral-consistency",
+  "title": "When Agents Disagree With Themselves: Behavioral Consistency as an Uncertainty Signal for LLM Agents",
+  "authors": [
+   "Aman Mehta"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2602.11619",
+  "code_url": null,
+  "topic_clusters": [
+   "C7",
+   "C2"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "action-sequence consistency across runs"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "HotpotQA"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Shows that the number of distinct action sequences an agent produces across repeated runs is a black-box uncertainty signal: consistent tasks reach 82-87% accuracy versus 41-65% for inconsistent ones. Selective answering when three runs agree gives 87-88% accuracy at 54-62% coverage.",
+  "key_idea": "Run-to-run behavioral consistency as an agent success predictor.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cheap success signal usable for agent-level deferral.",
+  "found_via": "query: abs:\"predict\" AND abs:\"trajectory\" AND abs:\"failure\" AND abs:\"LLM agent\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhang-2026-calibration-not-control",
+  "title": "Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention",
+  "authors": [
+   "Chubin Zhang",
+   "Zhenglin Wan",
+   "Xingrui Yu",
+   "Jingxuan Wu",
+   "Qi Wen",
+   "Pengfei Zhou",
+   "Wangbo Zhao",
+   "Ivor Tsang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2606.21399",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "risk estimates",
+   "prefix branching"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Argues that agent oversight should target the expected gain from intervening rather than failure probability, since prefixes with equal risk may differ in recoverability. Introduces prefix branching to measure intervention advantage and shows the mismatch with risk prediction.",
+  "key_idea": "Estimate intervention advantage, not failure risk, to decide when to intervene in agents.",
+  "relevance_score": 3,
+  "relevance_rationale": "Relevant to deciding when to escalate an agent step to a stronger model.",
+  "found_via": "query: abs:\"predict\" AND abs:\"trajectory\" AND abs:\"failure\" AND abs:\"LLM agent\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "kumar-2026-cooperative-profiles",
+  "title": "Cooperative Profiles Predict Multi-Agent LLM Team Performance in AI for Science Workflows",
+  "authors": [
+   "Shivani Kumar",
+   "Adarsh Bharathwaj",
+   "David Jurgens"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2604.20658",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C12"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "behavioral-economics game profiles"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "35 open-weight LLMs"
+  ],
+  "production_evidence": false,
+  "summary": "Benchmarks 35 open-weight LLMs on six behavioral economics games and shows that the resulting cooperative profiles predict how well teams of those models perform on AI-for-science multi-agent tasks.",
+  "key_idea": "Cheap game-based profiles predict multi-agent team performance.",
+  "relevance_score": 3,
+  "relevance_rationale": "Performance prediction for choosing models in multi-agent teams without running full tasks.",
+  "found_via": "query: predict whether LLM agent will solve task",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhang-2026-rl-orchestration-traces",
+  "title": "Reinforcement Learning for LLM-based Multi-Agent Systems through Orchestration Traces",
+  "authors": [
+   "Chenchen Zhang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.02801",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C6",
+   "C15"
+  ],
+  "routing_granularity": "subagent",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "orchestration traces"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Surveys RL for LLM multi-agent systems through orchestration traces (spawning, delegation, communication, aggregation and stopping), organizing work along reward design, credit-assignment units and orchestration learning. Notes that counterfactual message-level credit remains rare.",
+  "key_idea": "Orchestration traces as the unit for learning multi-agent policies offline or online.",
+  "relevance_score": 3,
+  "relevance_rationale": "Maps how logged multi-agent traces can train orchestration and configuration policies.",
+  "found_via": "query: abs:\"logged\" AND abs:\"counterfactual\" AND abs:\"LLM\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "zhang-2026-credit-without-ground-truth",
+  "title": "Credit Without Ground Truth: Auditing Step-Level Credit Assignment in LLM Agents Against Executed Replay",
+  "authors": [
+   "Haiyue Zhang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.19760",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "LLM-judge step scores",
+   "logprob ratios",
+   "policy confidence",
+   "executed replay"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "ALFWorld"
+  ],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Audits step-level credit signals for LLM agents against ground truth obtained by executed replay (resampling alternatives at each step and rolling forward) in ALFWorld. Finds none of the judge, logprob or confidence signals reliably beats shuffled controls.",
+  "key_idea": "Executed replay as ground truth reveals step-level credit signals are unreliable.",
+  "relevance_score": 3,
+  "relevance_rationale": "Cautions against using judge scores to credit steps when learning step-level routing from traces.",
+  "found_via": "query: replay evaluation agent model change",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "richards-2026-agentlogs",
+  "title": "AgentLogs: A Dataset for Opening the Black Box of GitHub's Cloud Agent",
+  "authors": [
+   "Jonan Richards",
+   "Kosei Horikawa",
+   "Youmei Fan",
+   "Yutaro Kashiwa",
+   "Mairieli Wessel"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2608.29204",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C14",
+   "C13"
+  ],
+  "routing_granularity": "n/a",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "step-level agent session logs",
+   "token usage"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [
+   "GitHub Copilot cloud agent"
+  ],
+  "production_evidence": true,
+  "summary": "Releases AgentLogs: 307,416 tasks and 549,239 sessions of GitHub Copilot cloud agent activity with 64M step-level log entries including prompts, tool calls and token usage, enabling studies of agent efficiency, cost and failure.",
+  "key_idea": "Large real-world agent trace dataset with per-step token usage.",
+  "relevance_score": 3,
+  "relevance_rationale": "Rare public production agent logs suitable for offline analysis of cost and success prediction.",
+  "found_via": "query: offline RL multi-agent orchestration logs",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "chen-2026-routing-oracle-stochastic",
+  "title": "What Does a Routing Oracle Measure Under Stochastic Decoding? Coupling, Scorer Choice, and Single-Commit Ceilings",
+  "authors": [
+   "Teng-Ruei Chen"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.03436",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C6",
+   "C13"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "archived correctness samples"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "GSM8K",
+   "MATH-500",
+   "GPQA"
+  ],
+  "models_studied": [
+   "11 open models"
+  ],
+  "production_evidence": false,
+  "summary": "Shows that the hindsight oracle used in routing benchmarks is not the same decision class as a router that commits to one model before seeing outputs under stochastic decoding. Distinguishes single-commit ceilings from union probabilities and audits frozen correctness tensors from 11 models.",
+  "key_idea": "Routing oracles under stochastic decoding overstate the achievable gain of single-commit routers.",
+  "relevance_score": 3,
+  "relevance_rationale": "Clarifies what can be identified when learning or evaluating routers from logged outcomes.",
+  "found_via": "snowball: cited-by dekoninck-2024-cascade-routing",
+  "cites_or_cited_by": [
+   "dekoninck-2024-cascade-routing"
+  ]
+ },
+ {
+  "id": "chen-2026-resample-or-reroute",
+  "title": "Resample or Reroute? Recoverable Stopping Debt Without Identified Action Selection",
+  "authors": [
+   "Teng-Ruei Chen"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.08665",
+  "code_url": null,
+  "topic_clusters": [
+   "C2",
+   "C6"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "n/a",
+  "signals_used": [
+   "weak verifier acceptance"
+  ],
+  "cost_reduction_reported": "In a 152-query MBPP+ study, fixed escalation to Qwen2.5-14B exceeds leave-one-out 7B resampling by +2.882 pp after 7B rejection",
+  "benchmarks": [
+   "MBPP+"
+  ],
+  "models_studied": [
+   "Qwen2.5-7B",
+   "Qwen2.5-14B"
+  ],
+  "production_evidence": false,
+  "summary": "Treats choosing between resampling and rerouting after a weak verifier as an identification problem because correctness is hidden, and orders three gates (recoverable stopping debt, action support, held-out selector value) that must pass before claiming a learned selector helps.",
+  "key_idea": "Gated identification test before claiming a resample-vs-reroute selector adds value.",
+  "relevance_score": 3,
+  "relevance_rationale": "Rigorous treatment of counterfactual claims in escalation decisions.",
+  "found_via": "snowball: cited-by dekoninck-2024-cascade-routing",
+  "cites_or_cited_by": [
+   "dekoninck-2024-cascade-routing"
+  ]
+ },
+ {
+  "id": "pham-2026-agentstop",
+  "title": "AgentStop: Terminating Local AI Agents Early to Save Energy in Consumer Devices",
+  "authors": [
+   "Dzung Pham",
+   "Kleomenis Katevas",
+   "Ali Shahin Shamsabadi",
+   "Hamed Haddadi"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2605.15206",
+  "code_url": "https://github.com/brave-experiments/AgentStop",
+  "topic_clusters": [
+   "C6",
+   "C9",
+   "C12"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "token log probabilities",
+   "execution signals"
+  ],
+  "cost_reduction_reported": "Reduces wasted energy by 15-20% with <5% utility drop on web QA and coding benchmarks",
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "Measures the time, token and energy overhead of local LLM agents on consumer hardware and introduces AgentStop, a lightweight supervisor that predicts from cheap execution signals which trajectories will fail and terminates them early.",
+  "key_idea": "Predict failing trajectories from cheap signals and stop them early to save compute.",
+  "relevance_score": 4,
+  "relevance_rationale": "Success prediction applied directly to cut agent cost.",
+  "found_via": "query: abs:\"predict\" AND abs:\"trajectory\" AND abs:\"failure\" AND abs:\"LLM agent\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "grotov-2026-speculative-uncertainty",
+  "title": "How to Speculate about Uncertainty in Agentic Coding? A Draft-Model Gate Method",
+  "authors": [
+   "Konstantin Grotov",
+   "Valentin Malykh"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2609.05274",
+  "code_url": null,
+  "topic_clusters": [
+   "C3",
+   "C7",
+   "C6"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "draft-model cross-likelihoods",
+   "phase-aware features"
+  ],
+  "cost_reduction_reported": "Pre-execution veto gate cuts execution error rate by 6-8 pp and token cost by 14-19% in deployment",
+  "benchmarks": [],
+  "models_studied": [
+   "Qwen3-Coder-480B",
+   "Claude 3.5 Sonnet"
+  ],
+  "production_evidence": false,
+  "summary": "Recovers a failure-likelihood signal for a black-box coding agent by having a small open draft model score the agent's generated trajectory in one forward pass and calibrating phase-aware features. The score can drive routing, human intervention or extra compute; a veto gate is demonstrated.",
+  "key_idea": "A small draft model scores a black-box agent's actions to predict failure before execution.",
+  "relevance_score": 4,
+  "relevance_rationale": "Cheap, black-box step-level failure predictor that can feed a router; cost reductions reported.",
+  "found_via": "query: abs:\"predict\" AND abs:\"trajectory\" AND abs:\"failure\" AND abs:\"LLM agent\"",
+  "cites_or_cited_by": []
+ },
+ {
+  "id": "he-2026-coderescue",
+  "title": "CodeRescue: Budget-Calibrated Recovery Routing for Coding Agents",
+  "authors": [
+   "Qijia He",
+   "Jia-Yi Cheng",
+   "Chen-Qian Le",
+   "Rui Wang",
+   "Xun-Mei Liu",
+   "Yi-Xian Chen",
+   "Jie Mei",
+   "Zhi-Hao Wang",
+   "Xu-Peng Chen",
+   "Yu-Hua Chen",
+   "Tao Wang"
+  ],
+  "year": 2026,
+  "venue_or_source": "arXiv",
+  "source_type": "preprint",
+  "url": "https://arxiv.org/abs/2607.19338",
+  "code_url": "https://github.com/Qijia-He/agent-budget-control",
+  "topic_clusters": [
+   "C2",
+   "C3",
+   "C6"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "execution feedback",
+   "router score",
+   "conformal risk control"
+  ],
+  "cost_reduction_reported": "One CRC-calibrated frontier point exceeds always-escalate solve rate while using 35% of its mean recovery cost (GPT-5.4-nano/GPT-5.4)",
+  "benchmarks": [
+   "five coding benchmarks"
+  ],
+  "models_studied": [
+   "GPT-5.4-nano",
+   "GPT-5.4"
+  ],
+  "production_evidence": false,
+  "summary": "After a coding agent fails, decides whether to spend more cheap-model recovery or escalate to a stronger model, using a supervised router trained on execution rollouts. A conformal risk control layer picks the operating point to control expected cost under changing budgets.",
+  "key_idea": "Post-failure recovery routing with conformal cost control for coding agents.",
+  "relevance_score": 5,
+  "relevance_rationale": "Step-level cheap-vs-escalate routing for agents, learned from rollouts, with risk-controlled budgets.",
+  "found_via": "snowball: cited-by dekoninck-2024-cascade-routing",
+  "cites_or_cited_by": [
+   "dekoninck-2024-cascade-routing"
+  ]
+ },
+ {
+  "id": "zu-2026-barouter",
+  "title": "BARouter: A Budget-adaptive Online Large Language Model Router Framework",
+  "authors": [
+   "Ling-Kai Zu",
+   "Xiyue Peng",
+   "Xin Liu"
+  ],
+  "year": 2026,
+  "venue_or_source": "The Web Conference (WWW) 2026",
+  "source_type": "paper",
+  "url": "https://doi.org/10.1145/3774904.3792725",
+  "code_url": null,
+  "topic_clusters": [
+   "C1",
+   "C5"
+  ],
+  "routing_granularity": "query",
+  "learning_regime": "bandit-online",
+  "signals_used": [
+   "estimated response quality",
+   "query cost",
+   "real-time budget consumption"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [],
+  "models_studied": [],
+  "production_evidence": false,
+  "summary": "An online router for LLM serving that adjusts its policy per query from estimated quality, query cost and live budget consumption, so it adapts to different initial budgets and shifting query distributions without manual tuning. Proves sublinear regret and reports outperforming baselines across budget levels.",
+  "key_idea": "Budget-adaptive online routing with regret guarantees under shifting query distributions.",
+  "relevance_score": 4,
+  "relevance_rationale": "Online budget-paced routing robust to distribution shift; same problem as ParetoBandit.",
+  "found_via": "snowball: cited-by tsiourvas-2025-causal-routing",
+  "cites_or_cited_by": [
+   "tsiourvas-2025-causal-routing"
+  ]
+ },
+ {
+  "id": "ren-2025-agserve",
+  "title": "Transcending Cost-Quality Tradeoff in Agent Serving via Session-Awareness",
+  "authors": [
+   "Yanyu Ren",
+   "Li Chen",
+   "Dan Li",
+   "Xizheng Wang",
+   "Zhiyuan Wu",
+   "Yukai Miao",
+   "Yu Bai"
+  ],
+  "year": 2025,
+  "venue_or_source": "NeurIPS 2025",
+  "source_type": "paper",
+  "url": "https://doi.org/10.52202/085713-0097",
+  "code_url": null,
+  "topic_clusters": [
+   "C2",
+   "C3",
+   "C10",
+   "C11"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "training-free",
+  "signals_used": [
+   "real-time quality assessment",
+   "session state"
+  ],
+  "cost_reduction_reported": "Comparable response quality to GPT-4o at 16.5% of the cost; 1.8x quality improvement relative to the tradeoff curve",
+  "benchmarks": [],
+  "models_studied": [
+   "GPT-4o"
+  ],
+  "production_evidence": false,
+  "summary": "AgServe is an agent-serving system with a session-aware server that improves KV-cache reuse, a client that cascades models within a session from real-time quality assessment, and a dynamic GPU scheduler. Agents can pick and upgrade models during a session, reaching GPT-4o-level quality at a fraction of the cost on real testbeds.",
+  "key_idea": "Session-aware per-round model cascading plus KV-cache management for agent serving.",
+  "relevance_score": 4,
+  "relevance_rationale": "Per-round model selection inside agent sessions with large reported savings; systems-level evidence.",
+  "found_via": "snowball: cited-by nie-2024-online-cascade-learning",
+  "cites_or_cited_by": [
+   "nie-2024-online-cascade-learning"
+  ]
+ },
+ {
+  "id": "zhong-2026-zclawbench-trajectory-reliability",
+  "title": "Trajectory Reliability Prediction for Generalist AI Agents: Tool-Use Failure Analysis and Success Forecasting on ZClawBench",
+  "authors": [
+   "Z. Zhong",
+   "Chen-Yu Li",
+   "Hengning Rao"
+  ],
+  "year": 2026,
+  "venue_or_source": "Journal of Technology Informatics and Engineering",
+  "source_type": "paper",
+  "url": "https://doi.org/10.51903/jtie.v5i1.539",
+  "code_url": null,
+  "topic_clusters": [
+   "C6",
+   "C7"
+  ],
+  "routing_granularity": "step",
+  "learning_regime": "supervised-offline",
+  "signals_used": [
+   "tool-call volume",
+   "replanning",
+   "tool errors",
+   "invalid-action ratio",
+   "looping indicators",
+   "trajectory length"
+  ],
+  "cost_reduction_reported": null,
+  "benchmarks": [
+   "ZClawBench"
+  ],
+  "models_studied": [
+   "six model families"
+  ],
+  "production_evidence": false,
+  "summary": "Tests whether operational trajectory signals such as tool-call counts, replanning, tool errors and looping predict task success on ZClawBench (696 trajectories across 116 tasks and six model families). Success labels are reconstructed from official per-category score distributions, which the authors flag as a modeling assumption.",
+  "key_idea": "Predict agent task success from operational trace features before manual evaluation.",
+  "relevance_score": 3,
+  "relevance_rationale": "Agent success prediction from traces; label construction is weak, so evidence is limited.",
+  "found_via": "query: predicting agent success trajectory",
+  "cites_or_cited_by": []
+ }
+]

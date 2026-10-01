@@ -1,0 +1,803 @@
+# C6: 145 records (full detail for rel>=4; one-liners for rel<=3)
+
+[gonuguntla-2026-replay-gap] (2026, COLM 2026, rel=5, gran=step, regime=n/a, prod=N, clusters=C3,C6,C13)
+  title: The Replay Gap: Static Evaluation of Model Switching in LLM Agents Scores the Wrong World
+  key_idea: Offline replay badly misestimates the effect of mid-trajectory model swaps.
+  summary: Tests the common practice of evaluating in-agent model switching by replaying logged trajectories, using live forked SWE-bench rollouts. Swaps rewrite 61-94% of subsequent actions and replay evaluation mispredicts every success-relevant outcome, so static replay scores the wrong world.
+  benchmarks: SWE-bench
+  signals: branching rollouts
+
+[he-2026-coderescue] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C6)
+  title: CodeRescue: Budget-Calibrated Recovery Routing for Coding Agents
+  key_idea: Post-failure recovery routing: cheap retry vs escalate, calibrated to a budget with conformal risk control.
+  cost: In GPT-5.4-nano/GPT-5.4 setting, one CRC-calibrated frontier point exceeds always-escalate solve rate while using 35% of its mean recovery cost (held-out failures from five coding benchmarks)
+  summary: After a coding agent fails, CodeRescue decides whether to spend more cheap-model recovery attempts or to escalate to the expensive model. A supervised router is trained on execution rollouts, and a conformal risk-control layer picks a deployment cost penalty without retraining, giving marginal expected-cost control.
+  benchmarks: five coding benchmarks (held-out failures), five coding benchmarks
+  signals: execution feedback, router trained on rollouts, conformal risk control, router score
+
+[khosravi-2026-which-llm-which-work] (2026, arXiv, rel=5, gran=query, regime=n/a, prod=Y, clusters=C1,C6,C14)
+  title: Which LLM for Which Work? Budgeted Model Allocation under Uncertain Evaluation
+  key_idea: Certify a budgeted model-to-workload assignment under uncertain, proxy-based evaluation and spend evaluation where it changes the decision.
+  cost: On paid software tasks, better information about model quality yields more savings than further optimization of the assignment
+  summary: Frames a company assigning LLMs to recurring workloads under a fixed budget as a knapsack whose quality table is uncertain because models are rarely compared on the same work and scores are proxies. Gives a two-solve certificate for when an assignment is optimal across all tables consistent with evidence and CASE, which targets evaluation at the pairs that matter, tested on a production log.
+  signals: proxy quality scores, production log
+
+[lei-2026-tacit-switch] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C6)
+  title: TACIT-Switch: Cost-Aware Model Escalation for LLM Agents from Censored Supervision
+  key_idea: Survival-style model of when to switch an agent to a stronger backbone.
+  cost: +7.4-11.1 pp success over task-level, step-level and fixed-prefix routing at comparable cost (simulation); best held-out success on ALFWorld (48.5% with 4B cheap, 45.5% with 9B cheap) and DABench (73.1%)
+  summary: Learns when to permanently hand off an agent trajectory from a cheap to a strong backbone, using interval-censored teacher annotations of when intervention was needed. A mixture-cure threshold model estimates handoff timing; no teacher is needed at deployment.
+  benchmarks: ALFWorld, DABench
+  signals: trajectory risk, task features, teacher-annotated censored intervention times, cumulative trajectory risk
+
+[li-2026-wiserouter] (2026, arXiv, rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C5,C6)
+  title: WISERouter: LLM Routing with Workload Budget Constraint
+  key_idea: Workload-level budgeted routing learned from logs or online exploration.
+  summary: WISERouter treats routing as a constrained contextual bandit with a workload-level (not per-query) budget, with an offline variant learning from historical interactions and an online variant with O(sqrt T) regret. Tested on RouterBench and SWE-Bench.
+  benchmarks: RouterBench, SWE-Bench
+  signals: query embedding, workload budget
+
+[liu-2026-adwm-ope-llm-agents] (2026, arXiv, rel=5, gran=step, regime=RL-offline, prod=N, clusters=C6,C13)
+  title: Autoregressive Diffusion World Models for Off-Policy Evaluation of LLM Agents
+  key_idea: Off-policy evaluation of LLM agents with an agent-guided diffusion world model.
+  summary: Estimates the value of a new LLM agent policy in multi-turn environments using only pre-collected trajectories, by learning a latent diffusion world model whose per-step denoising is guided by the evaluated agent. Alternating agent and world-model steps avoids the compounding errors of autoregressive world models.
+  signals: pre-collected trajectories, policy-conditioned score
+
+[liu-2026-harness-native-routing] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C1,C3,C5,C6,C13,C14)
+  title: Agentic Routing: The Harness-Native Data Flywheel
+  key_idea: Harness-native step routing with data flywheel.
+  cost: LightGBM router preserves task quality while cutting realized cost ~90% on PinchBench and ~43% on DRACO vs fixed strong model
+  summary: Proposes step-level agentic routing conditioned on harness state that picks one model or an ensemble per step, with each decision generating a data record that feeds a data flywheel.
+  benchmarks: DRACO, PinchBench
+  signals: full harness state, structured routing records, execution trace, outcome, cost, harness state, execution state, harness signals
+
+[okeefe-2026-cursor-router] (2026, Cursor blog, rel=5, gran=step, regime=supervised-offline, prod=Y, clusters=C1,C3,C5,C6,C7,C14)
+  title: How Cursor Router chooses the right model for the task
+  key_idea: Learn step-level routing from implicit feedback in production logs, with offline-to-online validation and budgeted confidence-gated upgrades.
+  cost: Auto Intelligence: above Fable-level user satisfaction at 68% lower cost; Auto Balance: outperforms Opus 4.8 at 41% lower cost with +3% satisfaction (relative to frontier models, measured on live traffic; vendor-reported). Compass top-rated turns got positive signal 96% of the time vs 71% for lowest-rated
+  summary: Cursor's per-turn router is trained on hundreds of thousands of production agent turns labelled with implicit satisfaction (user moves on vs corrects the agent) and actual cost including switch-induced cache misses. A complexity predictor (Compass) thresholds turns to a cheap model or to a taxonomy router, which admits a frontier model for a task label only if it beats the cheap model with 75% one-sided confidence, then chooses a traffic-weighted mix within a per-mode cost budget. Policies are tuned by cross-validation, checked on held-out logs, and validated on live traffic before launch.
+  benchmarks: live Cursor traffic, held-out offline split of production turns
+  signals: task category, recent tool calls, conversation state, Compass complexity score (predicted user satisfaction), learned task/domain/modifier taxonomy, implicit user feedback (moves on vs corrects), per-
+
+[paul-2026-agentrouter-step-tiers] (2026, ICML 2026 Workshop (AgenticUQ), rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C3,C4,C6,C14)
+  title: AgentRouter: Heterogeneous Model Routing for Cost-Optimal Multi-Step Agentic Workflows
+  key_idea: Lightweight per-step tier classifier for agent trajectories.
+  cost: 72% cost reduction vs frontier-only while retaining 97.3% of frontier quality; RouteLLM and FrugalGPT applied per-step achieve 31% and 44%
+  summary: AgentRouter is a 12M-parameter classifier (<5ms per step) that maps each trajectory step to one of four model tiers from five features, trained on 50,000 annotated steps. It cuts cost 72% versus frontier-only with under 3% quality loss and beats per-step RouteLLM and FrugalGPT.
+  benchmarks: planning, coding, research and data-analysis agent trajectories (50,000 annotated steps), 50,000 annotated agent trajectory steps
+  signals: five routing-time step features, five step-level features, annotated trajectory steps
+
+[son-2026-swe-router] (2026, ICML 2026 Workshop (DL4Code), rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C1,C2,C3,C6)
+  title: SWE-Router: Routing in Multi-turn Agentic Software Engineering Tasks
+  key_idea: Route agentic tasks after a short cheap exploration.
+  cost: Greatly improves cost efficiency while maintaining most of the strong model's performance (no single number in abstract)
+  summary: SWE-Router lets a cheap model run a few exploratory turns on a software engineering task, then reads the partial trajectory to decide whether to continue cheaply or escalate. A Bayes-optimality theorem shows conditioning on the trajectory never hurts.
+  benchmarks: SWE-bench, SWE tasks
+  signals: partial trajectory of cheap model, value-based estimate, value estimate
+
+[wang-2026-boundaryrouter] (2026, arXiv, rel=5, gran=query, regime=training-free, prod=N, clusters=C1,C2,C3,C6,C12)
+  title: Learning Agent Routing From Early Experience
+  key_idea: Route between plain LLM and full agent using early experience.
+  cost: reduces inference time by 60.6% vs agent while improving performance by 28.6% over direct LLM inference
+  summary: BoundaryRouter decides per query whether direct LLM inference suffices or a full agent is needed, using a memory built by running both on a seed set and rubric-guided reasoning over retrieved cases. It introduces RouteBench with in-domain, paraphrased and out-of-domain splits.
+  benchmarks: RouteBench, RouteBench (new)
+  signals: experience memory of seed runs, rubric-guided reasoning, early experience memory
+
+[xiang-2026-otrope] (2026, NeurIPS 2026, rel=5, gran=n/a, regime=n/a, prod=N, clusters=C6,C7)
+  title: OTROPE: Optimal Transport-based Robust Off-policy Evaluation for Large Language Models
+  key_idea: Optimal-transport doubly-robust OPE for black-box LLMs.
+  summary: OTROPE evaluates a new target LLM using scarce human labels collected on a behavior LLM, aligning samples in semantic space via optimal transport and combining corrected residuals with proxy predictors in a doubly-robust style, without needing response likelihoods.
+  benchmarks: synthetic and real LLM evaluation tasks
+  signals: human labels from behavior model, proxy evaluator predictions, semantic embeddings
+
+[xu-2026-seqroute] (2026, arXiv, rel=5, gran=query, regime=RL-offline, prod=N, clusters=C1,C3,C5,C6,C15)
+  title: SeqRoute: Global Budget-Aware Sequential LLM Routing via Offline Reinforcement Learning
+  key_idea: MDP/offline-RL routing across a session with a global budget.
+  cost: Reduces operational costs by 6.0-73.5% while maintaining or improving quality; bankruptcy under 1% (abstract)
+  summary: SeqRoute formulates multi-turn session routing under a global budget as a finite-horizon MDP solved with offline RL (CQL), using hindsight budget relabeling to expand 10,000 sessions into 2.38M transitions.
+  benchmarks: 10,000 raw sessions expanded to 2.38M transitions
+  signals: remaining session budget, Conservative Q-Learning, hindsight budget relabeling, session history, remaining budget
+
+[yao-2026-mera] (2026, arXiv (preliminary version in CAIS RL-Eval), rel=5, gran=step, regime=hybrid, prod=N, clusters=C3,C6,C8)
+  title: MERA: Model Evolution and Routing with Skill Adaptation for Agentic Systems at Scale
+  key_idea: Continually distill the cheap model from its routed failures.
+  cost: Deployed policy retains 88.3% pass at 60.8% of always-teacher cost on HumanEval+MBPP; Qwen2.5-Coder-1.5B improves 28.7% to 49.7% after four cycles
+  summary: MERA improves the small model behind a step-level router rather than only routing: it replays failed student invocations to get verified teacher demonstrations, distills a SkillBook, fine-tunes a LoRA student, and serves it behind a cost-calibrated router with verifier fallback, admitting changes only when replay preserves quality.
+  benchmarks: HumanEval+, MBPP, TAU-2
+  signals: replayed failed invocations, verifier-backed fallback, cost-calibrated router
+
+[zhang-2026-mtrouter] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C1,C3,C6)
+  title: MTRouter: Cost-Aware Multi-Turn LLM Routing with History-Model Joint Embeddings
+  key_idea: Per-turn model selection learned offline from logged agent trajectories via history-model joint embeddings.
+  cost: On ScienceWorld surpasses GPT-5 while reducing total cost by 58.7%; on HLE competitive accuracy with 43.4% lower cost than GPT-5
+  summary: MTRouter selects which model to call at every turn of a multi-turn, long-horizon task under a fixed budget. It embeds the interaction history jointly with candidate models and learns a turn-level utility estimator from logged trajectories; it makes fewer model switches than prior multi-turn routers and shows emergent model specialization.
+  benchmarks: ScienceWorld, Humanity's Last Exam
+  signals: history-model joint embedding, logged trajectory outcomes, cost budget
+
+[kiyohara-2025-prompt-opt-logged-bandit] (2025, arXiv, rel=5, gran=none, regime=RL-offline, prod=N, clusters=C4,C6)
+  title: Prompt Optimization with Logged Bandit Data
+  key_idea: Off-policy prompt-policy learning from logged bandit feedback.
+  summary: Optimizes which prompt an LLM pipeline uses for personalized sentence generation from naturally logged user feedback (clicks), with a kernel-based off-policy gradient that exploits similarity between generated sentences to cut variance while limiting bias.
+  benchmarks: new benchmark suite: personalized movie descriptions
+  signals: click feedback, sentence similarity kernel
+
+[si-2025-ccpo] (2025, arXiv, rel=5, gran=step, regime=RL-offline, prod=N, clusters=C2,C3,C6)
+  title: Conformal Constrained Policy Optimization for Cost-Effective LLM Agents
+  key_idea: Cost-minimizing multi-model agent orchestration with conformal reliability constraints.
+  cost: Up to 30% cost reduction vs other cost-aware baselines and LLM-guided methods without compromising reliability on two multi-hop QA benchmarks
+  summary: CCPO trains an orchestration policy that runs models and tools of different cost in sequence, minimizing cost subject to a user-specified reliability level formalized with conformal prediction. It combines constrained policy optimization with off-policy RL and online conformal prediction.
+  benchmarks: two multi-hop QA benchmarks
+  signals: conformal threshold, cost-aware score
+
+[somerstep-2025-carrot] (2025, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C13,C15)
+  title: CARROT: A Cost Aware Rate Optimal Router
+  key_idea: Estimate both cost and accuracy per model and plug into a linear utility: minimax-optimal routing.
+  summary: Provides a minimax analysis of routing and shows a router that separately estimates each model's cost and accuracy can be rate-optimal. Introduces CARROT based on this principle and releases the SPROUT dataset spanning recent frontier LLMs with price-aware routing labels.
+  benchmarks: SPROUT, RouterBench, Open LLM Leaderboard v2, open-LLM-leaderboard-v2, SPROUT (GPQA, MuSR, MMLU-Pro, MATH, OpenHermes, RAGBench)
+  signals: predicted accuracy, predicted cost, query embedding
+
+[tsiourvas-2025-causal-routing] (2025, NeurIPS 2025, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: Causal LLM Routing: End-to-End Regret Minimization from Observational Data
+  key_idea: Causal, regret-minimizing router trained from logged single-model outcomes.
+  summary: Learns routing policies end-to-end from observational data where only the deployed model's outcome is logged, by minimizing decision regret with two surrogate objectives. It avoids requiring full-feedback evaluation of all models and handles heterogeneous cost preferences.
+  benchmarks: public benchmarks
+  signals: observational (logged) outcomes, regret surrogate losses
+
+[wei-2025-barp] (2025, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C6)
+  title: Learning to Route LLMs from Bandit Feedback: One Policy, Many Trade-offs
+  key_idea: Train routers with bandit feedback and a preference-conditioned policy.
+  cost: Outperforms strong offline routers by at least 12.46% and the largest LLM by at least 2.45% (abstract)
+  summary: BaRP trains a router under the same partial-feedback restriction as deployment, where only the chosen model's outcome is observed, framed as a contextual bandit over prompt features and a preference vector. Operators can adjust the performance/cost trade-off at test time without retraining.
+  benchmarks: routing benchmarks (unseen tasks)
+  signals: prompt features, user preference vector, partial (bandit) feedback, bandit reward
+
+[bhargava-2024-ope-logged-human-feedback] (2024, arXiv, rel=5, gran=n/a, regime=n/a, prod=N, clusters=C6,C7)
+  title: Off-Policy Evaluation from Logged Human Feedback
+  key_idea: OPE of LLM policies from logged human feedback.
+  summary: Formalizes evaluating a new model using human feedback logged on another model's responses, proposing model-based and model-free estimators that estimate absolute policy values, rank policies, and can be optimized.
+  signals: logged human feedback on responses
+
+[bhatti-2026-proteus] (2026, EuroMLSys 2026, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C1,C6,C14)
+  title: PROTEUS: SLA-Aware Routing via Lagrangian RL for Multi-LLM Serving Systems
+  key_idea: SLA-conditioned router via Lagrangian RL.
+  cost: 90.1% accuracy on RouterBench within 1.3% of oracle; cost savings up to 89.8% vs best fixed model (abstract)
+  summary: PROTEUS accepts an accuracy target at runtime and uses Lagrangian RL with a learned dual variable so a single router satisfies the full range of accuracy floors. OmniRouter meets floors only 22% of the time in comparison.
+  benchmarks: RouterBench, SPROUT
+  signals: Lagrangian dual variable, accuracy target as input, accuracy target tau, query features
+
+[cao-2026-early-outcome-prediction-audit] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C6,C7,C13)
+  title: Testing-Driven Reliability Audit of Trajectory-Based Early Outcome Prediction for LLM Agents: Target-Specific Calibration Transfer Persists Within a Single Benchmark
+  key_idea: Early-outcome predictors for agents need target-specific calibration checks.
+  summary: Audits whether trajectory-based early-outcome predictors, used to stop agent runs once the result is predictable, stay calibrated when applied to agents they were not trained on, using leave-one-agent-out tests on public SWE-bench trajectories. Finds that calibration failures are concentrated in specific target agent and head combinations.
+  benchmarks: SWE-bench Verified, TerminalBench
+  signals: trajectory prefix features
+
+[chen-2026-signals-trajectory-triage] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C6,C7,C8)
+  title: Signals: Trajectory Sampling and Triage for Agentic Interactions
+  key_idea: Cheap signals to triage production trajectories.
+  cost: Signal-based sampling: 82% informativeness vs 54% random, 1.52x efficiency per informative trajectory on tau-bench
+  summary: Computes cheap signals from live agent interactions and attaches them as attributes to triage which trajectories are worth reviewing, without affecting online behavior.
+  benchmarks: tau-bench
+  signals: cheap interaction signals
+
+[frauen-2026-causal-methods-llm] (2026, Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2, rel=4, gran=n/a, regime=n/a, prod=N, clusters=C6,C15)
+  title: Causal Methods for LLM Development and Evaluation
+  key_idea: Routing and evaluation from logs should be treated as causal inference.
+  summary: Position and tutorial paper (KDD 2026) arguing that many LLM development questions, including whether to route a prompt to a larger or smaller model under cost limits, are causal. It reviews how confounded logs, biased judges and non-stationary deployment call for causal inference and off-policy methods.
+  signals: logged data, judge scores
+
+[gola-2026-langsmith-fine-tuning] (2026, LangChain blog, rel=4, gran=n/a, regime=supervised-offline, prod=Y, clusters=C6,C8,C14)
+  title: Introducing LangSmith Fine-Tuning
+  key_idea: Curated production agent traces can be distilled into open models that are both better and cheaper per task.
+  cost: Engine agent: Kimi K3 + SFT 96.0 vs Kimi K3 90.0 vs GPT-5.6 Sol 87.0 on internal IssueBench subset; OpenSWE Review: Qwen-3.8-27B + SFT F1 48.9%->53.7% with 29.8% fewer model calls and 29.4% fewer tool requests per review (vendor-reported, internal agents)
+  summary: LangChain launches smithtune, a CLI that turns agent trajectories stored in LangSmith into SFT datasets, trains on Fireworks or Baseten, evaluates and deploys. Applied to two of LangChain's own production agents, fine-tuned open models beat a frontier model on issue detection and matched review quality with about 30% fewer model and tool calls; a less selective first dataset lowered F1, prompting a trace-review curation stage. Baseten's companion posts describe the training infrastructure (Baseten Loops).
+  benchmarks: IssueBench (internal), internal PR review set
+  signals: curated successful trajectories, trace review
+
+[grotov-2026-speculative-uncertainty] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C3,C6,C7)
+  title: How to Speculate about Uncertainty in Agentic Coding? A Draft-Model Gate Method
+  key_idea: A small draft model scores a black-box agent's actions to predict failure before execution.
+  cost: Pre-execution veto gate cuts execution error rate by 6-8 pp and token cost by 14-19% in deployment
+  summary: Recovers a failure-likelihood signal for a black-box coding agent by having a small open draft model score the agent's generated trajectory in one forward pass and calibrating phase-aware features. The score can drive routing, human intervention or extra compute; a veto gate is demonstrated.
+  signals: draft-model cross-likelihoods, phase-aware features
+
+[hasanaliyev-2026-expected-reward-prediction] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C7)
+  title: Expected Reward Prediction, with Applications to Model Routing
+  key_idea: Predict expected reward-model score per model per prompt for routing.
+  summary: Shows the expected reward an LLM would earn on a prompt under repeated sampling can be predicted before generation, and uses this prediction for cost-controlled routing that beats category-level baselines.
+  benchmarks: open-perfectblend
+  signals: reward model scores, prompt
+
+[huang-2026-rlcascaderouter] (2026, arXiv, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C1,C2,C6)
+  title: RLCascadeRouter: Quality-Estimator-Free Cascade Routing via Reinforcement Learning
+  key_idea: RL cascade routing without explicit quality estimators.
+  summary: Formulates cascade routing as an MDP with stop and model-selection actions and optimises the performance-cost objective directly with RL, avoiding separate quality estimators. Supports unseen models without retraining.
+  benchmarks: LLMRouterBench (ten benchmarks), ten LLMRouterBench benchmarks
+  signals: observed responses, trajectory returns
+
+[hussain-2026-coverage-illusion-rag] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=Y, clusters=C2,C6,C10,C14)
+  title: The Coverage Illusion: From Pre-retrieval Routing Failure to Post-retrieval Cascades in a Production RAG System
+  key_idea: Escalate pipeline steps only after cheap steps fail on real traffic.
+  cost: Post-retrieval cascade: +0.140 Composite Overall vs Always-HyDE, 31.8% lower latency, 72.2% of real queries served without LLM augmentation
+  summary: Case study on a production RAG system showing synthetic queries overstate the need for LLM query augmentation (90% vs 27.8% on real traffic). A cheapest-first post-retrieval cascade escalates only when retrieval fails.
+  benchmarks: Danish National Encyclopedia production traffic (20,000 query-workflow pairs), 20,000 query-workflow pairs from production traffic
+  signals: retrieval returned no documents, retrieval result emptiness
+
+[lai-2026-saverouter] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: Routing Should Pay for Itself: Sparse Supervision for Economical LLM Routing
+  key_idea: Account for supervision cost in router economics.
+  cost: Uses ~33-41% of training feedback at competitive quality; reduces break-even deployment volume ~1.9-9.5x (abstract)
+  summary: SaveRouter accounts for the upfront cost of collecting query-model feedback, acquiring only informative labels and sharing capability information across queries so the router pays back sooner.
+  benchmarks: four routing benchmarks
+  signals: sparse selectively-acquired feedback, partial query-model feedback, shared capability information
+
+[levit-2026-proxydrift] (2026, arXiv, rel=4, gran=n/a, regime=n/a, prod=Y, clusters=C5,C6,C14)
+  title: Privacy-Preserving Data Drift Detection and Recovery for Large-Scale LLM Applications via Proxy Representations
+  key_idea: Privacy-preserving drift monitoring and eval-set refresh from proxy representations of production traffic.
+  summary: Presents ProxyDrift, which measures drift between production traffic and offline evaluation sets using non-PII proxy descriptors produced by LLM classification of interactions, and refreshes evaluation sets with synthetic queries generated to match. Deployed for an application serving hundreds of millions of users, it also links proxy distributions to user satisfaction.
+  signals: LLM-derived proxy descriptors, user satisfaction linkage
+
+[li-2026-counterfactual-tool-ranking] (2026, arXiv, rel=4, gran=step, regime=n/a, prod=N, clusters=C3,C6)
+  title: Counterfactual Tool Ranking under Utility, Cost, and Privilege Constraints
+  key_idea: Empirical comparison of OPE estimators for agent tool-choice policies, including under shift.
+  summary: Evaluates counterfactual tool-selection policies from logs with exact propensities over eleven enterprise-style tools and MCP transport, plus 1,930 BFCL tasks. Finds that direct regression can beat doubly robust estimation in-distribution (MAE 0.0139 vs 0.0272) while DR is better under environment shift.
+  benchmarks: BFCL
+  signals: exact-propensity logs, doubly robust, direct regression
+
+[liu-2026-treecredit] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C3,C6)
+  title: Shared Prefixes, Better Credit: Adaptive Routing for Multi-Agent Reasoning
+  key_idea: State-matched credit assignment for per-step operator routing.
+  cost: Modestly improves accuracy while substantially reducing inference cost on six reasoning benchmarks
+  summary: TreeCredit builds shared-prefix collaboration trees from the same intermediate state to credit each operator by correctness and added cost of its continuation, then trains a lightweight pairwise state router that picks the next operator in multi-agent reasoning.
+  benchmarks: six reasoning benchmarks
+  signals: shared-prefix suffix credit, cumulative cost
+
+[manoharan-2026-t2mo] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C14)
+  title: Task-to-Model Optimization for Enterprise LLM Coding Assistants: A Data-Driven Framework for Cost-Optimal Routing
+  key_idea: Cost-per-completed-task objective for enterprise routing.
+  summary: Describes a nine-stage methodology for cost-optimal model routing in enterprise coding assistants, optimizing cost per completed task including escalations, with shadow-mode deployment and governance.
+  signals: telemetry, task taxonomy, difficulty grading, cost per completed task
+
+[pham-2026-agentstop] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C6,C9,C12)
+  title: AgentStop: Terminating Local AI Agents Early to Save Energy in Consumer Devices
+  key_idea: Predict failing trajectories from cheap signals and stop them early to save compute.
+  cost: Reduces wasted energy by 15-20% with <5% utility drop on web QA and coding benchmarks
+  summary: Measures the time, token and energy overhead of local LLM agents on consumer hardware and introduces AgentStop, a lightweight supervisor that predicts from cheap execution signals which trajectories will fail and terminates them early.
+  signals: token log probabilities, execution signals
+
+[tsymboi-2026-production-traffic-post-training] (2026, arXiv, rel=4, gran=none, regime=RL-offline, prod=Y, clusters=C6,C8,C14)
+  title: From Production Traffic to Post-Training: Building a Self-Hosted LLM That Covers the Corporate Request Mix
+  key_idea: Production-traffic-driven post-training to replace a larger model fleet.
+  cost: model absorbs 50% of platform traffic (116M requests/month) at a fraction of the serving cost
+  summary: Consolidates traffic from over 200 internal applications onto one self-hosted model by analyzing production errors, training per-axis GRPO experts and merging them; benchmarks are stratified to production traffic.
+  benchmarks: in-house Arena, instruction following, function-calling
+  signals: production error analysis, verifiers, LLM judges
+
+[unell-2026-deployment-centered-rejection-risk] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C6,C7,C14)
+  title: Deployment-Centered Evaluation: Predicting Query-Level Rejection Risk in a Clinical LLM System
+  key_idea: Pre-generation predictor of user rejection trained on sparse real deployment feedback.
+  summary: Trains a pre-response classifier, inside an EHR-embedded clinical LLM system, that predicts before generation whether the user will reject the response, using query content and deployment context. A prospective 4.5-month evaluation gives AUROC 0.719, and the authors estimate value for guardrail triggering and abstention.
+  signals: query content, deployment context (department, provider type, model used), user rejection feedback
+
+[wei-2026-routing-least-learnable] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C3,C6,C13)
+  title: Routing Is Least Learnable Where It Is Most Valuable: Bounds on Representation Routing for Web Agents
+  key_idea: Router labels are scarce where routing matters; noise inflates oracle gains.
+  cost: Sending only tasks no mode solves to the cheapest mode cuts cost 9.5-30.6% at unchanged success; no tested routing policy robustly beats one well-chosen fixed mode
+  summary: Measures per-task routing among six observation modes for web agents and finds oracle gains are inflated by 12-14% run-to-run noise; five routing policies fail to beat a fixed good mode. Routing supervision is scarcest exactly where routing would help most.
+  benchmarks: VisualWebArena, WebArena
+  signals: observation mode
+
+[xu-2026-learning-what-to-skip] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C3,C6,C12)
+  title: Learning What to Skip: Counterfactual Credit Assignment for Efficient Multi-Agent LLM Workflows
+  key_idea: Counterfactual credit assignment to skip unneeded workflow components.
+  cost: Reduces recorded token cost while matching or improving full-workflow accuracy (no single number in abstract)
+  summary: LW2S learns from controlled skip interventions on full-workflow logs which planning, verification or summarization components can be safely omitted given the current state, with held-out calibration and guards. It lowers token cost at equal accuracy.
+  benchmarks: math reasoning, multiple-choice QA, code generation
+  signals: counterfactual skip interventions, calibrated safety models
+
+[yuan-2026-clawtrace] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C6,C8)
+  title: ClawTrace: Cost-Aware Tracing for LLM Agent Skill Distillation
+  key_idea: Cost-aware traces for skill distillation.
+  summary: Tracing platform recording every LLM call, tool use and sub-agent spawn with per-step cost, compiling sessions into TraceCards that let skill-distillation pipelines prune expensive steps that did not matter.
+  signals: per-step USD cost, redundancy flags
+
+[zhang-2026-dialrouter] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C1,C3,C6)
+  title: From Myopic Selection to Long-Horizon Awareness: Sequential LLM Routing for Multi-Turn Dialogue
+  key_idea: Long-horizon sequential routing for multi-turn interactions, distilled from MCTS search.
+  summary: DialRouter treats model selection across a multi-turn dialogue as a sequential decision problem. It runs MCTS over dialogue branches induced by different model choices, then distills a lightweight routing policy from the high-reward search trajectories so that no online search is needed at inference.
+  benchmarks: open-domain and domain-specific dialogue tasks
+  signals: MCTS-derived trajectory rewards, retrieval-based future state approximation, cost-aware reward, dialogue state
+
+[zhang-2026-v0-generalist-value-model] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C9)
+  title: V_0: A Generalist Value Model for Any Policy at State Zero
+  key_idea: Predict per-prompt success of any model from its performance profile and route by it.
+  cost: Pareto-optimal performance-cost trade-off in LLM routing tasks (qualitative)
+  summary: Trains a generalist value model that predicts the expected success of any model on an unseen prompt by conditioning on a history of that model's instruction-performance pairs instead of fitting parameters. Used to allocate GRPO rollout budgets and, at deployment, as a router.
+  signals: instruction-performance history, prompt
+
+[cencerrado-2025-no-answer-needed] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C7)
+  title: No Answer Needed: Predicting LLM Answer Accuracy from Question-Only Linear Probes
+  key_idea: Pre-generation correctness probes.
+  summary: Linear probes on activations after reading a question, before generation, predict whether the model's answer will be correct, generalizing out of distribution except on math.
+  benchmarks: trivia and OOD knowledge datasets, TriviaQA, OOD knowledge datasets
+  signals: pre-generation activations (linear probe), pre-generation linear probe
+
+[databricks-2025-tao] (2025, Databricks blog, rel=4, gran=n/a, regime=RL-offline, prod=N, clusters=C6,C7,C8)
+  title: TAO: Using test-time compute to train efficient LLMs without labeled data
+  key_idea: Convert test-time compute plus a reward model into a cheaper specialised model using only unlabeled usage data.
+  cost: Brings Llama 3.1 8B and Llama 3.3 70B close to GPT-4o and o3-mini on FinanceBench, DB Enterprise Arena and BIRD-SQL without labels, at the base model's inference cost; multi-task TAO +2.4% for Llama 3.3 70B on a broad enterprise benchmark; notes o3-mini emits 5-10x more output tokens (vendor-reported)
+  summary: TAO uses only unlabeled task inputs such as production prompts: it samples many candidate responses with test-time compute, scores them with an enterprise reward model, and trains the model with RL so the tuned model answers directly with no extra inference compute. It outperforms labeled fine-tuning on three enterprise tasks and scales with tuning compute budget.
+  benchmarks: FinanceBench, DB Enterprise Arena, BIRD-SQL (Databricks dialect)
+  signals: unlabeled usage inputs, reward model (DBRM) scores
+
+[feng-2025-fusionfactory] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C8,C13)
+  title: FusionFactory: Fusing LLM Capabilities with Multi-LLM Log Data
+  key_idea: Exploit multi-LLM logs for routing and distillation.
+  summary: FusionFactory uses multi-LLM log data to fuse models at three levels: query-level routing, thought-level template reuse, and model-level distillation, outperforming the best single model on all 14 tasks.
+  benchmarks: LLMFusionBench (14 tasks), LLMFusionBench (14 tasks, 20 LLMs), LLMFusionBench (14 tasks, 5 domains)
+  signals: multi-LLM log data, routers, reasoning templates, distillation, multi-LLM logs, query embedding
+
+[jitkrittum-2025-unirouter] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C5,C6,C15)
+  title: Universal Model Routing for Efficient LLM Inference
+  key_idea: Represent LLMs by prediction profiles on anchor prompts to route among unseen models.
+  summary: UniRoute (Google) handles dynamic routing where new LLMs appear at test time by representing each model as a vector of its errors on a small representative prompt set. Cluster-based and learned-cluster-map instantiations are shown to estimate a theoretically optimal rule, with an excess-risk bound.
+  benchmarks: public benchmarks (30+ unseen LLMs), public benchmarks with 30+ unseen LLMs
+  signals: model feature vector from predictions on representative prompts, prompt clusters, LLM feature vector from representative prompts, clusters
+
+[kiyohara-2025-opl-sentence-personalization] (2025, ACM (DOI 10.1145/3705328.3748088), rel=4, gran=none, regime=RL-offline, prod=N, clusters=C6)
+  title: An Off-Policy Learning Approach for Steering Sentence Generation towards Personalization
+  key_idea: Off-policy learning for steering personalized LLM generation.
+  summary: RecSys 2025 paper by Kiyohara, Cao, Saito and Joachims proposing an off-policy learning approach to steer LLM sentence generation toward personalization using logged feedback (abstract not retrieved; details from title and author record only).
+  signals: logged user feedback
+
+[li-2025-knn-routing] (2025, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C6,C13)
+  title: Rethinking Predictive Modeling for LLM Routing: When Simple kNN Beats Complex Learned Routers
+  key_idea: Simple kNN is a strong router baseline.
+  summary: Shows that a well-tuned k-nearest-neighbors router matches or beats complex learned routers across instruction-following, QA and reasoning benchmarks, explained by locality of model performance in embedding space. Introduces standardized routing benchmarks including a multimodal one.
+  benchmarks: standardized routing benchmarks incl. multimodal
+  signals: query embedding kNN, query embedding neighbors
+
+[pacchiardi-2025-predictaboard] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C6,C7,C13)
+  title: PredictaBoard: Benchmarking LLM Score Predictability
+  key_idea: Benchmark for instance-level LLM success prediction.
+  summary: PredictaBoard benchmarks assessors that predict whether an LLM will fail on a given prompt, scoring LLM-assessor pairs by rejection rate at different error tolerances.
+  benchmarks: PredictaBoard
+  signals: assessor predictions
+
+[song-2025-irt-router] (2025, ACL 2025, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: IRT-Router: Effective and Interpretable Multi-LLM Routing via Item Response Theory
+  key_idea: Psychometric IRT model of model ability vs query difficulty for routing.
+  summary: IRT-Router borrows item response theory to jointly model LLM abilities and query difficulty/attributes, giving both accurate performance prediction and interpretable parameters. An online warm-up based on semantic similarity helps cold-start queries; experiments span 20 LLMs and 12 datasets.
+  benchmarks: 12 datasets
+  signals: item response theory ability/difficulty, query embedding, semantic warm-up, IRT ability and difficulty
+
+[tran-2025-arch-router] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C14)
+  title: Arch-Router: Aligning LLM Routing with Human Preferences
+  key_idea: Route by matching queries to human-written policy descriptions rather than benchmark scores.
+  summary: Arch-Router is a 1.5B model that maps queries to user-defined domain or action preferences, which are then bound to specific models. New models can be added by editing the policy mapping without retraining; the authors report state-of-the-art preference matching against proprietary models.
+  benchmarks: conversational datasets
+  signals: user-defined domain/action policies, 1.5B router LM, domain-action preference policies, domain-action preference labels
+
+[xiao-2025-generalized-correctness-models] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C6,C7)
+  title: Generalized Correctness Models: Learning Calibrated and Model-Agnostic Correctness Predictors from Historical Patterns
+  key_idea: Model-agnostic correctness predictors from logged outcomes.
+  summary: Trains correctness predictors on historical correctness data across many models and finds they generalize across models, suggesting confidence estimation is learnable from history rather than self-introspection.
+  benchmarks: MMLU, TriviaQA
+  signals: historical correctness patterns, answer phrasing
+
+[zellinger-2025-rational-tuning-cascades] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C6)
+  title: Rational Tuning of LLM Cascades via Probabilistic Modeling
+  key_idea: Probabilistic joint model of cascade errors for threshold tuning.
+  cost: Improves area under error-cost curve by 4.3% on average vs Bayesian-optimisation thresholds for cascades with k>=3; 10.2% with n<=30 training examples
+  summary: Models the joint distribution of confidence and correctness across a chain of LLMs with a parametric Markov-copula, then tunes the confidence thresholds by continuous optimisation. The probabilistic model is especially sample-efficient.
+  signals: confidence thresholds, joint error model (Markov copula)
+
+[zhang-2025-meta-router] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C7)
+  title: Meta-Router: Bridging Gold-standard and Preference-based Evaluations in Large Language Model Routing
+  key_idea: Causal debiasing of judge-labeled routing supervision.
+  summary: Meta-Router casts training with combined gold-standard and preference-based labels as causal inference, correcting bias in cheap judge/crowd labels via a conditional average treatment effect estimate.
+  signals: gold-standard labels, preference/judge labels, causal CATE correction
+
+[chiang-2024-chatbot-arena] (2024, arXiv, rel=4, gran=n/a, regime=n/a, prod=Y, clusters=C5,C6,C13)
+  title: Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference
+  key_idea: Live crowdsourced pairwise preference collection for LLM ranking.
+  summary: Describes the Chatbot Arena platform, which collects crowdsourced pairwise votes between LLMs on real user prompts (over 240K votes at time of writing) and ranks models with Bradley-Terry style statistics.
+  benchmarks: Chatbot Arena
+  signals: pairwise human votes
+
+[ding-2024-hybrid-llm] (2024, ICLR 2024, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C6)
+  title: Hybrid LLM: Cost-Efficient and Quality-Aware Query Routing
+  key_idea: Route to small vs large model by predicting the quality gap, with a test-time tunable threshold.
+  cost: Up to 40% fewer calls to the large model with no drop in response quality (abstract)
+  summary: Proposes a hybrid inference setup where a lightweight router predicts, per query, whether a small edge-deployable model will match the large model's quality. The quality threshold is tunable at test time to trade quality for cost.
+  benchmarks: MixInstruct
+  signals: difficulty estimate, predicted quality gap, desired quality threshold, predicted query difficulty, quality gap estimate, difficulty
+
+[ong-2024-routellm] (2024, arXiv (later ICLR 2025 per authors; venue not verified here), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C13,C14)
+  title: RouteLLM: Learning to Route LLMs with Preference Data
+  key_idea: Learn strong-vs-weak routing from pairwise human preference data with a tunable threshold.
+  cost: Blog: >85% cost reduction on MT-Bench, 45% on MMLU, 35% on GSM8K vs GPT-4 at 95% of GPT-4 quality; paper: >2x cost reduction in some cases without quality loss
+  summary: Trains binary routers that pick between a strong and a weak LLM per query using Chatbot Arena human preference data plus augmentation. Compares matrix factorization, BERT classifier, causal-LLM classifier and similarity-weighted ranking routers, and shows they transfer when the model pair is swapped at test time.
+  benchmarks: MT-Bench, MMLU, GSM8K
+  signals: query embedding, human preference labels (Chatbot Arena), matrix factorization, BERT classifier, similarity-weighted ranking, human preference data (Chatbot Arena), data augmentation, human preference
+
+[shekhar-2024-optimizing-costs-llm-usage] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C2,C6,C10)
+  title: Towards Optimizing the Costs of LLM Usage
+  key_idea: Quality prediction plus LP model selection plus prompt shortening.
+  cost: Reduces costs by 40%-90% while improving quality by 4%-7% (enterprise and open-source document-processing datasets)
+  summary: Predicts LLM output quality without calling the models and solves an LP-rounding selection under budget and latency, plus token-reduction heuristics for prompts.
+  benchmarks: enterprise document datasets, open-source summarisation/QA datasets, enterprise datasets, annotated open-source datasets
+  signals: predicted output quality, token-reduction heuristics, token count
+
+[zhang-2024-treacle] (2024, arXiv, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C1,C2,C5,C6)
+  title: Efficient Contextual LLM Cascades through Budget-Constrained Policy Learning
+  key_idea: Budget-constrained RL policy over (model, prompt) choices with re-query ability.
+  cost: Cost savings of up to 85% compared to baselines while maintaining high accuracy
+  summary: TREACLE is an RL policy that jointly picks the model and prompt scheme for each question under long-run monetary and latency budgets. It uses question embeddings and the consistency of previous responses as state.
+  benchmarks: GSM8K, CSQA, LLC
+  signals: question embedding, response history consistency, budget and latency, budget
+
+[zhuang-2024-embedllm] (2024, ICLR (per Semantic Scholar), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C13)
+  title: EmbedLLM: Learning Compact Representations of Large Language Models
+  key_idea: Matrix-factorization-style LLM embeddings reused across routing and performance prediction.
+  summary: EmbedLLM learns compact vector representations of LLMs with an encoder-decoder trained on query-level correctness data. The embeddings support routing and forecasting benchmark performance without running the model, and outperform prior methods on routing accuracy and latency.
+  benchmarks: multiple benchmarks, correctness forecasting across benchmarks, model routing
+  signals: learned model embeddings, query embedding, correctness labels, model embedding, historical correctness
+
+[lu-2023-zooter] (2023, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: Routing to the Expert: Efficient Reward-guided Ensemble of Large Language Models
+  key_idea: Distill off-the-shelf reward-model rankings into a cheap pre-generation router.
+  summary: Zooter distills reward-model scores on training queries into a routing function that sends each query to the LLM with relevant expertise, avoiding the cost of generating from every model and ranking. Tag-based label enhancement reduces noise from silver reward supervision; across 26 subsets it beats the best single model on average.
+  benchmarks: benchmark collection of 26 subsets, 26 subsets across domains
+  signals: reward model scores (distilled), query tags, query embedding, distilled reward model scores, tags
+
+[sakota-2023-forc] (2023, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C6)
+  title: Fly-Swat or Cannon? Cost-Effective Language Model Choice via Meta-Modeling
+  key_idea: Meta-model plus batch assignment for LM choice.
+  cost: match the performance of the largest LM while achieving a cost reduction of 63% (14 datasets, four LMs)
+  summary: A meta-model predicts how well each candidate LM will do on each input, then an assignment solves budget-constrained or cost-minimising allocation across a batch.
+  benchmarks: 14 datasets, five task types, 14 datasets across five tasks
+  signals: meta-model predicted performance, cost budget
+
+[shnitzer-2023-routing-benchmark-datasets] (2023, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: Large Language Model Routing with Benchmark Datasets
+  key_idea: Reuse benchmark outcomes to train per-model correctness predictors for routing.
+  summary: Recasts benchmark datasets as training data for a router that picks the best LLM for new tasks, reducing the problem to a collection of binary correctness classifiers. It shows consistent gains over any single model and discusses limits of transferring from benchmarks.
+  benchmarks: HELM-style benchmark collection
+  signals: per-model correctness classifiers, query embedding (kNN), benchmark correctness labels
+
+[askin-2026-federated-router] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: Federate the Router: Learning Language Model Routers with Sparse and Decentralized Evaluations
+  key_idea: Federated router training across clients.
+
+[chae-2026-optimal-sequential-annotations-ope] (2026, arXiv, rel=3, gran=n/a, regime=RL-offline, prod=N, clusters=C6,C7)
+  title: Optimal Sequential Annotations for Off-Policy Evaluation
+  key_idea: Variance-optimal choice of which logged steps to label expertly for doubly robust OPE.
+
+[chen-2026-oats-tool-selection] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C3,C6)
+  title: Outcome-Aware Tool Selection for Semantic Routers: Latency-Constrained Learning Without LLM Inference
+  key_idea: Learn tool routing from historical outcomes offline with zero serving cost.
+
+[chen-2026-resample-or-reroute] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C2,C6)
+  title: Resample or Reroute? Recoverable Stopping Debt Without Identified Action Selection
+  key_idea: Gated identification test before claiming a resample-vs-reroute selector adds value.
+  cost: In a 152-query MBPP+ study, fixed escalation to Qwen2.5-14B exceeds leave-one-out 7B resampling by +2.882 pp after 7B rejection
+
+[chen-2026-routing-oracle-stochastic] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C6,C13)
+  title: What Does a Routing Oracle Measure Under Stochastic Decoding? Coupling, Scorer Choice, and Single-Commit Ceilings
+  key_idea: Routing oracles under stochastic decoding overstate the achievable gain of single-commit routers.
+
+[chhikara-2026-matched-trajectory-replay] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C6,C7,C13)
+  title: Evaluating Confidence-Gated Retrieval with Matched Trajectory Replay
+  key_idea: Compare agent gating policies by replaying matched trajectories with fixed costs.
+
+[huang-2026-prefixguard] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C6,C7)
+  title: PrefixGuard: Online Failure Warning and Trace-Grounded Diagnosis for LLM Agents
+  key_idea: Online failure prediction from agent trace prefixes with symbolic diagnosis.
+
+[kumar-2026-cooperative-profiles] (2026, arXiv, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C6,C12)
+  title: Cooperative Profiles Predict Multi-Agent LLM Team Performance in AI for Science Workflows
+  key_idea: Cheap game-based profiles predict multi-agent team performance.
+
+[lai-2026-dars] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: From Sampled Outcomes to Capability Distributions: Rethinking Supervision for LLM Routing
+  key_idea: Distribution-aware routing labels.
+
+[li-2026-coca-confidence-before-answering] (2026, arXiv, rel=3, gran=query, regime=RL-online, prod=N, clusters=C6,C7)
+  title: Confidence Before Answering: A Paradigm Shift for Efficient LLM Uncertainty Estimation
+  key_idea: Confidence-first outputs trained with RL.
+
+[liu-2026-cost-utility-alignment-trajectories] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C6,C12,C13,C15)
+  title: Cost-Utility Alignment in LLM Agent Trajectories:Profiling,Attribution,Diagnosis,Adaptation,and Evaluation
+  key_idea: Treat cost and utility as dual ledgers over agent trajectories.
+
+[morandi-2026-selection-bias-sparse-feedback] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C7,C14)
+  title: Correcting Selection Bias in Sparse User Feedback for Large Language Model Quality Estimation: A Multi-Agent Hierarchical Bayesian Approach
+  key_idea: Correct thumbs-feedback selection bias with topic-stratified hierarchical Bayes before using it as a quality metric.
+
+[richards-2026-agentlogs] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C6,C13,C14)
+  title: AgentLogs: A Dataset for Opening the Black Box of GitHub's Cloud Agent
+  key_idea: Large real-world agent trace dataset with per-step token usage.
+
+[sun-2026-routeguard] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C6,C13)
+  title: RouteGuard: Certifying Routing Gain in LLM Multi-Agent Systems When Complementarity Is Not Enough
+  key_idea: Certify routing gain statistically before shipping a router.
+
+[tian-2026-pinterest-decision-quality] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C6,C13,C14)
+  title: Decision Quality Evaluation Framework at Pinterest
+  key_idea: Production evaluation pipeline using propensity sampling to compare LLM agents on cost and quality.
+
+[tolochinsky-2026-valid-best-model-identification] (2026, arXiv, rel=3, gran=n/a, regime=bandit-online, prod=N, clusters=C5,C6,C13)
+  title: Valid Best-Model Identification for LLM Evaluation via Low-Rank Factorization
+  key_idea: Bandit best-model identification with doubly robust use of predicted scores.
+  cost: Reduces the number of required evaluations while still identifying the best model (qualitative)
+
+[wang-2026-causalrm] (2026, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C7)
+  title: CausalRM: Causal-Theoretic Reward Modeling for RLHF from Observational User Feedbacks
+  key_idea: Debias reward models trained on observational user feedback with causal corrections.
+
+[wang-2026-implicitrm] (2026, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C7)
+  title: ImplicitRM: Unbiased Reward Modeling from Implicit Preference Data for LLM alignment
+  key_idea: Unbiased reward learning from positive-only, propensity-biased implicit feedback.
+
+[wu-2026-faq-efficient-evaluation] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: Efficient Evaluation of LLM Performance with Statistical Guarantees
+  key_idea: Active, statistically valid LLM evaluation reusing historical results.
+  cost: Up to 5x effective sample size gains; matches uniform-sampling CI width with up to 5x fewer queries
+
+[yang-2026-star-agent-router] (2026, arXiv, rel=3, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C6)
+  title: STAR: Failure-Aware Markovian Routing for Multi-Agent Spatiotemporal Reasoning
+  key_idea: Failure-aware inter-agent routing matrix learned from execution traces.
+
+[zhang-2026-calibration-not-control] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C6,C7)
+  title: Calibration Is Not Control: Why LLM-Agent Oversight Needs Intervention
+  key_idea: Estimate intervention advantage, not failure risk, to decide when to intervene in agents.
+
+[zhang-2026-credit-without-ground-truth] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C6,C7)
+  title: Credit Without Ground Truth: Auditing Step-Level Credit Assignment in LLM Agents Against Executed Replay
+  key_idea: Executed replay as ground truth reveals step-level credit signals are unreliable.
+
+[zhang-2026-rl-orchestration-traces] (2026, arXiv, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C3,C6,C15)
+  title: Reinforcement Learning for LLM-based Multi-Agent Systems through Orchestration Traces
+  key_idea: Orchestration traces as the unit for learning multi-agent policies offline or online.
+
+[zhong-2026-zclawbench-trajectory-reliability] (2026, Journal of Technology Informatics and Engineering, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C6,C7)
+  title: Trajectory Reliability Prediction for Generalist AI Agents: Tool-Use Failure Analysis and Success Forecasting on ZClawBench
+  key_idea: Predict agent task success from operational trace features before manual evaluation.
+
+[guerdan-2025-doubly-robust-llm-judge] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C7)
+  title: Doubly-Robust LLM-as-a-Judge: Externally Valid Estimation with Imperfect Personas
+  key_idea: Doubly robust estimation of deployment quality using imperfect LLM-judge personas.
+
+[han-2025-rluf] (2025, arXiv, rel=3, gran=n/a, regime=RL-offline, prod=Y, clusters=C5,C6,C14)
+  title: Reinforcement Learning from User Feedback
+  key_idea: Reward model trained on sparse binary production user reactions, validated by live A/B tests.
+  cost: 28% increase in Love Reactions in live A/B tests
+
+[huang-2025-pluralistic-ope] (2025, arXiv, rel=3, gran=n/a, regime=RL-offline, prod=N, clusters=C6)
+  title: Pluralistic Off-policy Evaluation and Alignment
+  key_idea: Decomposed IPS OPE for pluralistic LLM alignment.
+
+[liu-2025-off-cmab] (2025, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C10)
+  title: Offline Learning for Combinatorial Multi-armed Bandits
+  key_idea: Offline pessimistic learning for combinatorial bandits.
+
+[liu-2025-user-feedback-noisy-signal] (2025, Conference on Empirical Methods in Natural Language Processing, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C7)
+  title: User Feedback in Human-LLM Dialogues: A Lens to Understand Users But Noisy as a Learning Signal
+  key_idea: Implicit feedback in chat logs explains users but is a noisy training signal.
+
+[loghmani-2025-deconfoundlm] (2025, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6)
+  title: Aligning Language Models with Observational Data: Opportunities and Risks from a Causal Perspective
+  key_idea: Observational outcome logs need deconfounding before use as LLM training signal.
+
+[openai-model-optimization-distillation-track] (2025, OpenAI developer documentation, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C8,C14)
+  title: Model optimization track: fine-tuning, distillation and evals (OpenAI developer docs)
+  key_idea: Platform-native loop from logged frontier-model traffic to an evaluated smaller student model.
+
+[trirat-2025-agentic-predictor] (2025, ICLR 2026, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C4,C6)
+  title: Multi-View Encoders for Performance Prediction in LLM-Based Agentic Workflows
+  key_idea: Surrogate performance predictor for workflow configs.
+
+[wang-2025-cosmos] (2025, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C4,C6)
+  title: COSMOS: Predictable and Cost-Effective Adaptation of LLMs
+  key_idea: Predict cost and performance of LLM adaptation choices cheaply.
+  cost: Reduces computational costs of strategy selection by 92.72% on average with high prediction accuracy
+
+[wang-2025-drift-dissatisfaction] (2025, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C8)
+  title: DRIFT: Learning from Abundant User Dissatisfaction in Real-World Preference Learning
+  key_idea: Learn from plentiful dissatisfaction signals in real logs instead of scarce positive labels.
+
+[wu-2025-bayesianrouter-reward-models] (2025, arXiv, rel=3, gran=query, regime=hybrid, prod=N, clusters=C5,C6)
+  title: Reward Model Routing in Alignment
+  key_idea: Offline-warm-started, online Thompson-sampling routing among reward models.
+
+[zhang-2025-benchmark-prediction-misses] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: How Benchmark Prediction from Fewer Data Misses the Mark
+  key_idea: Benchmark prediction fails at the frontier.
+
+[boyeau-2024-autoeval-done-right] (2024, International Conference on Machine Learning, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: AutoEval Done Right: Using Synthetic Data for Model Evaluation
+  key_idea: Unbiased model evaluation mixing AI and human labels.
+  cost: Effective human-labeled sample size increased by up to 50% in GPT-4 experiments
+
+[chatzi-2024-prediction-powered-ranking] (2024, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C7,C13)
+  title: Prediction-Powered Ranking of Large Language Models
+  key_idea: Statistically valid ranking from few human plus many judge labels.
+
+[fisch-2024-stratified-ppi] (2024, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: Stratified Prediction-Powered Inference for Hybrid Language Model Evaluation
+  key_idea: Stratified PPI for hybrid human/autorater evaluation.
+
+[li-2024-arena-hard] (2024, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: From Crowdsourced Data to High-Quality Benchmarks: Arena-Hard and BenchBuilder Pipeline
+  key_idea: Turning logged traffic into a cheap, human-aligned eval set.
+  cost: Arena-Hard-Auto: 3x higher separation than MT-Bench, 98.6% correlation with human preference rankings, at a cost of $20
+
+[miranda-2024-hybrid-preferences] (2024, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C13)
+  title: Hybrid Preferences: Learning to Route Instances for Human vs. AI Feedback
+  key_idea: Predict where human labels add value and route only those instances to humans.
+  cost: Hybrid human/LM mixture yields better reward-model performance than either source alone while reducing human annotation
+
+[polo-2024-prompteval] (2024, NeurIPS 2024, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: Efficient multi-prompt evaluation of LLMs
+  key_idea: Budgeted estimation of performance over prompt variants.
+  cost: estimates performance quantiles across 100 prompt templates on MMLU with a budget of two single-prompt evaluations
+
+[polo-2024-tinybenchmarks] (2024, ICML 2024, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: tinyBenchmarks: evaluating LLMs with fewer examples
+  key_idea: Estimate full-benchmark performance from ~100 items.
+  cost: estimate MMLU (14K examples) performance from 100 curated examples
+
+[ruan-2024-observational-scaling] (2024, NeurIPS 2024, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6)
+  title: Observational Scaling Laws and the Predictability of Language Model Performance
+  key_idea: Observational scaling laws for predicting LLM performance.
+
+[shi-2024-wildfeedback] (2024, ACL 2026, rel=3, gran=n/a, regime=supervised-offline, prod=Y, clusters=C5,C6)
+  title: WildFeedback: Aligning LLMs With In-situ User Interactions And Feedback
+  key_idea: Implicit feedback in real chat logs as preference labels.
+
+[wu-2024-ocean] (2024, arXiv, rel=3, gran=n/a, regime=RL-offline, prod=N, clusters=C6,C7)
+  title: OCEAN: Offline Chain-of-thought Evaluation and Alignment in Large Language Models
+  key_idea: IPS-based offline evaluation of LLM reasoning paths.
+
+[zhang-2024-collaborative-performance-prediction] (2024, EMNLP 2024, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6)
+  title: Collaborative Performance Prediction for Large Language Models
+  key_idea: Collaborative filtering for LLM performance prediction.
+
+[zhao-2024-wildchat] (2024, ICLR 2024, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C6,C13)
+  title: WildChat: 1M ChatGPT Interaction Logs in the Wild
+  key_idea: Real-world ChatGPT interaction logs.
+
+[angelopoulos-2023-ppi] (2023, Science, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C15)
+  title: Prediction-powered inference
+  key_idea: Valid inference from predictions plus a small labeled correction set.
+
+[angelopoulos-2023-ppi-plus-plus] (2023, Annals of Applied Statistics, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C15)
+  title: PPI++: Efficient Prediction-Powered Inference
+  key_idea: Adaptive, efficient prediction-powered inference.
+
+[pang-2023-implicit-feedback-deployment-dialogue] (2023, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=Y, clusters=C6,C14)
+  title: Leveraging Implicit Feedback from Deployment Data in Dialogue
+  key_idea: Next-user-turn signals from deployment logs act as implicit quality labels, with proxy-hacking risks.
+
+[sun-2023-datacope] (2023, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6)
+  title: When is Off-Policy Evaluation (Reward Modeling) Useful in Contextual Bandits? A Data-Centric Perspective
+  key_idea: Assess whether a logged dataset can support OPE for a target policy before trusting it.
+
+[ye-2023-predictable-bigbench] (2023, EMNLP 2023 (Findings), rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6)
+  title: How Predictable Are Large Language Model Capabilities? A Case Study on BIG-bench
+  key_idea: Performance prediction from past experiment records.
+
+[zheng-2023-lmsys-chat-1m] (2023, arXiv, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C6,C13)
+  title: LMSYS-Chat-1M: A Large-Scale Real-World LLM Conversation Dataset
+  key_idea: Large real-world LLM conversation log dataset.
+
+[saito-2022-ope-large-action-embeddings] (2022, ICML 2022, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6)
+  title: Off-Policy Evaluation for Large Action Spaces via Embeddings
+  key_idea: Marginalized IPS via action embeddings for large action spaces.
+
+[jiang-2021-enigma-dialog-ope] (2021, EMNLP 2021, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C7)
+  title: Towards Automatic Evaluation of Dialog Systems: A Model-Free Off-Policy Evaluation Approach
+  key_idea: OPE to evaluate dialog policies without live humans.
+
+[saito-2020-open-bandit-pipeline] (2020, NeurIPS 2021 (Datasets and Benchmarks), rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C6,C13)
+  title: Open Bandit Dataset and Pipeline: Towards Realistic and Reproducible Off-Policy Evaluation
+  key_idea: Real multi-policy logged data and a reference OPE library.
+
+[guan-2025-glow] (2025, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C4,C6)
+  title: GLOW: Graph-Language Co-Encoding for Agentic Workflow Performance Prediction
+  key_idea: Graph-language surrogate for workflow performance.
+
+[koh-2025-rbridge] (2025, ICLR 2026, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6)
+  title: Predicting LLM Reasoning Performance with Small Proxy Model
+  key_idea: Small proxies predict large-model reasoning.
+  cost: reduces dataset ranking costs by over 100x relative to the best baseline
+
+[ren-2025-predicting-zero-shot-success] (2025, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6,C7)
+  title: Predicting Language Models' Success at Zero-Shot Probabilistic Prediction
+  key_idea: Label-free task-level prediction of LLM suitability.
+
+[spangher-2025-chatbot-arena-estimate] (2025, NAACL 2025 (Industry Track), rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: Chatbot Arena Estimate: towards a generalized performance benchmark for LLM capabilities
+  key_idea: Estimating Arena scores as a benchmark.
+
+[xu-2025-doubly-robust-alignment] (2025, arXiv, rel=2, gran=n/a, regime=RL-offline, prod=N, clusters=C6)
+  title: Doubly Robust Alignment for Large Language Models
+  key_idea: Doubly robust RLHF.
+
+[zhang-2025-flora-bench] (2025, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C4,C6)
+  title: GNNs as Predictors of Agentic Workflow Performances
+  key_idea: GNN surrogates for workflow performance.
+
+[kipnis-2024-metabench] (2024, ICLR 2025, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: metabench -- A Sparse Benchmark of Reasoning and Knowledge in Large Language Models
+  key_idea: Small item subsets predict full-benchmark performance.
+
+[plaut-2024-msp-predicts-correctness] (2024, arXiv, rel=2, gran=query, regime=n/a, prod=N, clusters=C6,C7)
+  title: Probabilities of Chat LLMs Are Miscalibrated but Still Predict Correctness on Multiple-Choice Q&A
+  key_idea: Softmax confidence predicts correctness despite miscalibration.
+
+[richemond-2024-dro] (2024, arXiv, rel=2, gran=n/a, regime=RL-offline, prod=N, clusters=C6)
+  title: Offline Regularised Reinforcement Learning for Large Language Models Alignment
+  key_idea: Learn from abundant single-response user feedback logs.
+
+[snell-2024-predicting-emergent] (2024, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6)
+  title: Predicting Emergent Capabilities by Finetuning
+  key_idea: Emergence prediction via fine-tuning.
+
+[zhao-2024-predict-lvlm] (2024, arXiv, rel=2, gran=n/a, regime=supervised-offline, prod=N, clusters=C6)
+  title: Can We Predict Performance of Large Models across Vision-Language Tasks?
+  key_idea: Matrix completion with uncertainty for performance prediction.
+
+[vivek-2023-anchor-points] (2023, EACL 2024, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: Anchor Points: Benchmarking Models with Much Fewer Examples
+  key_idea: Rank models from 1-30 anchor examples.
+
+[zhou-2023-predictable-ai] (2023, Artificial Intelligence (journal), rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6,C15)
+  title: Predictable Artificial Intelligence
+  key_idea: Framework for predicting AI performance.
+
+[kiyohara-2022-cascade-dr] (2022, WSDM 2022, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6)
+  title: Doubly Robust Off-Policy Evaluation for Ranking Policies under the Cascade Behavior Model
+  key_idea: Cascade-DR OPE for rankings.
+
+[xu-2022-learning-after-deployment] (2022, arXiv, rel=2, gran=n/a, regime=hybrid, prod=Y, clusters=C5,C6)
+  title: Learning New Skills after Deployment: Improving open-domain internet-driven dialogue with human feedback
+  key_idea: Which feedback types and algorithms work for post-deployment improvement.
+
+[kreutzer-2020-offline-rl-seq2seq] (2020, arXiv, rel=2, gran=n/a, regime=RL-offline, prod=Y, clusters=C6)
+  title: Offline Reinforcement Learning from Human Feedback in Real-World Sequence-to-Sequence Tasks
+  key_idea: Offline RL from deployed NLP system logs: challenges.
+
+[gilotte-2018-offline-ab] (2018, arXiv, rel=2, gran=n/a, regime=n/a, prod=Y, clusters=C5,C6)
+  title: Offline A/B Testing for Recommender Systems
+  key_idea: Offline A/B testing validated against online A/B tests.
+
+[joachims-2018-banditnet] (2018, ICLR 2018, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6)
+  title: Deep Learning with Logged Bandit Feedback
+  key_idea: Deep learning from logged bandit feedback.
+
+[swaminathan-2015-crm] (2015, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6)
+  title: Counterfactual Risk Minimization: Learning from Logged Bandit Feedback
+  key_idea: Counterfactual risk minimization (POEM).
+
+[swaminathan-2015-snips] (2015, Conference paper (2015; venue per OpenAlex not listed), rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6)
+  title: The self-normalized estimator for counterfactual learning
+  key_idea: Self-normalized IPS estimator.
+
+[bottou-2012-counterfactual-reasoning] (2012, JMLR, rel=2, gran=n/a, regime=n/a, prod=Y, clusters=C6)
+  title: Counterfactual Reasoning and Learning Systems
+  key_idea: Counterfactual reasoning on production logs.
+
+[dudik-2011-doubly-robust] (2011, ICML 2011, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6)
+  title: Doubly Robust Policy Evaluation and Learning
+  key_idea: Doubly robust off-policy evaluation.
+
+[li-2010-unbiased-offline-eval] (2010, WSDM 2011, rel=2, gran=n/a, regime=n/a, prod=Y, clusters=C5,C6)
+  title: Unbiased Offline Evaluation of Contextual-bandit-based News Article Recommendation Algorithms
+  key_idea: Replay evaluation of bandit policies from logs.
+
+[helicone-observability] (None, GitHub, rel=2, gran=none, regime=n/a, prod=N, clusters=C6,C14)
+  title: Helicone: open-source LLM observability platform
+  key_idea: Logging layer that yields data for offline routing analysis.
+

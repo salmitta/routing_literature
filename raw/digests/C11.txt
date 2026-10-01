@@ -1,0 +1,880 @@
+# C11: 158 records (full detail for rel>=4; one-liners for rel<=3)
+
+[gravara-2026-atlas] (2026, IEEE/ACM SEC 2026, rel=5, gran=step, regime=training-free, prod=N, clusters=C4,C11)
+  title: Atlas: Optimizing Deployment of Compound AI Workflows on Heterogeneous Clusters
+  key_idea: Stage-wise model choice and placement via MILP with composed accuracy estimates.
+  cost: Selects plans within 0.03 of oracle accuracy while reducing deployment cost by up to 42% via heterogeneous placement; up to 2.6x lower profiling cost
+  summary: Atlas picks models per workflow stage and places them on a heterogeneous cluster via MILP, using a Markovian accuracy predictor that composes stage-to-stage accuracy transitions instead of full end-to-end profiling.
+  signals: Markovian accuracy predictor, SLOs, MILP
+
+[jiang-2026-agentcard] (2026, arXiv, rel=5, gran=subagent, regime=n/a, prod=N, clusters=C3,C4,C11,C13)
+  title: Specialize Roles, Mix Deployments: Pushing the Cost-Accuracy Frontier of LLM Agent Teams
+  key_idea: Benchmark role-by-role model assignment and deployment mode for cost-accuracy.
+  cost: Heterogeneous teams improve accuracy by up to 44% over cost-equivalent homogeneous teams, or match the strongest homogeneous team at up to 12x lower per-task cost via hybrid deployment
+  summary: AgentCARD is a role-aware benchmark suite that evaluates agent teams across which model fills each role (planner, executor, verifier) and where it is hosted (API, self-hosted, hybrid), with Pareto analysis and Shapley diagnostics of role bottlenecks. Heterogeneous teams dominate the cost-accuracy frontier, and whether the planner or executor is the bottleneck depends on the domain.
+  signals: role-level Shapley diagnostics, unified API/self-hosted cost model, role-level evaluation, Shapley role diagnostics, API/self-hosted cost model
+
+[li-2026-flowcompile] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C4,C11)
+  title: FlowCompile: An Optimizing Compiler for Structured LLM Workflows
+  key_idea: Compile-time per-sub-agent config profiling composed into workflow-level trade-offs.
+  cost: Up to 6.4x speedup vs heuristically optimized configurations and routing-based baselines
+  summary: FlowCompile compiles structured LLM workflows by profiling each sub-agent under diverse configurations and composing measurements with a structure-aware proxy to find a reusable accuracy-latency trade-off set in one compile-time pass.
+  signals: per-sub-agent profiles, structure-aware proxy
+
+[liu-2026-vllm-sr-session-aware-agentic-routing] (2026, vLLM blog, rel=5, gran=step, regime=training-free, prod=N, clusters=C1,C3,C10,C11,C14)
+  title: Session-Aware Agentic Routing: Continuity-Aware Model Selection for Long-Horizon LLM Agents
+  key_idea: Turn-level routing in agent sessions must price switches (lost cache, broken tool state), not just pick the best model per prompt.
+  cost: Across 21,600 deterministic turns: 79.29% fewer model switches, 3,836 unsafe switches eliminated, 78.71% estimated physical-model cost reduction vs single-turn routing (quality delta -0.0453); sticky sessions 98.65% cost reduction but -0.1433 quality. 2,896 live AMD ROCm requests with 0 continuity violations (project-reported)
+  summary: Introduces SAAR in vLLM Semantic Router: per-turn semantic routing augmented with router-owned session memory, hard locks during tool loops and around non-portable provider state, safe reset boundaries (drift, idle), and prefix-cache-aware pricing of model switches. Ablations show each component's contribution to switch reduction, unsafe-switch elimination and cost.
+  benchmarks: deterministic replay of 21,600 agent turns, live AMD ROCm requests
+  signals: semantic signals, session memory, tool-loop state, provider-state portability, task drift, prefix-cache warmth / switch cost
+
+[qian-2026-dyserve] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C11)
+  title: Serving Agentic Workflows with a Physical-Plan Compiler and Adaptive Runtime
+  key_idea: Physical-plan compilation plus runtime variant switching for agent workflows.
+  cost: accuracy improved 3-9 points with 1.1-6.8x mean-latency speedups over the highest-accuracy baseline; on a burst trace, correct on-time completions rose from 18.1% to 67.2%
+  summary: Compiles agentic workflows into physical plans (model/variant assignments) and an adaptive runtime switches variants under load without re-running the optimizer.
+  benchmarks: four agentic workloads
+  signals: load pressure, workflow variants
+
+[chaudhry-2025-murakkab] (2025, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C4,C11,C12)
+  title: Murakkab: Resource-Efficient Agentic Workflow Orchestration in Cloud Platforms
+  key_idea: Declarative workflows with profile-guided model/hardware mapping.
+  cost: Reduces GPU usage by up to 2.8x, energy by 3.7x and cost by 4.3x while maintaining SLOs
+  summary: Murakkab is a serving system that decouples workflow specification from execution configuration and uses a profile-guided optimizer to map workflow components to models and hardware under SLOs.
+  benchmarks: diverse agentic workflows
+  signals: profiles, SLOs, workflow structure, user SLOs
+
+[dai-2025-aragog] (2025, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C4,C11)
+  title: Aragog: Just-in-Time Model Routing for Scalable Serving of Agentic Workflows
+  key_idea: Just-in-time per-stage model reassignment driven by live load.
+  cost: maximum serving throughput increased 42.8-217.0% and median latency reduced 32.5-86.1% at peak load while keeping accuracy comparable to the most expensive configurations
+  summary: Aragog assigns workflow agents to LLMs progressively during execution: a one-time routing step finds all accuracy-preserving configurations, and a cheap per-stage scheduler picks among them based on current system load. It greatly improves serving throughput and latency.
+  benchmarks: diverse agentic workflows
+  signals: system load, accuracy-preserving config set, accuracy-preserving configuration set, runtime system load
+
+[dong-2025-hybridflow] (2025, ICML 2026, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C3,C11)
+  title: HybridFlow: Resource-Adaptive Subtask Routing for Efficient Edge-Cloud LLM Inference
+  key_idea: Subtask-level edge/cloud routing with a learned utility under budgets.
+  cost: Reduces latency and cloud API usage while maintaining competitive accuracy (no single number in abstract)
+  summary: HybridFlow decomposes a query into a subtask DAG, runs unlocked subtasks in parallel and routes each subtask online to an edge SLM or cloud LLM via a learned benefit-cost utility and a budget-aware rule. It improves the cost-accuracy trade-off over per-query routing.
+  benchmarks: GPQA, MMLU-Pro, AIME24, LiveBench-Reasoning
+  signals: learned benefit-cost utility, budget
+
+[narayan-2025-minions] (2025, arXiv, rel=5, gran=subagent, regime=training-free, prod=N, clusters=C3,C11)
+  title: Minions: Cost-efficient Collaboration Between On-device and Cloud Language Models
+  key_idea: Frontier model decomposes; small local model executes many cheap subtasks.
+  cost: Naive Minion: 30.4x lower remote cost at 87% of frontier quality; MinionS: 5.7x lower cost at 97.9% of remote-only performance
+  summary: Studies local-remote collaboration where a small on-device model reads long documents and a frontier cloud model coordinates. In MinionS the remote model decomposes the task into chunk-level subtasks executed in parallel by the local model, cutting cloud cost 5.7x while keeping about 98% of quality. Together AI published a companion blog post on Minions.
+  benchmarks: financial, medical and scientific long-document reasoning tasks
+
+[bae-2026-contextual-queueing-bandits] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C11)
+  title: Learning to Route and Schedule LLMs from User Retrials via Contextual Queueing Bandits
+  key_idea: Treat user retrials as free implicit feedback to learn query-to-LLM routing online under queueing dynamics.
+  summary: Formulates joint LLM routing and request scheduling as a contextual queueing bandit in which an unsatisfied user retrying a query serves as implicit negative feedback, avoiding explicit ratings. A Thompson-sampling algorithm with decaying forced exploration achieves sublinear routing regret while keeping queues stable, and is evaluated on offline routing datasets and real WildChat conversation logs.
+  benchmarks: SPROUT, EmbedLLM, RouterBench, WildChat-1M
+  signals: query embedding, user retrials (implicit feedback), queue state
+
+[chang-2026-agentic-workload-characterization] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=Y, clusters=C10,C11,C14)
+  title: From LLM Inference to Agentic Workloads: Characterization and Implications for Serving Systems
+  key_idea: Agent workloads have exploitable redundancy and structure beyond LLM inference.
+  cost: task-aware serving cut latency 29-40%; communication-aware placement up to 4.5x; state offloading cut memory 4.6x; tool-result caching removed 35.2% of redundant search calls and 19.3% of aggregate search latency
+  summary: Characterizes agentic workloads versus plain LLM inference and, using production traces from three applications, finds heavy redundancy in search queries and web fetches; four design explorations show these findings translate into latency, memory and tool-call savings.
+  benchmarks: production traces from three agent applications
+  signals: cross-request redundancy
+
+[gravara-2026-compass] (2026, IEEE CLUSTER 2026, rel=4, gran=step, regime=hybrid, prod=N, clusters=C4,C5,C11)
+  title: Compass: Optimizing Compound AI Workflows for Dynamic Adaptation
+  key_idea: Offline Pareto config discovery plus online load-aware configuration switching.
+  cost: COMPASS-V reduces configuration evaluations by 57.5% on average vs exhaustive search (up to 95.3%); runtime adaptation achieves 90-98% SLO compliance, +71.6% over static high-accuracy baselines
+  summary: Compass discovers multiple accuracy-feasible Pareto configurations of a compound AI workflow offline and switches between them at runtime based on load, using a queuing-theory planner and a queue-depth-driven controller.
+  signals: queue depth, profiled latency, accuracy threshold
+
+[gravara-2026-plaiground] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C4,C11)
+  title: PLAIground: SLO-Driven Runtime Model Selection for Compound AI Systems in the Edge-Cloud-Space Continuum
+  key_idea: Runtime SLO-driven per-task model selection.
+  cost: Up to 91.3% accuracy while maintaining SLO compliance; fixed-model strategies violate cost and latency budgets up to 21x or miss accuracy by 4%
+  summary: PLAIground enables runtime per-task model switching in compound AI workflows through a model abstraction with task/data contracts and an SLO-driven selector (Pixie).
+  signals: SLOs on accuracy, latency, cost
+
+[kabir-2026-inframind] (2026, arXiv, rel=4, gran=step, regime=hybrid, prod=N, clusters=C3,C4,C11)
+  title: INFRAMIND: Infrastructure-Aware Multi-Agent Orchestration
+  key_idea: Make per-step model routing in MAS aware of live serving load.
+  summary: INFRAMIND argues that multi-agent orchestrators and learned routers ignore serving-infrastructure state, so preferred models queue up while equally capable alternatives sit idle. It feeds noisy runtime signals into planning, per-step routing and scheduling decisions for multi-agent pipelines on shared GPU clusters.
+  signals: queue depth, KV-cache pressure, latency, task/model features
+
+[li-2026-dynamic-mixed-precision-routing] (2026, arXiv, rel=4, gran=step, regime=hybrid, prod=N, clusters=C3,C11)
+  title: Dynamic Mixed-Precision Routing for Efficient Multi-step LLM Interaction
+  key_idea: Per-step routing between full-precision and quantized models.
+  cost: Strong accuracy-cost trade-off over single-precision baselines
+  summary: DMR routes each decision step of a long-horizon agent between a high-precision and a low-precision quantized LLM, trained with KL-based supervision to find precision-sensitive steps and then GRPO. It improves the accuracy-cost trade-off.
+  benchmarks: ALFWorld, WebShop
+  signals: KL-divergence precision sensitivity
+
+[liao-2026-hyfunc] (2026, KDD 2026, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C2,C3,C11)
+  title: HyFunc: Accelerating LLM-based Function Calls for Agentic AI through Hybrid-Model Cascade and Dynamic Templating
+  key_idea: Large model plans, small model emits the tool call.
+  cost: Inference latency 0.828 s, outperforming all baselines, with 80.1% on BFCL
+  summary: For function calling, a large model compresses intent into one soft token that guides a retriever and a small prefix-tuned model to produce the call, with templated boilerplate injected in vLLM.
+  benchmarks: BFCL
+  signals: soft-token intent from large model
+
+[liu-2026-copilot-traces] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=Y, clusters=C11,C14)
+  title: Agentic Coding in the Wild: Characterizing GitHub Copilot Traces at Production Scale
+  key_idea: Production agentic coding traffic looks nothing like chat; design serving around loops and idle gaps.
+  cost: a lightweight idle-time predictor captures 86-90% of total user idle time for proactive resource decisions
+  summary: First production-scale characterization of agentic coding workloads from sampled GitHub Copilot traces: sessions are sparse user turns that each expand into long autonomous loops of LLM calls coupled with tools, with long-tailed token use and minutes-long idle gaps at turn boundaries that challenge chatbot-oriented serving assumptions.
+  benchmarks: GitHub Copilot production traces (3.2M users, 13M sessions, 761M LLM calls, 95T tokens)
+  signals: idle-time prediction
+
+[liu-2026-vllm-semantic-router] (2026, arXiv, rel=4, gran=query, regime=hybrid, prod=N, clusters=C1,C11,C14)
+  title: vLLM Semantic Router: Signal Driven Decision Routing for Mixture-of-Modality Models
+  key_idea: Composable signal-driven routing for production gateways.
+  summary: Technical report of vLLM Semantic Router, which composes heterogeneous signals (heuristics, classifiers for semantics, safety, modality) via configurable Boolean rules into deployment-specific routing policies, with plugin chains for hallucination detection and memory.
+  signals: 13 signal types, Boolean decision rules, neural classifiers
+
+[mitra-2026-mosaic-moa-scheduling] (2026, arXiv, rel=4, gran=subagent, regime=training-free, prod=N, clusters=C3,C11)
+  title: MOSAIC: Efficient Mixture-of-Agent Scheduling via Adaptive Aggregation and Inference Concurrency
+  key_idea: Agreement-gated aggregator skipping plus ILP scheduling for MoA.
+  cost: Up to 2.5x expert-stage, 4.23x aggregator-stage and 1.7-2.3x end-to-end speedups vs baseline scheduler, accuracy within 0.1pp (4-GPU system)
+  summary: MOSAIC schedules Mixture-of-Agents workloads with an ILP that places experts and assigns prompts per worker using offline-profiled costs. It skips the heavy aggregator LLM when experts already agree.
+  signals: inter-expert agreement, offline-profiled costs
+
+[mohamed-2026-workload-aware-caching] (2026, arXiv, rel=4, gran=subagent, regime=training-free, prod=N, clusters=C10,C11)
+  title: Workload-Aware Caching for Multi-Agent Systems
+  key_idea: Evict multi-agent cache entries by value to the workflow, not recency.
+  cost: up to 64.7% latency reduction vs uncached baseline and 31.1% average latency reduction over the next-best finite-capacity cache, with accuracy on par or better
+  summary: A content-cache replacement policy for multi-agent systems that scores entries by recomputation cost, dependency count in the agent DAG and invocation frequency. It is shown to be complementary to plan caching and parallel agent execution.
+  benchmarks: three multi-agent benchmarks
+  signals: recomputation cost, DAG dependency count, agent invocation frequency
+
+[ni-2026-chimera] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C3,C11)
+  title: Chimera: Latency- and Performance-Aware Multi-agent Serving for Heterogeneous LLMs
+  key_idea: Joint per-stage model routing and load balancing for heterogeneous MAS serving.
+  cost: End-to-end latency reduced 1.2-2.4x and task performance +8.0-9.5 pp on average vs baselines incl. vLLM
+  summary: Chimera schedules multi-agent workflow stages across a heterogeneous LLM cluster. It combines semantic routing for per-model confidence, prediction of remaining workflow output length, and congestion estimates for load balancing.
+  benchmarks: code generation and math reasoning workflows
+  signals: semantic routing confidence, predicted remaining output length, congestion
+
+[wang-2026-mcpp-budget-deadline-allocation] (2026, arXiv, rel=4, gran=subagent, regime=training-free, prod=N, clusters=C3,C11)
+  title: On Time, Within Budget: Constraint-Driven Online Resource Allocation for Agentic Workflows
+  key_idea: Online subtask-to-model allocation maximizing on-time, in-budget completion.
+  cost: Consistently improves constrained completion probability over strong baselines
+  summary: Studies allocating models and parallel samples to subtasks of a dependency-structured agent workflow so it finishes within a budget and deadline, via Monte Carlo Portfolio Planning that simulates executions and replans after outcomes.
+  benchmarks: CodeFlow, ProofFlow
+  signals: subtask-model success-rate and length estimates, remaining budget/time
+
+[zhang-2026-cachescout] (2026, arXiv, rel=4, gran=subagent, regime=bandit-online, prod=N, clusters=C10,C11)
+  title: Learning Agent Execution for KV-Cache Management in Agentic Serving
+  key_idea: Learn which agent runs next to decide what KV to keep.
+  cost: KV hit rate +10-18 points, mean TTFT -18-45%, per-turn latency -29-38%, peak throughput up to +57% (TTFT up to -54% on larger models)
+  summary: CacheScout learns agent execution transitions online, without predefined workflow graphs, and uses them to guide KV eviction and prefetching in vLLM off the critical path.
+  benchmarks: real-world multi-agent workloads
+  signals: online-learned agent execution transitions
+
+[zhang-2026-m-cmab] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C5,C11)
+  title: Adapter-Augmented Bandits for Online Multi-Constrained Multi-Modal Inference Scheduling
+  key_idea: Online constrained bandit routing across backends with time-varying costs and multiple budgets.
+  cost: Up to 14.18% higher reward than state-of-the-art baselines across budget regimes on a composite multimodal benchmark
+  summary: Schedules multimodal LLM requests across heterogeneous backends whose costs vary over time, using an adapter-based reward predictor, a primal-dual constraint handler for multiple long-horizon budgets, and a two-phase explore-exploit scheduler. Provides regret bounds under multi-dimensional knapsack constraints.
+  signals: task representation, backend cost, budget consumption
+
+[zhong-2026-dualspec] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C11)
+  title: DualSpec: Accelerating Deep Research Agents via Dual-Process Action Speculation
+  key_idea: Assign different speculation/reasoning resources by action type in agent loops.
+  cost: Up to 3.28x end-to-end speedup with accuracy comparable to fully reasoning agents
+  summary: DualSpec observes that in deep-research agents Search actions are high-entropy and need explicit reasoning, whereas Visit actions are low-entropy and depend mainly on model capacity. It speculates actions heterogeneously by action type and verifies them with a lightweight confidence-based semantic checker.
+  signals: action-type entropy, confidence-based semantic verifier
+
+[bian-2025-tokencake] (2025, EuroSys 2027, rel=4, gran=subagent, regime=training-free, prod=N, clusters=C11)
+  title: TokenCake: A KV-Cache-centric Serving Framework for LLM-based Multi-Agent Applications
+  key_idea: Offload idle agents' KV during function calls; prioritize critical-path agents.
+  cost: end-to-end latency reduced by up to 47.06% in memory-constrained settings and effective GPU utilization improved 16.9 points vs vLLM
+  summary: KV-centric serving for multi-agent apps: a temporal scheduler offloads KV caches of agents stalled on function calls and prefetches them back, and a spatial scheduler reserves GPU memory for critical-path agents.
+  benchmarks: multi-agent benchmarks
+  signals: agent graph structure, function-call idle state
+
+[guan-2025-dynamic-speculative-planning] (2025, arXiv, rel=4, gran=step, regime=RL-online, prod=N, clusters=C3,C5,C11)
+  title: Dynamic Speculative Agent Planning
+  key_idea: Online RL tunes speculative planning with a cheap drafter to balance latency and cost.
+  cost: Comparable efficiency to fastest lossless acceleration while reducing total cost by 30% and unnecessary cost by up to 60%
+  summary: Dynamic Speculative Planning uses a cheaper model to draft agent plans speculatively and an online, asynchronous RL policy to decide how far to speculate, with a single knob trading latency against dollar cost. It keeps outputs lossless while cutting cost relative to prior speculative agents.
+  benchmarks: two standard agent benchmarks
+  signals: latency, dollar cost
+
+[jiang-2025-cascadia] (2025, arXiv, rel=4, gran=query, regime=hybrid, prod=N, clusters=C2,C11)
+  title: Cascadia: An Efficient Cascade Serving System for Large Language Models
+  key_idea: Bi-level co-optimisation of cascade deployment and routing policy.
+  cost: Up to 4x (2.3x avg) tighter latency SLOs and up to 5x (2.4x avg) higher throughput while maintaining target quality vs single-model and cascade-serving baselines
+  summary: A serving system that jointly optimises GPU allocation and parallelism for each model in a cascade (MILP) and the routing thresholds (Chebyshev-guided search). Targets latency-quality trade-offs under real workload heterogeneity.
+  benchmarks: diverse workload traces
+  signals: workload traces, routing thresholds, resource allocation
+
+[li-2025-continuum] (2025, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: Continuum: Efficient and Robust Multi-Turn LLM Agent Scheduling with KV Cache Time-to-Live
+  key_idea: KV cache TTL across tool calls plus program-level FCFS.
+  cost: average job completion time improved by over 8x with higher throughput on SWE-Bench, BFCL and OpenHands agents
+  summary: For multi-turn agents, Continuum pins the KV cache of requests that issue tool calls with a time-to-live chosen from reload cost and eviction-induced queueing, and combines this with program-level FCFS to keep multi-turn continuity.
+  benchmarks: SWE-Bench, BFCL, OpenHands
+  signals: KV reload cost, queueing delay, tool-call duration
+
+[li-2025-stageroute] (2025, ICLR 2026, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C5,C11)
+  title: Near-Optimal Online Deployment and Routing for Streaming LLMs
+  key_idea: Hierarchical bandit for model deployment plus per-query routing.
+  summary: StageRoute jointly decides which LLMs to deploy at maintenance windows and how to route each query among live models under budget and throughput constraints, with a near-optimal T^(2/3) regret.
+  benchmarks: diverse workloads
+  signals: reward UCB, cost LCB, concurrency cap
+
+[luo-2025-autellix] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: Autellix: An Efficient Serving Engine for LLM Agents as General Programs
+  key_idea: Program-level (least-attained-service style) scheduling of LLM calls.
+  cost: program throughput improved 4-15x at the same latency vs vLLM across diverse LLMs and agentic workloads
+  summary: Treats agent programs, not individual calls, as the scheduling unit: it intercepts LLM calls, attaches program-level context, and uses preemptive scheduling based on each program's completed service to reduce head-of-line blocking for single-threaded and distributed programs.
+  signals: program-level history of completed calls
+
+[pan-2025-kvflow] (2025, arXiv, rel=4, gran=subagent, regime=training-free, prod=N, clusters=C10,C11)
+  title: KVFlow: Efficient Prefix Caching for Accelerating LLM-Based Multi-Agent Workflows
+  key_idea: Evict and prefetch KV by each agent's distance to its next turn.
+  cost: up to 1.83x speedup for single workflows with large prompts and up to 2.19x with many concurrent workflows vs SGLang with hierarchical radix cache
+  summary: Workflow-aware KV management for multi-agent systems: it models the execution schedule as an Agent Step Graph, evicts prefix-cache nodes of agents far from their next activation, and prefetches KV from CPU for agents scheduled next.
+  signals: agent step graph, steps-to-execution
+
+[ren-2025-agserve] (2025, NeurIPS 2025, rel=4, gran=step, regime=training-free, prod=N, clusters=C2,C3,C10,C11)
+  title: Transcending Cost-Quality Tradeoff in Agent Serving via Session-Awareness
+  key_idea: Session-aware per-round model cascading plus KV-cache management for agent serving.
+  cost: Comparable response quality to GPT-4o at 16.5% of the cost; 1.8x quality improvement relative to the tradeoff curve
+  summary: AgServe is an agent-serving system with a session-aware server that improves KV-cache reuse, a client that cascades models within a session from real-time quality assessment, and a dynamic GPU scheduler. Agents can pick and upgrade models during a session, reaching GPT-4o-level quality at a fraction of the cost on real testbeds.
+  signals: real-time quality assessment, session state
+
+[ro-2025-sherlock] (2025, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C7,C11)
+  title: Sherlock: Reliable and Efficient Agentic Workflow Execution
+  key_idea: Speculate past verification and roll back on failure.
+  cost: 18.3% average accuracy gain vs non-verifying baseline; workflow execution time reduced up to 48.7% vs non-speculative execution; verification cost 26.0% lower than Monte Carlo search-based verification
+  summary: Selectively verifies error-prone steps of agentic workflows, continues speculatively while verification runs, and rolls back to the last verified output on failure.
+  signals: fault-aware verification, speculative execution with rollback
+
+[wang-2025-when-to-reason] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9,C11)
+  title: When to Reason: Semantic Router for vLLM
+  key_idea: Route reasoning on/off per query.
+  cost: +10.2 pp accuracy on MMLU-Pro while reducing latency 47.1% and tokens 48.5% vs direct inference with vLLM (abstract)
+  summary: A semantic router classifies whether a query needs reasoning mode and enables chain-of-thought only when beneficial, integrated with vLLM.
+  benchmarks: MMLU-Pro
+  signals: reasoning-need classifier, query reasoning-requirement classifier
+
+[ye-2025-kvcomm] (2025, NeurIPS 2025, rel=4, gran=subagent, regime=training-free, prod=N, clusters=C10,C11)
+  title: KVCOMM: Online Cross-context KV-cache Communication for Efficient LLM-based Multi-agent Systems
+  key_idea: Cross-agent KV reuse with online-estimated offset correction.
+  cost: over 70% KV reuse rate across multi-agent workloads without quality degradation; up to 7.8x speedup (TTFT ~430 ms to ~55 ms) in a five-agent setting
+  summary: Lets agents in a multi-agent system reuse each other's KV caches for shared content despite different prefixes by estimating the prefix-induced deviation from a pool of cached anchor examples maintained online.
+  benchmarks: RAG, math reasoning, collaborative coding
+  signals: anchor pool of KV deviations
+
+[ye-2025-speculative-actions] (2025, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C11)
+  title: Speculative Actions: A Lossless Framework for Faster Agentic Systems
+  key_idea: Speculate agent actions with a small model; verify with the large one.
+  cost: up to 55% next-action prediction accuracy translating into up to 20% latency reduction
+  summary: Speculative Actions uses fast models to guess an agent's next actions and executes them in parallel, committing only when the main model agrees, analogous to speculative decoding. It gives lossless latency savings and analyzes the cost-latency trade-off of speculative breadth.
+  benchmarks: gaming, e-commerce, web search, OS environments, web search environments
+  signals: next-action agreement, fast-model next-action prediction
+
+[abhyankar-2024-infercept] (2024, ICML 2024, rel=4, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: InferCept: Efficient Intercept Support for Augmented Large Language Model Inference
+  key_idea: Manage KV cache across tool-call interceptions.
+  cost: serving throughput improved 1.6x-2x and 2x more completed requests per second vs state-of-the-art systems; recomputation after interceptions was 37-40% of forwarding time
+  summary: When augmented LLMs pause for tools, standard engines discard state and recompute on resume. InferCept chooses per interception whether to discard, keep in GPU memory, or swap the KV cache to host memory to minimize wasted GPU work.
+  signals: interception duration, context length
+
+[fu-2024-dynasor-certaindex] (2024, arXiv, rel=4, gran=token, regime=training-free, prod=N, clusters=C9,C11)
+  title: Efficiently Scaling LLM Reasoning with Certaindex
+  key_idea: Answer-stability metric driving a reasoning-aware scheduler.
+  cost: Up to 50% compute savings and 3.3x higher throughput in real workloads with no accuracy drop (Dynasor serving system)
+  summary: Certaindex measures how stable intermediate answers are across reasoning algorithms and triggers early exit or reallocation. Built into Dynasor, a reasoning-aware serving system with gang scheduling.
+  signals: Certaindex answer stability, certaindex (answer stability)
+
+[lin-2024-parrot] (2024, OSDI 2024, rel=4, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: Parrot: Efficient Serving of LLM-based Applications with Semantic Variable
+  key_idea: Expose inter-request dataflow to the serving layer.
+  cost: up to an order-of-magnitude end-to-end improvement for popular LLM application use cases
+  summary: Parrot exposes application structure to the LLM service through Semantic Variables that annotate prompt inputs/outputs and link requests into a dataflow graph, letting the service schedule, batch and share prefixes across the requests of one application.
+  signals: semantic variables (inter-request dataflow)
+
+[narasimhan-2024-speculative-cascades] (2024, arXiv, rel=4, gran=token, regime=training-free, prod=N, clusters=C2,C11)
+  title: Faster Cascades via Speculative Decoding
+  key_idea: Speculative execution of a cascade deferral rule, per token.
+  cost: Better cost-quality trade-offs than cascading and speculative decoding baselines (no single number in abstract)
+  summary: Combines cascades (defer hard inputs) with speculative decoding (parallel verification) by implementing a token-level deferral rule through speculative execution. Derives the optimal deferral rule and uses a plug-in approximation. Google Research also described it in a blog post on speculative cascades.
+  benchmarks: range of language benchmarks
+  signals: token-level deferral rule, draft/target distributions
+
+[zhao-2024-lora-land] (2024, arXiv, rel=4, gran=none, regime=supervised-offline, prod=Y, clusters=C8,C11,C14)
+  title: LoRA Land: 310 Fine-tuned LLMs that Rival GPT-4, A Technical Report
+  key_idea: Many small task-specific LoRAs beat GPT-4 and can be served cheaply together.
+  cost: 4-bit LoRA fine-tuned models beat base models by 34 points and GPT-4 by 10 points on average; 25 LoRA Mistral-7B models served on one A100
+  summary: Predibase technical report evaluating 310 LoRA fine-tuned models across 10 base models and 31 tasks, and LoRAX serving of many adapters on a single GPU (LoRA Land app).
+  benchmarks: 31 tasks
+  signals: task datasets
+
+[kim-2023-llmcompiler] (2023, ICML 2024, rel=4, gran=step, regime=training-free, prod=N, clusters=C4,C11,C12)
+  title: An LLM Compiler for Parallel Function Calling
+  key_idea: Compile agent tool calls into a parallel execution plan.
+  cost: up to 3.7x latency speedup, up to 6.7x cost savings and up to ~9% accuracy improvement vs ReAct; up to 1.35x latency gain over OpenAI parallel function calling
+  summary: LLMCompiler plans function calls as a DAG and executes independent calls in parallel via a planner, task-fetching unit and executor, instead of ReAct-style sequential reasoning. It cuts latency and cost while improving accuracy.
+  benchmarks: function-calling tasks with varied dependency patterns
+  signals: planner-generated DAG, function-call dependency DAG
+
+[zheng-2023-sglang] (2023, NeurIPS 2024, rel=4, gran=none, regime=n/a, prod=N, clusters=C10,C11)
+  title: SGLang: Efficient Execution of Structured Language Model Programs
+  key_idea: Co-design a program frontend with a runtime that reuses KV prefixes automatically.
+  cost: up to 6.4x higher throughput than state-of-the-art inference systems on agent control, reasoning, few-shot, JSON decoding, RAG and multi-turn chat
+  summary: SGLang pairs a frontend language for LLM programs (generation and parallelism primitives) with a runtime featuring RadixAttention, which keeps KV caches in a radix tree for automatic prefix reuse across calls, and compressed finite-state machines for fast structured decoding. The LMSYS blog (lmsys.org/blog/2024-01-17-sglang) introduced RadixAttention.
+  benchmarks: agent control, logical reasoning, few-shot benchmarks, JSON decoding, RAG pipelines, multi-turn chat
+  signals: radix-tree prefix matching
+
+[bian-2026-tokendance] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C11)
+  title: TokenDance: Scaling Multi-Agent LLM Serving via Collective KV Cache Sharing
+  key_idea: Collective KV sharing with diff-compressed sibling caches.
+  cost: up to 2.7x more concurrent agents than vLLM prefix caching under SLO, per-agent KV storage reduced up to 17.5x, up to 1.9x prefill speedup
+
+[biswas-2026-sutradhara] (2026, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C11)
+  title: Sutradhara: An Intelligent Orchestrator-Engine Co-design for Tool-based Agentic Inference
+  key_idea: Orchestrator-engine co-design for tool-based agents.
+  cost: sustains up to 77% higher load at the same median first-token-response latency, or up to 15% lower median latency at the same load, and up to 11% lower end-to-end latency on A100
+
+[chen-2026-concur] (2026, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C11)
+  title: CONCUR: High-Throughput Agentic Batch Inference of LLM via Congestion-Based Concurrency Control
+  key_idea: Admission control for agents to prevent cache thrashing.
+  cost: batch inference throughput up to 4.09x on Qwen3-32B and 1.9x on DeepSeek-V3
+
+[chen-2026-workload-router-pool] (2026, arXiv (vision paper), rel=3, gran=step, regime=n/a, prod=N, clusters=C1,C11,C14)
+  title: The Workload-Router-Pool Architecture for LLM Inference Optimization: A Vision Paper from the vLLM Semantic Router Project
+  key_idea: Joint view of workload, router and model pool for inference optimization.
+
+[da-2026-routebalance] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C11)
+  title: RouteBalance: Fused Model Routing and Load Balancing for Heterogeneous LLM Serving
+  key_idea: Fuse router and load balancer for heterogeneous LLM serving.
+  cost: At its cost-priority corner, per-request cost ties the cheapest baseline; highest routing-decision quality (DeepEval 0.419) on a 13-instance 28-GPU cluster
+
+[dhanani-2026-dynamo-agentic-inference] (2026, NVIDIA Technical Blog, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C11,C14)
+  title: Full-Stack Optimizations for Agentic Inference with NVIDIA Dynamo
+  key_idea: Agent hints plus KV-aware routing and tiered KV retention for agentic workloads.
+  cost: Claude Code agents: 85-97% cache hit rates on repeated calls to the same worker; four-agent teams reach 97.2% aggregate cache hit rate; 11.7x read/write ratio for lead agents
+
+[elhaimeur-2026-multi-agent-tutoring-latency-cost] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=Y, clusters=C11,C12,C14)
+  title: Latency and Cost of Multi-Agent Intelligent Tutoring at Scale
+  key_idea: Production latency and cost of a deployed multi-agent tutor.
+  cost: Both pay-per-token tiers cost well below a STEM textbook per student per semester under worst-case usage
+
+[fang-2026-recache] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10,C11)
+  title: ReCache: Efficient KV Cache Reuse and Compression for Tool-Augmented LLM Agents
+  key_idea: Precompute tool-schema KV once and attend selectively.
+  cost: resource-wise attention matches dense invocation (82.3% vs 82.4% Inv-F1) with 3.655x TTFT speedup; full framework reduces KV memory 92.43% and speeds attention 1.423x
+
+[huang-2026-constrained-bandits-time-varying] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C5,C11)
+  title: Online LLM Selection via Constrained Bandits with Time-Varying Demand
+  key_idea: Constrained bandits with demand forecasts for LLM selection.
+
+[jeon-2026-lragent] (2026, ICML 2026, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C11)
+  title: LRAgent: Efficient KV Cache Sharing for Multi-LoRA LLM Agents
+  key_idea: Share base-model KV across LoRA agents; store only low-rank deltas.
+  cost: throughput and TTFT close to fully shared caching with accuracy near non-shared caching on agentic QA benchmarks
+
+[kang-2026-thunderagent] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: ThunderAgent: A Simple, Fast and Program-Aware Agentic Inference System
+  key_idea: Program-aware scheduling for agent serving and rollouts.
+  cost: 1.5-3.6x serving throughput, 1.8-3.9x RL rollout throughput and up to 4.2x disk memory savings vs state-of-the-art inference systems
+
+[lim-2026-lodestar] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C5,C11)
+  title: Lodestar: An Online-Learning LLM Inference Router
+  key_idea: Online-learned request-to-instance routing for LLM serving.
+  cost: 1.41x lower average TTFT and 1.47x lower P99 TTFT vs prefix-cache/load-aware heuristic (public cloud GPU cluster)
+
+[markovic-voronov-2026-batch-routing] (2026, CAIS 2026, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C11)
+  title: Robust Batch-Level Query Routing for Large Language Models under Cost and Capacity Constraints
+  key_idea: Robust batch-level routing under capacity constraints.
+  cost: Batch-level routing outperforms per-query methods by up to 24% under adversarial batching (abstract)
+
+[ni-2026-topas] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C11)
+  title: TOPAS: Workflow-Aware Prefix-State Scheduling for Multi-Agent LLM Serving
+  key_idea: Schedule multi-agent DAGs to exploit prefix state.
+  cost: mean/p99 JCT reduced up to 39.8%/49.4% on synthetic DAGs; mean JCT reduced 9.8% (MetaGPT-SOP) and mean/p99 22.0%/26.6% (MetaGPT-TL)
+
+[pan-2026-smoothagent] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10,C11)
+  title: SmoothAgent: Efficient Long-Horizon LLM-Based Agent Serving with Lookahead Context Engineering
+  key_idea: Do context engineering asynchronously ahead of need.
+  cost: eliminates context-transformation overhead and reduces TTFT by up to 11.9x
+
+[peng-2026-hexagent] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C11)
+  title: HexAGenT: Efficient Agentic LLM Serving via Workflow- and Heterogeneity-Aware Scheduling
+  key_idea: Place workflow stages on heterogeneous GPUs by deadline risk.
+  cost: SLO scale needed for timely workflow completion reduced by 20.1% at 95% and 33.0% at 99% attainment on average (max 45.0% / 80.5%)
+
+[shen-2026-dynbranch] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10,C11)
+  title: DynBranch: Speculative Subgraph Reuse for Dynamic Agentic LLM Serving
+  key_idea: Speculative reuse of workflow subgraphs at the API boundary.
+  cost: mean latency reduced up to 32% over the strongest prior system per workload and 46-66% vs no reuse, preserving workflow results
+
+[shi-2026-lamas-latency-aware-mas] (2026, arXiv, rel=3, gran=subagent, regime=hybrid, prod=N, clusters=C3,C11)
+  title: Learning Latency-Aware Orchestration for Multi-Agent Systems
+  key_idea: Optimize the critical path, not just total cost, in MAS.
+  cost: Over 50% end-to-end latency reduction at competitive or better accuracy
+
+[sui-2026-paste] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C11)
+  title: Parallelizing Tool Execution and LLM Generation for Low-Latency Agent Serving
+  key_idea: Pattern-aware speculative tool execution overlapped with generation.
+  cost: average task completion time reduced by 43.5% and observed tool latency lowered 1.8x across deep research, coding and scientific agents
+
+[tiwari-2026-cachewise] (2026, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C10,C11)
+  title: CacheWise: Understanding Workloads and Optimizing KVCache Management for Efficiently Serving LLM Coding Agents
+  key_idea: Use tool-call metadata to predict KV reuse in coding-agent serving.
+  cost: KV cache evictions reduced 2-2.6x and total agent session completion time improved up to 3.5x on collected coding-assistant traces
+
+[vllm-2026-agentx-agentic-serving] (2026, vLLM blog, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C11,C13)
+  title: vLLM x AgentX: Optimizing for Real-World Agentic Serving
+  key_idea: Agentic workloads are prefill- and cache-dominated; serving must optimise the latency-cost frontier around prefix reuse.
+  cost: Up to 130K total tokens per GPU-second on DeepSeek V4 Pro; 14.6x-106x serving-cost advantage over Opus 5 API pricing across DeepSeek V4 Pro, MiniMax M3, Kimi K3 on SemiAnalysis AgentX (project-reported)
+
+[wadlom-2026-helium] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C11)
+  title: Efficient LLM Serving for Agentic Workflows: A Data Systems Perspective
+  key_idea: Data-systems view of agent serving.
+  cost: up to 1.56x speedup over state-of-the-art agent serving systems
+
+[wang-2026-forkkv] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C11)
+  title: ForkKV: Scaling Multi-LoRA Agent Serving via Copy-on-Write Disaggregated KV Cache
+  key_idea: Fork-style KV sharing for multi-LoRA agents.
+  cost: up to 3.0x throughput of state-of-the-art multi-LoRA serving systems with negligible quality impact
+
+[wang-2026-latency-aware-mas-gpus] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C3,C11)
+  title: Latency-Aware Orchestration for Multi-Agent LLM Workflows on Heterogeneous GPUs
+  key_idea: Workflow-aware placement and scheduling of multi-model agents on heterogeneous GPUs.
+
+[white-2026-scepsy] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C11)
+  title: Scepsy: Serving Agentic Workflows Using Aggregate LLM Pipelines
+  key_idea: Allocate GPUs across the multiple models of a workflow jointly.
+  cost: up to 2.5x higher throughput before saturation and 1.0-3.3x lower latency than systems optimizing LLMs independently or using user-specified allocations
+
+[woo-2026-prefillshare] (2026, arXiv, rel=3, gran=subagent, regime=supervised-offline, prod=N, clusters=C10,C11)
+  title: PrefillShare: A Shared Prefill Module for KV Reuse in Multi-LLM Disaggregated Serving
+  key_idea: Share prefill/KV across specialized models in multi-agent serving.
+
+[xia-2026-mori] (2026, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C11)
+  title: Idleness is Relative: Exploiting Tool-Call Idle Windows for Offloading in Agentic Systems with MORI
+  key_idea: Tier KV memory by relative idleness of agent programs.
+  cost: 20-71% higher throughput and 18-43% lower TTFT than the best offloading baseline on Claude Code agent traces
+
+[yang-2026-fusion-moa-fleet] (2026, arXiv, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C3,C11,C14)
+  title: The Fleet Is the Model: Engineering Collective Intelligence with Fusion-MoA Pioneer R1
+  key_idea: Operate a heterogeneous model fleet as one governed, evolvable service.
+
+[yu-2026-pythia] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=Y, clusters=C11)
+  title: Pythia: Exploiting Workflow Predictability for Efficient Agent-Native LLM Serving
+  key_idea: Exploit the predictability of multi-agent workflow topology in serving.
+
+[zheng-2026-pbkv] (2026, arXiv, rel=3, gran=subagent, regime=supervised-offline, prod=N, clusters=C11)
+  title: Efficient Serving for Dynamic Agent Workflows with Prediction-based KV-Cache Management
+  key_idea: Predict dynamic workflow reuse to guide KV eviction and prefetch.
+  cost: up to 1.85x speedup over LRU on dynamic workflows and up to 1.26x over KVFlow on static workflows
+
+[baranowski-2025-instacart-maple] (2025, Instacart tech blog, rel=3, gran=none, regime=n/a, prod=Y, clusters=C11,C14)
+  title: Simplifying Large-Scale LLM Processing across Instacart with Maple
+  key_idea: Internal platform to route offline workloads to batch APIs.
+  cost: Company-reported: up to 50% LLM cost savings vs real-time calls; some processes cut from hundreds of thousands to thousands of dollars per year
+
+[gim-2025-pie] (2025, SOSP 2025, rel=3, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: Pie: A Programmable Serving System for Emerging LLM Applications
+  key_idea: Let applications program the serving loop.
+  cost: 3-12% latency overhead on standard tasks and 1.3x-3.4x higher latency/throughput on agentic workflows
+
+[ivanovici-2025-intercom-cost-of-serving] (2025, Fin.ai research blog (Intercom), rel=3, gran=none, regime=n/a, prod=Y, clusters=C11,C14)
+  title: Cost of Serving LLMs
+  key_idea: Self-hosting small models is much cheaper under latency SLOs.
+  cost: Company-reported: self-hosted Qwen3 14B ~0.05x GPT-4.1 cost; Gemma 3 4B ~0.04x; Llama-70B distill ~1.7x GPT-4.1
+
+[kadekodi-2025-dualtune] (2025, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C11)
+  title: AgentFlux: Decoupled Fine-Tuning & Inference for On-Device Agentic Systems
+  key_idea: Decoupled LoRAs for local tool agents.
+  cost: Qwen-2.5-7B tool-calling accuracy improves 46% on MCP-Bench
+
+[kim-2025-cost-of-dynamic-reasoning] (2025, HPCA 2026, rel=3, gran=none, regime=n/a, prod=N, clusters=C11,C12,C13)
+  title: The Cost of Dynamic Reasoning: Demystifying AI Agents and Test-Time Scaling from an AI Infrastructure Perspective
+  key_idea: Agents' compute returns diminish fast; system costs do not.
+  cost: Agents show rapidly diminishing accuracy returns with increased compute (system-level resource, latency, energy and power analysis)
+
+[ni-2025-astraea] (2025, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C11)
+  title: Astraea: A State-Aware Scheduling Engine for LLM-Powered Agents
+  key_idea: Schedule over the whole agent request lifecycle, not single segments.
+  cost: average job completion time reduced by up to 25.5% vs baselines
+
+[ruan-2025-cortex-knowledge-cache] (2025, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10,C11)
+  title: Cortex: Achieving Low-Latency, Cost-Efficient Remote Data Access For LLM via Semantic-Aware Knowledge Caching
+  key_idea: Semantic cache for agent tool/data accesses validated by a small LLM judge.
+  cost: up to 3.6x throughput with >85% cache hit rate on search workloads at accuracy nearly identical to non-cached baselines; 20% throughput gain on coding tasks
+
+[shen-2025-halo] (2025, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C4,C11)
+  title: Batch Query Processing and Optimization for Agentic Workflows
+  key_idea: Database-style query optimization for batches of agentic workflows.
+  cost: up to 3.6x speedup for batch inference and 2.6x throughput under online serving without compromising output quality
+
+[vllm-2025-halugate] (2025, vLLM blog, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C7,C11)
+  title: Token-Level Truth: Real-Time Hallucination Detection for Production LLMs (HaluGate)
+  key_idea: Cheap gated, non-LLM verifiers can provide per-response quality signals at the gateway without an LLM judge.
+  cost: Pre-classification skips detection for non-factual queries, a 72.2% efficiency gain where ~35% of queries are non-factual; detection ~125ms for typical RAG context, ~365ms at 16K tokens (project-reported)
+
+[wang-2025-augserve] (2025, arXiv, rel=3, gran=none, regime=hybrid, prod=N, clusters=C11)
+  title: AugServe: Adaptive Request Scheduling for Augmented Large Language Model Inference Serving
+  key_idea: Adaptive two-stage scheduling for tool-augmented requests.
+  cost: 4.7x and 3.3x higher effective throughput than vLLM and InferCept, and TTFT reduced up to 96.3% and 95.0% respectively
+
+[wang-2025-efficient-moa-serving] (2025, arXiv (submitted to DAC 2026), rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C11)
+  title: Efficient Mixture-of-Agents Serving via Tree-Structured Routing, Adaptive Pruning, and Dependency-Aware Prefill-Decode Overlap
+  key_idea: Sparse tree MoA with confidence-based agent skipping and pipelined serving.
+  cost: Up to 90% lower end-to-end latency with accuracy within +/-1% of dense MoA
+
+[wang-2025-kvcache-in-the-wild] (2025, USENIX ATC 2025, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C11,C14)
+  title: KVCache Cache in the Wild: Characterizing and Optimizing KVCache Cache at a Large Cloud Provider
+  key_idea: Real traces show where KV reuse comes from and how to evict for it.
+  cost: ideal KV hit rates of 62% and 54% on two production traces; workload-aware eviction improves hit ratio by up to 23.9% and reduces latency by up to 42% vs LRU/FIFO
+
+[chen-2024-octopus-v2] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C11)
+  title: Octopus v2: On-device language model for super agent
+  key_idea: Functional tokens for tiny on-device agents.
+  cost: 2B on-device model surpasses GPT-4 in accuracy and latency and cuts context length by 95%
+
+[duan-2024-muxserve] (2024, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: MuxServe: Flexible Spatial-Temporal Multiplexing for Multiple LLM Serving
+  key_idea: Spatial-temporal multiplexing of multiple LLMs.
+  cost: up to 1.8x higher throughput or 2.9x more requests within 99% SLO attainment
+
+[erdogan-2024-tinyagent] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C11)
+  title: TinyAgent: Function Calling at the Edge
+  key_idea: Edge-deployable small agents with tool retrieval.
+  cost: 1.1B and 7B models match or surpass GPT-4-Turbo function-calling on the target task
+
+[gao-2024-cachedattention] (2024, USENIX ATC 2024, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: Cost-Efficient Large Language Model Serving for Multi-turn Conversations with CachedAttention
+  key_idea: Persist multi-turn KV caches in a memory hierarchy.
+  cost: TTFT reduced by up to 87%, prefill throughput up to 7.8x higher for multi-turn conversations, and end-to-end inference cost reduced by up to 70%
+
+[qin-2024-mooncake] (2024, arXiv, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C11,C14)
+  title: Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving
+  key_idea: Trade storage for compute with a cluster-wide KV cache pool.
+  cost: up to 525% throughput increase in simulated scenarios under SLOs; under real workloads Kimi handles 75% more requests
+
+[raghavan-2024-alto] (2024, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: Alto: Orchestrating Distributed Compound AI Systems with Nested Ancestry
+  key_idea: Stream and parallelize compound AI pipelines.
+  cost: latency matched or improved by 10-30% vs LangGraph implementations
+
+[shahout-2024-lamps] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C11)
+  title: Fast Inference for Augmented Large Language Models
+  key_idea: Memory-footprint-aware scheduling for tool-augmented requests.
+  cost: end-to-end latency improved 27%-85% and TTFT reduced 4%-96% vs InferCept, with larger gains over vLLM
+
+[srivatsa-2024-preble] (2024, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C11)
+  title: Preble: Efficient Distributed Prompt Scheduling for LLM Serving
+  key_idea: Prefix-aware distributed scheduling.
+  cost: 1.5x-14.5x average and 2x-10x p99 latency improvement over SGLang (and similarly vs vLLM)
+
+[tan-2024-teola] (2024, ASPLOS 2025, rel=3, gran=none, regime=n/a, prod=N, clusters=C4,C11)
+  title: Teola: Towards End-to-End Optimization of LLM-based Applications
+  key_idea: Fine-grained primitive-level orchestration of LLM applications.
+  cost: up to 2.09x speedup over existing systems across popular LLM applications
+
+[xu-2024-conveyor] (2024, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: Conveyor: Efficient Tool-aware LLM Serving with Tool Partial Execution
+  key_idea: Start tool execution before the LLM finishes emitting the call.
+  cost: tool partial execution improves request completion latency by up to 38.8%
+
+[yao-2024-cacheblend] (2024, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: CacheBlend: Fast Large Language Model Serving for RAG with Cached Knowledge Fusion
+  key_idea: Selective KV recompute makes non-prefix KV cache reuse accurate.
+  cost: time-to-first-token reduced 2.2-3.3x and throughput increased 2.8-5x vs full KV recompute without compromising quality
+
+[chen-2023-punica] (2023, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C8,C11)
+  title: Punica: Multi-Tenant LoRA Serving
+  key_idea: Batch across LoRA adapters sharing one base model.
+  cost: 12x higher throughput serving multiple LoRA models vs state-of-the-art systems with 2 ms added latency per token
+
+[gim-2023-prompt-cache] (2023, MLSys 2024, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: Prompt Cache: Modular Attention Reuse for Low-Latency Inference
+  key_idea: Modular, position-aware reuse of attention states for recurring prompt segments.
+  cost: time-to-first-token improved 8x on GPU and 60x on CPU for long prompts while maintaining output accuracy
+
+[kwon-2023-vllm] (2023, SOSP 2023, rel=3, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: Efficient Memory Management for Large Language Model Serving with PagedAttention
+  key_idea: Page the KV cache to eliminate memory waste and enable sharing.
+  cost: 2-4x throughput at the same latency vs FasterTransformer and Orca
+
+[sheng-2023-s-lora] (2023, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C8,C11)
+  title: S-LoRA: Serving Thousands of Concurrent LoRA Adapters
+  key_idea: Serve many fine-tuned specialists cheaply on one base model.
+  cost: up to 4x throughput vs HuggingFace PEFT and vLLM with naive LoRA support, serving orders of magnitude more adapters
+
+[leviathan-2022-speculative-decoding] (2022, ICML 2023, rel=3, gran=token, regime=training-free, prod=N, clusters=C11)
+  title: Fast Inference from Transformers via Speculative Decoding
+  key_idea: Draft with a small model, verify with the large one, losslessly.
+  cost: 2x-3x acceleration of T5-XXL vs standard T5X implementation with identical outputs
+
+[anthropic-message-batches] (None, Claude Platform docs, rel=3, gran=none, regime=n/a, prod=N, clusters=C11,C14)
+  title: Batch processing (Message Batches API)
+  key_idea: Async batch at 50% price.
+  cost: (vendor-reported) 50% cost reduction for asynchronous batches
+
+[openai-batch-api] (None, OpenAI API docs, rel=3, gran=none, regime=n/a, prod=N, clusters=C11,C14)
+  title: Batch API
+  key_idea: Trade latency for 50% price.
+  cost: (vendor-reported) 50% discount vs synchronous APIs, 24-hour completion window
+
+[openai-flex-processing] (None, OpenAI API docs, rel=3, gran=none, regime=n/a, prod=N, clusters=C11,C14)
+  title: Flex processing
+  key_idea: Cheaper best-effort service tier.
+  cost: (vendor-reported) Priced at Batch API rates for synchronous-style requests with slower responses and occasional unavailability
+
+[chen-2026-agentic-energy-survey] (2026, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C11,C15)
+  title: Networking-Aware Energy Efficiency in Agentic AI Inference: A Survey
+  key_idea: Energy accounting for agentic inference.
+
+[chen-2026-olp-routing-serving] (2026, arXiv, rel=2, gran=none, regime=bandit-online, prod=N, clusters=C5,C11)
+  title: Online Linear Programming for Multi-Objective Routing in LLM Serving
+  key_idea: Online LP bid-price control for LLM request dispatch.
+
+[cim-2026-parallel-context-compaction] (2026, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C10,C11)
+  title: Parallel Context Compaction for Long-Horizon LLM Agent Serving
+  key_idea: Parallel block-wise compaction for serving.
+
+[ding-2026-conserve] (2026, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C11)
+  title: Observation, Not Prediction: Conversation-Level Disaggregated Scheduling for Agentic Serving
+  key_idea: Disaggregate at conversation, not turn, granularity.
+  cost: p95 time-to-first-effective-token reduced 51.08% and energy efficiency improved 7.51% vs per-turn prediction baseline; heterogeneous GPU tiers add 22.75% energy efficiency
+
+[guo-2026-saga] (2026, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C11)
+  title: SAGA: Workflow-Atomic Scheduling for AI Agent Inference on GPU Clusters
+  key_idea: Schedule whole workflows atomically for latency.
+  cost: GPU memory utilization improved 1.22x with 99.2% SLO attainment under multi-tenant interference, at ~30% lower peak throughput than throughput-optimal batching
+
+[li-2026-herasys] (2026, ICML 2026, rel=2, gran=none, regime=training-free, prod=N, clusters=C11)
+  title: HeraSys: Collaborative Serving of Multiple LLM Workflows via Fine-Grained End-to-End Optimization
+  key_idea: Jointly serve many workflows with fine-grained priorities.
+  cost: P99 latency reduced up to 2.17x and serving throughput increased up to 1.85x under strict latency guarantees
+
+[li-2026-polar] (2026, arXiv, rel=2, gran=query, regime=bandit-online, prod=N, clusters=C5,C11)
+  title: POLAR: Online Learning for LoRA Adapter Caching and Routing in Edge LLM Serving
+  key_idea: Bandit routing plus caching of LoRA adapters.
+
+[together-2026-cache-aware-pd-disaggregation] (2026, Together AI blog, rel=2, gran=query, regime=training-free, prod=N, clusters=C10,C11)
+  title: Cache-aware prefill-decode disaggregation (CPD) for up to 40% faster long-context LLM serving
+  key_idea: Route requests to prefill pools by cache warmth to exploit context reuse.
+  cost: Up to 35-40% higher sustainable QPS than existing disaggregated designs (~1.1-1.15 QPS per GPU) with lower TTFT on long-context mixed traffic (vendor-reported)
+
+[vllm-2026-tiered-kv-offloading] (2026, vLLM blog, rel=2, gran=none, regime=n/a, prod=N, clusters=C10,C11)
+  title: Tiered KV Cache Offloading in vLLM
+  key_idea: Reloading KV from cheaper tiers beats re-prefill for multi-turn and agentic sessions.
+
+[wang-2026-actkv] (2026, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C10,C11)
+  title: ActKV: Efficient LLM Agents through Action-Guided KV Cache Management
+  key_idea: Compress agent KV cache guided by action relevance.
+  cost: retains 98.53% of FullKV accuracy with 25.98% of peak KV memory and 3.97x token / 3.58x task throughput on long-trace tasks
+
+[wang-2026-agentspec] (2026, EMNLP 2026, rel=2, gran=step, regime=training-free, prod=N, clusters=C11)
+  title: AgentSpec: Speculative Decoding for Batch Inference of LLM Agents
+  key_idea: Agent-aware speculative decoding for batch agent inference.
+
+[wang-2026-smetric] (2026, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C11)
+  title: SMetric: Rethink LLM Scheduling for Serving Agents with Balanced Session-centric Scheduling
+  key_idea: Balance cache affinity against load for agent sessions.
+  cost: peak TPS improved 9-15% under prefill-decode colocation and peak prefill TPS 9% under disaggregation on real-world traces
+
+[zhang-2026-specbox] (2026, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C11)
+  title: SpecBox: Speculative Sandbox Scheduling for Efficient LLM Agent Serving
+  key_idea: Speculative sandbox prewarming for agent tool execution.
+  cost: P99 end-to-end latency reduced up to 2.9x vs on-demand sandboxes and peak memory reduced 45.9% vs permanently reserved sandboxes
+
+[chen-2025-kairos] (2025, arXiv, rel=2, gran=subagent, regime=training-free, prod=N, clusters=C11)
+  title: Kairos: Low-latency Multi-Agent Serving with Shared LLMs and Excessive Loads in the Public Cloud
+  key_idea: Latency- and memory-aware dispatch for multi-agent traffic.
+  cost: end-to-end latency reduced 17.8% to 28.4% vs state-of-the-art
+
+[chung-2025-mlenergy] (2025, NeurIPS 2025 Datasets and Benchmarks (Spotlight), rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C13)
+  title: The ML.ENERGY Benchmark: Toward Automated Inference Energy Measurement and Optimization
+  key_idea: Energy-per-request benchmarking and leaderboard.
+  cost: Automated optimization recommendations sometimes save more than 40% energy
+
+[li-2025-eagle-3] (2025, arXiv, rel=2, gran=token, regime=supervised-offline, prod=N, clusters=C11)
+  title: EAGLE-3: Scaling up Inference Acceleration of Large Language Models via Training-Time Test
+  key_idea: Scale draft training for larger speculative speedups.
+  cost: speedup up to 6.5x (about 1.4x over EAGLE-2); 1.38x throughput at batch size 64 in SGLang
+
+[li-2025-edge-cloud-survey] (2025, ACM Computing Surveys (per Semantic Scholar), rel=2, gran=n/a, regime=n/a, prod=N, clusters=C1,C11,C15)
+  title: Collaborative Inference and Learning between Edge SLMs and Cloud LLMs: A Survey of Algorithms, Execution, and Open Challenges
+  key_idea: Edge-cloud collaboration taxonomy.
+
+[nvidia-dynamo-repo] (2025, GitHub (ai-dynamo/dynamo), rel=2, gran=query, regime=training-free, prod=Y, clusters=C10,C11)
+  title: NVIDIA Dynamo: A Datacenter Scale Distributed Inference Serving Framework
+  key_idea: Cache-aware routing and disaggregated serving to cut the cost of prefill-heavy multi-turn traffic.
+  cost: Repo-listed results: 2x faster TTFT with KV-aware routing (Qwen3-Coder 480B, Baseten benchmark); 80% fewer SLA breaches from Planner autoscaling at 5% lower TCO (Alibaba, APSARA 2025); 7x higher throughput per GPU for DeepSeek R1 on GB200 NVL72 vs B200 without Dynamo (vendor/partner-reported)
+
+[pagonas-2025-cortex-workflow-serving] (2025, arXiv, rel=2, gran=subagent, regime=n/a, prod=N, clusters=C11)
+  title: Cortex: Workflow-Aware Resource Pooling and Scheduling for Agentic Serving
+  key_idea: Stage-isolated resource pools for agentic serving.
+
+[together-2025-atlas-adaptive-speculator] (2025, Together AI blog, rel=2, gran=token, regime=hybrid, prod=N, clusters=C5,C11)
+  title: AdapTive-LeArning Speculator System (ATLAS): A New Paradigm in LLM Inference via Runtime-Learning Accelerators
+  key_idea: Speculative-decoding drafters that adapt online to the serving workload.
+  cost: Up to 500 TPS on DeepSeek-V3.1 and 460 TPS on Kimi-K2 when fully adapted, 2.65x faster than standard decoding; RL rollouts: acceptance rate rose from <10% to >80% over 1.4k steps (vendor-reported)
+
+[together-2025-batch-api] (2025, Together AI blog, rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C14)
+  title: Introducing the Together AI Batch API: Process Thousands of LLM Requests at 50% Lower Cost
+  key_idea: Open-model batch inference at 50% price.
+  cost: (vendor-reported) 50% lower cost than real-time API, best-effort 24h completion
+
+[vllm-2025-vllm-router] (2025, vLLM blog, rel=2, gran=query, regime=training-free, prod=N, clusters=C11)
+  title: vLLM Router: A High-Performance and Prefill/Decode Aware Load Balancer for Large-scale Serving
+  key_idea: Replica-level routing that is aware of KV-cache locality and P/D disaggregation raises throughput per GPU.
+  cost: Llama 3.1 8B with 8 prefill + 8 decode pods: request throughput 25% higher than llm-d and 100% higher than the K8s-native load balancer (project-reported)
+
+[zhen-2025-taming-the-titans] (2025, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C15)
+  title: Taming the Titans: A Survey of Efficient LLM Inference Serving
+  key_idea: Map of LLM serving techniques.
+
+[agrawal-2024-sarathi-serve] (2024, OSDI 2024, rel=2, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve
+  key_idea: Chunked prefill with stall-free batching.
+  cost: serving capacity 2.6x higher for Mistral-7B on one A100 and up to 3.7x for Yi-34B on two A100s vs vLLM; up to 5.6x for Falcon-180B with pipeline parallelism
+
+[cai-2024-medusa] (2024, arXiv, rel=2, gran=token, regime=supervised-offline, prod=N, clusters=C11)
+  title: Medusa: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads
+  key_idea: Self-drafting via extra decoding heads.
+  cost: Medusa-1 over 2.2x speedup without quality loss; Medusa-2 2.3-3.6x
+
+[fu-2024-lookahead-decoding] (2024, arXiv, rel=2, gran=token, regime=training-free, prod=N, clusters=C11)
+  title: Break the Sequential Dependency of LLM Inference Using Lookahead Decoding
+  key_idea: Draft-free exact parallel decoding.
+  cost: up to 1.8x speedup on MT-bench and 4x with strong scaling on multiple GPUs for code completion
+
+[fu-2024-serverlessllm] (2024, OSDI 2024, rel=2, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: ServerlessLLM: Low-Latency Serverless Inference for Large Language Models
+  key_idea: Fast cold starts for serverless LLMs.
+  cost: latency reduced 10-200x vs state-of-the-art serverless systems across LLM inference workloads
+
+[jin-2024-ragcache] (2024, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: RAGCache: Efficient Knowledge Caching for Retrieval-Augmented Generation
+  key_idea: Cache KV of popular retrieved documents across GPU/host memory.
+  cost: TTFT reduced by up to 4x and throughput improved by up to 2.1x vs vLLM integrated with Faiss
+
+[juravsky-2024-hydragen] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C10,C11)
+  title: Hydragen: High-Throughput LLM Inference with Shared Prefixes
+  key_idea: Batch attention over shared prefixes.
+  cost: CodeLlama-13b end-to-end throughput up to 32x vs competitive baselines; 55% less inference time on competitive programming with tree-shaped sharing
+
+[kurtic-2024-bf16-or-death] (2024, ACL 2025, rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C13)
+  title: "Give Me BF16 or Give Me Death"? Accuracy-Performance Trade-Offs in LLM Quantization
+  key_idea: Quantization choice depends on deployment mode; FP8 is essentially free.
+  cost: FP8 W8A8 lossless across scales; tuned INT8 loses 1-3%; W4A16 most cost-efficient for synchronous deployments, W8A8 best for asynchronous continuous batching
+
+[li-2024-eagle] (2024, arXiv, rel=2, gran=token, regime=supervised-offline, prod=N, clusters=C11)
+  title: EAGLE: Speculative Sampling Requires Rethinking Feature Uncertainty
+  key_idea: Feature-level drafting for speculative sampling.
+  cost: 2.7x-3.5x latency speedup and doubled throughput on LLaMA2-Chat 70B while preserving the output distribution
+
+[li-2024-eagle-2] (2024, arXiv, rel=2, gran=token, regime=supervised-offline, prod=N, clusters=C11)
+  title: EAGLE-2: Faster Inference of Language Models with Dynamic Draft Trees
+  key_idea: Dynamic draft trees from draft confidence.
+  cost: speedup ratios 3.05x-4.26x, 20%-40% faster than EAGLE-1, lossless
+
+[li-2024-serving-survey] (2024, IEEE HPEC 2024 (per Semantic Scholar), rel=2, gran=n/a, regime=n/a, prod=N, clusters=C11,C15)
+  title: LLM Inference Serving: Survey of Recent Advances and Opportunities
+  key_idea: Serving systems survey.
+
+[li-2024-snapkv] (2024, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: SnapKV: LLM Knows What You are Looking for Before Generation
+  key_idea: Compress prompt KV using attention from an observation window.
+
+[sun-2024-llumnix] (2024, OSDI 2024, rel=2, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: Llumnix: Dynamic Scheduling for Large Language Model Serving
+  key_idea: Live migration of requests across instances.
+  cost: tail latencies improved by an order of magnitude, high-priority requests up to 1.5x faster, and up to 36% cost savings at similar tail latency
+
+[xia-2024-speculative-decoding-survey] (2024, Findings of ACL 2024, rel=2, gran=token, regime=n/a, prod=N, clusters=C11,C15)
+  title: Unlocking Efficiency in Large Language Model Inference: A Comprehensive Survey of Speculative Decoding
+  key_idea: Taxonomy of speculative decoding.
+
+[xu-2024-agent-services-survey] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C15)
+  title: Deploying Foundation Model Powered Agent Services: A Survey
+  key_idea: Survey of agent service deployment.
+
+[ye-2024-chunkattention] (2024, ACL 2024, rel=2, gran=none, regime=n/a, prod=N, clusters=C10,C11)
+  title: ChunkAttention: Efficient Self-Attention with Prefix-Aware KV Cache and Two-Phase Partition
+  key_idea: Prefix-tree KV with shared-prompt-aware kernel.
+  cost: self-attention kernel 3.2-4.8x faster than state of the art for system prompts of 1024-4096 tokens
+
+[zhong-2024-distserve] (2024, OSDI 2024, rel=2, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: DistServe: Disaggregating Prefill and Decoding for Goodput-optimized Large Language Model Serving
+  key_idea: Prefill/decode disaggregation for goodput.
+  cost: serves 7.4x more requests or meets 12.6x tighter SLOs vs state-of-the-art systems while keeping >90% of requests within latency constraints
+
+[zhou-2024-efficient-inference-survey] (2024, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C11,C15)
+  title: A Survey on Efficient Inference for Large Language Models
+  key_idea: Efficient inference taxonomy.
+
+[chen-2023-speculative-sampling] (2023, arXiv, rel=2, gran=token, regime=training-free, prod=N, clusters=C11)
+  title: Accelerating Large Language Model Decoding with Speculative Sampling
+  key_idea: Speculative sampling for large distributed models.
+  cost: 2-2.5x decoding speedup on Chinchilla 70B in a distributed setup without compromising sample quality
+
+[li-2023-alpaserve] (2023, OSDI 2023, rel=2, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: AlpaServe: Statistical Multiplexing with Model Parallelism for Deep Learning Serving
+  key_idea: Statistical multiplexing of many models via model parallelism.
+  cost: up to 10x higher request rates or 6x more burstiness within latency constraints for >99% of requests on production workloads
+
+[lin-2023-awq] (2023, MLSys 2024, rel=2, gran=none, regime=training-free, prod=N, clusters=C11)
+  title: AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration
+  key_idea: Activation-aware weight-only quantization.
+  cost: TinyChat 4-bit inference over 3x faster than HuggingFace FP16 on desktop and mobile GPUs
+
+[liu-2023-cachegen] (2023, SIGCOMM 2024, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: CacheGen: KV Cache Compression and Streaming for Fast Large Language Model Serving
+  key_idea: Compress and stream KV caches to reuse long contexts across machines.
+  cost: KV cache size reduced 3.5-4.3x and context fetch+processing delay reduced 3.2-3.7x with negligible quality impact
+
+[miao-2023-specinfer] (2023, ASPLOS 2024, rel=2, gran=token, regime=training-free, prod=N, clusters=C11)
+  title: SpecInfer: Accelerating Generative Large Language Model Serving with Tree-based Speculative Inference and Verification
+  key_idea: Tree-based speculative inference.
+  cost: 1.5-2.8x faster for distributed inference and 2.6-3.5x for offloading-based inference while preserving generation
+
+[patel-2023-splitwise] (2023, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C11)
+  title: Splitwise: Efficient generative LLM inference using phase splitting
+  key_idea: Phase splitting onto cost-appropriate hardware.
+  cost: 1.4x higher throughput at 20% lower cost, or 2.35x more throughput at the same cost and power
+
+[wan-2023-efficient-llms-survey] (2023, TMLR, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C11,C15)
+  title: Efficient Large Language Models: A Survey
+  key_idea: Broad efficiency survey.
+
+[xiao-2023-streamingllm] (2023, ICLR 2024, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: Efficient Streaming Language Models with Attention Sinks
+  key_idea: Keep attention-sink tokens plus a recent window.
+  cost: up to 22.2x speedup over sliding-window recomputation in streaming settings
+
+[zhang-2023-h2o] (2023, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C11)
+  title: H2O: Heavy-Hitter Oracle for Efficient Generative Inference of Large Language Models
+  key_idea: Evict KV entries by accumulated attention.
+  cost: with 20% heavy hitters, throughput improves up to 29x over DeepSpeed Zero-Inference and HF Accelerate and 3x over FlexGen; latency reduced up to 1.9x
+
+[frantar-2022-gptq] (2022, ICLR 2023, rel=2, gran=none, regime=training-free, prod=N, clusters=C11)
+  title: GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers
+  key_idea: Accurate one-shot 3-4 bit weight quantization.
+  cost: end-to-end inference speedups over FP16 of ~3.25x on A100 and ~4.5x on A6000
+
+[schuster-2022-calm] (2022, NeurIPS 2022, rel=2, gran=token, regime=supervised-offline, prod=N, clusters=C2,C9,C11)
+  title: Confident Adaptive Language Modeling
+  key_idea: Per-token early exit with calibrated quality guarantees.
+  cost: Potential speedup of up to 3x while provably maintaining high performance on three generation tasks
+
+[google-gemini-batch-api] (None, Google AI for Developers docs, rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C14)
+  title: Batch API (Gemini API)
+  key_idea: Async batch at 50% price.
+  cost: (vendor-reported) 50% of standard cost, 24-hour target turnaround
+
+[huggingface-llm-perf-leaderboard] (None, Hugging Face Spaces, rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C13)
+  title: LLM-Perf Leaderboard
+  key_idea: Efficiency leaderboard for open models.
+

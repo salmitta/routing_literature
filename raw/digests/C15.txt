@@ -1,0 +1,380 @@
+# C15: 80 records (full detail for rel>=4; one-liners for rel<=3)
+
+[sridhar-2026-correlated-bandits-routing] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C7,C15)
+  title: Correlation-Aware Contextual Bandits with Surrogate Rewards for LLM Routing
+  key_idea: Bandits with surrogate (judge) rewards for routing.
+  summary: Contextual bandit algorithms for routing that exploit correlated arms and noisy surrogate rewards (e.g. judge predictions), with regret guarantees robust to surrogate misspecification.
+  benchmarks: LLM routing benchmarks
+  signals: surrogate reward model, inter-arm correlation, bandit feedback
+
+[xu-2026-seqroute] (2026, arXiv, rel=5, gran=query, regime=RL-offline, prod=N, clusters=C1,C3,C5,C6,C15)
+  title: SeqRoute: Global Budget-Aware Sequential LLM Routing via Offline Reinforcement Learning
+  key_idea: MDP/offline-RL routing across a session with a global budget.
+  cost: Reduces operational costs by 6.0-73.5% while maintaining or improving quality; bankruptcy under 1% (abstract)
+  summary: SeqRoute formulates multi-turn session routing under a global budget as a finite-horizon MDP solved with offline RL (CQL), using hindsight budget relabeling to expand 10,000 sessions into 2.38M transitions.
+  benchmarks: 10,000 raw sessions expanded to 2.38M transitions
+  signals: remaining session budget, Conservative Q-Learning, hindsight budget relabeling, session history, remaining budget
+
+[belcak-2025-slms-future-agentic-ai] (2025, arXiv (position paper), rel=5, gran=subagent, regime=n/a, prod=N, clusters=C3,C8,C12,C15)
+  title: Small Language Models are the Future of Agentic AI
+  key_idea: Most agent calls should go to SLMs; convert LLM agents to SLMs using logged usage.
+  summary: NVIDIA's position paper argues that small language models are capable enough, better suited and far cheaper for most repetitive, narrow invocations inside agentic systems, and that heterogeneous agents mixing SLMs and LLMs are the natural design. Outlines an LLM-to-SLM conversion algorithm from agent usage logs.
+
+[somerstep-2025-carrot] (2025, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C13,C15)
+  title: CARROT: A Cost Aware Rate Optimal Router
+  key_idea: Estimate both cost and accuracy per model and plug into a linear utility: minimax-optimal routing.
+  summary: Provides a minimax analysis of routing and shows a router that separately estimates each model's cost and accuracy can be rate-optimal. Introduces CARROT based on this principle and releases the SPROUT dataset spanning recent frontier LLMs with price-aware routing labels.
+  benchmarks: SPROUT, RouterBench, Open LLM Leaderboard v2, open-LLM-leaderboard-v2, SPROUT (GPQA, MuSR, MMLU-Pro, MATH, OpenHermes, RAGBench)
+  signals: predicted accuracy, predicted cost, query embedding
+
+[wang-2025-efficient-agents] (2025, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C3,C12,C13,C15)
+  title: Efficient Agents: Building Effective Agents While Reducing Cost
+  key_idea: Measure agent cost-of-pass and prune unnecessary complexity.
+  cost: Efficient Agents retains 96.7% of OWL's performance while reducing cost from $0.398 to $0.228, a 28.4% improvement in cost-of-pass on GAIA (abstract)
+  summary: Systematic empirical study of efficiency-effectiveness trade-offs in agent systems, varying LLM backbone, framework modules and test-time scaling on GAIA with a cost-of-pass metric. Proposes an Efficient Agents framework sized to task needs.
+  benchmarks: GAIA
+  signals: cost-of-pass
+
+[dekoninck-2024-cascade-routing] (2024, ICML (per Semantic Scholar), rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C15)
+  title: A Unified Approach to Routing and Cascading for LLMs
+  key_idea: Cascade routing: provably optimal unification of routing and cascading.
+  cost: Cascade routing consistently outperforms routing or cascading alone by a large margin (no single number in abstract)
+  summary: Derives an optimal cascading strategy, proves optimality of an existing routing strategy, and unifies them as cascade routing, which can route and then escalate. Analysis identifies quality-estimator accuracy as the key factor for success of any model selection scheme.
+  signals: quality estimator, cost estimator, quality estimates, cost estimates
+
+[bouchard-2026-escalation-decision-theory] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: Is Escalation Worth It? A Decision-Theoretic Characterization of LLM Cascades
+  key_idea: Duality-based frontier characterization for cascades.
+  cost: A lightweight pre-generation router beats the best cascade policy on 4 of 5 datasets (MATH, MMLU, TriviaQA, SimpleQA, LiveCodeBench), eight models
+  summary: Decision-theoretic analysis of LLM cascades via constrained optimization and duality: characterizes the cost-quality frontier of two-model and k-model threshold cascades and finds long fixed chains underperform the pairwise envelope.
+  benchmarks: MATH, MMLU, TriviaQA, SimpleQA, LiveCodeBench
+  signals: confidence, shadow prices, confidence threshold
+
+[chen-2026-co-failure-ceiling] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C12,C13,C15)
+  title: When Does Combining Language Models Help? A Co-Failure Ceiling on Routing, Voting, and Mixture-of-Agents Across 67 Frontier Models
+  key_idea: Co-failure ceiling bounds achievable router gains.
+  summary: Proves that any policy outputting one member's answer (routing, voting, cascades) is capped at one minus the rate at which all models fail together, and gives a finite-sample certificate for this ceiling. Empirically the tail is underestimated by correlation models.
+  benchmarks: mathematics, code, open-ended math, execution-graded code, GPQA-Diamond
+  signals: all-model co-failure rate, all-models-wrong rate (beta)
+
+[fisch-2026-pandoras-router] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C15)
+  title: Pandora's AI Model Routing Box: Efficient Allocation with Costly Value Estimation
+  key_idea: Optimal search theory for when to pay for better routing estimates.
+  summary: Formalizes routing with costly value estimation as Pandora's Box optimal search, giving closed-form value-of-information rules for whether refining an estimate for a specialist is worth it, with centralized and decentralized (bidding) variants.
+  signals: costly value estimation, value of information
+
+[frauen-2026-causal-methods-llm] (2026, Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2, rel=4, gran=n/a, regime=n/a, prod=N, clusters=C6,C15)
+  title: Causal Methods for LLM Development and Evaluation
+  key_idea: Routing and evaluation from logs should be treated as causal inference.
+  summary: Position and tutorial paper (KDD 2026) arguing that many LLM development questions, including whether to route a prompt to a larger or smaller model under cost limits, are causal. It reviews how confounded logs, biased judges and non-stationary deployment call for causal inference and off-policy methods.
+  signals: logged data, judge scores
+
+[moslem-2026-routing-cascading-survey] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C2,C5,C15)
+  title: Dynamic Model Routing and Cascading for Efficient LLM Inference: A Survey
+  key_idea: Most up-to-date taxonomy of routing and cascading.
+  summary: Systematic survey of multi-LLM routing and cascading across independently trained models, organized by paradigm (difficulty, preferences, clustering, uncertainty, RL, multimodality, cascading). Adds a conceptual framework for characterizing routing systems and discusses trade-offs.
+
+[erol-2025-cost-of-pass] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C12,C13,C15)
+  title: Cost-of-Pass: An Economic Framework for Evaluating Language Models
+  key_idea: Cost-of-pass as an economic metric for model selection.
+  cost: Frontier cost-of-pass for complex quantitative tasks roughly halved every few months over the year studied
+  summary: Defines cost-of-pass, the expected monetary cost of producing a correct solution, and the frontier cost-of-pass across models and human experts. Finds lightweight models most cost-effective for basic quantitative tasks, large models for knowledge-intensive ones and reasoning models for complex math.
+  benchmarks: basic quantitative, knowledge-intensive and complex quantitative task suites
+  signals: expected cost of a correct solution, accuracy, inference cost
+
+[jitkrittum-2025-unirouter] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C5,C6,C15)
+  title: Universal Model Routing for Efficient LLM Inference
+  key_idea: Represent LLMs by prediction profiles on anchor prompts to route among unseen models.
+  summary: UniRoute (Google) handles dynamic routing where new LLMs appear at test time by representing each model as a vector of its errors on a small representative prompt set. Cluster-based and learned-cluster-map instantiations are shown to estimate a theoretically optimal rule, with an excess-risk bound.
+  benchmarks: public benchmarks (30+ unseen LLMs), public benchmarks with 30+ unseen LLMs
+  signals: model feature vector from predictions on representative prompts, prompt clusters, LLM feature vector from representative prompts, clusters
+
+[mei-2025-omnirouter] (2025, SIGKDD Explorations 2025, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C15)
+  title: OmniRouter: Budget and Performance Controllable Multi-LLM Routing
+  key_idea: Batch-level constrained optimization for budget-controllable routing.
+  cost: Up to 6.30% accuracy improvement while reducing computational costs by at least 10.15% vs router baselines (abstract)
+  summary: OmniRouter treats routing as a global constrained optimization that minimizes total cost subject to a performance level, rather than per-query greedy choices. A retrieval-augmented predictor estimates capabilities and costs, and Lagrangian dual decomposition finds allocations under capacity constraints.
+  signals: retrieval-augmented performance predictor, cost predictor, Lagrangian dual multipliers
+
+[sharma-2025-slm-agentic-survey] (2025, arXiv, rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C8,C12,C15)
+  title: Small Language Models for Agentic Systems: A Survey of Architectures, Capabilities, and Deployment Trade offs
+  key_idea: SLM-default, LLM-fallback agent design.
+  cost: Claims SLMs with guided decoding can match or surpass LLMs on tool use, function calling and RAG at 10x-100x lower token cost (abstract, synthesized from literature)
+  summary: Survey arguing small language models suffice for many schema-constrained agentic workloads and formalizing SLM-default, LLM-fallback designs with uncertainty-aware routing and verifier cascades. Proposes metrics such as cost per successful task.
+  benchmarks: BFCL v3/v4, StableToolBench
+  signals: uncertainty-aware routing, verifier cascades, uncertainty, verifier checks
+
+[varangot-reille-2025-doing-more-with-less] (2025, Journal of Artificial Intelligence Research, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C15)
+  title: Doing More with Less: A Survey on Routing Strategies for Resource Optimisation in Large Language Model-Based Systems
+  key_idea: Survey of routing for resource optimization.
+  summary: Survey of routing strategies in LLM-based systems covering when, why and how to route queries to smaller or specialized components to save cost and energy.
+
+[woisetschlager-2025-mess-plus] (2025, NeurIPS 2025, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C15)
+  title: MESS+: Dynamically Learned Inference-Time LLM Routing in Model Zoos with Service Level Guarantees
+  key_idea: Lyapunov-style virtual queues for SLA-guaranteed cost-optimal routing.
+  cost: Average 2x cost savings vs existing LLM routing techniques (abstract)
+  summary: MESS+ is a stochastic-optimization router for model zoos that learns satisfaction probabilities online and solves per-request optimization with virtual queues to meet SLA quality guarantees while minimizing cost. Includes theory on cost optimality and constraint satisfaction.
+  benchmarks: LLM benchmarks
+  signals: learned request satisfaction probability, virtual queues, SLA constraint
+
+[wu-2025-training-free-online-routing] (2025, NeurIPS 2025, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C5,C15)
+  title: Efficient Training-Free Online Routing for High-Volume Multi-LLM Serving
+  key_idea: Online budgeted routing with competitive-ratio guarantees.
+  cost: Average 3.55x improvement in overall performance, 1.85x in cost efficiency and ~4.25x throughput vs 8 baselines (abstract)
+  summary: Presents the first training-free algorithm for online routing under high query volume and token budgets, estimating query features via ANN search and solving a one-time optimization on initial queries. Provides a 1-o(1) competitive ratio guarantee.
+  benchmarks: 3 benchmark datasets
+  signals: approximate nearest neighbor features, one-time LP on initial queries, token budget
+
+[snell-2024-test-time-compute-optimal] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C9,C15)
+  title: Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters
+  key_idea: Difficulty-adaptive test-time compute allocation can beat parameter scaling.
+  cost: Compute-optimal allocation improves test-time compute efficiency by more than 4x vs best-of-N; in FLOPs-matched evaluation, a smaller model with test-time compute outperforms a 14x larger model on problems where it has non-trivial success
+  summary: Studies scaling test-time compute via verifier search and adaptive revision and finds the best method depends on prompt difficulty. Allocating compute per prompt by difficulty beats uniform best-of-N and can substitute for a much larger model on easier problems.
+  signals: prompt difficulty estimate, process reward model
+
+[belloni-2026-online-pandoras-box-cascading] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C15)
+  title: Online Pandora's Box for Contextual LLM Cascading
+  key_idea: Weitzman-index cascading learned online with bandit feedback.
+
+[chen-2026-llm-mab-survey] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C5,C15)
+  title: A Component-Based Survey of Interactions between Large Language Models and Multi-Armed Bandits
+  key_idea: Component-level survey of LLM-bandit interactions.
+
+[chen-2026-token-economics-agents-survey] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C12,C15)
+  title: Token Economics for LLM Agents: A Dual-View Study from Computing and Economics
+  key_idea: Economic taxonomy of token spending in agents.
+
+[dai-2026-policy-regret-embedding-routing] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C5,C15)
+  title: Policy Regret for Embedding Model Routing: Contextual Bandits with Low-Rank Experts
+  key_idea: Policy-regret theory for online model routing under bandit feedback with low-rank expert structure.
+
+[fan-2026-science-of-collective-ai] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C12,C15)
+  title: Towards a Science of Collective AI: LLM-based Multi-Agent Systems Need a Transition from Blind Trial-and-Error to Rigorous Science
+  key_idea: Measure collaboration gain net of added budget.
+
+[hao-2026-racer] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7,C15)
+  title: RACER: Risk-Aware Calibrated Efficient Routing for Large Language Models
+  key_idea: Conformal set-valued routing with risk guarantees.
+
+[itkin-2026-budgeted-strong-correctors] (2026, arXiv, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C3,C15)
+  title: How Much Does Correctness Cost? Budgeted Placement of Strong Correctors in a Weak Multi-Agent Swarm
+  key_idea: Theory for where to place expensive models in a cheap agent swarm.
+
+[juneja-2026-cost-ordered-feasibility] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C5,C15)
+  title: Cost-Ordered Feasibility for Multi-Armed Bandits with Cost Subsidy
+  key_idea: Bandit algorithm for picking the cheapest arm that is near-best in quality.
+
+[liu-2026-cost-utility-alignment-trajectories] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C6,C12,C13,C15)
+  title: Cost-Utility Alignment in LLM Agent Trajectories:Profiling,Attribution,Diagnosis,Adaptation,and Evaluation
+  key_idea: Treat cost and utility as dual ledgers over agent trajectories.
+
+[mahmood-2026-routing-user-choice] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: Routing, Cascades, and User Choice for LLMs
+  key_idea: Game-theoretic analysis of routing with user behavior.
+
+[shivam-2026-multi-model-agentic-taxonomy] (2026, ICAISET 2026, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C3,C15)
+  title: Architecting Multi-Model Agentic AI Systems: A Taxonomy and Reference Architecture for Specialized LLMs in Production Agents
+  key_idea: Reference architecture for heterogeneous model assignment in production agents.
+
+[yu-2026-when-mas-help-information-bottleneck] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C12,C15)
+  title: When Do Multi-Agent Systems Help? An Information Bottleneck Perspective
+  key_idea: MAS helps only when bounded-message compression is beneficial.
+
+[yue-2026-workflow-opt-survey] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C4,C15)
+  title: From Static Templates to Dynamic Runtime Graphs: A Survey of Workflow Optimization for LLM Agents
+  key_idea: Unified vocabulary and taxonomy for agent workflow optimization.
+
+[zhang-2026-rl-orchestration-traces] (2026, arXiv, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C3,C6,C15)
+  title: Reinforcement Learning for LLM-based Multi-Agent Systems through Orchestration Traces
+  key_idea: Orchestration traces as the unit for learning multi-agent policies offline or online.
+
+[alomrani-2025-reasoning-on-a-budget] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: Reasoning on a Budget: A Survey of Adaptive and Controllable Test-Time Compute in LLMs
+  key_idea: L1-controllability vs L2-adaptiveness taxonomy.
+
+[behera-2025-multi-llm-inference-survey] (2025, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: Towards Efficient Multi-LLM Inference: Characterization and Analysis of LLM Routing and Hierarchical Techniques
+  key_idea: Survey of routing vs hierarchical inference.
+
+[chen-2025-llm-ensemble-survey] (2025, IJCAI 2026 (per Semantic Scholar), rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C15)
+  title: Harnessing Multiple Large Language Models: A Survey on LLM Ensemble
+  key_idea: Taxonomy placing routing within LLM ensembling.
+
+[chen-2025-llm-slm-collab-survey] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C1,C2,C3,C15)
+  title: A Survey on Collaborative Mechanisms Between Large and Small Language Models
+  key_idea: LLM-SLM collaboration taxonomy.
+
+[feng-2025-efficient-reasoning-models-survey] (2025, TMLR 2025, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C8,C9,C15)
+  title: Efficient Reasoning Models: A Survey
+  key_idea: Shorter/smaller/faster taxonomy.
+
+[huang-2025-thriftllm] (2025, VLDB 2025, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C15)
+  title: ThriftLLM: On Cost-Effective Selection of Large Language Models for Classification Queries
+  key_idea: Budgeted ensemble selection with guarantees.
+
+[lee-2025-cais-opt-survey] (2025, EMNLP 2025, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C4,C15)
+  title: Compound AI Systems Optimization: A Survey of Methods, Challenges, and Future Directions
+  key_idea: Taxonomy of compound AI optimization methods.
+
+[mao-2025-multi-expert-deferral-thesis] (2025, Ph.D. dissertation, New York University, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C15)
+  title: Theory and Algorithms for Learning with Multi-Class Abstention and Multi-Expert Deferral
+  key_idea: Consistency theory for multi-expert deferral.
+
+[qu-2025-efficient-reasoning-lrm-survey] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: A Survey of Efficient Reasoning for Large Reasoning Models: Language, Multimodality, and Beyond
+  key_idea: Efficient reasoning in LRMs.
+
+[sui-2025-stop-overthinking] (2025, TMLR 2025, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: Stop Overthinking: A Survey on Efficient Reasoning for Large Language Models
+  key_idea: Efficient reasoning survey.
+
+[wang-2025-reasoning-economy] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: Harnessing the Reasoning Economy: A Survey of Efficient Reasoning for Large Language Models
+  key_idea: Reasoning economy survey.
+
+[wang-2025-slm-llm-collab-survey] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C1,C15)
+  title: A Survey on Collaborating Small and Large Language Models for Performance, Cost-effectiveness, Cloud-edge Privacy, and Trustworthiness
+  key_idea: Goal-based SLM-LLM survey.
+
+[wu-2025-when-more-is-less-cot] (2025, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C15)
+  title: When More is Less: Understanding Chain-of-Thought Length in LLMs
+  key_idea: Optimal CoT length scales with difficulty and inversely with capability.
+
+[yao-2025-super-agent-hybrid-routers] (2025, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C3,C15)
+  title: Toward Super Agent System with Hybrid AI Routers
+  key_idea: Blueprint for intent routing plus local/cloud model routing in a super agent.
+
+[zeng-2025-pac-efficient-routing] (2025, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: A note on conditional PAC-efficient reasoning in large language model routing
+  key_idea: Limits of distribution-free conditional guarantees for routing.
+
+[brown-2024-large-language-monkeys] (2024, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C7,C9,C13,C15)
+  title: Large Language Monkeys: Scaling Inference Compute with Repeated Sampling
+  key_idea: Inference-time scaling laws for repeated sampling.
+  cost: SWE-bench Lite: DeepSeek-V2-Coder solves 56% with 250 samples vs 15.9% with one; five cheap samples solve more issues at lower cost than a premium frontier single attempt
+
+[chen-2024-small-models-survey] (2024, Computational Linguistics, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C1,C8,C15)
+  title: What is the Role of Small Models in the LLM Era: A Survey
+  key_idea: Small models in the LLM era.
+
+[wu-2024-inference-scaling-laws] (2024, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C15)
+  title: Inference Scaling Laws: An Empirical Analysis of Compute-Optimal Inference for Problem-Solving with Language Models
+  key_idea: Small model plus smart inference can be compute-optimal.
+  cost: Llemma-7B with the proposed tree search consistently outperforms Llemma-34B across tested inference strategies on MATH
+
+[zaharia-2024-compound-ai-systems] (2024, BAIR blog, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C4,C15)
+  title: The Shift from Models to Compound AI Systems
+  key_idea: Defines compound AI systems and frames their end-to-end optimization and cost control as a research agenda.
+
+[angelopoulos-2023-ppi] (2023, Science, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C15)
+  title: Prediction-powered inference
+  key_idea: Valid inference from predictions plus a small labeled correction set.
+
+[angelopoulos-2023-ppi-plus-plus] (2023, Annals of Applied Statistics, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C15)
+  title: PPI++: Efficient Prediction-Powered Inference
+  key_idea: Adaptive, efficient prediction-powered inference.
+
+[jitkrittum-2023-confidence-cascade-deferral] (2023, NeurIPS 2023, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C2,C15)
+  title: When Does Confidence-Based Cascade Deferral Suffice?
+  key_idea: Theory of when confidence thresholds suffice for cascades.
+
+[chen-2026-agentic-energy-survey] (2026, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C11,C15)
+  title: Networking-Aware Energy Efficiency in Agentic AI Inference: A Survey
+  key_idea: Energy accounting for agentic inference.
+
+[ashiga-2025-ensemble-survey] (2025, IEEE TAI 2025, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: Ensemble Learning for Large Language Models in Text and Code Generation: A Survey
+  key_idea: Ensemble survey with routing and cascading sections.
+
+[kirchhof-2025-uq-agents-position] (2025, arXiv, rel=2, gran=step, regime=n/a, prod=N, clusters=C7,C15)
+  title: Position: Uncertainty Quantification Needs Reassessment for Large-language Model Agents
+  key_idea: UQ must be rethought for agents.
+
+[li-2025-edge-cloud-survey] (2025, ACM Computing Surveys (per Semantic Scholar), rel=2, gran=n/a, regime=n/a, prod=N, clusters=C1,C11,C15)
+  title: Collaborative Inference and Learning between Edge SLMs and Cloud LLMs: A Survey of Algorithms, Execution, and Open Challenges
+  key_idea: Edge-cloud collaboration taxonomy.
+
+[liu-2025-efficient-inference-lrm-survey] (2025, IEEE TPAMI (per Semantic Scholar), rel=2, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: Efficient Inference for Large Reasoning Models: A Survey
+  key_idea: Token-efficient LRM inference survey.
+
+[yue-2025-dont-overthink-survey] (2025, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: Don't Overthink It: A Survey of Efficient R1-style Large Reasoning Models
+  key_idea: R1-style efficiency survey.
+
+[zhen-2025-taming-the-titans] (2025, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C15)
+  title: Taming the Titans: A Survey of Efficient LLM Inference Serving
+  key_idea: Map of LLM serving techniques.
+
+[zheng-2025-survey-process-reward-models] (2025, arXiv, rel=2, gran=step, regime=n/a, prod=N, clusters=C7,C15)
+  title: A Survey of Process Reward Models: From Outcome Signals to Process Supervisions for Large Language Models
+  key_idea: PRM survey.
+
+[zhu-2025-concise-adaptive-thinking-survey] (2025, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C9,C15)
+  title: Towards Concise and Adaptive Thinking in Large Reasoning Models: A Survey
+  key_idea: Adaptive thinking survey.
+
+[gu-2024-survey-llm-as-a-judge] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7,C15)
+  title: A Survey on LLM-as-a-Judge
+  key_idea: Survey on building reliable LLM judges.
+
+[li-2024-prompt-compression-survey] (2024, NAACL 2025, rel=2, gran=none, regime=n/a, prod=N, clusters=C10,C15)
+  title: Prompt Compression for Large Language Models: A Survey
+  key_idea: Taxonomy of prompt compression methods.
+
+[li-2024-serving-survey] (2024, IEEE HPEC 2024 (per Semantic Scholar), rel=2, gran=n/a, regime=n/a, prod=N, clusters=C11,C15)
+  title: LLM Inference Serving: Survey of Recent Advances and Opportunities
+  key_idea: Serving systems survey.
+
+[lin-2024-scaffolded-lm-survey] (2024, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C4,C15)
+  title: Scaffolded Language Models with Language Supervision for Mixed-Autonomy: A Survey
+  key_idea: LLM-as-optimizer over prompts/tools/scaffold code, surveyed.
+
+[lu-2024-merge-ensemble-cooperate] (2024, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C1,C15)
+  title: Merge, Ensemble, and Cooperate! A Survey on Collaborative Strategies in the Era of Large Language Models
+  key_idea: Merge/ensemble/cooperate taxonomy.
+
+[wen-2024-abstention-survey] (2024, TACL 2024, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C2,C7,C15)
+  title: Know Your Limits: A Survey of Abstention in Large Language Models
+  key_idea: Framework and survey of LLM abstention.
+
+[xia-2024-speculative-decoding-survey] (2024, Findings of ACL 2024, rel=2, gran=token, regime=n/a, prod=N, clusters=C11,C15)
+  title: Unlocking Efficiency in Large Language Model Inference: A Comprehensive Survey of Speculative Decoding
+  key_idea: Taxonomy of speculative decoding.
+
+[xu-2024-agent-services-survey] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C15)
+  title: Deploying Foundation Model Powered Agent Services: A Survey
+  key_idea: Survey of agent service deployment.
+
+[xu-2024-survey-kd-llms] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C8,C15)
+  title: A Survey on Knowledge Distillation of Large Language Models
+  key_idea: KD survey.
+
+[yadav-2024-moerging-survey] (2024, arXiv, rel=2, gran=query, regime=n/a, prod=N, clusters=C1,C15)
+  title: A Survey on Model MoErging: Recycling and Routing Among Specialized Experts for Collaborative Learning
+  key_idea: Routing among specialized experts.
+
+[zhou-2024-efficient-inference-survey] (2024, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C11,C15)
+  title: A Survey on Efficient Inference for Large Language Models
+  key_idea: Efficient inference taxonomy.
+
+[geng-2023-survey-confidence-calibration] (2023, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7,C15)
+  title: A Survey of Confidence Estimation and Calibration in Large Language Models
+  key_idea: Survey of LLM confidence estimation.
+
+[mao-2023-l2d-multiple-experts] (2023, ISAIM 2024, rel=2, gran=n/a, regime=supervised-offline, prod=N, clusters=C2,C15)
+  title: Principled Approaches for Learning to Defer with Multiple Experts
+  key_idea: H-consistent surrogates for multi-expert deferral.
+
+[wan-2023-efficient-llms-survey] (2023, TMLR, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C11,C15)
+  title: Efficient Large Language Models: A Survey
+  key_idea: Broad efficiency survey.
+
+[zhou-2023-predictable-ai] (2023, Artificial Intelligence (journal), rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6,C15)
+  title: Predictable Artificial Intelligence
+  key_idea: Framework for predicting AI performance.
+
+[russo-2017-thompson-tutorial] (2017, Foundations and Trends in ML 2018, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C5,C15)
+  title: A Tutorial on Thompson Sampling
+  key_idea: Thompson sampling tutorial.
+

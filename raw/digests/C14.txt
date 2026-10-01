@@ -1,0 +1,928 @@
+# C14: 162 records (full detail for rel>=4; one-liners for rel<=3)
+
+[agyemang-2026-local-splitter] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C10,C14)
+  title: Local-Splitter: A Measurement Study of Seven Tactics for Reducing Cloud LLM Token Usage on Coding-Agent Workloads
+  key_idea: Small local model as a triage layer in front of a frontier model for coding agents; the best tactic mix depends on the workload.
+  cost: Local routing + prompt compression gives 45-79% cloud token savings on edit- and explanation-heavy coding-agent workloads; full tactic set incl. draft-review gives 51% on RAG-heavy
+  summary: A measurement study of seven tactics for cutting cloud-LLM tokens when a small local model triages requests in front of a frontier model in coding agents: local routing, compression, semantic caching, local draft with cloud review, minimal diffs, intent extraction and batching with prompt caching. The tactics are delivered via an MCP/OpenAI-compatible shim.
+  benchmarks: four coding-agent workload classes
+  signals: local triage model, workload class
+
+[anthropic-2026-advisor-strategy] (2026, Claude blog (Anthropic), rel=5, gran=step, regime=training-free, prod=Y, clusters=C2,C3,C14)
+  title: The advisor strategy: Give Sonnet an intelligence boost with Opus
+  key_idea: Cheap executor runs the loop and calls an expensive advisor only at hard decision points.
+  cost: Sonnet executor + Opus advisor: +2.7 points on SWE-bench Multilingual over Sonnet alone with 11.9% lower cost per agentic task; Haiku + Opus advisor: 41.2% vs 19.7% on BrowseComp, trailing Sonnet solo by 29% but 85% cheaper per task
+  summary: Anthropic's advisor tool lets a cheaper executor model run an agentic task end to end and consult a stronger advisor model mid-task for a plan or correction, all inside one API request, with advisor tokens billed at advisor rates. Vendor benchmarks show quality gains with lower or similar cost, especially for weaker executors.
+  benchmarks: SWE-bench Multilingual, BrowseComp, Terminal-Bench 2.0
+  signals: executor-decided consultation
+
+[anthropic-2026-optimizing-cost-and-intelligence] (2026, Claude Platform documentation, rel=5, gran=step, regime=n/a, prod=N, clusters=C3,C9,C10,C12,C14)
+  title: Optimizing for cost and intelligence
+  key_idea: Vendor-measured playbook of per-step and architecture cost levers, including when delegation to cheaper workers loses.
+  cost: Examples reported: prompt caching cut DeepResearch Bench II cost 81% (Fable 5.1) and 62.5% (Sonnet 5); on SWE-bench Pro, Opus 5.5 low effort with failures re-run at high reached 97% at ~$0.17/task vs 95.3% at $0.29 all-high; Fable 5 coordinator + Sonnet 5 worker cost ~50% of solo Fable 5 on an easy BrowseComp slice; on full BrowseComp, solo Fable 5 at lower effort was 22-30% cheaper than the orchestrator at same accuracy
+  summary: Anthropic documentation with measured results on cost levers: caching, trimming tools and context, effort tuning, retrying failures at higher effort, task budgets, advisor pairing and orchestrator-worker delegation. It reports that advisor gains shrink as the executor approaches the advisor's capability and that cheaper-worker delegation helps on easy slices but can lose to a solo model at lower effort on the full set.
+  benchmarks: SWE-bench Pro, DeepResearch Bench II, BrowseComp, GPQA Diamond, Terminal-Bench 3, internal benchmarks
+  signals: effort level, advisor consultation, task budget
+
+[bao-2026-orcarouter] (2026, arXiv, rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C5,C14)
+  title: OrcaRouter: A Production-Oriented LLM Router with Hybrid Offline-Online Learning
+  key_idea: Offline warm-start plus online LinUCB updates for a production-oriented router.
+  cost: 75.54% accuracy at USD 1.00 per 1,000 queries; ranked second on RouterArena (arena score 72.08)
+  summary: OrcaRouter fits per-arm ridge regressors offline from a full-information reward matrix on curated prompts, then deploys as a LinUCB contextual bandit that can keep learning from bandit feedback.
+  benchmarks: RouterArena
+  signals: lexical features, sentence embedding, bandit reward
+
+[bechard-2026-terminal-agents-suffice] (2026, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C12,C14)
+  title: Terminal Agents Suffice for Enterprise Automation
+  key_idea: A plain terminal coding agent beats heavier enterprise agent stacks on cost.
+  cost: Terminal agents match or outperform more complex agent architectures at a fraction of the cost
+  summary: ServiceNow researchers argue a coding agent with only a terminal and filesystem, calling platform APIs directly, solves many enterprise automation tasks better and far more cheaply than MCP tool agents or GUI web agents. Suggests simple programmatic interfaces plus strong models as the enterprise backbone.
+  benchmarks: diverse real-world enterprise systems
+
+[fireworks-2026-firerouter-with-opus] (2026, Fireworks AI blog, rel=5, gran=step, regime=None, prod=Y, clusters=C1,C3,C5,C10,C14)
+  title: Introducing FireRouter with Opus
+  key_idea: Turn-level routing in coding agents with explicit pricing of cache loss, validated by a randomised live-traffic A/B test.
+  cost: Internal A/B test (>1 month, sessions randomised to router vs Opus-only): cost per session $15.36 -> $6.63 (57% +/- 19 ppts lower); graded-turn accuracy 78.7% vs 80.2% (98.1% of Opus-only); cache hit rate 94.2% vs 97.8% (vendor-reported)
+  summary: Fireworks releases a per-turn, cache-aware router for coding agents that routes each user turn among Claude Opus 5.5, GLM 5.3 and GLM 5.3 Flash, trading off estimated suitability against cost including the prompt-cache value lost by switching. It reports a randomised A/B test on internal coding traffic, scoring accuracy by task completion, correctness and whether the user corrected the next turn.
+  benchmarks: internal coding traffic A/B test
+  signals: per-turn task suitability estimate, estimated cost per model, prompt-cache loss cost
+
+[fireworks-2026-frontier-is-a-router] (2026, Fireworks AI blog, rel=5, gran=query, regime=None, prod=Y, clusters=C1,C3,C13,C14)
+  title: The frontier isn't a model. It's a router.
+  key_idea: Complementary models give a large oracle headroom for task-level routing in coding agents, but capturing it requires predicting the winner before execution.
+  cost: DeepSWE v1.1 oracle over 18 models: 97.6% pass@1 at $1.88/task vs best single model GPT-6 Astra 74.1% at $6.52; open-models-only oracle 90.3% at $1.45; best pair +13.1 pts, best trio 91.2%. Production: FireRouter sessions $7.42 vs $15.81 for Opus 5 alone (53% reduction, 2,334 sessions over four weeks of internal coding traffic) (vendor-reported)
+  summary: Runs 18 models on every DeepSWE task to measure the per-task oracle routing ceiling, showing most of the gain comes from two or three complementary models and most oracle picks are cheap models. It stresses that oracle upside is upward-biased and that real routers fail on model recall (citing LLMRouterBench), then reports four weeks of internal production coding traffic through task-level, cache-aware FireRouter.
+  benchmarks: DeepSWE v1.1
+  signals: task
+
+[furman-2026-replit-free-the-models] (2026, Replit blog, rel=5, gran=subagent, regime=training-free, prod=Y, clusters=C3,C9,C12,C14)
+  title: Free the models: Harness design at the frontier
+  key_idea: Let the frontier orchestrator itself assign tiers and effort to subagents rather than routing externally.
+  cost: DeepSWE v1.1: Replit Agent 72% at $2.11/task vs GPT-6 Astra (mini-swe-agent) 67% at $1.60 (low effort) and 74% at $4.43 (xhigh); sidekick architecture 61% at $1.34. Terminal-Bench 4.0: 49% at $2.53 vs Astra 42% at $2.25 (low) and 60% at $5.86 (xhigh); sidekick 33% at $1.84 (means of 4 runs; vendor-reported). Production delegation rates: 21-36% of turns dispatch a subagent
+  summary: Replit argues that an external router is always less capable than the model it routes for, and instead lets the main agent choose at each step its own effort (changed mid-turn without cache loss on GPT-6), whether to delegate, and which subagent tier (small/standard/large), effort and specialist to use, including reusing already-briefed subagents. It reports production delegation statistics per model and a Pareto comparison against single-model baselines and a one-worker sidekick design.
+  benchmarks: DeepSWE v1.1, Terminal-Bench 4.0, Replit Agent production traffic (delegation statistics)
+  signals: main-agent (LLM) judgement of subtask difficulty, effort level, subagent tier
+
+[guo-2026-routenlp] (2026, ACL 2026 Industry Track, rel=5, gran=query, regime=hybrid, prod=Y, clusters=C1,C2,C8,C14)
+  title: RouteNLP: Closed-Loop LLM Routing with Conformal Cascading and Distillation Co-Optimization
+  key_idea: Route, cascade, and distil on escalation failures in a closed loop.
+  cost: 8-week enterprise pilot (~5K queries/day): 58% lower inference cost at 91% response acceptance, p99 latency 1,847 ms to 387 ms; 40-85% cost reduction retaining 96-100% quality on a six-task benchmark
+  summary: Closed-loop framework combining a difficulty-aware router, conformal cascading and a loop that clusters escalation failures, distils cheaper models on them and retrains the router. Reports an 8-week enterprise customer-service pilot.
+  benchmarks: six-task finance/customer-service/legal benchmark
+  signals: difficulty-aware router, conformal confidence thresholds, quality signals, escalation failure clusters
+
+[khosravi-2026-which-llm-which-work] (2026, arXiv, rel=5, gran=query, regime=n/a, prod=Y, clusters=C1,C6,C14)
+  title: Which LLM for Which Work? Budgeted Model Allocation under Uncertain Evaluation
+  key_idea: Certify a budgeted model-to-workload assignment under uncertain, proxy-based evaluation and spend evaluation where it changes the decision.
+  cost: On paid software tasks, better information about model quality yields more savings than further optimization of the assignment
+  summary: Frames a company assigning LLMs to recurring workloads under a fixed budget as a knapsack whose quality table is uncertain because models are rarely compared on the same work and scores are proxies. Gives a two-solve certificate for when an assignment is optimal across all tables consistent with evidence and CASE, which targets evaluation at the pairs that matter, tested on a production log.
+  signals: proxy quality scores, production log
+
+[kwartler-2026-harness-tokenomics] (2026, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C1,C3,C10,C12,C14)
+  title: Harness Tokenomics: A Router for the Enterprise Agentic Control Plane
+  key_idea: Prompt-cache-aware routing inside agent harnesses.
+  cost: Recovers 13-21% of model spend ($3.3M-$5.1M/year) in an emulated 10,000-seat enterprise at Anthropic list prices; finds highest-priced model can cost less than the next tier on long tool-heavy sessions
+  summary: Builds a cache-aware router for enterprise coding-agent harnesses that routes at session start, side lanes and subagent launch while avoiding cache rebuilds, and derives when mid-task model switches pay back.
+  benchmarks: ~10,000 real sessions from public datasets
+  signals: calibrated prompt classifier, prompt-cache state, price sheet, calibrated prompt classifier over request taxonomy
+
+[liskowski-2026-compositional-online-learning] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=Y, clusters=C2,C5,C10,C14)
+  title: Compositional Online Learning for Semantic Data Processing Systems
+  key_idea: Compose online learners (caching, ordering, cascade routing) at the LLM call boundary in production.
+  cost: Learning components compose to an 11.4x upper bound on per-row LLM cost reduction for a representative conjunction-filter workload, reduced to a realistic ~8x after self-selection, sample-budget shrinkage and selectivity drift
+  summary: Argues that LLM calls in semantic data processing are slow enough to hide online learner updates inside each round-trip, and builds compositional online learning: memoization, an online filter-ordering learner and an online per-batch cascade-routing learner. A production case study in Snowflake Cortex AISQL decomposes per-row LLM cost by component.
+  benchmarks: Cortex AISQL production case study
+  signals: per-call outcomes, filter selectivity, cascade confidence
+
+[liu-2026-harness-native-routing] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C1,C3,C5,C6,C13,C14)
+  title: Agentic Routing: The Harness-Native Data Flywheel
+  key_idea: Harness-native step routing with data flywheel.
+  cost: LightGBM router preserves task quality while cutting realized cost ~90% on PinchBench and ~43% on DRACO vs fixed strong model
+  summary: Proposes step-level agentic routing conditioned on harness state that picks one model or an ensemble per step, with each decision generating a data record that feeds a data flywheel.
+  benchmarks: DRACO, PinchBench
+  signals: full harness state, structured routing records, execution trace, outcome, cost, harness state, execution state, harness signals
+
+[liu-2026-vllm-sr-session-aware-agentic-routing] (2026, vLLM blog, rel=5, gran=step, regime=training-free, prod=N, clusters=C1,C3,C10,C11,C14)
+  title: Session-Aware Agentic Routing: Continuity-Aware Model Selection for Long-Horizon LLM Agents
+  key_idea: Turn-level routing in agent sessions must price switches (lost cache, broken tool state), not just pick the best model per prompt.
+  cost: Across 21,600 deterministic turns: 79.29% fewer model switches, 3,836 unsafe switches eliminated, 78.71% estimated physical-model cost reduction vs single-turn routing (quality delta -0.0453); sticky sessions 98.65% cost reduction but -0.1433 quality. 2,896 live AMD ROCm requests with 0 continuity violations (project-reported)
+  summary: Introduces SAAR in vLLM Semantic Router: per-turn semantic routing augmented with router-owned session memory, hard locks during tool loops and around non-portable provider state, safe reset boundaries (drift, idle), and prefix-cache-aware pricing of model switches. Ablations show each component's contribution to switch reduction, unsafe-switch elimination and cost.
+  benchmarks: deterministic replay of 21,600 agent turns, live AMD ROCm requests
+  signals: semantic signals, session memory, tool-loop state, provider-state portability, task drift, prefix-cache warmth / switch cost
+
+[lyu-2026-differential-reasoning-router] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C2,C9,C14)
+  title: The Differential Reasoning Router: Operationalizing Cost-Aware LLM Annotation in E-commerce
+  key_idea: Route between direct model, reasoning model and humans.
+  cost: In a production e-commerce workflow, reaches accuracy parity with the strongest confidence-based router with more than 60% reasoning-token cost savings
+  summary: For cold-start LLM annotation, estimates separate success probabilities for a direct and a reasoning model and routes easy items directly, uses reasoning where it helps, and escalates likely double failures to humans.
+  benchmarks: production e-commerce annotation workflow
+  signals: per-sample and per-rule success probabilities of direct vs reasoning model
+
+[notdiamond-2026-interactive-benchmarks-routing] (2026, Not Diamond blog, rel=5, gran=step, regime=None, prod=N, clusters=C1,C3,C10,C13,C14)
+  title: Interactive benchmarks: a new methodology for evaluating model routing
+  key_idea: Evaluate agent routers on interactive, simulated-user sessions where cache dynamics and session length drive cost.
+  cost: Approximates or exceeds Opus 5 xhigh quality at 20-80% cost reduction; SWE-Interact 50.7% at $4.28/attempt, SWE-Together 67.6% at $4.16, Dialogue SWE-Bench-Pro 57.6% at $3.00; adding GLM 5.2 and DeepSeek V4 Flash raised accuracy 3.6% and savings from 39% to 66% vs Opus xhigh. Companion 'Not Diamond Code' post: 39% (Poly-SWE-Bench Verified) and 61% (LongCodeQA) cost reduction vs Opus 4.8 xhigh, >20% savings in enterprise early access (all vendor-reported)
+  summary: Argues that single-turn routing breaks the KV cache and first-turn routing is brittle to mid-session shifts, and describes Not Diamond Code, which predicts future reward and cost for each (model, reasoning effort) pair at every agent step in a cache-aware way. Because static benchmarks miss long sessions and cache expiry (a 10-20x input-cost jump), it evaluates on interactive benchmarks with simulated users built on the Harbor framework and releases a benchmark repo so clients can reproduce comparisons.
+  benchmarks: SWE-Interact, SWE-Together, Dialogue SWE-Bench-Pro, Poly-SWE-Bench Verified, LongCodeQA
+  signals: session state, message and token counts, task complexity, KV-cache state, intermediate and final rewards, reasoning effort
+
+[okeefe-2026-cursor-router] (2026, Cursor blog, rel=5, gran=step, regime=supervised-offline, prod=Y, clusters=C1,C3,C5,C6,C7,C14)
+  title: How Cursor Router chooses the right model for the task
+  key_idea: Learn step-level routing from implicit feedback in production logs, with offline-to-online validation and budgeted confidence-gated upgrades.
+  cost: Auto Intelligence: above Fable-level user satisfaction at 68% lower cost; Auto Balance: outperforms Opus 4.8 at 41% lower cost with +3% satisfaction (relative to frontier models, measured on live traffic; vendor-reported). Compass top-rated turns got positive signal 96% of the time vs 71% for lowest-rated
+  summary: Cursor's per-turn router is trained on hundreds of thousands of production agent turns labelled with implicit satisfaction (user moves on vs corrects the agent) and actual cost including switch-induced cache misses. A complexity predictor (Compass) thresholds turns to a cheap model or to a taxonomy router, which admits a frontier model for a task label only if it beats the cheap model with 75% one-sided confidence, then chooses a traffic-weighted mix within a per-mode cost budget. Policies are tuned by cross-validation, checked on held-out logs, and validated on live traffic before launch.
+  benchmarks: live Cursor traffic, held-out offline split of production turns
+  signals: task category, recent tool calls, conversation state, Compass complexity score (predicted user satisfaction), learned task/domain/modifier taxonomy, implicit user feedback (moves on vs corrects), per-
+
+[paul-2026-agentrouter-step-tiers] (2026, ICML 2026 Workshop (AgenticUQ), rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C3,C4,C6,C14)
+  title: AgentRouter: Heterogeneous Model Routing for Cost-Optimal Multi-Step Agentic Workflows
+  key_idea: Lightweight per-step tier classifier for agent trajectories.
+  cost: 72% cost reduction vs frontier-only while retaining 97.3% of frontier quality; RouteLLM and FrugalGPT applied per-step achieve 31% and 44%
+  summary: AgentRouter is a 12M-parameter classifier (<5ms per step) that maps each trajectory step to one of four model tiers from five features, trained on 50,000 annotated steps. It cuts cost 72% versus frontier-only with under 3% quality loss and beats per-step RouteLLM and FrugalGPT.
+  benchmarks: planning, coding, research and data-analysis agent trajectories (50,000 annotated steps), 50,000 annotated agent trajectory steps
+  signals: five routing-time step features, five step-level features, annotated trajectory steps
+
+[singh-2026-planner-as-router] (2026, AIxSET 2026, rel=5, gran=subagent, regime=training-free, prod=N, clusters=C3,C14)
+  title: Planner-as-Router: Joint Plan-Time Model Routing for Cost-Efficient Multi-Agent Workflows
+  key_idea: Let the planner pick each subtask's model tier at plan time.
+  cost: Cuts cost 44% vs all-frontier routing while giving up 2.9 accuracy points; matches frontier-on-sink heuristic and beats FrugalGPT cascade on cost
+  summary: Planner-as-Router has the planner assign a model tier (small, mid, frontier) to each subtask as it decomposes the query, so the whole workflow's dependencies inform tier choice without a separate router or training data. On an enterprise benchmark graded against live databases it stays on the cost-accuracy frontier.
+  benchmarks: EntBench (54 enterprise tasks with live SQL/MongoDB grading)
+  signals: plan structure, subtask dependencies
+
+[wang-2026-dropbox-dash-dspy] (2026, Dropbox Tech blog, rel=5, gran=none, regime=training-free, prod=Y, clusters=C4,C7,C14)
+  title: How we optimized Dash's relevance judge with DSPy
+  key_idea: Treat model swaps as re-optimization problems so prompts transfer to cheaper models.
+  cost: Adapting the production relevance judge from o3 to gpt-oss-120b with GEPA cut NMSE 45% (8.83 to 4.86); enabled 10-100x more labeling at the same cost; on gemma-3-12b (MIPROv2) NMSE 46.88 to 17.26 and malformed JSON down >97%
+  summary: Dropbox used DSPy optimizers (GEPA, MIPROv2) to migrate an LLM relevance judge used across Dash production pipelines from an expensive model to cheaper open models, measured against human labels. Model adaptation time fell from 1-2 weeks to 1-2 days.
+  benchmarks: Dropbox Dash relevance judgments (internal)
+  signals: human-annotated relevance labels, NMSE
+
+[wu-2026-rlm-cascade] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=Y, clusters=C2,C3,C14)
+  title: RLM-Cascade: Response-Level Speculative Decoding for Cost-Efficient LLM API Serving
+  key_idea: Response-level draft-and-verify proxy for agent turns.
+  cost: On a Claude Code agentic workload: 88.8% draft-use over 125 production requests, 45.8% lower API cost vs direct Opus, p50 latency 2,026 ms vs 3,698 ms; 100% vs 95% pass on a 20-task benchmark
+  summary: A proxy layer where a cheap draft model writes each response and a strong model accepts, enhances or is skipped depending on a complexity router; schema-critical tool-selection turns bypass the pipeline. Deployed as an enterprise component on coding-agent traffic (small sample).
+  benchmarks: 125 production Claude Code requests, 20-task Code/Math/Instruct set
+  signals: rule-based complexity router, verify model accept/enhance
+
+[feng-2025-ipr] (2025, EMNLP 2025 (Industry), rel=5, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C14)
+  title: IPR: Intelligent Prompt Routing with User-Controlled Quality-Cost Trade-offs
+  key_idea: Tolerance-controlled quality-estimator routing in a production cloud service.
+  cost: Deployed on a major cloud platform: 43.9% cost reduction at quality parity with the strongest Claude-family model, sub-150ms latency (abstract)
+  summary: IPR (AWS) trains quality estimators on 1.5M annotated prompts and routes to the cheapest model within a user-specified quality tolerance. Frozen encoders with model-specific adapters speed onboarding; the system is deployed in production.
+  benchmarks: IPRBench (1.5M prompts, 11 LLMs)
+  signals: lightweight quality estimators, user tolerance parameter
+
+[hadfield-2025-multi-agent-research-system] (2025, Anthropic engineering blog, rel=5, gran=subagent, regime=n/a, prod=Y, clusters=C3,C12,C14)
+  title: How we built our multi-agent research system
+  key_idea: Big-model lead with smaller-model parallel subagents buys quality with tokens; worth it only for high-value breadth tasks.
+  cost: Not a cost reduction: Opus 4 lead + Sonnet 4 subagents outperformed single-agent Opus 4 by 90.2% on an internal research eval; agents use ~4x chat tokens and multi-agent systems ~15x; token usage explained 80% of BrowseComp performance variance; parallel tool calls cut research time up to 90%
+  summary: Describes the production Claude Research system, where an Opus lead agent plans and spawns parallel Sonnet subagents with their own context windows. The heterogeneous setup beat single-agent Opus by 90.2% on an internal eval but used about 15x the tokens of chat, so it pays off only for high-value, parallelizable, context-heavy tasks.
+  benchmarks: internal research eval, BrowseComp
+  signals: token usage, tool calls, model choice
+
+[openai-2025-gpt5-system-card] (2025, OpenAI (system card), rel=5, gran=query, regime=hybrid, prod=Y, clusters=C1,C5,C9,C14)
+  title: GPT-5 System Card
+  key_idea: Production query-level router between fast and reasoning models trained on live user signals.
+  summary: Describes GPT-5 as a unified system with a fast model, a deeper reasoning model, and a real-time router that picks between them using conversation type, complexity, tool needs and explicit intent. The router is continuously trained on real signals such as user model switches, response preference rates and measured correctness, and mini models handle traffic once usage limits are hit.
+  signals: conversation type, complexity, tool needs, explicit user intent, user model switches, preference rates, measured correctness, explicit intent
+
+[yarullin-2025-intercom-escalation] (2025, Fin.ai research blog (Intercom), rel=5, gran=step, regime=supervised-offline, prod=Y, clusters=C2,C8,C14)
+  title: To escalate, or not to escalate, that is the question
+  key_idea: Distill a step of the agent into a small classifier with LLM fallback.
+  cost: Company-reported: custom ModernBERT handles 90% of cases with LLM fallback for 10%; >98% escalation accuracy; latency -0.5s; cost per resolution ~-3%
+  summary: Intercom replaced an LLM escalation decision in Fin with a multi-head ModernBERT trained on 4M production examples with LLM labels, falling back to the LLM on uncertain cases, and reports higher resolution rate in an A/B test.
+  benchmarks: production A/B test
+  signals: conversation history, escalation guidelines, LLM-generated labels
+
+[ali-2026-harness-effect] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C3,C10,C12,C14)
+  title: The Harness Effect: How Orchestration Design Sets the Token Economics of Enterprise Agentic AI
+  key_idea: Orchestration harness design is a larger cost lever than model choice.
+  cost: Harness cuts blended cost per task 41% ($0.21->$0.12), wall-clock 44%, tokens 38% at quality parity (0.78->0.81) across six models on 22 tasks; quality per dollar +82%
+  summary: A controlled swap that keeps six models fixed and changes only the orchestration layer, comparing a conventional production loop with Writer's agent harness. On this workload the harness moved cost per task more than the whole spread of model choices, and quality gains scaled with model strength.
+  benchmarks: 22 locked enterprise evaluation tasks
+
+[amp-2026-subagent-model-assignment] (2026, Amp news (ampcode.com), rel=4, gran=subagent, regime=n/a, prod=Y, clusters=C3,C9,C14)
+  title: A Faster Librarian (and related Amp notes on per-role subagent models)
+  key_idea: Role-specific subagent model choices in a shipping agent, tuned with small internal evals.
+  cost: Librarian subagent moved from Sonnet 4.6 (medium) to GPT-5.5 (no reasoning): mean latency 237s->81s, F1 0.47->0.48, average cost $1.21->$0.69 (43% cheaper) on internal eval; search subagent on Gemini 3 Flash vs Haiku 4.5: 3x faster at same quality (~8 vs ~2.5 parallel calls, ~3 vs ~9 turns); summarisation/compaction model switch 4-6x faster and ~30x cheaper (vendor-reported)
+  summary: A series of short Amp product notes documents a production coding agent that assigns different models per role: main agent, oracle, thread reader, code reviewer, codebase search subagent, GitHub 'Librarian' subagent and summariser, each swapped independently as cheaper models improve. The Librarian note gives an eval breakdown of the gains from a non-reasoning model plus websocket transport; 'A Dial for You' (https://ampcode.com/news/a-dial-for-you) lists the role-to-model mapping per mode and reports that swapping the default model overnight drew no complaints.
+  benchmarks: Amp internal subagent evals
+  signals: role
+
+[anthropic-task-budgets-docs] (2026, Claude Platform documentation, rel=4, gran=step, regime=n/a, prod=N, clusters=C3,C9,C14)
+  title: Task budgets (Claude Platform docs, beta)
+  key_idea: Expose a trajectory-level token budget to the model so it self-regulates spend on long-horizon tasks.
+  summary: A beta feature giving Claude an advisory token budget for an entire agentic loop (thinking, tool calls, tool results, output); the model sees a running countdown and prioritises work, wrapping up gracefully as the budget is consumed. Positioned as complementary to effort: effort sets per-step thoroughness, task budgets cap total work across the trajectory.
+  signals: remaining token budget
+
+[bhatti-2026-proteus] (2026, EuroMLSys 2026, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C1,C6,C14)
+  title: PROTEUS: SLA-Aware Routing via Lagrangian RL for Multi-LLM Serving Systems
+  key_idea: SLA-conditioned router via Lagrangian RL.
+  cost: 90.1% accuracy on RouterBench within 1.3% of oracle; cost savings up to 89.8% vs best fixed model (abstract)
+  summary: PROTEUS accepts an accuracy target at runtime and uses Lagrangian RL with a learned dual variable so a single router satisfies the full range of accuracy floors. OmniRouter meets floors only 22% of the time in comparison.
+  benchmarks: RouterBench, SPROUT
+  signals: Lagrangian dual variable, accuracy target as input, accuracy target tau, query features
+
+[chang-2026-agentic-workload-characterization] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=Y, clusters=C10,C11,C14)
+  title: From LLM Inference to Agentic Workloads: Characterization and Implications for Serving Systems
+  key_idea: Agent workloads have exploitable redundancy and structure beyond LLM inference.
+  cost: task-aware serving cut latency 29-40%; communication-aware placement up to 4.5x; state offloading cut memory 4.6x; tool-result caching removed 35.2% of redundant search calls and 19.3% of aggregate search latency
+  summary: Characterizes agentic workloads versus plain LLM inference and, using production traces from three applications, finds heavy redundancy in search queries and web fetches; four design explorations show these findings translate into latency, memory and tool-call savings.
+  benchmarks: production traces from three agent applications
+  signals: cross-request redundancy
+
+[chillara-2026-semanticalli] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C10,C14)
+  title: SemanticALLI: Caching Reasoning, Not Just Responses, in Agentic Systems
+  key_idea: Cache structured intermediate artifacts of the agent pipeline rather than final responses.
+  cost: baseline monolithic caching capped at 38.7% hit rate; caching the structured Visualization Synthesis stage reached 83.10% hit rate, bypassing 4,023 LLM calls with 2.66 ms median hit latency
+  summary: In an analytics agent, decomposing generation into intent resolution and visualization synthesis makes structured intermediate representations cacheable. Even when users rarely repeat themselves, pipeline stages repeat at structured checkpoints where caching is reliable.
+  benchmarks: analytics/visualization agent workload
+  signals: structured intermediate representation matches
+
+[gillespie-2026-enterprise-agent-routing-scaling] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=Y, clusters=C1,C13,C14)
+  title: Scaling Enterprise Agent Routing: Degradation, Diagnosis, and Recovery
+  key_idea: Agent-routing accuracy degrades with catalog size; shortlisting recovers it.
+  summary: Studies routing requests to specialized agents in a deployed enterprise productivity assistant as the catalog grows to 110 agents and 584 tools. Routing F1 drops 16-23 points, split into retrieval and confusion gaps, and embedding shortlisting recovers 10-17 points on real traffic.
+  benchmarks: 110-agent, 584-tool catalog from a deployed enterprise assistant, 1,435 human-labeled production utterances
+  signals: embedding shortlisting
+
+[gola-2026-langsmith-fine-tuning] (2026, LangChain blog, rel=4, gran=n/a, regime=supervised-offline, prod=Y, clusters=C6,C8,C14)
+  title: Introducing LangSmith Fine-Tuning
+  key_idea: Curated production agent traces can be distilled into open models that are both better and cheaper per task.
+  cost: Engine agent: Kimi K3 + SFT 96.0 vs Kimi K3 90.0 vs GPT-5.6 Sol 87.0 on internal IssueBench subset; OpenSWE Review: Qwen-3.8-27B + SFT F1 48.9%->53.7% with 29.8% fewer model calls and 29.4% fewer tool requests per review (vendor-reported, internal agents)
+  summary: LangChain launches smithtune, a CLI that turns agent trajectories stored in LangSmith into SFT datasets, trains on Fireworks or Baseten, evaluates and deploys. Applied to two of LangChain's own production agents, fine-tuned open models beat a frontier model on issue detection and matched review quality with about 30% fewer model and tool calls; a less selective first dataset lowered F1, prompting a trace-review curation stage. Baseten's companion posts describe the training infrastructure (Baseten Loops).
+  benchmarks: IssueBench (internal), internal PR review set
+  signals: curated successful trajectories, trace review
+
+[he-2026-market-aware-routing] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=Y, clusters=C1,C5,C14)
+  title: You Cannot Pick a Provider From the Price List: Market-Aware Routing for Open-Weight LLM Inference
+  key_idea: Same-model provider routing with online feasibility certification under drifting provider quality.
+  cost: Certification moved live traffic from a premium anchor provider to a substantially cheaper certified endpoint (matched quality)
+  summary: Measures live inference endpoints across providers serving the same open-weight models over several waves and finds that quality, latency and availability vary widely and are not predicted by price, and that the map drifts over time. Proposes FACET, an online provider router that certifies per-provider, per-task feasibility and fails safe to an anchor provider.
+  signals: measured provider quality, latency, availability, price
+
+[hussain-2026-coverage-illusion-rag] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=Y, clusters=C2,C6,C10,C14)
+  title: The Coverage Illusion: From Pre-retrieval Routing Failure to Post-retrieval Cascades in a Production RAG System
+  key_idea: Escalate pipeline steps only after cheap steps fail on real traffic.
+  cost: Post-retrieval cascade: +0.140 Composite Overall vs Always-HyDE, 31.8% lower latency, 72.2% of real queries served without LLM augmentation
+  summary: Case study on a production RAG system showing synthetic queries overstate the need for LLM query augmentation (90% vs 27.8% on real traffic). A cheapest-first post-retrieval cascade escalates only when retrieval fails.
+  benchmarks: Danish National Encyclopedia production traffic (20,000 query-workflow pairs), 20,000 query-workflow pairs from production traffic
+  signals: retrieval returned no documents, retrieval result emptiness
+
+[katz-2026-cursor-token-efficiency] (2026, Cursor blog, rel=4, gran=subagent, regime=n/a, prod=Y, clusters=C3,C10,C12,C14)
+  title: Improved token efficiency for longer agent runs
+  key_idea: Many small harness-level context changes compound into measurable production token savings without quality loss.
+  cost: Harness changes cut user token costs 7% with no quality loss: system prompt trimmed ~66%; MCP tools moved to dynamic context (-46.9% total tokens in sessions calling an MCP tool); offloading built-in tools cut static tool-description tokens 60%; cold cache misses -20%; line numbers every 10th line cut cache-read tokens 1.6% (vendor-reported, production traffic)
+  summary: Breaks down where agent inference spend goes in production (output, uncached and cached input by context source) and reports harness changes: trimming instructions models now follow natively, loading rarely needed tools on demand, reordering static context for cache reuse, compressing file-read line numbers, and restraining subagent spawning and subagent model switching. Notes the coordination tax of context-isolated subagents.
+  benchmarks: Cursor production traffic
+
+[kulkarni-2026-financial-mas-orchestration-benchmark] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C12,C13,C14)
+  title: Benchmarking Multi-Agent LLM Architectures for Financial Document Processing: A Comparative Study of Orchestration Patterns, Cost-Accuracy Tradeoffs and Production Scaling Strategies
+  key_idea: Orchestration pattern choice drives cost-accuracy; hybrids with routing recover most gains cheaply.
+  cost: Reflexive loop F1 0.943 at 2.3x sequential cost; hierarchical supervisor-worker F1 0.921 at 1.4x cost; hybrid configs recover 89% of reflexive gains at 1.15x cost
+  summary: Benchmarks four orchestration architectures (sequential, parallel fan-out, hierarchical supervisor-worker, reflexive loop) for financial document extraction across five LLMs, measuring F1, latency, cost per document and tokens. Hierarchical designs sit best on the cost-accuracy frontier, and hybrids with caching, model routing and adaptive retry get most of the accuracy at little extra cost.
+  benchmarks: 10,000 SEC filings (10-K, 10-Q, 8-K)
+
+[levit-2026-proxydrift] (2026, arXiv, rel=4, gran=n/a, regime=n/a, prod=Y, clusters=C5,C6,C14)
+  title: Privacy-Preserving Data Drift Detection and Recovery for Large-Scale LLM Applications via Proxy Representations
+  key_idea: Privacy-preserving drift monitoring and eval-set refresh from proxy representations of production traffic.
+  summary: Presents ProxyDrift, which measures drift between production traffic and offline evaluation sets using non-PII proxy descriptors produced by LLM classification of interactions, and refreshes evaluation sets with synthetic queries generated to match. Deployed for an application serving hundreds of millions of users, it also links proxy distributions to user satisfaction.
+  signals: LLM-derived proxy descriptors, user satisfaction linkage
+
+[liu-2026-copilot-traces] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=Y, clusters=C11,C14)
+  title: Agentic Coding in the Wild: Characterizing GitHub Copilot Traces at Production Scale
+  key_idea: Production agentic coding traffic looks nothing like chat; design serving around loops and idle gaps.
+  cost: a lightweight idle-time predictor captures 86-90% of total user idle time for proactive resource decisions
+  summary: First production-scale characterization of agentic coding workloads from sampled GitHub Copilot traces: sessions are sparse user turns that each expand into long autonomous loops of LLM calls coupled with tools, with long-tailed token use and minutes-long idle gaps at turn boundaries that challenge chatbot-oriented serving assumptions.
+  benchmarks: GitHub Copilot production traces (3.2M users, 13M sessions, 761M LLM calls, 95T tokens)
+  signals: idle-time prediction
+
+[liu-2026-vllm-semantic-router] (2026, arXiv, rel=4, gran=query, regime=hybrid, prod=N, clusters=C1,C11,C14)
+  title: vLLM Semantic Router: Signal Driven Decision Routing for Mixture-of-Modality Models
+  key_idea: Composable signal-driven routing for production gateways.
+  summary: Technical report of vLLM Semantic Router, which composes heterogeneous signals (heuristics, classifiers for semantics, safety, modality) via configurable Boolean rules into deployment-specific routing policies, with plugin chains for hallucination detection and memory.
+  signals: 13 signal types, Boolean decision rules, neural classifiers
+
+[lumer-2026-dont-break-the-cache] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C10,C13,C14)
+  title: Don't Break the Cache: An Evaluation of Prompt Caching for Long-Horizon Agentic Tasks
+  key_idea: How you place cache breakpoints in agent prompts decides whether caching helps.
+  cost: prompt caching reduced API cost by 41-80% and improved time-to-first-token by 13-31% across providers; naive full-context caching can paradoxically increase latency
+  summary: Evaluates provider prompt caching for long-horizon agents over 500+ sessions with 10,000-token system prompts, comparing full-context caching, system-prompt-only caching and caching that excludes dynamic tool results. Placing dynamic content at the end and excluding dynamic tool results gives more consistent gains than caching everything.
+  benchmarks: DeepResearch Bench
+  signals: cache block placement strategy
+
+[malik-2026-progressive-crystallization] (2026, arXiv, rel=4, gran=none, regime=supervised-offline, prod=Y, clusters=C8,C12,C14)
+  title: Progressive Crystallization: Turning Agent Exploration into Deterministic, Lower-Cost Workflows in Production
+  key_idea: Graduate agent trajectories into deterministic workflows to remove LLM calls.
+  cost: Deterministic execution rose 0% to 45% over eight months; per-incident agent cost reduced >70% despite doubling incident volume (production cloud-networking AIOps)
+  summary: Progressive crystallization promotes repeatedly validated agent behaviors in a production IT-ops system into deterministic workflows, and demotes them on regression. Over eight months on tens of thousands of incidents per month it shifted executions off the LLM.
+  signals: repeated validated agent behaviors
+
+[manoharan-2026-t2mo] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C14)
+  title: Task-to-Model Optimization for Enterprise LLM Coding Assistants: A Data-Driven Framework for Cost-Optimal Routing
+  key_idea: Cost-per-completed-task objective for enterprise routing.
+  summary: Describes a nine-stage methodology for cost-optimal model routing in enterprise coding assistants, optimizing cost per completed task including escalations, with shadow-mode deployment and governance.
+  signals: telemetry, task taxonomy, difficulty grading, cost per completed task
+
+[peng-2026-inference-economics-coding-agents] (2026, arXiv (industrial case study), rel=4, gran=none, regime=n/a, prod=Y, clusters=C10,C12,C14)
+  title: Inference Economics of Enterprise Coding Agents: A Case Study of Cloud vs. On-Premise LLMs
+  key_idea: Real telemetry: caching reshapes cloud vs on-prem agent economics.
+  cost: Prompt caching (99.3% hit rate) cut realized API cost 88.6% to $0.57 per million tokens; on-prem saves 40.1% TCO under shared GPUs but dedicated reservation costs 43.8% more; local config had fix-commit ratio 74.9% vs 45.9%
+  summary: A longitudinal single-developer case study on a production monorepo comparing API Claude Opus in Claude Code against on-prem quantized GLM in Opencode. Caching makes the API cheaper per token than on-prem, the local model causes far more repair commits, and hybrid routing gateways trade defect rate for savings rather than dominating.
+  benchmarks: production monorepo, two 28-day periods
+  signals: LLM telemetry, Git history
+
+[phillips-2026-when-to-use-multi-agent-systems] (2026, Claude blog (Anthropic), rel=4, gran=none, regime=n/a, prod=Y, clusters=C12,C14)
+  title: Building multi-agent systems: When and how to use them
+  key_idea: Use multi-agent only for context isolation, parallelism or specialization; otherwise it costs 3-10x more tokens.
+  cost: States multi-agent systems typically use 3-10x more tokens than single-agent approaches for equivalent tasks
+  summary: Anthropic guidance recommending single agents by default and multi-agent designs only for context protection, parallelization or specialization, since coordination costs otherwise exceed benefits. Reports that multi-agent systems usually spend 3-10x more tokens due to duplicated context, coordination messages and summarization, and advises decomposing by context boundaries.
+
+[ryser-2026-shipping-cost-mas] (2026, Swiss Conference on Data Science (SDS) 2026, rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C12,C14)
+  title: Measuring Tradeoffs in Multi-Agent Models: a Case Study in Shipping Cost Calculation
+  key_idea: Decompose an industrial agent so small models can serve subtasks.
+  summary: An industrial case study that decomposes a customer-facing shipping-cost agent into sub-tasks so that smaller open-weight models can handle them in a multi-agent system. With optimization, small models are a cost-effective alternative to frontier models in low-risk settings.
+
+[selvaraj-2026-adept] (2026, International Conference on Artificial Intelligence, Automation, and Algorithms (SPIE) 2026, rel=4, gran=query, regime=hybrid, prod=Y, clusters=C3,C8,C14)
+  title: ADEPT: adaptive delegation of expert prompts to trained SLMs for agentic AI use cases
+  key_idea: Progressive LLM-to-SLM delegation trained on the LLM's own production outputs.
+  cost: 41.5% reduction in LLM calls and 39.8% cost savings over two months in ITOps and cybersecurity
+  summary: ADEPT starts with LLMs answering novel prompts and progressively fine-tunes SLMs on expert outputs to take over repetitive, well-understood tasks, with routing between them. It was evaluated over two months in IT operations and cybersecurity.
+  signals: novelty/complexity of prompt
+
+[singh-2026-nl2code-semantic-cache] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=Y, clusters=C10,C14)
+  title: Semantic Caching and Intent-Driven Context Optimization for Multi-Agent Natural Language to Code Systems
+  key_idea: Pair semantic caching with intent-driven context pruning in a deployed multi-agent system.
+  cost: 67% cache hit rate on production queries; 40-60% token reduction from table-aware context filtering; >10,000 production queries at 8.2 s average latency and 94.3% semantic accuracy
+  summary: Production multi-agent natural-language-to-code analytics system that combines semantic caching (LLM-judged equivalence with adaptation hints), a dual threshold separating exact reuse from reference-guided generation, and intent-driven prompt assembly that filters table context.
+  benchmarks: enterprise inventory-management NL-to-code queries
+  signals: LLM-based equivalence detection, dual thresholds, intent-driven context filtering
+
+[tang-2026-sakana-fugu] (2026, arXiv, rel=4, gran=subagent, regime=hybrid, prod=N, clusters=C3,C14)
+  title: Sakana Fugu Technical Report
+  key_idea: Productized orchestrator model that builds per-query multi-model scaffolds.
+  summary: Sakana Fugu is a family of orchestrator LMs trained to read a query and devise an agentic scaffold over a team of LLM agents. Training combines fine-tuning, evolutionary search and RL, and the report describes the infrastructure for running it as a production service, with a latency-balanced and a quality-maximizing variant.
+  benchmarks: SWE-Bench Pro, Terminal Bench, LiveCodeBench, GPQA-Diamond, Humanity's Last Exam, CharXiv Reasoning
+
+[tsymboi-2026-production-traffic-post-training] (2026, arXiv, rel=4, gran=none, regime=RL-offline, prod=Y, clusters=C6,C8,C14)
+  title: From Production Traffic to Post-Training: Building a Self-Hosted LLM That Covers the Corporate Request Mix
+  key_idea: Production-traffic-driven post-training to replace a larger model fleet.
+  cost: model absorbs 50% of platform traffic (116M requests/month) at a fraction of the serving cost
+  summary: Consolidates traffic from over 200 internal applications onto one self-hosted model by analyzing production errors, training per-axis GRPO experts and merging them; benchmarks are stratified to production traffic.
+  benchmarks: in-house Arena, instruction following, function-calling
+  signals: production error analysis, verifiers, LLM judges
+
+[unell-2026-deployment-centered-rejection-risk] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C6,C7,C14)
+  title: Deployment-Centered Evaluation: Predicting Query-Level Rejection Risk in a Clinical LLM System
+  key_idea: Pre-generation predictor of user rejection trained on sparse real deployment feedback.
+  summary: Trains a pre-response classifier, inside an EHR-embedded clinical LLM system, that predicts before generation whether the user will reject the response, using query content and deployment context. A prospective 4.5-month evaluation gives AUROC 0.719, and the authors estimate value for guardrail triggering and abstention.
+  signals: query content, deployment context (department, provider type, model used), user rejection feedback
+
+[aws-2025-bedrock-intelligent-prompt-routing] (2025, AWS Machine Learning blog, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: Use Amazon Bedrock Intelligent Prompt Routing for cost and latency benefits
+  key_idea: Managed pairwise quality-prediction router inside a cloud platform.
+  cost: (vendor-reported) Internal tests: 56% savings for Anthropic family (Haiku 3.5 + Sonnet 3.5 v2) at Sonnet quality, 35% Nova, 16% Llama; 63.6% average savings on RAG datasets; ~85 ms P90 router overhead
+  summary: GA announcement of Bedrock's managed router, which predicts per-request quality for two models in the same family and routes on a cost-quality criterion. Caveats: English and chat-optimized, pairwise only, not adaptable to application data, may underperform on specialized tasks. Docs: docs.aws.amazon.com/bedrock/latest/userguide/prompt-routing.html.
+  benchmarks: internal AWS datasets incl. RAG
+  signals: predicted response quality per model
+
+[ayala-2025-slm-vs-llm-low-code-workflows] (2025, arXiv, rel=4, gran=none, regime=supervised-offline, prod=Y, clusters=C8,C14)
+  title: Fine-Tune an SLM or Prompt an LLM? The Case of Generating Low-Code Workflows
+  key_idea: For structured enterprise outputs, fine-tuned SLMs beat prompted frontier LLMs.
+  cost: Fine-tuning an SLM improves quality by 10% on average over prompting GPT-4o
+  summary: ServiceNow study on generating structured low-code workflows: fine-tuned small models beat well-prompted GPT-4o by about 10% on average, with error analysis of remaining limits.
+  benchmarks: low-code workflow generation (JSON)
+  signals: task fine-tuning
+
+[ji-2025-manus-context-engineering] (2025, Manus blog, rel=4, gran=none, regime=n/a, prod=Y, clusters=C10,C14)
+  title: Context Engineering for AI Agents: Lessons from Building Manus
+  key_idea: Design agent context around the KV cache: stable prefix, append-only, mask rather than remove.
+  cost: cached vs uncached input on Claude Sonnet: $0.30 vs $3 per MTok (10x); Manus average input:output token ratio ~100:1
+  summary: Practitioner lessons from a production agent: KV-cache hit rate is the key cost/latency metric, so keep prompt prefixes stable and context append-only with deterministic serialization, mask tools via logits rather than removing them, use the file system as external memory, recite goals to steer attention, and keep failed actions in context.
+  signals: KV-cache hit rate
+
+[joglekar-2025-intercom-small-llms] (2025, Fin.ai research blog (Intercom), rel=4, gran=none, regime=supervised-offline, prod=Y, clusters=C8,C14)
+  title: David vs Goliath: are small LLMs any good?
+  key_idea: Fine-tune small models on production data to replace a frontier model per component.
+  cost: Company-reported: fine-tuned Qwen3 14B matched GPT-4.1 answer rate (63.4%); 5% and 12.5% cost reductions on two components
+  summary: Intercom fine-tunes small open models on consented, PII-redacted production conversations to replace GPT-4.1 in issue classification and extraction, reaching parity on answer rate with modest per-transaction savings.
+  benchmarks: internal issue detection and extraction tasks
+  signals: production conversations
+
+[lou-2025-adacot] (2025, arXiv, rel=4, gran=query, regime=RL-offline, prod=Y, clusters=C9,C14)
+  title: AdaCoT: Pareto-Optimal Adaptive Chain-of-Thought Triggering via Reinforcement Learning
+  key_idea: RL-tuned CoT triggering evaluated on production traffic.
+  cost: On a production traffic test set, reduced CoT triggering rate to as low as 3.18% and average response tokens by 69.06% while maintaining performance on complex tasks
+  summary: Frames when to invoke CoT as Pareto optimisation and trains the trigger with PPO, adjusting penalties to move along the frontier; selective loss masking stops decision-boundary collapse.
+  benchmarks: production traffic test set
+  signals: implicit query complexity, penalty coefficients
+
+[microsoft-2025-foundry-model-router] (2025, Microsoft Learn, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: Model router for Microsoft Foundry (concepts)
+  key_idea: Managed multi-vendor router with quality-band routing modes.
+  summary: A trained language model deployed as a single Foundry endpoint that routes each prompt across OpenAI, Anthropic, xAI, DeepSeek and Meta models. Balanced mode picks the cheapest model within about 1-2% of the best predicted quality, Cost mode within about 5-6%, and Quality mode ignores cost; supports model subsets, failover, agent tool use and session affinity for cache reuse. No quantitative savings figures on this page.
+  signals: prompt complexity, reasoning need, task type
+
+[openai-2025-practical-guide-building-agents] (2025, OpenAI business guide (PDF), rel=4, gran=step, regime=n/a, prod=Y, clusters=C3,C12,C14)
+  title: A practical guide to building agents
+  key_idea: Baseline with the strongest model everywhere, then downscale per task; prefer a single agent until complexity demands more.
+  summary: OpenAI's guide, distilled from customer deployments, recommends maximizing a single agent before splitting into manager or decentralized multi-agent patterns. On model selection it advises prototyping with the most capable model for every task to set a baseline, then swapping in smaller models where they remain acceptable, since simple retrieval or intent classification steps may not need the smartest model.
+
+[openpipe-2025-art] (2025, GitHub / OpenPipe blog, rel=4, gran=none, regime=RL-online, prod=N, clusters=C8,C14)
+  title: ART (Agent Reinforcement Trainer) and ART-E email agent
+  key_idea: RL-train small task agents with judge-based rewards to replace frontier models.
+  cost: README states a Qwen 2.5 14B email research agent (ART-E) trained with ART outperforms OpenAI o3 at email retrieval; serverless training claims 40% lower cost
+  summary: Open-source framework for RL fine-tuning of multi-step agents on custom tasks, using RULER (LLM-judge relative scoring) so no hand-labeled rewards are needed. The README links the ART-E case study (blog: openpipe.ai/blog/art-e-mail-agent) where a 14B Qwen email agent beats o3.
+  benchmarks: ART-E email search
+  signals: RULER LLM-judge reward
+
+[singhvi-2025-databricks-gepa-90x] (2025, Databricks blog, rel=4, gran=none, regime=training-free, prod=N, clusters=C4,C14)
+  title: Building State-of-the-Art Enterprise Agents 90x Cheaper with Automated Prompt Optimization
+  key_idea: Optimize prompts for a cheap open model instead of paying for a frontier model.
+  cost: GEPA-optimized gpt-oss-120b surpasses Claude Sonnet 4 and Claude Opus 4.1 baselines by ~3% while being ~22x and ~90x cheaper to serve on IE Bench; GEPA ~20% cheaper to serve than SFT alternatives
+  summary: Databricks reports that automated prompt optimization (GEPA and others in Agent Bricks) lets an open model beat frontier proprietary models on an enterprise information-extraction benchmark at a fraction of the serving cost, and compares favorably with supervised fine-tuning on lifetime cost.
+  benchmarks: IE Bench (Databricks internal information extraction)
+  signals: task metric on IE Bench
+
+[tran-2025-arch-router] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C14)
+  title: Arch-Router: Aligning LLM Routing with Human Preferences
+  key_idea: Route by matching queries to human-written policy descriptions rather than benchmark scores.
+  summary: Arch-Router is a 1.5B model that maps queries to user-defined domain or action preferences, which are then bound to specific models. New models can be added by editing the policy mapping without retraining; the authors report state-of-the-art preference matching against proprietary models.
+  benchmarks: conversational datasets
+  signals: user-defined domain/action policies, 1.5B router LM, domain-action preference policies, domain-action preference labels
+
+[almahairi-2024-anyscale-router] (2024, Anyscale blog, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: Building an LLM Router for High-Quality and Cost-Effective Responses
+  key_idea: Judge-labeled data to fine-tune an LLM classifier router.
+  cost: (vendor-reported) Up to 70% cost reduction on MT-Bench, 30% on MMLU, 40% on GSM8K vs random routing / commercial routers
+  summary: Tutorial companion to RouteLLM: fine-tunes a Llama3-8B causal classifier on ~109K Nectar queries labeled 1-5 by a GPT-4 judge on Mixtral responses, routing to Mixtral when predicted score is high and to GPT-4 otherwise.
+  benchmarks: MT-Bench, MMLU, GSM8K
+  signals: LLM-judge score labels, query text
+
+[anthropic-2024-building-effective-agents] (2024, Anthropic engineering blog, rel=4, gran=query, regime=n/a, prod=Y, clusters=C1,C12,C14)
+  title: Building effective agents
+  key_idea: Start simple; add agentic complexity only when it pays for its cost; route easy inputs to smaller models.
+  summary: Anthropic distills lessons from dozens of customer agent deployments: prefer simple composable workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer) and only move to autonomous agents when needed, since agentic systems trade latency and cost for performance. The routing pattern explicitly sends easy questions to smaller models such as Haiku and hard ones to Sonnet.
+  signals: input classification
+
+[bottaro-2024-linkedin-genai-product] (2024, LinkedIn engineering blog, rel=4, gran=subagent, regime=n/a, prod=Y, clusters=C3,C14)
+  title: Musings on Building a Generative AI Product
+  key_idea: Small models for routing/retrieval, large for generation.
+  summary: Describes LinkedIn's premium AI assistant: a router picks a specialized agent, then retrieval and generation, with smaller models for routing/retrieval and larger ones for generation. Discusses GPU capacity limits, streaming and async pipelines, and daily evaluation of up to 500 conversations; quality reached 80% quickly then took months to reach 95%.
+
+[notdiamond-2024-reduce-own-inference-costs] (2024, Not Diamond blog, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C5,C14)
+  title: Using Not Diamond to reduce Not Diamond's inference costs by 51% (with one line of code)
+  key_idea: A single cost-quality tradeoff knob on a learned router halved production inference cost with small engagement impact.
+  cost: Enabling the cost-tradeoff parameter on Not Diamond's consumer chatbot cut inference cost 51% on average (~$750,000 annualised); power-user median messages fell from 5 to 4/day while week-over-week message growth was 43% vs 16% the prior week (vendor-reported, before/after on live traffic)
+  summary: Not Diamond reports switching its own consumer chatbot's router from quality-maximising to a cost-tradeoff setting and compares cost and engagement metrics before and after the change on live traffic. Costs roughly halved with a small drop in power-user messaging.
+  benchmarks: live chatbot traffic before/after
+  signals: prompt, user preference feedback, cost tradeoff parameter
+
+[ong-2024-routellm] (2024, arXiv (later ICLR 2025 per authors; venue not verified here), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C13,C14)
+  title: RouteLLM: Learning to Route LLMs with Preference Data
+  key_idea: Learn strong-vs-weak routing from pairwise human preference data with a tunable threshold.
+  cost: Blog: >85% cost reduction on MT-Bench, 45% on MMLU, 35% on GSM8K vs GPT-4 at 95% of GPT-4 quality; paper: >2x cost reduction in some cases without quality loss
+  summary: Trains binary routers that pick between a strong and a weak LLM per query using Chatbot Arena human preference data plus augmentation. Compares matrix factorization, BERT classifier, causal-LLM classifier and similarity-weighted ranking routers, and shows they transfer when the model pair is swapped at test time.
+  benchmarks: MT-Bench, MMLU, GSM8K
+  signals: query embedding, human preference labels (Chatbot Arena), matrix factorization, BERT classifier, similarity-weighted ranking, human preference data (Chatbot Arena), data augmentation, human preference
+
+[stripelis-2024-to-router] (2024, EMNLP 2024 (per Semantic Scholar), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: TensorOpera Router: A Multi-Model Router for Efficient LLM Inference
+  key_idea: Commercial multi-expert query router behind a single API.
+  cost: Up to 40% improvement in query efficiency and up to 30% cost reduction while maintaining or improving performance by up to 10% vs standalone experts (abstract)
+  summary: TensorOpera Router integrates multiple LLM experts behind one interface and routes each query to the best expert for its requirements. It reports efficiency and cost gains versus standalone experts.
+  signals: query embedding, expert performance labels
+
+[zhao-2024-lora-land] (2024, arXiv, rel=4, gran=none, regime=supervised-offline, prod=Y, clusters=C8,C11,C14)
+  title: LoRA Land: 310 Fine-tuned LLMs that Rival GPT-4, A Technical Report
+  key_idea: Many small task-specific LoRAs beat GPT-4 and can be served cheaply together.
+  cost: 4-bit LoRA fine-tuned models beat base models by 34 points and GPT-4 by 10 points on average; 25 LoRA Mistral-7B models served on one A100
+  summary: Predibase technical report evaluating 310 LoRA fine-tuned models across 10 base models and 31 tasks, and LoRAX serving of many adapters on a single GPU (LoRA Land app).
+  benchmarks: 31 tasks
+  signals: task datasets
+
+[github-copilot-auto-model-selection] (None, GitHub Docs, rel=4, gran=step, regime=n/a, prod=Y, clusters=C1,C3,C14)
+  title: About Copilot auto model selection
+  key_idea: Cache-boundary-aware model switching in a coding assistant.
+  cost: (vendor-reported) 10% discount on model costs when using auto selection on paid plans
+  summary: Copilot's auto mode combines a system that tracks model health and availability with one that estimates task complexity, and switches models at natural cache boundaries or large complexity shifts in a conversation, subject to admin policies.
+  signals: task complexity, real-time model health, cache boundaries, conversation complexity drift
+
+[openrouter-2025-auto-router] (None, OpenRouter docs, rel=4, gran=query, regime=bandit-online, prod=Y, clusters=C1,C5,C14)
+  title: Auto Router (Intelligent Model Selection)
+  key_idea: Route by aggregate market spend per task type.
+  summary: OpenRouter's free auto router classifies each prompt into about 30 task types, ranks models by what the OpenRouter community actually spends on for that task over the last seven days, applies the user's cost tier, and returns primary picks with fallbacks and session stickiness. The current docs describe this market-signal design and do not mention Not Diamond (earlier versions were reported as Not Diamond-powered, unverified here).
+  signals: task-type classifier (~30 types), community spend over trailing 7 days, cost tier
+
+[anthropic-2026-compaction-docs] (2026, Claude Platform documentation, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C14)
+  title: Compaction overview (Claude Platform docs)
+  key_idea: Provider-managed summarization of history keeps long agent tasks within a small active context.
+
+[anthropic-effort-docs] (2026, Claude Platform documentation, rel=3, gran=step, regime=n/a, prod=N, clusters=C9,C14)
+  title: Effort (Claude Platform docs)
+  key_idea: Single-model effort levels, settable per message, as a substitute for switching models to save cost.
+
+[atreja-2026-pioneer-agent] (2026, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C8,C14)
+  title: Pioneer Agent: Continual Improvement of Small Language Models in Production
+  key_idea: Agent that continually specializes SLMs from production failures.
+
+[chen-2026-compression-gateway-cost] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C14)
+  title: An Empirical Cost Attribution of Context-Compression Gateways in Multi-Turn Coding Agents
+  key_idea: With prompt caching, compression savings are much smaller than benchmarks imply.
+  cost: Tool-schema filtering removes ~21K-57K tokens per turn; content compression saves only ~2% of cache-priced prefix per turn (real Claude Code/Codex sessions)
+
+[chen-2026-workload-router-pool] (2026, arXiv (vision paper), rel=3, gran=step, regime=n/a, prod=N, clusters=C1,C11,C14)
+  title: The Workload-Router-Pool Architecture for LLM Inference Optimization: A Vision Paper from the vLLM Semantic Router Project
+  key_idea: Joint view of workload, router and model pool for inference optimization.
+
+[dhanani-2026-dynamo-agentic-inference] (2026, NVIDIA Technical Blog, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C11,C14)
+  title: Full-Stack Optimizations for Agentic Inference with NVIDIA Dynamo
+  key_idea: Agent hints plus KV-aware routing and tiered KV retention for agentic workloads.
+  cost: Claude Code agents: 85-97% cache hit rates on repeated calls to the same worker; four-agent teams reach 97.2% aggregate cache hit rate; 11.7x read/write ratio for lead agents
+
+[elhaimeur-2026-multi-agent-tutoring-latency-cost] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=Y, clusters=C11,C12,C14)
+  title: Latency and Cost of Multi-Agent Intelligent Tutoring at Scale
+  key_idea: Production latency and cost of a deployed multi-agent tutor.
+  cost: Both pay-per-token tiers cost well below a STEM textbook per student per semester under worst-case usage
+
+[furman-2026-replit-closing-the-loop-evals] (2026, Replit blog, rel=3, gran=n/a, regime=hybrid, prod=Y, clusters=C5,C7,C13,C14)
+  title: Closing the loop: Evaluating and improving Replit Agent at scale
+  key_idea: Pair offline spec-grounded agent evals with live A/B tests and trace clustering to validate changes such as model swaps.
+
+[google-vertex-data-driven-prompt-optimizer] (2026, Google Cloud documentation, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C4,C8,C14)
+  title: Data-driven prompt optimizer (Vertex AI / Gemini Enterprise Agent Platform docs)
+  key_idea: Use the incumbent model's outputs as labels to re-optimise prompts for a replacement model.
+
+[katz-2026-cursor-dynamic-context-discovery] (2026, Cursor blog, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C14)
+  title: Dynamic context discovery
+  key_idea: Replace static context with files the agent discovers on demand.
+  cost: A/B test: loading only needed MCP tools reduced total agent tokens by 46.9% in runs that called an MCP tool (statistically significant, high variance by number of MCPs installed; vendor-reported)
+
+[khailo-2026-keepalive-economics] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C14)
+  title: Keeping the Cache Warm Pays: Keepalive Economics for Agentic Workloads
+  key_idea: Keepalive pings preserve prompt caches across agent pauses.
+  cost: a client-side keepalive keeps provider prefixes warm through tool/approval pauses; breaks even against re-prefill at idle gaps of ~46 min (Anthropic) and ~36 min (OpenAI, DeepSeek)
+
+[li-2026-same-model-not-same-service] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C5,C13,C14)
+  title: When Is the Same Model Not the Same Service? A Measurement Study of Hosted Open-Weight LLM APIs
+  key_idea: Hosted models are time-varying services; routing must track provider-level drift.
+  cost: In two counterfactuals, routing lowers Qwen3-32B cost by 37.8% and raises DeepSeek-V3.2 throughput ~90% relative to direct official access
+
+[litellm-2026-auto-routing] (2026, LiteLLM documentation, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C10,C14)
+  title: [Beta] Auto Routing (LiteLLM proxy docs: complexity, semantic and adaptive routing)
+  key_idea: Open-source gateway combining tiered complexity classification with per-tier bandits and cache-preserving session pinning.
+
+[lodha-2026-less-context-better-agents] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10,C14)
+  title: Less Context, Better Agents: Efficient Context Engineering for Long-Horizon Tool-Using LLM Agents
+  key_idea: Recent-window plus summary beats full history in enterprise tool-use agents.
+
+[lyu-2026-agenticqwen] (2026, arXiv, rel=3, gran=n/a, regime=RL-offline, prod=Y, clusters=C8,C14)
+  title: AgenticQwen: Training Small Agentic Language Models with Dual Data Flywheels for Industrial-Scale Tool Use
+  key_idea: Small agent models trained with difficulty-escalating data flywheels.
+  cost: Closes the gap with much larger models on search and data-analysis tasks in an industrial agent system
+
+[moon-2026-price-of-thinking] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C9,C13,C14)
+  title: The Price of Thinking: Reasoning Effort as a Model-Specific API Contract
+  key_idea: Reasoning-effort defaults are model-specific contract terms with cost impact.
+  cost: Explicit-high effort cost $0.01031 more per call than omitted effort on Sonnet 5 (30 AIME 2026 items x5); no detected accuracy difference (+0.0133); cost per correct $0.08665 vs $0.07662
+
+[morandi-2026-selection-bias-sparse-feedback] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C7,C14)
+  title: Correcting Selection Bias in Sparse User Feedback for Large Language Model Quality Estimation: A Multi-Agent Hierarchical Bayesian Approach
+  key_idea: Correct thumbs-feedback selection bias with topic-stratified hierarchical Bayes before using it as a quality metric.
+
+[openai-reasoning-effort-docs] (2026, OpenAI API documentation, rel=3, gran=query, regime=n/a, prod=N, clusters=C9,C14)
+  title: Reasoning models: reasoning effort (OpenAI API guide)
+  key_idea: A per-request effort knob is the main production control for reasoning-token spend.
+
+[patel-2026-six-sigma-agent] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C12,C14)
+  title: The Six Sigma Agent: Achieving Enterprise-Grade Reliability in LLM Systems Through Consensus-Driven Decomposed Execution
+  key_idea: Redundant cheap-model micro-agents with voting instead of one expensive model.
+  cost: 14,700x reliability improvement over single-agent execution while reducing costs by 80% (three enterprise use cases)
+
+[richards-2026-agentlogs] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C6,C13,C14)
+  title: AgentLogs: A Dataset for Opening the Black Box of GitHub's Cloud Agent
+  key_idea: Large real-world agent trace dataset with per-step token usage.
+
+[rokon-2026-autorelannotator] (2026, SIGIR 2026 E-commerce workshop, rel=3, gran=query, regime=supervised-offline, prod=Y, clusters=C2,C8,C14)
+  title: AutoRelAnnotator: Calibrated Model Cascades for Cost-Efficient Relevance Evaluation in Sponsored Search
+  key_idea: Fine-tuning for accuracy, cascading for cost, calibration on top.
+  cost: Cascading is roughly accuracy-neutral but halves compute cost; production deployment across six use cases with 150M+ annotations
+
+[singh-2026-total-cost-of-agency] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C12,C14)
+  title: Total Cost of Agency: Exact Attribution of Memory Injection Cost in Multi-Agent LLM Workflows
+  key_idea: Attribute MAS bills to memory injection and control it.
+  cost: Memory injection is ~12% of full billed cost, rising to 27.6% at workflow depth six; shrinking retrieval window 32 to 2 cuts injected tokens 28.7%
+
+[tian-2026-pinterest-decision-quality] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C6,C13,C14)
+  title: Decision Quality Evaluation Framework at Pinterest
+  key_idea: Production evaluation pipeline using propensity sampling to compare LLM agents on cost and quality.
+
+[yang-2026-fusion-moa-fleet] (2026, arXiv, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C3,C11,C14)
+  title: The Fleet Is the Model: Engineering Collective Intelligence with Fusion-MoA Pioneer R1
+  key_idea: Operate a heterogeneous model fleet as one governed, evolvable service.
+
+[anthropic-2025-advanced-tool-use] (2025, Anthropic engineering blog, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C12,C14)
+  title: Introducing advanced tool use on the Claude Developer Platform
+  key_idea: Deferred tool loading and code-orchestrated tool calls cut agent context tokens while improving tool-selection accuracy.
+  cost: Tool Search Tool: ~85% reduction in upfront tool-definition tokens (~77K to ~8.7K for 50+ MCP tools); MCP-eval accuracy Opus 4 49%->74%, Opus 4.5 79.5%->88.1%. Programmatic tool calling: average tokens 43,588->27,297 (37% reduction) on complex research tasks. Tool use examples: 72%->90% on complex parameter handling (all vendor-reported internal testing)
+
+[anthropic-2025-context-management] (2025, Claude blog; Claude Platform docs (Context editing), rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C14)
+  title: Managing context on the Claude Developer Platform (context editing and memory tool)
+  key_idea: Rule-based clearing of old tool results plus external memory keeps long agent loops within context at far lower token cost.
+  cost: Memory tool + context editing improved performance 39% over baseline; context editing alone 29%; in a 100-turn web-search evaluation, context editing cut token consumption by 84% (vendor-reported internal evaluation)
+
+[baranowski-2025-instacart-maple] (2025, Instacart tech blog, rel=3, gran=none, regime=n/a, prod=Y, clusters=C11,C14)
+  title: Simplifying Large-Scale LLM Processing across Instacart with Maple
+  key_idea: Internal platform to route offline workloads to batch APIs.
+  cost: Company-reported: up to 50% LLM cost savings vs real-time calls; some processes cut from hundreds of thousands to thousands of dollars per year
+
+[chhikara-2025-mem0] (2025, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C14)
+  title: Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory
+  key_idea: Extract-and-retrieve memory instead of full-context replay.
+  cost: 91% lower p95 latency and more than 90% token-cost savings vs the full-context method, with gains in LLM-as-a-Judge score over OpenAI memory on LOCOMO
+
+[han-2025-rluf] (2025, arXiv, rel=3, gran=n/a, regime=RL-offline, prod=Y, clusters=C5,C6,C14)
+  title: Reinforcement Learning from User Feedback
+  key_idea: Reward model trained on sparse binary production user reactions, validated by live A/B tests.
+  cost: 28% increase in Love Reactions in live A/B tests
+
+[ivanovici-2025-intercom-cost-of-serving] (2025, Fin.ai research blog (Intercom), rel=3, gran=none, regime=n/a, prod=Y, clusters=C11,C14)
+  title: Cost of Serving LLMs
+  key_idea: Self-hosting small models is much cheaper under latency SLOs.
+  cost: Company-reported: self-hosted Qwen3 14B ~0.05x GPT-4.1 cost; Gemma 3 4B ~0.04x; Llama-70B distill ~1.7x GPT-4.1
+
+[jackson-2025-cursor-tab-online-rl] (2025, Cursor blog, rel=3, gran=query, regime=RL-online, prod=Y, clusters=C5,C7,C14)
+  title: Improving Cursor Tab with online RL
+  key_idea: Frequent on-policy deployment turns live user feedback into an RL signal that also learns when not to act.
+  cost: New Tab model makes 21% fewer suggestions with a 28% higher accept rate (production, >400M requests/day; vendor-reported)
+
+[kilpatrick-2025-gemini-implicit-caching] (2025, Google Developers Blog, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C14)
+  title: Gemini 2.5 Models now support implicit caching
+  key_idea: Automatic prefix caching discount.
+  cost: (vendor-reported) 75% token discount on implicit cache hits (min 1,024 tokens Flash, 2,048 Pro)
+
+[kolagani-2025-crm-multi-model-routing] (2025, International Journal of Leading Research Publication, rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C14)
+  title: Cost-Aware Agentic Architectures for Multi-Model Routing and Tool-Use Optimisation in CRM Workflows
+  key_idea: Tiered model routing in CRM agent workflows.
+  cost: Dynamic task routing saved 33% API cost vs always-largest LLM with CSAT >90% and FCR >85%; up to 35% operating cost savings
+
+[mcnamara-2025-shopify-sidekick] (2025, Shopify Engineering blog, rel=3, gran=none, regime=n/a, prod=Y, clusters=C7,C13,C14)
+  title: Building production-ready agentic systems: Lessons from Shopify Sidekick
+  key_idea: Production-grounded judges and simulators for agent evaluation.
+
+[notdiamond-2025-prompt-adaptation-weaker-models] (2025, Not Diamond blog, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C4,C14)
+  title: Weaker models, stronger results: How prompt adaptation levels the field, part 2
+  key_idea: Re-optimising prompts per target model is a prerequisite for downgrading to cheaper models.
+  cost: clinc150 intent classification: Gemini 2.5 Flash with adapted prompt 97.5% vs 86.75% with the original prompt and 93% for Gemini 2.5 Pro with the original prompt (~30 minutes background optimisation; vendor-reported)
+
+[openai-model-optimization-distillation-track] (2025, OpenAI developer documentation, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C8,C14)
+  title: Model optimization track: fine-tuning, distillation and evals (OpenAI developer docs)
+  key_idea: Platform-native loop from logged frontier-model traffic to an evaluated smaller student model.
+
+[roig-2025-kami] (2025, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C13,C14)
+  title: Towards a Standard, Enterprise-Relevant Agentic AI Benchmark: Lessons from 5.5 billion tokens' worth of agentic AI evaluations
+  key_idea: Enterprise agentic benchmark with cost-performance trade-offs.
+
+[vllm-2025-semantic-router] (2025, vLLM blog, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9,C14)
+  title: vLLM Semantic Router: Next Phase in LLM inference
+  key_idea: Classifier-based reasoning-mode and model selection in the serving layer.
+  cost: (vendor-reported) ~10% higher accuracy, ~50% lower latency, ~50% fewer tokens in trials (no benchmark or baseline disclosed)
+
+[wang-2025-kvcache-in-the-wild] (2025, USENIX ATC 2025, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C11,C14)
+  title: KVCache Cache in the Wild: Characterizing and Optimizing KVCache Cache at a Large Cloud Provider
+  key_idea: Real traces show where KV reuse comes from and how to evict for it.
+  cost: ideal KV hit rates of 62% and 54% on two production traces; workload-aware eviction improves hit ratio by up to 23.9% and reduces latency by up to 42% vs LRU/FIFO
+
+[wood-2025-martian-up-and-to-the-left] (2025, Martian blog, rel=3, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C14)
+  title: Up and to the left! How Martian Uses Routing to Push the Pareto Frontier
+  key_idea: Customer-specific routers trained on customer data can beat the single-model cost-quality frontier.
+  cost: Customer help chat: 52.4% lower error rate and 92% lower cost; RAG system on GPT-4: +20% quality at 1/80 the cost; user-facing system: router responses preferred 79.2% of the time at 1/300 of GPT-4 cost, 13->113 tokens/s (vendor-reported customer deployments, no methodology)
+
+[yan-2025-dont-build-multi-agents] (2025, Cognition blog, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C10,C12,C14)
+  title: Don't Build Multi-Agents
+  key_idea: Context sharing, not agent count, determines reliability; prefer single-threaded agents plus history compression over parallel subagents.
+
+[anthropic-2024-prompt-caching] (2024, Anthropic documentation / Anthropic news, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C14)
+  title: Prompt caching (Claude API documentation) and "Prompt caching with Claude" announcement
+  key_idea: Explicit, prefix-exact KV caching priced at a fraction of input tokens.
+  cost: announcement (anthropic.com/news/prompt-caching): up to 90% lower cost and up to 85% lower latency for long prompts; docs: cache reads billed at 0.1x base input price, 5-minute writes at 1.25x and 1-hour writes at 2x
+
+[anthropic-2024-prompt-caching-b] (2024, Anthropic news, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C14)
+  title: Prompt caching with Claude
+  key_idea: Explicit prefix caching with priced writes and cheap reads.
+  cost: (vendor-reported) Up to 90% cost and 79% latency reduction (100K-token book chat); 53% cost / 75% latency for 10-turn conversation
+
+[fu-2024-tiny-titans] (2024, arXiv, rel=3, gran=none, regime=supervised-offline, prod=Y, clusters=C8,C14)
+  title: Tiny Titans: Can Smaller Large Language Models Punch Above Their Weight in the Real World for Meeting Summarization?
+  key_idea: Compact fine-tuned models as cost-efficient production alternatives.
+  cost: FLAN-T5 (780M) performs on par or better than many zero-shot 7B to 70B+ LLMs on meeting summarization
+
+[google-2024-gemini-context-caching] (2024, Google AI for Developers documentation, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C14)
+  title: Context caching (Gemini API documentation)
+  key_idea: Implicit plus explicit, TTL-managed context caches.
+
+[ibm-2024-llm-routers-blog] (2024, IBM Research blog, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: LLM routing for quality, low-cost responses
+  key_idea: Benchmark-trained correctness predictors for routing.
+  cost: Vendor-reported: router saves about 5 cents per query vs GPT-4 at comparable performance on RouterBench
+
+[notdiamond-2024-rorf] (2024, GitHub (Not Diamond), rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: RoRF - Routing on Random Forests
+  key_idea: Random forests on text embeddings as cheap pairwise routers.
+
+[openai-2024-prompt-caching] (2024, OpenAI API documentation, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C14)
+  title: Prompt caching (OpenAI API guide) and "Prompt Caching in the API"
+  key_idea: Automatic prefix caching with cache-key-aware routing.
+  cost: cached input tokens discounted up to 95% (docs); automatic for prompts of at least 1,024 tokens
+
+[qin-2024-mooncake] (2024, arXiv, rel=3, gran=none, regime=n/a, prod=Y, clusters=C10,C11,C14)
+  title: Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving
+  key_idea: Trade storage for compute with a cluster-wide KV cache pool.
+  cost: up to 525% throughput increase in simulated scenarios under SLOs; under real workloads Kimi handles 75% more requests
+
+[wang-2024-uber-genai-gateway] (2024, Uber engineering blog, rel=3, gran=none, regime=n/a, prod=Y, clusters=C14)
+  title: Navigating the LLM Landscape: Uber's Innovation with GenAI Gateway
+  key_idea: Central gateway for multi-vendor access and cost attribution.
+
+[bang-2023-gptcache] (2023, NLP-OSS Workshop 2023 (ACL Anthology), rel=3, gran=query, regime=training-free, prod=N, clusters=C10,C14)
+  title: GPTCache: An Open-Source Semantic Cache for LLM Applications Enabling Faster Answers and Cost Savings
+  key_idea: Embedding-similarity cache in front of an LLM API to skip repeated or paraphrased calls.
+  cost: response speed improves 2-10x on cache hits
+
+[hakhamaneshi-2023-anyscale-finetuning-llama2] (2023, Anyscale blog, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C14)
+  title: Fine-Tuning Llama-2: A Comprehensive Case Study for Tailoring Models to Unique Applications
+  key_idea: Specialization wins on structured tasks, less on open reasoning.
+  cost: Fine-tuned Llama-2-13B reaches 98% on ViGGO functional representation and fine-tuned 7B/13B about 90% on SQL generation, outperforming GPT-4; on GSM8K fine-tuned 13B improves 28% to 47% but stays behind GPT-4
+
+[pang-2023-implicit-feedback-deployment-dialogue] (2023, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=Y, clusters=C6,C14)
+  title: Leveraging Implicit Feedback from Deployment Data in Dialogue
+  key_idea: Next-user-turn signals from deployment logs act as implicit quality labels, with proxy-hacking risks.
+
+[anthropic-message-batches] (None, Claude Platform docs, rel=3, gran=none, regime=n/a, prod=N, clusters=C11,C14)
+  title: Batch processing (Message Batches API)
+  key_idea: Async batch at 50% price.
+  cost: (vendor-reported) 50% cost reduction for asynchronous batches
+
+[aws-bedrock-model-distillation] (None, AWS product page, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C8,C14)
+  title: Amazon Bedrock Model Distillation
+  key_idea: Managed teacher-student distillation.
+  cost: (vendor-reported) Distilled models up to 500% faster and up to 75% less expensive with <2% accuracy loss for use cases like RAG
+
+[notdiamond-product] (None, Not Diamond website, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C1,C3,C14)
+  title: Not Diamond: Model Routing for Coding Agents
+  key_idea: Commercial per-call router for agent workloads.
+  cost: (vendor-reported) Claims 5%+ accuracy gains and 20%+ cost savings; Rootly case: +39% average accuracy across benchmarks
+
+[openai-batch-api] (None, OpenAI API docs, rel=3, gran=none, regime=n/a, prod=N, clusters=C11,C14)
+  title: Batch API
+  key_idea: Trade latency for 50% price.
+  cost: (vendor-reported) 50% discount vs synchronous APIs, 24-hour completion window
+
+[openai-flex-processing] (None, OpenAI API docs, rel=3, gran=none, regime=n/a, prod=N, clusters=C11,C14)
+  title: Flex processing
+  key_idea: Cheaper best-effort service tier.
+  cost: (vendor-reported) Priced at Batch API rates for synchronous-style requests with slower responses and occasional unavailability
+
+[openai-prompt-caching] (None, OpenAI API docs, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C14)
+  title: Prompt caching
+  key_idea: Automatic prefix KV caching with discounted cached tokens.
+  cost: (vendor-reported) Cached input discounted up to 95% (0.1x standard rate for recent models)
+
+[anthropic-extended-thinking-docs] (2026, Claude Platform documentation, rel=2, gran=query, regime=n/a, prod=N, clusters=C9,C14)
+  title: Extended thinking (Claude Platform docs)
+  key_idea: Fixed thinking-token budgets are being replaced by adaptive thinking plus effort levels.
+
+[google-adk-agent-model-routing] (2026, Agent Development Kit (ADK) documentation, rel=2, gran=step, regime=n/a, prod=N, clusters=C3,C14)
+  title: Model routing and agent routing (Google Agent Development Kit docs: RoutedLlm, RoutedAgent)
+  key_idea: First-class per-request model/agent routing hooks inside an agent framework.
+
+[google-gemini-thinking-docs] (2026, Gemini API documentation, rel=2, gran=query, regime=n/a, prod=N, clusters=C9,C14)
+  title: Gemini thinking (Gemini API docs: thinking levels and budgets)
+  key_idea: Per-request thinking level/budget control on Gemini models.
+
+[openai-2026-compaction-docs] (2026, OpenAI API documentation, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C14)
+  title: Compaction (OpenAI API guide)
+  key_idea: Threshold-triggered server-side compaction of agent history into an opaque state item.
+
+[together-2026-ab-test-models-in-production] (2026, Together AI blog, rel=2, gran=query, regime=bandit-online, prod=N, clusters=C5,C14)
+  title: A/B test models in production
+  key_idea: Serving-layer traffic splitting for evaluating cheaper candidate models on real users.
+
+[redis-langcache] (2025, Redis documentation, rel=2, gran=query, regime=training-free, prod=N, clusters=C10,C14)
+  title: Redis LangCache (semantic caching service)
+  key_idea: Managed semantic caching with tunable similarity thresholds in front of LLM calls.
+
+[together-2025-batch-api] (2025, Together AI blog, rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C14)
+  title: Introducing the Together AI Batch API: Process Thousands of LLM Requests at 50% Lower Cost
+  key_idea: Open-model batch inference at 50% price.
+  cost: (vendor-reported) 50% lower cost than real-time API, best-effort 24h completion
+
+[godaddy-2024-llm-from-the-trenches] (2024, GoDaddy blog, rel=2, gran=none, regime=n/a, prod=Y, clusters=C14)
+  title: LLM From the Trenches: 10 Lessons Learned Operationalizing Models at GoDaddy
+  key_idea: Operational realities of multi-model production.
+
+[intercom-2024-fin-2-claude] (2024, Intercom blog, rel=2, gran=none, regime=n/a, prod=Y, clusters=C14)
+  title: Fin 2: Powered by Anthropic's Claude LLM
+  key_idea: Production model-provider switch.
+
+[klarna-2024-ai-assistant] (2024, Klarna press release, rel=2, gran=none, regime=n/a, prod=Y, clusters=C14)
+  title: Klarna AI assistant handles two-thirds of customer service chats in its first month
+  key_idea: Business-impact claims of a support agent.
+  cost: (vendor-reported) 2.3M chats (two-thirds of volume), work of ~700 FTE, resolution time 11 to <2 minutes, estimated $40M 2024 profit improvement
+
+[liu-2024-grab-llm-data-classification] (2024, Grab engineering blog, rel=2, gran=none, regime=n/a, prod=Y, clusters=C14)
+  title: LLM-powered data classification for data entities at scale
+  key_idea: Cheap model sufficient for high-volume classification.
+  cost: Company-reported: ~360 man-days per year saved; cost described as extremely affordable
+
+[phu-2024-discord-genai] (2024, Discord blog, rel=2, gran=none, regime=n/a, prod=N, clusters=C8,C14)
+  title: Developing Rapidly with Generative AI
+  key_idea: Prototype big, then move to smaller self-hosted models.
+
+[wang-2024-airbnb-automation-platform-v2] (2024, Airbnb Tech Blog (Medium), rel=2, gran=none, regime=n/a, prod=Y, clusters=C14)
+  title: Automation Platform v2: Improving conversational AI at Airbnb
+  key_idea: Production conversational-AI platform design.
+
+[honeycomb-2023-hard-stuff-llm] (2023, Honeycomb blog, rel=2, gran=none, regime=n/a, prod=Y, clusters=C14)
+  title: All the Hard Stuff Nobody Talks About when Building Products with LLMs
+  key_idea: Early production LLM pitfalls.
+
+[kohavi-2013-online-experiments] (2013, KDD 2013, rel=2, gran=n/a, regime=n/a, prod=Y, clusters=C5,C14)
+  title: Online controlled experiments at large scale
+  key_idea: A/B testing practice at scale.
+
+[anthropic-choosing-a-model] (None, Claude Platform docs, rel=2, gran=none, regime=n/a, prod=N, clusters=C14)
+  title: Choosing the right model
+  key_idea: Model choice guidance.
+
+[artificial-analysis] (None, Artificial Analysis website, rel=2, gran=none, regime=n/a, prod=N, clusters=C13,C14)
+  title: Artificial Analysis: AI Model and API Providers Analysis
+  key_idea: Price-quality-speed comparisons across providers.
+
+[aws-bedrock-prompt-caching] (None, Amazon Bedrock User Guide, rel=2, gran=none, regime=n/a, prod=N, clusters=C10,C14)
+  title: Prompt caching for faster model inference (Amazon Bedrock)
+  key_idea: Cloud-platform prompt caching.
+
+[cloudflare-ai-gateway] (None, Cloudflare docs, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C14)
+  title: Cloudflare AI Gateway
+  key_idea: Edge gateway with caching and fallback.
+
+[databricks-ai-gateway] (None, Databricks docs, rel=2, gran=none, regime=n/a, prod=N, clusters=C14)
+  title: AI governance with Unity Gateway (Mosaic AI Gateway)
+  key_idea: Platform-level governance gateway.
+
+[google-gemini-batch-api] (None, Google AI for Developers docs, rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C14)
+  title: Batch API (Gemini API)
+  key_idea: Async batch at 50% price.
+  cost: (vendor-reported) 50% of standard cost, 24-hour target turnaround
+
+[helicone-observability] (None, GitHub, rel=2, gran=none, regime=n/a, prod=N, clusters=C6,C14)
+  title: Helicone: open-source LLM observability platform
+  key_idea: Logging layer that yields data for offline routing analysis.
+
+[katanemo-plano-archgw] (None, GitHub, rel=2, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: Plano (formerly archgw): AI-native proxy and data plane for agentic apps
+  key_idea: Gateway with preference-aligned router model.
+
+[kong-ai-gateway] (None, Kong product page, rel=2, gran=none, regime=training-free, prod=N, clusters=C14)
+  title: Kong AI Gateway
+  key_idea: Enterprise API gateway for LLM traffic.
+
+[litellm-router] (None, LiteLLM docs / GitHub, rel=2, gran=query, regime=training-free, prod=N, clusters=C10,C14)
+  title: LiteLLM Router and AI Gateway
+  key_idea: Load-balancing router with cost-based strategy.
+
+[martian-docs] (None, Martian docs, rel=2, gran=query, regime=n/a, prod=N, clusters=C1,C14)
+  title: Martian Documentation (Gateway API)
+  key_idea: Early router vendor, now gateway plus research.
+
+[nvidia-llm-router-blueprint] (None, GitHub (NVIDIA-AI-Blueprints), rel=2, gran=query, regime=hybrid, prod=N, clusters=C1,C14)
+  title: NVIDIA AI Blueprint: LLM Router
+  key_idea: Reference architecture for intent and learned routing.
+
+[openai-cost-optimization] (None, OpenAI API docs, rel=2, gran=none, regime=n/a, prod=N, clusters=C14)
+  title: Cost optimization
+  key_idea: Provider checklist of cost levers.
+
+[openai-model-selection] (None, OpenAI API docs, rel=2, gran=none, regime=n/a, prod=N, clusters=C14)
+  title: Model selection
+  key_idea: Accuracy-first then optimize cost.
+
+[portkey-ai-gateway] (None, Portkey docs / GitHub, rel=2, gran=query, regime=training-free, prod=N, clusters=C10,C14)
+  title: Portkey AI Gateway
+  key_idea: Rule-based routing plus semantic caching and budgets.
+
+[requesty-router] (None, Requesty website, rel=2, gran=query, regime=n/a, prod=N, clusters=C1,C14)
+  title: Requesty: AI Gateway and LLM Router
+  key_idea: Commercial router-gateway.
+
+[unify-product] (None, Unify website, rel=2, gran=n/a, regime=RL-online, prod=N, clusters=C8,C14)
+  title: unify
+  key_idea: Pivot from routing to continual post-training on production data.
+
+[vercel-ai-gateway] (None, Vercel docs, rel=2, gran=none, regime=training-free, prod=N, clusters=C14)
+  title: Vercel AI Gateway
+  key_idea: Managed multi-model gateway.
+

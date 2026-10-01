@@ -1,0 +1,14 @@
+[
+ {
+  "_unverified": "Stage-aware LLM-SLM collaboration for agentic tasks via joint routing and verification (Yang, Tang, Li, Guo, Liu, Qu, Wen; Information Processing & Management, DOI 10.1016/j.ipm.2026.105065)",
+  "note": "Found as a cited-by of yue-2025-masrouter on Semantic Scholar; title, authors and DOI verified, but no abstract was available (S2 batch and citation records lacked it), so it could not be summarized. Highly relevant to C3 step-level LLM-SLM routing; worth a manual fetch."
+ },
+ {
+  "_unverified": "HF papers search / OpenAlex coverage",
+  "note": "Hugging Face papers search returned Internal Error and OpenAlex returned daily-budget-exceeded during this run; Semantic Scholar keyword search mostly returned 429. Searches relied on arXiv API plus S2 citation snowballing."
+ },
+ {
+  "_unverified": "S2 cited-by for paul-2026-agentrouter-step-tiers (2609.22951) and ganz-2026-handoff-tax (2608.24358)",
+  "note": "Semantic Scholar returned 0 citing papers for both (too recent); no snowball possible."
+ }
+]

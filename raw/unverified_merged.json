@@ -1,5 +1,20 @@
 [
   {
+    "_unverified": "Stage-aware LLM-SLM collaboration for agentic tasks via joint routing and verification (Yang, Tang, Li, Guo, Liu, Qu, Wen; Information Processing & Management, DOI 10.1016/j.ipm.2026.105065)",
+    "note": "Found as a cited-by of yue-2025-masrouter on Semantic Scholar; title, authors and DOI verified, but no abstract was available (S2 batch and citation records lacked it), so it could not be summarized. Highly relevant to C3 step-level LLM-SLM routing; worth a manual fetch.",
+    "_file": "g10_unverified.json"
+  },
+  {
+    "_unverified": "HF papers search / OpenAlex coverage",
+    "note": "Hugging Face papers search returned Internal Error and OpenAlex returned daily-budget-exceeded during this run; Semantic Scholar keyword search mostly returned 429. Searches relied on arXiv API plus S2 citation snowballing.",
+    "_file": "g10_unverified.json"
+  },
+  {
+    "_unverified": "S2 cited-by for paul-2026-agentrouter-step-tiers (2609.22951) and ganz-2026-handoff-tax (2608.24358)",
+    "note": "Semantic Scholar returned 0 citing papers for both (too recent); no snowball possible.",
+    "_file": "g10_unverified.json"
+  },
+  {
     "_unverified": "Google Cloud Vertex AI Model Optimizer",
     "note": "Old docs URLs (cloud.google.com/vertex-ai/generative-ai/docs/model-reference/vertex-ai-model-optimizer and variants) now redirect to the generic Gemini Enterprise Agent Platform models overview or return 404; no current optimizer/router page found in its link list. Added the data-driven prompt optimizer docs instead.",
     "_file": "g11_unverified.json"
@@ -113,5 +128,40 @@
     "_unverified": "Google Vertex AI Model Optimizer (auto routing)",
     "note": "Known docs URL redirected to a generic Agent Platform models overview; feature not confirmed.",
     "_file": "g8_unverified.json"
+  },
+  {
+    "_unverified": "Coactive Learning for Large Language Models using Implicit User Feedback (Tucker, Brantley, Cahall, Joachims; ICML 2024)",
+    "note": "Found in Semantic Scholar search (DBLP conf/icml/TuckerBCJ24) but the record has no arXiv ID, DOI or abstract; arXiv title search returned nothing. Highly relevant to implicit-feedback learning; needs a PMLR link.",
+    "_file": "g9_unverified.json"
+  },
+  {
+    "_unverified": "CoCoMaMa: Contextual Combinatorial Multi-Armed Bandit Router for Multi-Agent Systems with Volatile Arms (Rau, Bader, Wiesner, Kao; HyperAgents@ECAI 2025)",
+    "note": "Seen in the Semantic Scholar reference list of li-2025-llm-bandit (2502.02743). No arXiv ID, DOI or abstract; arXiv title search returned nothing. Likely a relevance-4 C3/C5 item.",
+    "_file": "g9_unverified.json"
+  },
+  {
+    "_unverified": "Learning to Cascade: A POMDP Approach to Sequential Model Selection (Salehi Darjani, Zois; ICASSP 2026)",
+    "note": "Found via S2 citations of a seed; DOI 10.1109/icassp55912.2026.11464865 exists, but no abstract was available to summarize, so it is left out.",
+    "_file": "g9_unverified.json"
+  },
+  {
+    "_unverified": "Session-aware agentic routing: Continuity-aware model selection for long-horizon LLM agents",
+    "note": "Appears only as an unlinked reference string in a seed's S2 reference list; no ID, authors or year found.",
+    "_file": "g9_unverified.json"
+  },
+  {
+    "_unverified": "From Metrics to Meaning: Estimating User Feedback Using LLM-Based Evaluation",
+    "note": "Unlinked reference string in a seed's S2 reference list; title search on arXiv found no match.",
+    "_file": "g9_unverified.json"
+  },
+  {
+    "_unverified": "Continuous feedback loops: Online fine-tuning of LLMs with user signals (2025)",
+    "note": "S2 search hit with no arXiv ID, DOI or abstract.",
+    "_file": "g9_unverified.json"
+  },
+  {
+    "_unverified": "Whom to Trust? Analyzing the Divergence Between User Satisfaction and LLM-as-a-Judge in E-Commerce RAG Systems (2026)",
+    "note": "S2 search hit with no arXiv ID or DOI; arXiv title search returned nothing. Relevant to implicit-feedback-versus-judge reliability.",
+    "_file": "g9_unverified.json"
   }
 ]

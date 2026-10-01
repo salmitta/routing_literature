@@ -1,0 +1,698 @@
+# C5: 120 records (full detail for rel>=4; one-liners for rel<=3)
+
+[bao-2026-orcarouter] (2026, arXiv, rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C5,C14)
+  title: OrcaRouter: A Production-Oriented LLM Router with Hybrid Offline-Online Learning
+  key_idea: Offline warm-start plus online LinUCB updates for a production-oriented router.
+  cost: 75.54% accuracy at USD 1.00 per 1,000 queries; ranked second on RouterArena (arena score 72.08)
+  summary: OrcaRouter fits per-arm ridge regressors offline from a full-information reward matrix on curated prompts, then deploys as a LinUCB contextual bandit that can keep learning from bandit feedback.
+  benchmarks: RouterArena
+  signals: lexical features, sentence embedding, bandit reward
+
+[fireworks-2026-firerouter-with-opus] (2026, Fireworks AI blog, rel=5, gran=step, regime=None, prod=Y, clusters=C1,C3,C5,C10,C14)
+  title: Introducing FireRouter with Opus
+  key_idea: Turn-level routing in coding agents with explicit pricing of cache loss, validated by a randomised live-traffic A/B test.
+  cost: Internal A/B test (>1 month, sessions randomised to router vs Opus-only): cost per session $15.36 -> $6.63 (57% +/- 19 ppts lower); graded-turn accuracy 78.7% vs 80.2% (98.1% of Opus-only); cache hit rate 94.2% vs 97.8% (vendor-reported)
+  summary: Fireworks releases a per-turn, cache-aware router for coding agents that routes each user turn among Claude Opus 5.5, GLM 5.3 and GLM 5.3 Flash, trading off estimated suitability against cost including the prompt-cache value lost by switching. It reports a randomised A/B test on internal coding traffic, scoring accuracy by task completion, correctness and whether the user corrected the next turn.
+  benchmarks: internal coding traffic A/B test
+  signals: per-turn task suitability estimate, estimated cost per model, prompt-cache loss cost
+
+[hua-2026-agentopt] (2026, arXiv (technical report), rel=5, gran=subagent, regime=bandit-online, prod=N, clusters=C3,C4,C5)
+  title: AgentOpt v0.1 Technical Report: Client-Side Optimization for LLM-Based Agent
+  key_idea: Bandit search over per-role model assignments for agent pipelines.
+  cost: At matched accuracy, best vs worst model combinations differ 13-32x in cost; UCB-E recovers near-optimal accuracy with 62-76% less evaluation budget than brute force
+  summary: AgentOpt is a framework-agnostic client-side package that searches for the most cost-effective assignment of models to pipeline roles from a small evaluation set, using bandit and BO search algorithms. It shows huge cost spreads across model combinations and finds near-optimal assignments cheaply.
+  benchmarks: four benchmarks
+  signals: small evaluation set, accuracy, cost
+
+[li-2026-progrouter] (2026, EMNLP 2026 Findings, rel=5, gran=step, regime=bandit-online, prod=N, clusters=C3,C5)
+  title: ProgRouter: Online Progress-Guided Orchestration for Multi-Agent LLM Workflows under Quality-Cost Tradeoffs
+  key_idea: Online per-step routing driven by predicted task progress.
+  cost: Reduces operating cost relative to key baselines while preserving quality (details truncated in abstract view)
+  summary: ProgRouter routes each step of a multi-agent workflow online to a candidate LLM agent by predicting its progress gain from a multi-view progress scorer and meta-gating, balancing progress, time budget and long-run cost.
+  benchmarks: HumanEval Plus, MBPP, MATH-500, ASQA
+  signals: multi-view task progress score, progress-gain prediction, time and cost budgets
+
+[li-2026-wiserouter] (2026, arXiv, rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C5,C6)
+  title: WISERouter: LLM Routing with Workload Budget Constraint
+  key_idea: Workload-level budgeted routing learned from logs or online exploration.
+  summary: WISERouter treats routing as a constrained contextual bandit with a workload-level (not per-query) budget, with an offline variant learning from historical interactions and an online variant with O(sqrt T) regret. Tested on RouterBench and SWE-Bench.
+  benchmarks: RouterBench, SWE-Bench
+  signals: query embedding, workload budget
+
+[liskowski-2026-compositional-online-learning] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=Y, clusters=C2,C5,C10,C14)
+  title: Compositional Online Learning for Semantic Data Processing Systems
+  key_idea: Compose online learners (caching, ordering, cascade routing) at the LLM call boundary in production.
+  cost: Learning components compose to an 11.4x upper bound on per-row LLM cost reduction for a representative conjunction-filter workload, reduced to a realistic ~8x after self-selection, sample-budget shrinkage and selectivity drift
+  summary: Argues that LLM calls in semantic data processing are slow enough to hide online learner updates inside each round-trip, and builds compositional online learning: memoization, an online filter-ordering learner and an online per-batch cascade-routing learner. A production case study in Snowflake Cortex AISQL decomposes per-row LLM cost by component.
+  benchmarks: Cortex AISQL production case study
+  signals: per-call outcomes, filter selectivity, cascade confidence
+
+[liu-2026-harness-native-routing] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C1,C3,C5,C6,C13,C14)
+  title: Agentic Routing: The Harness-Native Data Flywheel
+  key_idea: Harness-native step routing with data flywheel.
+  cost: LightGBM router preserves task quality while cutting realized cost ~90% on PinchBench and ~43% on DRACO vs fixed strong model
+  summary: Proposes step-level agentic routing conditioned on harness state that picks one model or an ensemble per step, with each decision generating a data record that feeds a data flywheel.
+  benchmarks: DRACO, PinchBench
+  signals: full harness state, structured routing records, execution trace, outcome, cost, harness state, execution state, harness signals
+
+[okeefe-2026-cursor-router] (2026, Cursor blog, rel=5, gran=step, regime=supervised-offline, prod=Y, clusters=C1,C3,C5,C6,C7,C14)
+  title: How Cursor Router chooses the right model for the task
+  key_idea: Learn step-level routing from implicit feedback in production logs, with offline-to-online validation and budgeted confidence-gated upgrades.
+  cost: Auto Intelligence: above Fable-level user satisfaction at 68% lower cost; Auto Balance: outperforms Opus 4.8 at 41% lower cost with +3% satisfaction (relative to frontier models, measured on live traffic; vendor-reported). Compass top-rated turns got positive signal 96% of the time vs 71% for lowest-rated
+  summary: Cursor's per-turn router is trained on hundreds of thousands of production agent turns labelled with implicit satisfaction (user moves on vs corrects the agent) and actual cost including switch-induced cache misses. A complexity predictor (Compass) thresholds turns to a cheap model or to a taxonomy router, which admits a frontier model for a task label only if it beats the cheap model with 75% one-sided confidence, then chooses a traffic-weighted mix within a per-mode cost budget. Policies are tuned by cross-validation, checked on held-out logs, and validated on live traffic before launch.
+  benchmarks: live Cursor traffic, held-out offline split of production turns
+  signals: task category, recent tool calls, conversation state, Compass complexity score (predicted user satisfaction), learned task/domain/modifier taxonomy, implicit user feedback (moves on vs corrects), per-
+
+[sridhar-2026-correlated-bandits-routing] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C7,C15)
+  title: Correlation-Aware Contextual Bandits with Surrogate Rewards for LLM Routing
+  key_idea: Bandits with surrogate (judge) rewards for routing.
+  summary: Contextual bandit algorithms for routing that exploit correlated arms and noisy surrogate rewards (e.g. judge predictions), with regret guarantees robust to surrogate misspecification.
+  benchmarks: LLM routing benchmarks
+  signals: surrogate reward model, inter-arm correlation, bandit feedback
+
+[taberner-miller-2026-paretobandit] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: ParetoBandit: Budget-Paced Adaptive Routing for Non-Stationary LLM Serving
+  key_idea: Budget-paced non-stationary bandit routing.
+  cost: budget compliance within 0.4%; up to +0.071 quality lift under price/quality shifts (1,824 prompts, three-model portfolio)
+  summary: ParetoBandit is an open-source cost-aware contextual-bandit router with an online primal-dual pacer enforcing a dollar cost ceiling and forgetting to track price/quality drift, plus hot-swappable models.
+  benchmarks: 1,824 benchmark prompts
+  signals: contextual bandit, primal-dual budget pacer, geometric forgetting, prompt embedding, cost, quality reward
+
+[woisetschlager-2026-slarouter] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Cost-Optimal LLM Routing with Limited User Feedback under User Satisfaction Guarantees
+  key_idea: Online routing from sparse production feedback with SLA guarantees.
+  cost: reduces operating cost by up to 2.2x over existing baselines while meeting SLA constraints
+  summary: SLARouter learns a cost-optimal routing policy online from the sparse, one-sided feedback available in production (e.g. complaints), with guarantees on cost optimality and SLA compliance, without per-benchmark tuning.
+  benchmarks: wide range of LLM benchmarks
+  signals: sparse one-sided user feedback, cost
+
+[xu-2026-seqroute] (2026, arXiv, rel=5, gran=query, regime=RL-offline, prod=N, clusters=C1,C3,C5,C6,C15)
+  title: SeqRoute: Global Budget-Aware Sequential LLM Routing via Offline Reinforcement Learning
+  key_idea: MDP/offline-RL routing across a session with a global budget.
+  cost: Reduces operational costs by 6.0-73.5% while maintaining or improving quality; bankruptcy under 1% (abstract)
+  summary: SeqRoute formulates multi-turn session routing under a global budget as a finite-horizon MDP solved with offline RL (CQL), using hindsight budget relabeling to expand 10,000 sessions into 2.38M transitions.
+  benchmarks: 10,000 raw sessions expanded to 2.38M transitions
+  signals: remaining session budget, Conservative Q-Learning, hindsight budget relabeling, session history, remaining budget
+
+[zhang-2026-evoroute] (2026, arXiv, rel=5, gran=step, regime=bandit-online, prod=N, clusters=C3,C4,C5)
+  title: EvoRoute: Experience-Driven Self-Routing LLM Agent Systems
+  key_idea: Experience-driven per-step backbone selection that self-evolves.
+  cost: Reduces execution cost by up to 80% and latency by over 70% while sustaining or improving performance on GAIA and BrowseComp+
+  summary: EvoRoute frames the Agent System Trilemma of performance, cost and latency and selects a Pareto-optimal LLM backbone at every step using a growing knowledge base of past experience, refining its policy from environment feedback. Plugged into off-the-shelf agent systems it cuts cost by up to 80%.
+  benchmarks: GAIA, BrowseComp+
+  signals: experience knowledge base, environment feedback
+
+[zhou-2026-agent-as-a-router] (2026, arXiv, rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C3,C5,C13)
+  title: Agent-as-a-Router: Agentic Model Routing for Coding Tasks
+  key_idea: Agentic router that learns from execution feedback.
+  cost: Augmenting a vanilla LLM router with dimension-level performance statistics yields 15.3% relative gain (abstract)
+  summary: Argues router bottlenecks come from information deficit and proposes a Context-Action-Feedback loop router (orchestrator, verifier, memory) that accumulates execution-grounded experience during deployment on coding tasks.
+  benchmarks: CodeRouterBench (~10K tasks), CodeRouterBench (~10K tasks, 8 frontier LLMs)
+  signals: task-dimension performance statistics, verifier, memory of execution feedback, execution feedback, memory
+
+[atalar-2025-sequential-bandits] (2025, arXiv, rel=5, gran=step, regime=bandit-online, prod=N, clusters=C3,C4,C5)
+  title: Neural Bandit Based Optimal LLM Selection for a Pipeline of Subtasks
+  key_idea: Online neural-bandit selection of LLMs per pipeline subtask.
+  summary: Addresses LLM selection for each subtask in a pipeline where upstream outputs affect downstream cost and success; proposes a neural contextual bandit (Sequential Bandits) with sublinear regret that needs no historical performance data.
+  benchmarks: two real datasets (e.g. diagnosis extraction pipeline)
+  signals: neural contextual bandit, subtask success, cost, subtask context, downstream success
+
+[li-2025-llm-bandit] (2025, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: LLM Bandit: Cost-Efficient LLM Generation via Preference-Conditioned Dynamic Routing
+  key_idea: Preference-conditioned bandit router generalizing to new models.
+  summary: Formulates LLM selection as a multi-armed bandit with preference-conditioned dynamic routing so users can set accuracy-cost preferences at inference time. The policy is designed to generalize to unseen LLMs.
+  signals: query embedding, user preference vector, model identity vectors, query features, user cost/performance preference, model identity features
+
+[nie-2025-foundation-model-programs] (2025, COLM 2025, rel=5, gran=step, regime=bandit-online, prod=N, clusters=C2,C3,C5)
+  title: Resource-efficient Inference with Foundation Model Programs
+  key_idea: Per-module backend selection in model programs, learned online.
+  cost: Up to 98% resource savings with minimal accuracy loss vs monolithic multimodal models
+  summary: Compiles a task into a program whose modules call foundation models, then learns an online policy that picks cheap or expensive backends per module per input.
+  benchmarks: two streaming VQA tasks
+  signals: per-module backend choice, ground-truth feedback stream
+
+[openai-2025-gpt5-system-card] (2025, OpenAI (system card), rel=5, gran=query, regime=hybrid, prod=Y, clusters=C1,C5,C9,C14)
+  title: GPT-5 System Card
+  key_idea: Production query-level router between fast and reasoning models trained on live user signals.
+  summary: Describes GPT-5 as a unified system with a fast model, a deeper reasoning model, and a real-time router that picks between them using conversation type, complexity, tool needs and explicit intent. The router is continuously trained on real signals such as user model switches, response preference rates and measured correctness, and mini models handle traffic once usage limits are hit.
+  signals: conversation type, complexity, tool needs, explicit user intent, user model switches, preference rates, measured correctness, explicit intent
+
+[panda-2025-pilot] (2025, EMNLP 2025 (Findings), rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C5)
+  title: Adaptive LLM Routing under Budget Constraints
+  key_idea: Preference-prior LinUCB with knapsack budget control.
+  summary: PILOT treats routing as a contextual bandit, initializing a shared query-model embedding space from offline human preference data and refining it online with LinUCB. An online cost policy based on a multi-choice knapsack enforces user budgets.
+  benchmarks: RouterBench-style routing benchmarks
+  signals: shared query-LLM embedding, offline human preference prior, LinUCB bandit feedback, budget knapsack, query embedding, LLM embedding, human preference prior, bandit reward, budget
+
+[wang-2025-mixllm] (2025, NAACL 2025, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: MixLLM: Dynamic Routing in Mixed Large Language Models
+  key_idea: Contextual-bandit router with continual learning and dynamic candidate pools.
+  cost: 97.25% of GPT-4's quality at 24.18% of the cost under the time constraint (abstract)
+  summary: MixLLM is a contextual-bandit routing system that augments query embeddings with tags, predicts quality and cost per candidate, and uses a meta-decision maker trading off quality, cost and latency. It supports continual training from feedback and changes in the candidate set.
+  benchmarks: routing benchmark with mixed LLMs
+  signals: query embedding with tags, predicted quality, predicted cost, latency, user feedback, tag-enhanced query embedding
+
+[wei-2025-barp] (2025, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C6)
+  title: Learning to Route LLMs from Bandit Feedback: One Policy, Many Trade-offs
+  key_idea: Train routers with bandit feedback and a preference-conditioned policy.
+  cost: Outperforms strong offline routers by at least 12.46% and the largest LLM by at least 2.45% (abstract)
+  summary: BaRP trains a router under the same partial-feedback restriction as deployment, where only the chosen model's outcome is observed, framed as a contextual bandit over prompt features and a preference vector. Operators can adjust the performance/cost trade-off at test time without retraining.
+  benchmarks: routing benchmarks (unseen tasks)
+  signals: prompt features, user preference vector, partial (bandit) feedback, bandit reward
+
+[dai-2024-c2mab-v] (2024, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Cost-Effective Online Multi-LLM Selection with Versatile Reward Models
+  key_idea: Combinatorial bandit selection of LLM subsets under cost.
+  summary: C2MAB-V is a cost-aware combinatorial multi-armed bandit for selecting multiple LLMs per query across collaborative task types with different reward models. It uses online feedback and confidence bounds to balance exploration, exploitation and cost.
+  benchmarks: three application scenarios with nine LLMs
+  signals: combinatorial bandit rewards, cost, reward models per task type, task reward, LLM price, combinatorial selection
+
+[nguyen-2024-metallm] (2024, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: MetaLLM: A High-performant and Cost-efficient Dynamic Framework for Wrapping LLMs
+  key_idea: Bandit formulation of cost-aware LLM wrapping.
+  summary: MetaLLM frames per-query LLM selection for classification and multiple-choice QA as a multi-armed bandit balancing accuracy and cost. Experiments on OpenAI, Together AI and open-source models show improved accuracy-cost trade-offs.
+  benchmarks: classification and multiple-choice QA tasks
+  signals: query embedding, bandit reward (accuracy minus cost), task reward, API cost
+
+[nie-2024-online-cascade-learning] (2024, ICML 2024, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C8)
+  title: Online Cascade Learning for Efficient Inference over Streams
+  key_idea: Cascade learned online by imitating LLM demonstrations.
+  cost: Parallels LLM accuracy while cutting inference costs by as much as 90% across four benchmarks
+  summary: Learns a cascade online from a stream, from logistic regression up to an LLM, treating it as imitation learning where small models imitate LLM outputs over time. Provides a no-regret algorithm and robustness to distribution shift.
+  benchmarks: four stream benchmarks, four stream-processing text benchmarks
+  signals: deferral policy, LLM demonstrations, deferral policy confidence
+
+[bae-2026-contextual-queueing-bandits] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C11)
+  title: Learning to Route and Schedule LLMs from User Retrials via Contextual Queueing Bandits
+  key_idea: Treat user retrials as free implicit feedback to learn query-to-LLM routing online under queueing dynamics.
+  summary: Formulates joint LLM routing and request scheduling as a contextual queueing bandit in which an unsatisfied user retrying a query serves as implicit negative feedback, avoiding explicit ratings. A Thompson-sampling algorithm with decaying forced exploration achieves sublinear routing regret while keeping queues stable, and is evaluated on offline routing datasets and real WildChat conversation logs.
+  benchmarks: SPROUT, EmbedLLM, RouterBench, WildChat-1M
+  signals: query embedding, user retrials (implicit feedback), queue state
+
+[chen-2026-da-grpo-cloud-offloading] (2026, arXiv, rel=4, gran=step, regime=RL-online, prod=N, clusters=C3,C5,C8)
+  title: Joint Continual Learning of Local Language Models and Cloud Offloading Decisions with Budget Constraints
+  key_idea: Budget-constrained RL teaches a local model when to offload to the cloud.
+  summary: DA-GRPO lets a local SLM jointly learn task skill and when to request cloud LLM help during continual learning, building a cloud-usage budget directly into GRPO advantages. It reduces forgetting and keeps cloud usage stable.
+  benchmarks: math reasoning, code generation
+  signals: cloud-usage budget in advantage
+
+[chu-2026-lqm-contextroute] (2026, arXiv, rel=4, gran=step, regime=bandit-online, prod=N, clusters=C3,C5)
+  title: Latency-Quality Routing for Functionally Equivalent Tools in LLM Agents
+  key_idea: Online bandit routing among equivalent tool/LLM providers.
+  cost: +2.18 pp F1 over SW-UCB on web-search load benchmark; up to +18 pp accuracy over SW-UCB on StrategyQA high-heterogeneity setting
+  summary: LQM-ContextRoute is a contextual-bandit router that picks among functionally equivalent tool providers (search APIs, retrievers, LLM backends) under runtime load. It ranks providers by expected quality per service cycle, avoiding the collapse that additive latency-quality rewards cause, and learns online from judge feedback.
+  benchmarks: web search load benchmark, StrategyQA, retriever pools
+  signals: latency, LLM-as-judge feedback, query-specific quality estimate
+
+[duy-2026-online-l2d-varying-experts] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5)
+  title: Online Learning-to-Defer with Varying Experts
+  key_idea: Learning-to-defer under bandit feedback with a time-varying expert pool.
+  summary: Introduces an online multiclass learning-to-defer algorithm for streaming data where the pool of experts changes and feedback is observed only for the chosen action. Gives regret bounds for true deferral loss that scale with the number of models and experts.
+  signals: model score, queried-action bandit feedback
+
+[gravara-2026-compass] (2026, IEEE CLUSTER 2026, rel=4, gran=step, regime=hybrid, prod=N, clusters=C4,C5,C11)
+  title: Compass: Optimizing Compound AI Workflows for Dynamic Adaptation
+  key_idea: Offline Pareto config discovery plus online load-aware configuration switching.
+  cost: COMPASS-V reduces configuration evaluations by 57.5% on average vs exhaustive search (up to 95.3%); runtime adaptation achieves 90-98% SLO compliance, +71.6% over static high-accuracy baselines
+  summary: Compass discovers multiple accuracy-feasible Pareto configurations of a compound AI workflow offline and switches between them at runtime based on load, using a queuing-theory planner and a queue-depth-driven controller.
+  signals: queue depth, profiled latency, accuracy threshold
+
+[guan-2026-symphony-coord] (2026, arXiv, rel=4, gran=subagent, regime=bandit-online, prod=N, clusters=C3,C5)
+  title: Symphony-Coord: Adaptive Routing for Multi-Agent LLM Systems
+  key_idea: Contextual-bandit routing of subtasks to agents.
+  summary: Symphony-Coord casts agent selection for subtasks as an online contextual bandit, with a candidate-screening step and a LinUCB selector updated by delayed post-execution feedback, and proves sublinear regret. It improves routing efficiency and recovery under shifts and agent failures.
+  benchmarks: simulation, LLM benchmarks
+  signals: task features, agent state, delayed feedback
+
+[he-2026-market-aware-routing] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=Y, clusters=C1,C5,C14)
+  title: You Cannot Pick a Provider From the Price List: Market-Aware Routing for Open-Weight LLM Inference
+  key_idea: Same-model provider routing with online feasibility certification under drifting provider quality.
+  cost: Certification moved live traffic from a premium anchor provider to a substantially cheaper certified endpoint (matched quality)
+  summary: Measures live inference endpoints across providers serving the same open-weight models over several waves and finds that quality, latency and availability vary widely and are not predicted by price, and that the map drifts over time. Proposes FACET, an online provider router that certifies per-provider, per-task feasibility and fails safe to an anchor provider.
+  signals: measured provider quality, latency, availability, price
+
+[hong-2026-maspob] (2026, arXiv, rel=4, gran=subagent, regime=bandit-online, prod=N, clusters=C4,C5)
+  title: MASPOB: Bandit-Based Prompt Optimization for Multi-Agent Systems with Graph Neural Networks
+  key_idea: Sample-efficient bandit optimization of per-agent prompts in a multi-agent system.
+  summary: Optimizes the prompts of a fixed multi-agent workflow under a tight evaluation budget by treating the problem as a bandit with UCB exploration, a graph neural network to capture coupling induced by topology, and coordinate ascent to make the search linear rather than exponential.
+  signals: UCB uncertainty, GNN topology embedding
+
+[huang-2026-uniscale] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C9)
+  title: UniScale: Adaptive Unified Inference Scaling via Online Joint Optimization of Model Routing and Test-Time Scaling
+  key_idea: Learn routing and test-time compute jointly online with a LinUCB contextual bandit.
+  summary: Unifies model routing and test-time-scaling choices into a single action space and learns the joint policy online as a contextual bandit with LinUCB plus explicit cost modeling. Reports better quality-cost trade-offs than routing-only or TTS-only baselines in dynamic inference settings.
+  signals: query features, cost model, reward feedback
+
+[lai-2026-routejudge] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C5,C13)
+  title: RouteJudge: An Open Platform for Reproducible and Preference-Aware LLM Routing
+  key_idea: Arena-style live preference evaluation at the router level rather than the model level.
+  summary: An online platform where several routing strategies each pick a model for the same query, and anonymous pairwise user preferences between the resulting responses are attributed back to the routers. Logs query, decisions, responses, preferences, cost and latency, and ships ORBIT, a toolbox for implementing and submitting routers.
+  signals: anonymous pairwise user preferences, cost, latency
+
+[lee-2026-drift-aware-routing] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Drift-Aware LLM Routing with Sparse Contexts and Shared Budgets
+  key_idea: Sparse, drift-aware contextual bandit routing with shared budgets and audit sampling.
+  summary: Formulates non-stationary budgeted routing with high-dimensional sparse contexts and drift in both request mix and model frontier; the algorithm uses a rolling audit window, pessimistic reward/optimistic cost estimates and online shadow prices, with regret bounds under bounded drift.
+  signals: sparse prompt embedding directions, audit labels, resource shadow prices
+
+[levit-2026-proxydrift] (2026, arXiv, rel=4, gran=n/a, regime=n/a, prod=Y, clusters=C5,C6,C14)
+  title: Privacy-Preserving Data Drift Detection and Recovery for Large-Scale LLM Applications via Proxy Representations
+  key_idea: Privacy-preserving drift monitoring and eval-set refresh from proxy representations of production traffic.
+  summary: Presents ProxyDrift, which measures drift between production traffic and offline evaluation sets using non-PII proxy descriptors produced by LLM classification of interactions, and refreshes evaluation sets with synthetic queries generated to match. Deployed for an application serving hundreds of millions of users, it also links proxy distributions to user satisfaction.
+  signals: LLM-derived proxy descriptors, user satisfaction linkage
+
+[moslem-2026-routing-cascading-survey] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C2,C5,C15)
+  title: Dynamic Model Routing and Cascading for Efficient LLM Inference: A Survey
+  key_idea: Most up-to-date taxonomy of routing and cascading.
+  summary: Systematic survey of multi-LLM routing and cascading across independently trained models, organized by paradigm (difficulty, preferences, clustering, uncertainty, RL, multimodality, cascading). Adds a conceptual framework for characterizing routing systems and discusses trade-offs.
+
+[raj-2026-trace-router] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C3,C5)
+  title: TRACE-ROUTER: Task-Consistent and Adaptive Online Routing for Agentic AI
+  key_idea: Task-level bandit routing aligned with delayed agent rewards.
+  cost: On tau2-Bench beats latency-matched interpolation between models by 7-8 accuracy points; non-dominated Pareto points on three agentic benchmarks
+  summary: TRACE-Router argues per-call routers cannot attribute delayed task rewards, so it assigns each agentic task to a model once at admission with a contextual bandit, pins all calls to it and learns from terminal reward and latency.
+  benchmarks: tau2-Bench, Terminal-Bench, third agentic benchmark
+  signals: terminal task reward, latency
+
+[tsai-2026-neuralucb-routing] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Reward-Based Online LLM Routing via NeuralUCB
+  key_idea: NeuralUCB applied to cost-aware LLM routing.
+  cost: substantially lower inference cost than max-quality reference with competitive reward (RouterBench, simulated online)
+  summary: Implements NeuralUCB for cost-aware routing and evaluates it in a simulated online setting on RouterBench, beating random and min-cost baselines on utility.
+  benchmarks: RouterBench
+  signals: query embedding, utility reward (quality minus cost)
+
+[wei-2026-llm-experts-limited-feedback] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C5)
+  title: Online Learning with LLM Experts from Limited Feedback
+  key_idea: Bandit routing with a feedback (labeling) budget.
+  summary: Online routing of prompts to LLM experts when only m << T feedback observations are allowed; gives regret bounds for full-information and bandit settings and learns strong policies from limited feedback.
+  benchmarks: diverse LLMs
+  signals: prompt features, feedback budget
+
+[zeng-2026-metarouter] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Learning to Route LLMs from Implicit Cost-Performance Preferences via Meta-Learning
+  key_idea: Meta-learned bandit router for per-user preferences.
+  summary: MetaRouter learns each user's implicit cost-performance preference from a few interactions by treating preference profiles as tasks in a meta-learned contextual bandit.
+  benchmarks: ID and OOD tasks
+  signals: implicit user cost-performance preference
+
+[zhang-2026-m-cmab] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C5,C11)
+  title: Adapter-Augmented Bandits for Online Multi-Constrained Multi-Modal Inference Scheduling
+  key_idea: Online constrained bandit routing across backends with time-varying costs and multiple budgets.
+  cost: Up to 14.18% higher reward than state-of-the-art baselines across budget regimes on a composite multimodal benchmark
+  summary: Schedules multimodal LLM requests across heterogeneous backends whose costs vary over time, using an adapter-based reward predictor, a primal-dual constraint handler for multiple long-horizon budgets, and a two-phase explore-exploit scheduler. Provides regret bounds under multi-dimensional knapsack constraints.
+  signals: task representation, backend cost, budget consumption
+
+[ziller-2026-greenserv] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: GreenServ: Energy-Efficient Context-Aware Dynamic Routing for Multi-Model LLM Inference
+  key_idea: Contextual bandit routing that optimizes accuracy against energy and onboards new models online.
+  cost: Compared with random routing, 22% higher accuracy with 31% lower cumulative energy across five tasks and 16 open LLMs; 71.7% average accuracy on RouterBench
+  summary: Routes each query among 16 open LLMs with a contextual multi-armed bandit that uses lightweight query features and learns online from partial feedback on accuracy and energy. It needs no offline calibration and new models can be added without retraining.
+  benchmarks: RouterBench
+  signals: task type, semantic cluster, text complexity, observed accuracy, energy
+
+[zu-2026-barouter] (2026, The Web Conference (WWW) 2026, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: BARouter: A Budget-adaptive Online Large Language Model Router Framework
+  key_idea: Budget-adaptive online routing with regret guarantees under shifting query distributions.
+  summary: An online router for LLM serving that adjusts its policy per query from estimated quality, query cost and live budget consumption, so it adapts to different initial budgets and shifting query distributions without manual tuning. Proves sublinear regret and reports outperforming baselines across budget levels.
+  signals: estimated response quality, query cost, real-time budget consumption
+
+[chen-2025-concur] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C4,C5,C9)
+  title: CONCUR: A Framework for Continual Constrained and Unconstrained Routing
+  key_idea: Modular continual routing over strategies.
+  summary: CONCUR routes tasks to computation strategies (model plus decoding method) with separate per-strategy predictors, supporting budgeted and unbudgeted routing and continual addition of strategies.
+  benchmarks: knowledge- and reasoning-intensive tasks (ID and OOD)
+  signals: per-strategy predictors, multiple task representations, task representations, strategy representations, budget
+
+[chen-2025-netgpt-routing-synergy] (2025, arXiv, rel=4, gran=step, regime=hybrid, prod=N, clusters=C3,C5,C8)
+  title: Optimizing NetGPT via Routing-Based Synergy and Reinforcement Learning
+  key_idea: Edge/cloud routing of tool calls with self-improvement of the small edge agent from cloud traces.
+  summary: For edge-deployed network agents, structured tool-calling requests are routed to a cloud or edge agent by a scoring policy that provably reduces to a monotone fallback threshold in bandwidth and RTT. Cloud-routed data is then used for schema-preserving RL to improve the edge agent over time.
+  signals: bandwidth, RTT, scoring policy
+
+[chiang-2025-dueling-routing] (2025, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: LLM Routing with Dueling Feedback
+  key_idea: Contextual dueling bandits for preference-feedback routing.
+  summary: Formulates routing as contextual dueling bandits learning from pairwise preferences, with model embeddings derived by category-calibrated contrastive fine-tuning and Feel-Good Thompson Sampling. Achieves lower regret and better cost-performance balance.
+  benchmarks: RouterBench, MixInstruct
+  signals: pairwise preference feedback, category-calibrated model embeddings, model embeddings
+
+[guan-2025-dynamic-speculative-planning] (2025, arXiv, rel=4, gran=step, regime=RL-online, prod=N, clusters=C3,C5,C11)
+  title: Dynamic Speculative Agent Planning
+  key_idea: Online RL tunes speculative planning with a cheap drafter to balance latency and cost.
+  cost: Comparable efficiency to fastest lossless acceleration while reducing total cost by 30% and unnecessary cost by up to 60%
+  summary: Dynamic Speculative Planning uses a cheaper model to draft agent plans speculatively and an online, asynchronous RL policy to decide how far to speculate, with a single knob trading latency against dollar cost. It keeps outputs lossless while cutting cost relative to prior speculative agents.
+  benchmarks: two standard agent benchmarks
+  signals: latency, dollar cost
+
+[jitkrittum-2025-unirouter] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C5,C6,C15)
+  title: Universal Model Routing for Efficient LLM Inference
+  key_idea: Represent LLMs by prediction profiles on anchor prompts to route among unseen models.
+  summary: UniRoute (Google) handles dynamic routing where new LLMs appear at test time by representing each model as a vector of its errors on a small representative prompt set. Cluster-based and learned-cluster-map instantiations are shown to estimate a theoretically optimal rule, with an excess-risk bound.
+  benchmarks: public benchmarks (30+ unseen LLMs), public benchmarks with 30+ unseen LLMs
+  signals: model feature vector from predictions on representative prompts, prompt clusters, LLM feature vector from representative prompts, clusters
+
+[lee-2025-online-conformal-abstention] (2025, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C7)
+  title: Online Conformal Abstention for Factuality Control Under Adversarial Bandit Feedback
+  key_idea: Online risk-controlled answer/abstain gating learned from partial user feedback with FDR guarantees.
+  summary: Proposes ExAUL, an online conformal abstention method that controls false discovery rate when the deployed system only receives partial (thumbs-style) feedback on answered queries, possibly from a non-stationary or adversarial stream. A conversion lemma turns bandit regret into an FDR bound, and a feedback-unlocking trick extracts extra signal from the abstention structure.
+  signals: thumbs up/down partial feedback, confidence score
+
+[li-2025-stageroute] (2025, ICLR 2026, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C5,C11)
+  title: Near-Optimal Online Deployment and Routing for Streaming LLMs
+  key_idea: Hierarchical bandit for model deployment plus per-query routing.
+  summary: StageRoute jointly decides which LLMs to deploy at maintenance windows and how to route each query among live models under budget and throughput constraints, with a near-optimal T^(2/3) regret.
+  benchmarks: diverse workloads
+  signals: reward UCB, cost LCB, concurrency cap
+
+[poon-2025-online-multi-llm-context-evolution] (2025, AAAI 2026, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Online Multi-LLM Selection via Contextual Bandits under Unstructured Context Evolution
+  key_idea: LinUCB for multi-turn LLM selection under evolving context.
+  summary: Studies sequential LLM selection across multi-step query refinement, where the prompt changes in response to earlier outputs. A LinUCB-based algorithm with myopic regret guarantees, plus budget-aware and position-aware variants, needs no offline data.
+  benchmarks: diverse benchmarks
+  signals: evolving prompt context, budget, position
+
+[woisetschlager-2025-mess-plus] (2025, NeurIPS 2025, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C15)
+  title: MESS+: Dynamically Learned Inference-Time LLM Routing in Model Zoos with Service Level Guarantees
+  key_idea: Lyapunov-style virtual queues for SLA-guaranteed cost-optimal routing.
+  cost: Average 2x cost savings vs existing LLM routing techniques (abstract)
+  summary: MESS+ is a stochastic-optimization router for model zoos that learns satisfaction probabilities online and solves per-request optimization with virtual queues to meet SLA quality guarantees while minimizing cost. Includes theory on cost optimality and constraint satisfaction.
+  benchmarks: LLM benchmarks
+  signals: learned request satisfaction probability, virtual queues, SLA constraint
+
+[wu-2025-inter-cascade] (2025, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C8,C10)
+  title: From Deferral to Learning: Online In-Context Knowledge Distillation for LLM Cascades
+  key_idea: Strong model acts as an in-context teacher; stored strategies reduce future deferrals.
+  cost: Up to 33.06% weak-model and 6.35% system accuracy gain; up to 48.05% fewer strong-model calls and up to 49.63% fee savings vs standard cascades
+  summary: When the strong model resolves a deferred query, it also writes a reusable strategy that is stored and retrieved for similar future queries to help the weak model. The cascade thus learns online without fine-tuning.
+  benchmarks: multiple reasoning benchmarks
+  signals: weak-model confidence, similarity retrieval of stored strategies, deferral, strategy retrieval, retrieved strategies
+
+[wu-2025-training-free-online-routing] (2025, NeurIPS 2025, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C5,C15)
+  title: Efficient Training-Free Online Routing for High-Volume Multi-LLM Serving
+  key_idea: Online budgeted routing with competitive-ratio guarantees.
+  cost: Average 3.55x improvement in overall performance, 1.85x in cost efficiency and ~4.25x throughput vs 8 baselines (abstract)
+  summary: Presents the first training-free algorithm for online routing under high query volume and token budgets, estimating query features via ANN search and solving a one-time optimization on initial queries. Provides a 1-o(1) competitive ratio guarantee.
+  benchmarks: 3 benchmark datasets
+  signals: approximate nearest neighbor features, one-time LP on initial queries, token budget
+
+[xu-2025-boad] (2025, arXiv, rel=4, gran=subagent, regime=bandit-online, prod=N, clusters=C3,C4,C5)
+  title: BOAD: Discovering Hierarchical Software Engineering Agents via Bandit Optimization
+  key_idea: Multi-armed bandit search over sub-agent designs for hierarchical agents.
+  summary: Discovers a hierarchical SWE agent by treating candidate sub-agents as bandit arms whose reward is their helpfulness when collaborating, allowing efficient exploration under limited evaluation budgets. The discovered 36B system ranked second on SWE-bench Live at evaluation time.
+  benchmarks: SWE-bench Verified, SWE-bench Live
+  signals: sub-agent helpfulness reward
+
+[chiang-2024-chatbot-arena] (2024, arXiv, rel=4, gran=n/a, regime=n/a, prod=Y, clusters=C5,C6,C13)
+  title: Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference
+  key_idea: Live crowdsourced pairwise preference collection for LLM ranking.
+  summary: Describes the Chatbot Arena platform, which collects crowdsourced pairwise votes between LLMs on real user prompts (over 240K votes at time of writing) and ranks models with Bradley-Terry style statistics.
+  benchmarks: Chatbot Arena
+  signals: pairwise human votes
+
+[notdiamond-2024-reduce-own-inference-costs] (2024, Not Diamond blog, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C5,C14)
+  title: Using Not Diamond to reduce Not Diamond's inference costs by 51% (with one line of code)
+  key_idea: A single cost-quality tradeoff knob on a learned router halved production inference cost with small engagement impact.
+  cost: Enabling the cost-tradeoff parameter on Not Diamond's consumer chatbot cut inference cost 51% on average (~$750,000 annualised); power-user median messages fell from 5 to 4/day while week-over-week message growth was 43% vs 16% the prior week (vendor-reported, before/after on live traffic)
+  summary: Not Diamond reports switching its own consumer chatbot's router from quality-maximising to a cost-tradeoff setting and compares cost and engagement metrics before and after the change on live traffic. Costs roughly halved with a small drop in power-user messaging.
+  benchmarks: live chatbot traffic before/after
+  signals: prompt, user preference feedback, cost tradeoff parameter
+
+[xia-2024-which-llm-to-play] (2024, WWW 2024, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C5)
+  title: Which LLM to Play? Convergence-Aware Online Model Selection with Time-Increasing Bandits
+  key_idea: Increasing-then-converging bandit for choosing between costly API LLM and improving local model.
+  summary: Studies online model selection when candidate models improve over time (e.g. a small model being fine-tuned), using a time-increasing bandit (TI-UCB) with change detection for convergence. Proves logarithmic regret and tests on classification and LLM selection.
+  benchmarks: classification model selection, online LLM selection
+  signals: task reward, fine-tuning progress
+
+[zhang-2024-treacle] (2024, arXiv, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C1,C2,C5,C6)
+  title: Efficient Contextual LLM Cascades through Budget-Constrained Policy Learning
+  key_idea: Budget-constrained RL policy over (model, prompt) choices with re-query ability.
+  cost: Cost savings of up to 85% compared to baselines while maintaining high accuracy
+  summary: TREACLE is an RL policy that jointly picks the model and prompt scheme for each question under long-run monetary and latency budgets. It uses question embeddings and the consistency of previous responses as state.
+  benchmarks: GSM8K, CSQA, LLC
+  signals: question embedding, response history consistency, budget and latency, budget
+
+[zhao-2024-eagle] (2024, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C5)
+  title: Eagle: Efficient Training-Free Router for Multi-LLM Inference
+  key_idea: Training-free ELO-based routing with fast online updates.
+  cost: Up to 23.52% AUC improvement; 1/20 of baseline initialization time and 100-200x faster incremental updates (abstract)
+  summary: Eagle is a training-free router combining global ELO rankings with local ELO computed over similar past queries. It improves routing AUC and supports very fast incremental updates for high-volume online serving.
+  benchmarks: RouterBench, RouterBench-style datasets
+  signals: global and local ELO ratings, query embedding neighbors, global ELO, local ELO over similar queries, pairwise feedback
+
+[ramirez-2023-cache-and-distil] (2023, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C8,C10)
+  title: Cache & Distil: Optimising API Calls to Large Language Models
+  key_idea: Online student distillation with active-learning deferral.
+  summary: Neural caching: a student model is continuously trained on LLM responses and a policy decides which requests the student handles alone. Margin sampling and query-by-committee policies work best.
+  benchmarks: classification tasks
+  signals: active-learning criteria (margin sampling, query by committee), active learning criteria (margin, QBC)
+
+[stogiannidis-2023-cache-me-if-you-can] (2023, Conference on Empirical Methods in Natural Language Processing, rel=4, gran=query, regime=hybrid, prod=N, clusters=C5,C8,C10)
+  title: Cache me if you Can: an Online Cost-aware Teacher-Student framework to Reduce the Calls to Large Language Models
+  key_idea: Distill an LLM into a cheap student online from live calls and route to the student when it is confident.
+  cost: Reports significant operating-expense savings with only slightly lower performance on intent recognition and sentiment analysis (GPT-3.5/GPT-4 teachers)
+  summary: Proposes an online teacher-student framework in which a cheap local model is trained on LLM responses as they arrive and gradually answers more queries itself, calling the LLM only when needed. Gives a method to tune the call criteria and measure the cost-performance trade-off on business classification tasks.
+  signals: student confidence, LLM teacher labels
+
+[openrouter-2025-auto-router] (None, OpenRouter docs, rel=4, gran=query, regime=bandit-online, prod=Y, clusters=C1,C5,C14)
+  title: Auto Router (Intelligent Model Selection)
+  key_idea: Route by aggregate market spend per task type.
+  summary: OpenRouter's free auto router classifies each prompt into about 30 task types, ranks models by what the OpenRouter community actually spends on for that task over the last seven days, applies the user's cost tier, and returns primary picks with fallbacks and session stickiness. The current docs describe this market-signal design and do not mention Not Diamond (earlier versions were reported as Not Diamond-powered, unverified here).
+  signals: task-type classifier (~30 types), community spend over trailing 7 days, cost tier
+
+[belloni-2026-online-pandoras-box-cascading] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C2,C5,C15)
+  title: Online Pandora's Box for Contextual LLM Cascading
+  key_idea: Weitzman-index cascading learned online with bandit feedback.
+
+[chen-2026-llm-mab-survey] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C5,C15)
+  title: A Component-Based Survey of Interactions between Large Language Models and Multi-Armed Bandits
+  key_idea: Component-level survey of LLM-bandit interactions.
+
+[cho-2026-querybandits] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C5,C7)
+  title: No One Size Fits All: QueryBandits for Hallucination Mitigation
+  key_idea: Contextual bandit choosing a prompt transformation per query online.
+  cost: Top QueryBandit (Thompson Sampling) achieves 87.5% win rate over No-Rewrite across 16 QA scenarios
+
+[dai-2026-policy-regret-embedding-routing] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C5,C15)
+  title: Policy Regret for Embedding Model Routing: Contextual Bandits with Low-Rank Experts
+  key_idea: Policy-regret theory for online model routing under bandit feedback with low-rank expert structure.
+
+[furman-2026-replit-closing-the-loop-evals] (2026, Replit blog, rel=3, gran=n/a, regime=hybrid, prod=Y, clusters=C5,C7,C13,C14)
+  title: Closing the loop: Evaluating and improving Replit Agent at scale
+  key_idea: Pair offline spec-grounded agent evals with live A/B tests and trace clustering to validate changes such as model swaps.
+
+[guo-2026-cascade-deployment-time-learning] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C5,C10)
+  title: CASCADE: Case-Based Continual Adaptation for Large Language Models During Deployment
+  key_idea: Frame experience reuse during deployment as a contextual bandit.
+
+[huang-2026-constrained-bandits-time-varying] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C5,C11)
+  title: Online LLM Selection via Constrained Bandits with Time-Varying Demand
+  key_idea: Constrained bandits with demand forecasts for LLM selection.
+
+[jain-2026-calm-slm-fleet] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C1,C3,C5)
+  title: CALM: A Self-Adaptive Orchestration Approach for QoS-Aware Routing in Small Language Model based Systems
+  key_idea: Self-adaptive orchestration of a fleet of SLMs.
+
+[juneja-2026-cost-ordered-feasibility] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C5,C15)
+  title: Cost-Ordered Feasibility for Multi-Armed Bandits with Cost Subsidy
+  key_idea: Bandit algorithm for picking the cheapest arm that is near-best in quality.
+
+[li-2026-same-model-not-same-service] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C5,C13,C14)
+  title: When Is the Same Model Not the Same Service? A Measurement Study of Hosted Open-Weight LLM APIs
+  key_idea: Hosted models are time-varying services; routing must track provider-level drift.
+  cost: In two counterfactuals, routing lowers Qwen3-32B cost by 37.8% and raises DeepSeek-V3.2 throughput ~90% relative to direct official access
+
+[lim-2026-lodestar] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C5,C11)
+  title: Lodestar: An Online-Learning LLM Inference Router
+  key_idea: Online-learned request-to-instance routing for LLM serving.
+  cost: 1.41x lower average TTFT and 1.47x lower P99 TTFT vs prefix-cache/load-aware heuristic (public cloud GPU cluster)
+
+[litellm-2026-auto-routing] (2026, LiteLLM documentation, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C10,C14)
+  title: [Beta] Auto Routing (LiteLLM proxy docs: complexity, semantic and adaptive routing)
+  key_idea: Open-source gateway combining tiered complexity classification with per-tier bandits and cache-preserving session pinning.
+
+[nguyen-2026-cupid-model-zoo] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: CUPID in the Model Zoo: Online Matchmaking for Selecting Your Dream LLM
+  key_idea: Dueling-bandit matchmaking that learns which LLM a user prefers from pairwise feedback under a budget.
+
+[tolochinsky-2026-valid-best-model-identification] (2026, arXiv, rel=3, gran=n/a, regime=bandit-online, prod=N, clusters=C5,C6,C13)
+  title: Valid Best-Model Identification for LLM Evaluation via Low-Rank Factorization
+  key_idea: Bandit best-model identification with doubly robust use of predicted scores.
+  cost: Reduces the number of required evaluations while still identifying the best model (qualitative)
+
+[wang-2026-amro-s-ant-colony-routing] (2026, arXiv, rel=3, gran=query, regime=hybrid, prod=N, clusters=C3,C5)
+  title: Efficient and Interpretable Multi-Agent LLM Routing via Ant Colony Optimization
+  key_idea: Ant-colony path selection over agents with asynchronous learning.
+  cost: Improves quality-cost trade-off over strong routing baselines (no single number in abstract)
+
+[wu-2026-assign-tasks-capacity] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C2,C5)
+  title: Learning to Assign Prediction Tasks to Agents with Capacity Constraints
+  key_idea: Contextual explore-exploit assignment of tasks to capacity-limited agents.
+
+[yu-2026-olivia] (2026, arXiv, rel=3, gran=step, regime=bandit-online, prod=N, clusters=C3,C5)
+  title: OLIVIA: Online Learning via Inference-time Action Adaptation for Decision Making in LLM ReAct Agents
+  key_idea: Online bandit layer over agent action selection learned during deployment.
+
+[elumar-2025-camvo] (2025, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Cost-aware LLM-based Online Dataset Annotation
+  key_idea: LinUCB subset selection for cheaper LLM ensembles.
+
+[fanconi-2025-cascaded-human-ai] (2025, arXiv, rel=3, gran=query, regime=hybrid, prod=N, clusters=C2,C5)
+  title: Cascaded Language Models for Cost-effective Human-AI Decision-Making
+  key_idea: Two-stage deferral plus abstention to humans with online threshold updates.
+  cost: Higher accuracy at reduced cost vs single-model baselines in most cases (no single number in abstract)
+
+[geuter-2025-robon] (2025, arXiv, rel=3, gran=token, regime=training-free, prod=N, clusters=C5,C7,C9)
+  title: RoBoN: Routed Online Best-of-n for Test-Time Scaling with Multiple LLMs
+  key_idea: Online routing within best-of-n across multiple LLMs.
+  cost: up to 3.4% absolute accuracy gain over single-model best-of-n at compute parity
+
+[han-2025-rluf] (2025, arXiv, rel=3, gran=n/a, regime=RL-offline, prod=Y, clusters=C5,C6,C14)
+  title: Reinforcement Learning from User Feedback
+  key_idea: Reward model trained on sparse binary production user reactions, validated by live A/B tests.
+  cost: 28% increase in Love Reactions in live A/B tests
+
+[jackson-2025-cursor-tab-online-rl] (2025, Cursor blog, rel=3, gran=query, regime=RL-online, prod=Y, clusters=C5,C7,C14)
+  title: Improving Cursor Tab with online RL
+  key_idea: Frequent on-policy deployment turns live user feedback into an RL signal that also learns when not to act.
+  cost: New Tab model makes 21% fewer suggestions with a 28% higher accept rate (production, >400M requests/day; vendor-reported)
+
+[wu-2025-bayesianrouter-reward-models] (2025, arXiv, rel=3, gran=query, regime=hybrid, prod=N, clusters=C5,C6)
+  title: Reward Model Routing in Alignment
+  key_idea: Offline-warm-started, online Thompson-sampling routing among reward models.
+
+[hu-2024-pak-ucb] (2024, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: PAK-UCB Contextual Bandit: An Online Learning Approach to Prompt-Aware Selection of Generative Models and LLMs
+  key_idea: Prompt-aware kernel UCB for per-prompt generative model selection.
+
+[shi-2024-triple-bai-prompt] (2024, arXiv, rel=3, gran=none, regime=bandit-online, prod=N, clusters=C4,C5)
+  title: Efficient Prompt Optimization Through the Lens of Best Arm Identification
+  key_idea: Prompt selection as fixed-budget best arm identification.
+
+[shi-2024-wildfeedback] (2024, ACL 2026, rel=3, gran=n/a, regime=supervised-offline, prod=Y, clusters=C5,C6)
+  title: WildFeedback: Aligning LLMs With In-situ User Interactions And Feedback
+  key_idea: Implicit feedback in real chat logs as preference labels.
+
+[sikeridis-2024-pickllm] (2024, Workshop on Scalable and Efficient AI (per arXiv comments), rel=3, gran=query, regime=RL-online, prod=N, clusters=C1,C5)
+  title: PickLLM: Context-Aware RL-Assisted Large Language Model Routing
+  key_idea: Session-level RL router with customizable reward.
+
+[chen-2023-chatgpt-behavior-over-time] (2023, Special Issue 5: Grappling With the Generative AI Revolution, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C5,C13)
+  title: How is ChatGPT's behavior changing over time?
+  key_idea: The same API model can change substantially over months.
+
+[ma-2023-prompt-getting-worse] (2023, 2024 IEEE/ACM 3rd International Conference on AI Engineering – Software Engineering for AI (CAIN), rel=3, gran=n/a, regime=n/a, prod=N, clusters=C5,C13)
+  title: (Why) Is My Prompt Getting Worse? Rethinking Regression Testing for Evolving LLM APIs
+  key_idea: LLM API updates silently regress downstream behavior, requiring dedicated regression testing.
+
+[zheng-2023-mt-bench] (2023, NeurIPS 2023 (Datasets and Benchmarks), rel=3, gran=n/a, regime=n/a, prod=N, clusters=C5,C7,C13)
+  title: Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena
+  key_idea: LLM-as-a-judge validated against crowdsourced preferences.
+
+[chen-2026-olp-routing-serving] (2026, arXiv, rel=2, gran=none, regime=bandit-online, prod=N, clusters=C5,C11)
+  title: Online Linear Programming for Multi-Objective Routing in LLM Serving
+  key_idea: Online LP bid-price control for LLM request dispatch.
+
+[li-2026-polar] (2026, arXiv, rel=2, gran=query, regime=bandit-online, prod=N, clusters=C5,C11)
+  title: POLAR: Online Learning for LoRA Adapter Caching and Routing in Edge LLM Serving
+  key_idea: Bandit routing plus caching of LoRA adapters.
+
+[together-2026-ab-test-models-in-production] (2026, Together AI blog, rel=2, gran=query, regime=bandit-online, prod=N, clusters=C5,C14)
+  title: A/B test models in production
+  key_idea: Serving-layer traffic splitting for evaluating cheaper candidate models on real users.
+
+[zhang-2026-cclub-prompt-routing] (2026, arXiv, rel=2, gran=query, regime=bandit-online, prod=N, clusters=C5)
+  title: Steering Frozen LLMs: Adaptive Social Alignment via Online Prompt Routing
+  key_idea: Clustered LinUCB routing across system prompts.
+
+[together-2025-atlas-adaptive-speculator] (2025, Together AI blog, rel=2, gran=token, regime=hybrid, prod=N, clusters=C5,C11)
+  title: AdapTive-LeArning Speculator System (ATLAS): A New Paradigm in LLM Inference via Runtime-Learning Accelerators
+  key_idea: Speculative-decoding drafters that adapt online to the serving workload.
+  cost: Up to 500 TPS on DeepSeek-V3.1 and 460 TPS on Kimi-K2 when fully adapted, 2.65x faster than standard decoding; RL rollouts: acceptance rate rose from <10% to >80% over 1.4k steps (vendor-reported)
+
+[hu-2024-mab-generative-eval] (2024, arXiv, rel=2, gran=none, regime=bandit-online, prod=N, clusters=C5,C13)
+  title: A Multi-Armed Bandit Approach to Online Selection and Evaluation of Generative Models
+  key_idea: UCB bandits to pick the best generative model with minimal samples.
+
+[nguyen-2024-laser] (2024, arXiv, rel=2, gran=none, regime=bandit-online, prod=N, clusters=C5,C7)
+  title: LASeR: Learning to Adaptively Select Reward Models with Multi-Armed Bandits
+  key_idea: Bandit selection among reward models.
+  cost: about 2x speedup vs RM ensemble
+
+[boubdir-2023-elo-uncovered] (2023, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C5,C13)
+  title: Elo Uncovered: Robustness and Best Practices in Language Model Evaluation
+  key_idea: Elo-based LLM evaluation is volatile; best practices.
+
+[gao-2023-continual-qa-feedback] (2023, EMNLP 2023, rel=2, gran=n/a, regime=bandit-online, prod=Y, clusters=C5)
+  title: Continually Improving Extractive QA via Human Feedback
+  key_idea: Continual improvement from real deployed-user feedback.
+
+[lin-2023-instinct] (2023, ICML 2024, rel=2, gran=none, regime=bandit-online, prod=N, clusters=C4,C5)
+  title: Use Your INSTINCT: INSTruction optimization for LLMs usIng Neural bandits Coupled with Transformers
+  key_idea: Neural-bandit instruction optimization.
+
+[gao-2022-bandit-user-feedback-qa] (2022, ACL 2022, rel=2, gran=n/a, regime=bandit-online, prod=N, clusters=C5)
+  title: Simulating Bandit Learning from User Feedback for Extractive Question Answering
+  key_idea: Bandit learning from simulated user feedback in QA.
+
+[liu-2022-nonstationary-bwk] (2022, arXiv, rel=2, gran=n/a, regime=bandit-online, prod=N, clusters=C5)
+  title: Non-stationary Bandits with Knapsacks
+  key_idea: Non-stationary BwK.
+
+[xu-2022-learning-after-deployment] (2022, arXiv, rel=2, gran=n/a, regime=hybrid, prod=Y, clusters=C5,C6)
+  title: Learning New Skills after Deployment: Improving open-domain internet-driven dialogue with human feedback
+  key_idea: Which feedback types and algorithms work for post-deployment improvement.
+
+[gibbs-2021-adaptive-conformal] (2021, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C5,C7)
+  title: Adaptive Conformal Inference Under Distribution Shift
+  key_idea: Online conformal calibration under drift.
+
+[zhang-2020-neural-thompson] (2020, ICLR 2021, rel=2, gran=n/a, regime=bandit-online, prod=N, clusters=C5)
+  title: Neural Thompson Sampling
+  key_idea: Neural Thompson sampling.
+
+[zhou-2019-neuralucb] (2019, ICML 2020, rel=2, gran=n/a, regime=bandit-online, prod=N, clusters=C5)
+  title: Neural Contextual Bandits with UCB-based Exploration
+  key_idea: Neural contextual bandits with UCB.
+
+[gilotte-2018-offline-ab] (2018, arXiv, rel=2, gran=n/a, regime=n/a, prod=Y, clusters=C5,C6)
+  title: Offline A/B Testing for Recommender Systems
+  key_idea: Offline A/B testing validated against online A/B tests.
+
+[russo-2017-thompson-tutorial] (2017, Foundations and Trends in ML 2018, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C5,C15)
+  title: A Tutorial on Thompson Sampling
+  key_idea: Thompson sampling tutorial.
+
+[agrawal-2015-linear-cbwk] (2015, arXiv, rel=2, gran=n/a, regime=bandit-online, prod=N, clusters=C5)
+  title: Linear Contextual Bandits with Knapsacks
+  key_idea: Linear contextual BwK.
+
+[badanidiyuru-2014-resourceful-cb] (2014, COLT 2014, rel=2, gran=n/a, regime=bandit-online, prod=N, clusters=C5)
+  title: Resourceful Contextual Bandits
+  key_idea: Contextual bandits with resource constraints.
+
+[badanidiyuru-2013-bwk] (2013, FOCS 2013, rel=2, gran=n/a, regime=bandit-online, prod=N, clusters=C5)
+  title: Bandits with Knapsacks
+  key_idea: Bandits under budget constraints.
+
+[kohavi-2013-online-experiments] (2013, KDD 2013, rel=2, gran=n/a, regime=n/a, prod=Y, clusters=C5,C14)
+  title: Online controlled experiments at large scale
+  key_idea: A/B testing practice at scale.
+
+[chapelle-2012-interleaving] (2012, ACM Transactions on Information Systems, rel=2, gran=n/a, regime=n/a, prod=Y, clusters=C5,C13)
+  title: Large-scale validation and analysis of interleaved search evaluation
+  key_idea: Interleaving as sensitive online comparison from implicit feedback.
+
+[agrawal-2011-thompson-analysis] (2011, arXiv, rel=2, gran=n/a, regime=bandit-online, prod=N, clusters=C5)
+  title: Analysis of Thompson Sampling for the multi-armed bandit problem
+  key_idea: Regret guarantees for Thompson sampling.
+
+[li-2010-linucb] (2010, WWW 2010, rel=2, gran=n/a, regime=bandit-online, prod=Y, clusters=C5)
+  title: A contextual-bandit approach to personalized news article recommendation
+  key_idea: LinUCB contextual bandit.
+
+[li-2010-unbiased-offline-eval] (2010, WSDM 2011, rel=2, gran=n/a, regime=n/a, prod=Y, clusters=C5,C6)
+  title: Unbiased Offline Evaluation of Contextual-bandit-based News Article Recommendation Algorithms
+  key_idea: Replay evaluation of bandit policies from logs.
+

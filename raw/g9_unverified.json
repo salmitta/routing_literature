@@ -1,0 +1,30 @@
+[
+ {
+  "_unverified": "Coactive Learning for Large Language Models using Implicit User Feedback (Tucker, Brantley, Cahall, Joachims; ICML 2024)",
+  "note": "Found in Semantic Scholar search (DBLP conf/icml/TuckerBCJ24) but the record has no arXiv ID, DOI or abstract; arXiv title search returned nothing. Highly relevant to implicit-feedback learning; needs a PMLR link."
+ },
+ {
+  "_unverified": "CoCoMaMa: Contextual Combinatorial Multi-Armed Bandit Router for Multi-Agent Systems with Volatile Arms (Rau, Bader, Wiesner, Kao; HyperAgents@ECAI 2025)",
+  "note": "Seen in the Semantic Scholar reference list of li-2025-llm-bandit (2502.02743). No arXiv ID, DOI or abstract; arXiv title search returned nothing. Likely a relevance-4 C3/C5 item."
+ },
+ {
+  "_unverified": "Learning to Cascade: A POMDP Approach to Sequential Model Selection (Salehi Darjani, Zois; ICASSP 2026)",
+  "note": "Found via S2 citations of a seed; DOI 10.1109/icassp55912.2026.11464865 exists, but no abstract was available to summarize, so it is left out."
+ },
+ {
+  "_unverified": "Session-aware agentic routing: Continuity-aware model selection for long-horizon LLM agents",
+  "note": "Appears only as an unlinked reference string in a seed's S2 reference list; no ID, authors or year found."
+ },
+ {
+  "_unverified": "From Metrics to Meaning: Estimating User Feedback Using LLM-Based Evaluation",
+  "note": "Unlinked reference string in a seed's S2 reference list; title search on arXiv found no match."
+ },
+ {
+  "_unverified": "Continuous feedback loops: Online fine-tuning of LLMs with user signals (2025)",
+  "note": "S2 search hit with no arXiv ID, DOI or abstract."
+ },
+ {
+  "_unverified": "Whom to Trust? Analyzing the Divergence Between User Satisfaction and LLM-as-a-Judge in E-Commerce RAG Systems (2026)",
+  "note": "S2 search hit with no arXiv ID or DOI; arXiv title search returned nothing. Relevant to implicit-feedback-versus-judge reliability."
+ }
+]

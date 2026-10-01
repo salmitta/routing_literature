@@ -1,0 +1,827 @@
+# C4: 140 records (full detail for rel>=4; one-liners for rel<=3)
+
+[borthwick-2026-robophd] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C4)
+  title: Competing at Every Price Point with Agentic Evolution over a Menu of LLMs
+  key_idea: Evolve multi-LLM agent programs to a cost target over a priced model menu.
+  cost: Evolved agents hold every public Pareto-frontier slot but one on DS-1000 and PaperFindingBench leaderboards
+  summary: An evolutionary meta-agent (RoboPhD) evolves complete multi-LLM agent programs from at most 100 training examples, given a priced menu of nine LLM endpoints and a per-problem cost target, to dominate competitors at each price point.
+  benchmarks: DS-1000, PaperFindingBench
+  signals: priced model menu, cost target, task score
+
+[chen-2026-agentslimming] (2026, arXiv, rel=5, gran=subagent, regime=training-free, prod=N, clusters=C3,C4,C12)
+  title: AgentSlimming: Towards Efficient and Cost-Aware Multi-Agent Systems
+  key_idea: Prune agents or downgrade them to cheaper models with validated acceptance.
+  cost: Reduces average token cost by up to 78.9% with negligible performance degradation
+  summary: AgentSlimming compresses graph-structured multi-agent workflows by scoring agent importance, then removing redundant agents or replacing them with low-cost ones, accepting each change only if performance holds. It achieves large token savings with little or no accuracy loss.
+  benchmarks: eight benchmarks
+  signals: agent importance score, baseline-anchored acceptance, agent importance scores
+
+[gravara-2026-atlas] (2026, IEEE/ACM SEC 2026, rel=5, gran=step, regime=training-free, prod=N, clusters=C4,C11)
+  title: Atlas: Optimizing Deployment of Compound AI Workflows on Heterogeneous Clusters
+  key_idea: Stage-wise model choice and placement via MILP with composed accuracy estimates.
+  cost: Selects plans within 0.03 of oracle accuracy while reducing deployment cost by up to 42% via heterogeneous placement; up to 2.6x lower profiling cost
+  summary: Atlas picks models per workflow stage and places them on a heterogeneous cluster via MILP, using a Markovian accuracy predictor that composes stage-to-stage accuracy transitions instead of full end-to-end profiling.
+  signals: Markovian accuracy predictor, SLOs, MILP
+
+[hamri-2026-zebra-budget-allocation] (2026, arXiv, rel=5, gran=subagent, regime=training-free, prod=N, clusters=C3,C4,C9)
+  title: ZEBRA: Zero-shot Budgeted Resource Allocation for LLM Orchestration
+  key_idea: Knapsack-based budget split across pipeline phases.
+  cost: At 0.5 of unconstrained spend, recovers 94.4% of unconstrained quality vs 88.1% for LLM-direct on APPS; beats LLM-direct by 14.3pp on 3-phase HotpotQA pipeline
+  summary: ZEBRA splits a fixed monetary budget across phases of a multi-agent pipeline by having an LLM estimate per-phase utility curves and solving a continuous knapsack with water-filling. It beats letting an LLM allocate directly and adapts splits to pipeline structure.
+  benchmarks: APPS, HotpotQA
+  signals: LLM-estimated per-phase utility curves
+
+[hua-2026-agentopt] (2026, arXiv (technical report), rel=5, gran=subagent, regime=bandit-online, prod=N, clusters=C3,C4,C5)
+  title: AgentOpt v0.1 Technical Report: Client-Side Optimization for LLM-Based Agent
+  key_idea: Bandit search over per-role model assignments for agent pipelines.
+  cost: At matched accuracy, best vs worst model combinations differ 13-32x in cost; UCB-E recovers near-optimal accuracy with 62-76% less evaluation budget than brute force
+  summary: AgentOpt is a framework-agnostic client-side package that searches for the most cost-effective assignment of models to pipeline roles from a small evaluation set, using bandit and BO search algorithms. It shows huge cost spreads across model combinations and finds near-optimal assignments cheaply.
+  benchmarks: four benchmarks
+  signals: small evaluation set, accuracy, cost
+
+[huang-2026-scope] (2026, KDD 2026, rel=5, gran=subagent, regime=training-free, prod=N, clusters=C3,C4)
+  title: SCOPE: Cost-Efficient Model Selection for Compound AI Systems under Quality Constraints
+  key_idea: Quality-constrained cost minimization over per-module LLM assignment with confidence-bound search.
+  cost: Under same search budget and quality constraint, up to 20x lower cost than best competitor during search and up to 6x lower final cost in returned solution (three data processing tasks, 7 baselines)
+  summary: Formalizes constrained LLM selection for compound AI systems: choose an LLM per module to minimize average cost subject to a quality threshold. SCOPE uses per-query results and confidence bounds to guide search, with guarantees on meeting the threshold and near-optimal cost.
+  signals: per-query cost and quality, confidence bounds
+
+[jiang-2026-agentcard] (2026, arXiv, rel=5, gran=subagent, regime=n/a, prod=N, clusters=C3,C4,C11,C13)
+  title: Specialize Roles, Mix Deployments: Pushing the Cost-Accuracy Frontier of LLM Agent Teams
+  key_idea: Benchmark role-by-role model assignment and deployment mode for cost-accuracy.
+  cost: Heterogeneous teams improve accuracy by up to 44% over cost-equivalent homogeneous teams, or match the strongest homogeneous team at up to 12x lower per-task cost via hybrid deployment
+  summary: AgentCARD is a role-aware benchmark suite that evaluates agent teams across which model fills each role (planner, executor, verifier) and where it is hosted (API, self-hosted, hybrid), with Pareto analysis and Shapley diagnostics of role bottlenecks. Heterogeneous teams dominate the cost-accuracy frontier, and whether the planner or executor is the bottleneck depends on the domain.
+  signals: role-level Shapley diagnostics, unified API/self-hosted cost model, role-level evaluation, Shapley role diagnostics, API/self-hosted cost model
+
+[li-2026-flowcompile] (2026, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C4,C11)
+  title: FlowCompile: An Optimizing Compiler for Structured LLM Workflows
+  key_idea: Compile-time per-sub-agent config profiling composed into workflow-level trade-offs.
+  cost: Up to 6.4x speedup vs heuristically optimized configurations and routing-based baselines
+  summary: FlowCompile compiles structured LLM workflows by profiling each sub-agent under diverse configurations and composing measurements with a structure-aware proxy to find a reusable accuracy-latency trade-off set in one compile-time pass.
+  signals: per-sub-agent profiles, structure-aware proxy
+
+[li-2026-rsi-router] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C3,C4,C8)
+  title: RSI-Router: Evolving Subtask-Level LLM Routing and Skills for Cost-Efficient Agents
+  key_idea: Recursive self-improvement of subtask-level routing and skills.
+  cost: Surpasses DeepSeek-only baseline at about 48.3% of the cost across five agentic benchmarks; 74.7-82.2% cost cuts with better performance on ALFWorld, ScienceWorld, WebShop; +16.7% relative on Terminal-Bench 2.0 at 18.0% lower cost
+  summary: RSI-Router mines subtask definitions from trajectories, evolves subtask-to-model assignments, develops model-specific skills by comparing routed and large-only runs, and keeps a Pareto population of routers across iterations. Routing between a large and a 9B model halves cost while improving performance.
+  benchmarks: ALFWorld, ScienceWorld, WebShop, Terminal-Bench 2.0
+  signals: mined subtask definitions, trajectory comparisons
+
+[paul-2026-agentrouter-step-tiers] (2026, ICML 2026 Workshop (AgenticUQ), rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C3,C4,C6,C14)
+  title: AgentRouter: Heterogeneous Model Routing for Cost-Optimal Multi-Step Agentic Workflows
+  key_idea: Lightweight per-step tier classifier for agent trajectories.
+  cost: 72% cost reduction vs frontier-only while retaining 97.3% of frontier quality; RouteLLM and FrugalGPT applied per-step achieve 31% and 44%
+  summary: AgentRouter is a 12M-parameter classifier (<5ms per step) that maps each trajectory step to one of four model tiers from five features, trained on 50,000 annotated steps. It cuts cost 72% versus frontier-only with under 3% quality loss and beats per-step RouteLLM and FrugalGPT.
+  benchmarks: planning, coding, research and data-analysis agent trajectories (50,000 annotated steps), 50,000 annotated agent trajectory steps
+  signals: five routing-time step features, five step-level features, annotated trajectory steps
+
+[sedghani-2026-agentic-budget-constraints] (2026, ICPE 2026 Companion, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C4)
+  title: Optimizing Agentic AI Applications Under Budget Constraints
+  key_idea: MILP-based per-step model/config selection under global budgets.
+  summary: Formulates configuring a multi-step agentic pipeline as choosing one (agent, inference method, parameter) triple per task from a heterogeneous pool of LLMs and SLMs. The objective maximizes end-to-end quality under global time and energy budgets and is solved as a MILP plus complementary methods, accounting for error propagation across steps.
+  signals: per-config accuracy/latency/energy profiles
+
+[wang-2026-dropbox-dash-dspy] (2026, Dropbox Tech blog, rel=5, gran=none, regime=training-free, prod=Y, clusters=C4,C7,C14)
+  title: How we optimized Dash's relevance judge with DSPy
+  key_idea: Treat model swaps as re-optimization problems so prompts transfer to cheaper models.
+  cost: Adapting the production relevance judge from o3 to gpt-oss-120b with GEPA cut NMSE 45% (8.83 to 4.86); enabled 10-100x more labeling at the same cost; on gemma-3-12b (MIPROv2) NMSE 46.88 to 17.26 and malformed JSON down >97%
+  summary: Dropbox used DSPy optimizers (GEPA, MIPROv2) to migrate an LLM relevance judge used across Dash production pipelines from an expensive model to cheaper open models, measured against human labels. Model adaptation time fell from 1-2 weeks to 1-2 days.
+  benchmarks: Dropbox Dash relevance judgments (internal)
+  signals: human-annotated relevance labels, NMSE
+
+[yang-2026-harness-adaptation-slm] (2026, arXiv, rel=5, gran=none, regime=training-free, prod=N, clusters=C3,C4,C8,C10,C12)
+  title: Better Harnesses, Smaller Models: Building 90% Cheaper Agents via Automated Harness Adaptation
+  key_idea: Lift task difficulty into the harness so small models suffice.
+  cost: best small-model agent recovered 89.7% of LLM performance at 4% of the cost; optimized harnesses improved 16 of 21 task-SLM pairs, closing the gap in seven
+  summary: Shows that SLM agents can match frontier agents on many routine business tasks at about 90% lower cost if the harness (instructions, tools, orchestration loops) is adapted, and builds a meta-agent that discovers adaptations from failure trajectories. Works best on repetitive workflows and capable-enough SLMs.
+  benchmarks: seven business-oriented agentic tasks, routine business tasks (21 task-SLM pairs)
+  signals: failure trajectories, automated harness adaptation
+
+[yuan-2026-flowbank] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C4)
+  title: FlowBank: Query-Adaptive Agentic Workflows Optimization through Precompute-and-Reuse
+  key_idea: Precompute a workflow portfolio and route queries among workflows.
+  cost: Improves over strongest automated and handcrafted baselines by 4.26% and 14.92% relative while remaining cost-competitive
+  summary: FlowBank builds a compact portfolio of complementary workflows offline and routes each query to the best one by predicting utility on a query-workflow bipartite graph, avoiding per-query workflow generation costs.
+  benchmarks: five benchmarks
+  signals: query-workflow edge-value prediction, predicted query-workflow utility
+
+[zhang-2026-evoroute] (2026, arXiv, rel=5, gran=step, regime=bandit-online, prod=N, clusters=C3,C4,C5)
+  title: EvoRoute: Experience-Driven Self-Routing LLM Agent Systems
+  key_idea: Experience-driven per-step backbone selection that self-evolves.
+  cost: Reduces execution cost by up to 80% and latency by over 70% while sustaining or improving performance on GAIA and BrowseComp+
+  summary: EvoRoute frames the Agent System Trilemma of performance, cost and latency and selects a Pareto-optimal LLM backbone at every step using a growing knowledge base of past experience, refining its policy from environment feedback. Plugged into off-the-shelf agent systems it cuts cost by up to 80%.
+  benchmarks: GAIA, BrowseComp+
+  signals: experience knowledge base, environment feedback
+
+[zhang-2026-hetero-designer] (2026, ACL 2026, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C4)
+  title: Hetero-Designer: Automated Design of Multi-Agent Systems with Heterogeneous LLMs
+  key_idea: Automated joint design of topology, roles and per-role LLM choice for heterogeneous MAS.
+  summary: Hetero-Designer introduces automated design of multi-agent systems built from heterogeneous LLMs, jointly choosing roles and which LLM fills each role per query, aiming for cost-effective systems. It encodes dependencies among queries, LLMs and roles to search this joint space efficiently.
+  signals: query-LLM-role dependency encoding
+
+[zhao-2026-sc-mas] (2026, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C4)
+  title: SC-MAS: Constructing Cost-Efficient Multi-Agent Systems with Edge-Level Heterogeneous Collaboration
+  key_idea: Jointly route roles, per-edge collaboration styles and per-agent LLMs.
+  cost: +3.35% accuracy on MMLU with 15.38% lower inference cost; +3.53% on MBPP with 12.13% cost reduction
+  summary: SC-MAS models a MAS as a directed graph with edge-level collaboration strategies and uses a controller to pick roles, per-edge strategies and a backbone LLM for each agent per query. It improves accuracy while reducing cost relative to MasRouter-style homogeneous-mode routing.
+  benchmarks: MMLU, MBPP
+  signals: query, role, edge context
+
+[atalar-2025-sequential-bandits] (2025, arXiv, rel=5, gran=step, regime=bandit-online, prod=N, clusters=C3,C4,C5)
+  title: Neural Bandit Based Optimal LLM Selection for a Pipeline of Subtasks
+  key_idea: Online neural-bandit selection of LLMs per pipeline subtask.
+  summary: Addresses LLM selection for each subtask in a pipeline where upstream outputs affect downstream cost and success; proposes a neural contextual bandit (Sequential Bandits) with sublinear regret that needs no historical performance data.
+  benchmarks: two real datasets (e.g. diagnosis extraction pipeline)
+  signals: neural contextual bandit, subtask success, cost, subtask context, downstream success
+
+[barker-2025-mo-hpo-rag] (2025, arXiv, rel=5, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Faster, Cheaper, Better: Multi-Objective Hyperparameter Optimization for LLM and RAG Systems
+  key_idea: Multi-objective BO over full LLM/RAG system configs including model choice.
+  cost: Bayesian optimization obtains a superior Pareto front over baselines on two new RAG benchmark tasks (no single headline cost number in abstract)
+  summary: Introduces multi-objective parameter optimization of cost, latency, safety and alignment over entire LLM and RAG systems, including choice of LLM, embedder and reranker. Bayesian optimization beats baselines in Pareto quality.
+  signals: cost, latency, safety, alignment
+
+[cai-2025-agentbalance] (2025, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C4)
+  title: AgentBalance: Backbone-then-Topology Design for Cost-Effective Multi-Agent Systems under Budget Constraints
+  key_idea: Backbone-then-topology MAS design under explicit budgets.
+  cost: Up to 10% and 22% performance gains under matched token-cost and latency budgets respectively (14 candidate LLM backbones)
+  summary: AgentBalance first matches heterogeneous LLM backbones to roles under explicit token-cost and latency budgets, then generates a latency-aware communication topology. It outperforms topology-first methods at equal budgets and works as a plug-in for existing MAS.
+  benchmarks: benchmarks with 14 candidate LLM backbones
+  signals: token-cost budget, latency budget, agent representations
+
+[chaudhry-2025-murakkab] (2025, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C4,C11,C12)
+  title: Murakkab: Resource-Efficient Agentic Workflow Orchestration in Cloud Platforms
+  key_idea: Declarative workflows with profile-guided model/hardware mapping.
+  cost: Reduces GPU usage by up to 2.8x, energy by 3.7x and cost by 4.3x while maintaining SLOs
+  summary: Murakkab is a serving system that decouples workflow specification from execution configuration and uses a profile-guided optimizer to map workflow components to models and hardware under SLOs.
+  benchmarks: diverse agentic workflows
+  signals: profiles, SLOs, workflow structure, user SLOs
+
+[chen-2025-llmselector] (2025, arXiv, rel=5, gran=subagent, regime=training-free, prod=N, clusters=C3,C4)
+  title: Optimizing Model Selection for Compound AI Systems
+  key_idea: Per-module model allocation via iterative greedy search with LLM-estimated module-wise performance.
+  cost: 5%-70% accuracy gains vs. using the same LLM for all modules (multi-agent debate, self-refine); API calls scale linearly with number of modules
+  summary: Studies how to pick which LLM to use for each module of a compound system (e.g., self-refine, multi-agent debate). Exploits the observation that end-to-end quality is often monotone in per-module quality and that an LLM can estimate per-module quality, then greedily assigns the best model module by module.
+  signals: LLM-estimated per-module performance, end-to-end task score
+
+[conway-2025-syftr] (2025, AutoML 2025, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C4)
+  title: syftr: Pareto-Optimal Generative AI
+  key_idea: Multi-objective BO over RAG/agentic flow configs including LLM choice per component.
+  cost: Finds flows on average ~9x cheaper while preserving most of the accuracy of the most accurate Pareto-frontier flows, across multiple RAG benchmarks
+  summary: syftr runs multi-objective Bayesian optimization over a very large space of agentic and non-agentic RAG flows (embedders, splitters, retrievers, synthesizing LLMs, verifiers, rerankers) to find Pareto-optimal accuracy-cost configurations, with early stopping to prune weak candidates.
+  signals: accuracy, cost, early-stopping
+
+[dai-2025-aragog] (2025, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C4,C11)
+  title: Aragog: Just-in-Time Model Routing for Scalable Serving of Agentic Workflows
+  key_idea: Just-in-time per-stage model reassignment driven by live load.
+  cost: maximum serving throughput increased 42.8-217.0% and median latency reduced 32.5-86.1% at peak load while keeping accuracy comparable to the most expensive configurations
+  summary: Aragog assigns workflow agents to LLMs progressively during execution: a one-time routing step finds all accuracy-preserving configurations, and a cheap per-stage scheduler picks among them based on current system load. It greatly improves serving throughput and latency.
+  benchmarks: diverse agentic workflows
+  signals: system load, accuracy-preserving config set, accuracy-preserving configuration set, runtime system load
+
+[dang-2025-puppeteer-evolving-orchestration] (2025, NeurIPS 2025, rel=5, gran=step, regime=RL-offline, prod=N, clusters=C3,C4,C12)
+  title: Multi-Agent Collaboration via Evolving Orchestration
+  key_idea: RL orchestrator sequences agents step by step and prunes low-utility ones.
+  cost: Superior performance with reduced computational cost; token use falls during training
+  summary: A centralized orchestrator (puppeteer) is trained with REINFORCE to choose which agent acts next as the task state evolves, learning to skip unhelpful agents and terminate early. It improves performance while lowering compute, converging to compact cyclic structures.
+  benchmarks: closed- and open-domain scenarios
+  signals: task state, reward
+
+[he-2025-cognify] (2025, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C4)
+  title: Cognify: Supercharging Gen-AI Workflows With Hierarchical Autotuning
+  key_idea: Budget-adaptive hierarchical autotuning over workflow structure, per-step model and prompt settings.
+  cost: Improves generation quality by up to 2.8x, reduces execution monetary cost by up to 10x, and end-to-end latency by 2.7x across six workflow types
+  summary: Cognify autotunes gen-AI workflows (LangChain, DSPy, or its own model) with AdaSeek, a hierarchical search that splits a user search budget across structure, operator (including model choice) and prompt layers and reallocates budget to promising configurations. Supports quality, cost and latency objectives and returns multiple Pareto versions.
+  benchmarks: RAG QA, text-to-SQL
+  signals: user evaluator score, execution cost, latency
+
+[kiyohara-2025-prompt-opt-logged-bandit] (2025, arXiv, rel=5, gran=none, regime=RL-offline, prod=N, clusters=C4,C6)
+  title: Prompt Optimization with Logged Bandit Data
+  key_idea: Off-policy prompt-policy learning from logged bandit feedback.
+  summary: Optimizes which prompt an LLM pipeline uses for personalized sentence generation from naturally logged user feedback (clicks), with a kernel-based off-policy gradient that exploits similarity between generated sentences to cut variance while limiting bias.
+  benchmarks: new benchmark suite: personalized movie descriptions
+  signals: click feedback, sentence similarity kernel
+
+[russo-2025-abacus] (2025, VLDB 2026, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C4)
+  title: Abacus: A Cost-Based Optimizer for Semantic Operator Systems
+  key_idea: Pareto-Cascades cost-based query optimization over LLM operator implementations.
+  cost: Abacus-optimized systems achieve 6.7%-39.4% better quality and are 10.8x cheaper and 3.4x faster than the next best system on average (BioDEX, CUAD, MMQA)
+  summary: Abacus is a cost-based optimizer for semantic operator systems (in Palimpzest) that picks physical implementations, including model choice per operator, under constrained objectives, estimating operator performance from few validation examples, priors or an LLM judge and tracking Pareto frontiers of subplans.
+  benchmarks: BioDEX, CUAD, MMQA
+  signals: validation examples, prior beliefs, LLM judge
+
+[sabbatella-2025-malbo] (2025, arXiv (Master's thesis), rel=5, gran=subagent, regime=training-free, prod=N, clusters=C3,C4)
+  title: MALBO: Optimizing LLM-Based Multi-Agent Teams via Multi-Objective Bayesian Optimization
+  key_idea: Multi-objective BO over per-role LLM assignments.
+  cost: BO phase reduced average configuration cost by over 45% vs random search at comparable performance; heterogeneous teams achieve up to 65.8% cost reduction vs homogeneous baselines at maximum performance
+  summary: MALBO frames assigning LLMs to agent roles as multi-objective Bayesian optimization over accuracy and cost, using GP surrogates over a continuous LLM feature space and expected hypervolume improvement. It finds heterogeneous teams that are much cheaper than homogeneous ones.
+  signals: Gaussian-process surrogates, accuracy, inference cost, GP surrogate
+
+[su-2025-daao] (2025, WWW 2026, rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C3,C4)
+  title: Difficulty-Aware Agentic Orchestration for Query-Specific Multi-Agent Workflows
+  key_idea: Difficulty-driven workflow depth plus per-operator LLM routing.
+  cost: Up to 11.21% higher accuracy with up to 36% lower cost (per search summary of the paper); abstract reports gains in accuracy and efficiency on six benchmarks
+  summary: DAAO predicts query difficulty with a VAE, allocates workflow depth and operators accordingly, and routes each operator to an LLM with a cost- and performance-aware router, updating difficulty estimates from workflow outcomes. Simple queries get lighter workflows and cheaper models.
+  benchmarks: six benchmarks
+  signals: VAE difficulty estimate, workflow success feedback, predicted query difficulty (VAE), cost-aware router
+
+[tan-2025-langprobe] (2025, Findings of EMNLP 2025, rel=5, gran=none, regime=n/a, prod=N, clusters=C4,C13)
+  title: LangProBe: a Language Programs Benchmark
+  key_idea: Cost-aware benchmark of compound LM program architectures and optimizers.
+  cost: Optimized language programs give strong cost-quality Pareto improvements over raw model calls; smaller models in optimized programs beat larger models at a fraction of the cost
+  summary: LangProBe benchmarks over 2000 combinations of tasks, program architectures, optimizers and LMs, studying quality-cost trade-offs of language programs. Human judgment about which compositions to pursue still matters.
+  signals: quality, cost
+
+[wang-2025-agent-reinforce] (2025, arXiv, rel=5, gran=subagent, regime=training-free, prod=N, clusters=C3,C4,C9)
+  title: Generalizing Test-time Compute-optimal Scaling as an Optimizable Graph
+  key_idea: Search over multi-LLM collaboration graphs under a compute budget.
+  summary: Formulates test-time scaling as searching compute-optimal multi-LLM collaboration graphs (roles, model assignments, edges) under a fixed budget and proposes Agent-REINFORCE, an LLM-augmented REINFORCE-style search.
+  signals: textual feedback as gradient, accuracy, latency
+
+[wang-2025-agenttts] (2025, NeurIPS 2025, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C4,C9)
+  title: AgentTTS: Large Language Model Agent for Test-time Compute-optimal Scaling Strategy in Complex Tasks
+  key_idea: LLM-agent search over per-subtask model and budget allocation.
+  summary: AgentTTS searches for compute-optimal model and budget allocations per subtask in multi-stage tasks with an LLM agent guided by empirical insights, beating traditional and LLM-based baselines in search efficiency.
+  signals: execution feedback
+
+[wei-2025-moar] (2025, arXiv, rel=5, gran=step, regime=bandit-online, prod=N, clusters=C3,C4)
+  title: Multi-Objective Agentic Rewrites for Unstructured Data Processing
+  key_idea: Bandit-guided global search over LLM pipeline rewrites for accuracy-cost Pareto.
+  cost: 27% higher accuracy than ABACUS on average; matches ABACUS's best accuracy at 55% of its cost, across six workloads
+  summary: MOAR is a multi-objective optimizer for DocETL pipelines that applies over 30 agentic rewrite directives (including cost-targeted ones such as model substitution and decomposition) and searches globally over whole pipelines using a multi-armed bandit to choose what to rewrite.
+  signals: accuracy, cost, multi-armed bandit over rewrites
+
+[wu-2025-optimas] (2025, ICLR 2026, rel=5, gran=subagent, regime=hybrid, prod=N, clusters=C3,C4)
+  title: Optimas: Optimizing Compound AI Systems with Globally Aligned Local Rewards
+  key_idea: Globally aligned local rewards enable independent optimization of heterogeneous component configs.
+  cost: Average improvement of 11.92% over strong baselines across five real-world compound systems
+  summary: Optimas keeps a learned local reward function per component that is aligned with global system performance, so heterogeneous configurations (prompts, hyperparameters, model routing/selection, LoRA weights) can be updated independently while still improving the whole system.
+  signals: local reward functions aligned with global reward, preference data
+
+[yang-2025-bamas] (2025, AAAI 2026 (Oral), rel=5, gran=subagent, regime=hybrid, prod=N, clusters=C3,C4)
+  title: BAMAS: Structuring Budget-Aware Multi-Agent Systems
+  key_idea: ILP-based LLM provisioning plus RL topology selection under budget.
+  cost: Comparable performance while reducing cost by up to 86% vs SOTA agent construction methods
+  summary: BAMAS builds budget-aware multi-agent systems by selecting an LLM pool via integer linear programming under a cost budget and choosing a collaboration topology with RL.
+  signals: cost budget, ILP, RL-selected topology
+
+[ye-2025-x-mas] (2025, arXiv, rel=5, gran=subagent, regime=n/a, prod=N, clusters=C3,C4,C13)
+  title: X-MAS: Towards Building Multi-Agent Systems with Heterogeneous LLMs
+  key_idea: Pick the best LLM per agent function; heterogeneous MAS beats homogeneous.
+  summary: X-MAS studies multi-agent systems where each agent function is powered by a different LLM, benchmarking 27 LLMs over 5 domains and 5 MAS functions (1.7M evaluations) to find the best model per domain-function pair. Switching to heterogeneous assignment improves MATH by up to 8.4% and AIME by 47% without changing structure.
+  benchmarks: X-MAS-Bench (21 test sets, 5 domains), MATH, AIME
+  signals: per-function model benchmark scores, per-domain per-function benchmark results
+
+[zhang-2025-evoflow] (2025, arXiv, rel=5, gran=query, regime=training-free, prod=N, clusters=C3,C4)
+  title: EvoFlow: Evolving Diverse Agentic Workflows On The Fly
+  key_idea: Evolve a diverse population of multi-LLM workflows with cost-aware selection.
+  cost: Outperforms handcrafted and automated workflows by 1.23%-29.86%; surpasses o1-preview at 12.4% of its inference cost using weaker open-source models
+  summary: EvoFlow uses a niching evolutionary algorithm to evolve a population of heterogeneous, complexity-adaptive workflows that mix different LLMs, rather than one homogeneous complex workflow, optimizing both performance and cost.
+  signals: task score, cost
+
+[zhang-2025-maas-agentic-supernet] (2025, ICML 2025, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C3,C4,C12)
+  title: Multi-agent Architecture Search via Agentic Supernet
+  key_idea: Sample a per-query multi-agent architecture from a learned supernet to allocate compute.
+  cost: Requires only 6-45% of the inference costs of existing handcrafted or automated multi-agent systems while surpassing them by 0.54%-11.82%
+  summary: MaAS optimizes an agentic supernet, a distribution over multi-agent architectures, and samples a query-dependent architecture at inference so easy queries get light systems and hard ones get more operators. It cuts inference cost sharply versus handcrafted and automated MAS while improving accuracy and transferring across datasets and backbones.
+  benchmarks: six benchmarks
+  signals: query embedding, difficulty, query features, inference cost, task score
+
+[chen-2024-optima] (2024, arXiv, rel=5, gran=none, regime=hybrid, prod=N, clusters=C3,C4,C8,C12)
+  title: Optima: Optimizing Effectiveness and Efficiency for LLM-Based Multi-Agent System
+  key_idea: Train MAS agents with a reward that penalizes tokens to get efficient communication.
+  cost: Up to 2.8x performance gain with less than 10% of tokens on information-heavy tasks vs vanilla MAS (Llama 3 8B)
+  summary: Optima trains the agents of a multi-agent system with an iterative generate-rank-select-train loop (SFT, DPO and hybrids) whose reward balances task success, token efficiency and readability, using MCTS-style data generation. The trained MAS communicates far more tersely and outperforms both single-agent and vanilla MAS baselines.
+  benchmarks: information-asymmetric QA, complex reasoning tasks
+  signals: reward: task score + token count + readability, task reward, token efficiency, readability
+
+[saadfalcon-2024-archon] (2024, ICML 2025, rel=5, gran=none, regime=training-free, prod=N, clusters=C4,C9)
+  title: Archon: An Architecture Search Framework for Inference-Time Techniques
+  key_idea: Inference-time architecture search (ITAS) over layered combinations of LLMs and inference techniques.
+  cost: Archon architectures advance the Pareto frontier of accuracy vs. maximum token budget; outperform o1, GPT-4o and Claude 3.5 Sonnet by an average of 15.1%
+  summary: Archon is a framework for selecting and combining inference-time techniques (ensembling, sampling, ranking, fusion, critique, verification, unit tests) and LLMs into layered architectures. It uses Bayesian-optimization-based inference-time architecture search under a compute budget.
+  signals: benchmark score, token budget
+
+[zhang-2024-aflow] (2024, arXiv, rel=5, gran=none, regime=training-free, prod=N, clusters=C3,C4,C12)
+  title: AFlow: Automating Agentic Workflow Generation
+  key_idea: Workflow search lets small models replace large ones.
+  cost: Smaller models outperform GPT-4o on specific tasks at 4.55% of its inference cost in dollars; 5.7% average improvement over SOTA baselines across six benchmarks
+  summary: AFlow searches code-represented agentic workflows with MCTS, refining them from execution feedback. Beyond a 5.7% average gain, optimized workflows let smaller models beat GPT-4o on some tasks at under 5% of its cost.
+  benchmarks: six benchmark datasets
+  signals: execution feedback, benchmark score
+
+[zhang-2024-g-designer] (2024, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C4,C12)
+  title: G-Designer: Architecting Multi-agent Communication Topologies via Graph Neural Networks
+  key_idea: Generate a per-task communication topology with a graph auto-encoder.
+  cost: Reduces token consumption by up to 95.33% on HumanEval
+  summary: G-Designer uses a variational graph auto-encoder over agent nodes and a task node to generate a task-adaptive communication topology for each task. It reaches strong accuracy while cutting token consumption on easy tasks and stays robust to adversarial agents.
+  benchmarks: MMLU, HumanEval, six benchmarks total
+  signals: task embedding, agent profiles, graph auto-encoder
+
+[bussing-2026-mo-capo] (2026, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C4,C10)
+  title: MO-CAPO: Multi-Objective Cost-Aware Prompt Optimization
+  key_idea: Multi-objective prompt optimization with a deployment-realistic token-cost objective.
+  cost: Outperforms NSGA-II baseline on 8 of 12 cases (noisy R2), often at considerably lower budget
+  summary: MO-CAPO extends CAPO to true multi-objective prompt optimization of performance and a deployment-oriented inference-cost objective covering input and output tokens, with budget allocation for efficient search, returning a Pareto set of prompts.
+  signals: performance, input/output token cost
+
+[chen-2026-hm-router] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C3,C4)
+  title: HM-ROUTER: Joint Model and Harness Routing for Agentic Systems
+  key_idea: Route over (model, harness) pairs, not just models.
+  cost: Leads at all seven evaluated cost budgets; +7.3 points mean routing accuracy over strongest learned baseline
+  summary: HM-Router jointly selects a model and an agent harness per query, learning shared model and harness representations with a tensor-decomposition interaction term so it can predict unobserved model-harness pairs. It beats learned baselines across cost budgets.
+  benchmarks: benchmark from 12 public agent benchmarks (293 routes, 73 models, 25 harnesses)
+  signals: model and harness representations, CP-decomposition interaction term
+
+[du-2026-swift] (2026, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Why Search When You Can Transfer? Amortized Agentic Workflow Design from Structural Priors
+  key_idea: Amortized workflow design by transfer instead of per-task search.
+  cost: Reduces marginal per-task optimization cost by three orders of magnitude vs SOTA search-based method
+  summary: SWIFT synthesizes an executable workflow for an unseen task from structural priors and cross-task workflow demonstrations, skipping iterative search while outperforming search-based methods on five benchmarks.
+  signals: workflow demonstrations
+
+[gravara-2026-compass] (2026, IEEE CLUSTER 2026, rel=4, gran=step, regime=hybrid, prod=N, clusters=C4,C5,C11)
+  title: Compass: Optimizing Compound AI Workflows for Dynamic Adaptation
+  key_idea: Offline Pareto config discovery plus online load-aware configuration switching.
+  cost: COMPASS-V reduces configuration evaluations by 57.5% on average vs exhaustive search (up to 95.3%); runtime adaptation achieves 90-98% SLO compliance, +71.6% over static high-accuracy baselines
+  summary: Compass discovers multiple accuracy-feasible Pareto configurations of a compound AI workflow offline and switches between them at runtime based on load, using a queuing-theory planner and a queue-depth-driven controller.
+  signals: queue depth, profiled latency, accuracy threshold
+
+[gravara-2026-plaiground] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C4,C11)
+  title: PLAIground: SLO-Driven Runtime Model Selection for Compound AI Systems in the Edge-Cloud-Space Continuum
+  key_idea: Runtime SLO-driven per-task model selection.
+  cost: Up to 91.3% accuracy while maintaining SLO compliance; fixed-model strategies violate cost and latency budgets up to 21x or miss accuracy by 4%
+  summary: PLAIground enables runtime per-task model switching in compound AI workflows through a model abstraction with task/data contracts and an SLO-driven selector (Pixie).
+  signals: SLOs on accuracy, latency, cost
+
+[hong-2026-maspob] (2026, arXiv, rel=4, gran=subagent, regime=bandit-online, prod=N, clusters=C4,C5)
+  title: MASPOB: Bandit-Based Prompt Optimization for Multi-Agent Systems with Graph Neural Networks
+  key_idea: Sample-efficient bandit optimization of per-agent prompts in a multi-agent system.
+  summary: Optimizes the prompts of a fixed multi-agent workflow under a tight evaluation budget by treating the problem as a bandit with UCB exploration, a graph neural network to capture coupling induced by topology, and coordinate ascent to make the search linear rather than exponential.
+  signals: UCB uncertainty, GNN topology embedding
+
+[kabir-2026-inframind] (2026, arXiv, rel=4, gran=step, regime=hybrid, prod=N, clusters=C3,C4,C11)
+  title: INFRAMIND: Infrastructure-Aware Multi-Agent Orchestration
+  key_idea: Make per-step model routing in MAS aware of live serving load.
+  summary: INFRAMIND argues that multi-agent orchestrators and learned routers ignore serving-infrastructure state, so preferred models queue up while equally capable alternatives sit idle. It feeds noisy runtime signals into planning, per-step routing and scheduling decisions for multi-agent pipelines on shared GPU clusters.
+  signals: queue depth, KV-cache pressure, latency, task/model features
+
+[shankar-2026-task-cascades] (2026, SIGMOD 2026, rel=4, gran=query, regime=hybrid, prod=N, clusters=C2,C4)
+  title: Task Cascades for Efficient Unstructured Data Processing
+  key_idea: Cascade over (model, input slice, surrogate task).
+  cost: At 90% target accuracy, reduces end-to-end cost by an average of 36% vs model cascades across eight real-world document tasks
+  summary: Generalises model cascades by also varying the document portion and the operation at each stage, with an LLM agent proposing simplified or related tasks. Offers statistical accuracy guarantees.
+  benchmarks: eight document processing tasks
+  signals: proxy-model confidence, agent-generated surrogate tasks
+
+[wang-2026-beyond-tier-labels] (2026, arXiv, rel=4, gran=step, regime=n/a, prod=N, clusters=C3,C4)
+  title: Beyond Tier Labels: Role- and Deployment-Dependent Model Substitution in Multi-Call LLM Workflows
+  key_idea: Model substitution value is role- and deployment-dependent.
+  summary: Separates where to use a stronger model from the value of the substitution in multi-call workflows, showing the benefit of upgrading a call depends on its role and surrounding deployment and can reverse across tasks.
+  signals: role, deployment context
+
+[xu-2026-hyevo] (2026, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C4,C12)
+  title: HyEvo: Self-Evolving Hybrid Agentic Workflows for Efficient Reasoning
+  key_idea: Replace predictable LLM steps with code nodes during workflow search.
+  cost: Up to 19x lower inference cost and 16x lower latency vs state-of-the-art open-source baseline
+  summary: HyEvo evolves agentic workflows that mix LLM nodes with deterministic code nodes, offloading predictable operations from LLM inference, using a multi-island evolutionary search with reflection. It outperforms prior workflow generators while cutting cost and latency sharply.
+  benchmarks: reasoning and coding benchmarks
+  signals: execution feedback
+
+[zhang-2026-agentfactory] (2026, arXiv, rel=4, gran=none, regime=hybrid, prod=N, clusters=C4,C8)
+  title: AgentFactory: Towards Automated Agentic System Design and Optimization
+  key_idea: Joint model and workflow optimization with multiple objectives.
+  summary: AgentFactory jointly optimizes foundation models (including fine-tuned ones) and workflow structures with LLM optimizers over multiple objectives including cost, gaining 9.1% on average over eight benchmarks.
+  benchmarks: MedQA, FinEval
+  signals: performance, cost, efficiency
+
+[zhang-2026-po-coin-flip] (2026, CTB@ICML 2026 Workshop, rel=4, gran=none, regime=n/a, prod=N, clusters=C4,C13)
+  title: Prompt Optimization Is a Coin Flip: Diagnosing When It Helps in Compound AI Systems
+  key_idea: Prompt optimization in compound systems helps only with exploitable output structure; joint optimization rarely matters.
+  summary: Large-scale study (72+ optimization runs, 18,000 grid evaluations) finding that prompt optimization in compound systems is often no better than chance: 49% of runs on Claude Haiku 4.5 score below zero-shot. Agent-prompt interaction effects were never significant; gains appear only when a task has exploitable output structure.
+  signals: zero-shot vs optimized score
+
+[zhao-2026-atom] (2026, arXiv, rel=4, gran=query, regime=RL-online, prod=N, clusters=C4,C12)
+  title: ATOM: Instantiating Budget-Controllable Multi-Agent Collaboration via Nucleus-Electron Hierarchy
+  key_idea: Difficulty-aware budget control over which agents are instantiated.
+  cost: Improves token efficiency by up to 30% vs strong baselines across six benchmarks
+  summary: ATOM generates budget-controllable multi-agent collaboration graphs, keeping an offline-learned backbone and activating query-conditioned agents according to estimated difficulty.
+  signals: query difficulty, budget
+
+[agrawal-2025-gepa] (2025, ICLR 2026 (Oral), rel=4, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning
+  key_idea: Genetic-Pareto reflective prompt evolution for compound AI systems.
+  cost: Outperforms GRPO by 6% on average (up to 20%) using up to 35x fewer rollouts; beats MIPROv2 by over 10% (+12% on AIME-2025)
+  summary: GEPA is a reflective prompt optimizer for any system with one or more LLM prompts: it samples trajectories, reflects on them in natural language to diagnose failures, proposes prompt updates, and merges complementary lessons from a Pareto frontier of candidates. It is far more sample-efficient than RL fine-tuning.
+  benchmarks: AIME-2025
+  signals: natural-language reflection on trajectories, Pareto frontier of candidates
+
+[chen-2025-concur] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C4,C5,C9)
+  title: CONCUR: A Framework for Continual Constrained and Unconstrained Routing
+  key_idea: Modular continual routing over strategies.
+  summary: CONCUR routes tasks to computation strategies (model plus decoding method) with separate per-strategy predictors, supporting budgeted and unbudgeted routing and continual addition of strategies.
+  benchmarks: knowledge- and reasoning-intensive tasks (ID and OOD)
+  signals: per-strategy predictors, multiple task representations, task representations, strategy representations, budget
+
+[chen-2025-mao-arag] (2025, arXiv, rel=4, gran=query, regime=RL-online, prod=N, clusters=C3,C4)
+  title: MAO-ARAG: Multi-Agent Orchestration for Adaptive Retrieval-Augmented Generation
+  key_idea: RL planner assembles per-query agent workflows with a cost penalty.
+  cost: Maintains cost and latency within acceptable limits while achieving high answer quality
+  summary: MAO-ARAG uses an RL-trained planner agent that assembles a per-query RAG workflow from executor agents (reformulation, selection, generation), rewarded on F1 minus a cost penalty. It adapts pipeline complexity to query difficulty.
+  benchmarks: multiple QA datasets
+  signals: F1 reward, cost penalty
+
+[el-2025-inefficiencies-meta-agents] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C4,C12,C13)
+  title: Inefficiencies of Meta Agents for Agent Design
+  key_idea: Automated agent design rarely pays back its design cost.
+  cost: Only on two datasets does total design-plus-deployment cost of meta-designed agents fall below human-designed agents, and only when deployed on over 15,000 examples
+  summary: Examines meta-agents that design agents: expanding context with all prior designs underperforms, designed agents lack diversity, and the design cost is recouped only in a few datasets at large deployment scale.
+  signals: design cost, per-example inference cost
+
+[gao-2025-flowreasoner] (2025, arXiv, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C3,C4)
+  title: FlowReasoner: Reinforcing Query-Level Meta-Agents
+  key_idea: RL-trained meta-agent designs a per-query MAS with an efficiency term in the reward.
+  summary: FlowReasoner is a reasoning meta-agent, distilled from DeepSeek-R1 and then trained with RL on execution feedback, that designs one multi-agent system per query. Its reward includes performance, complexity and efficiency terms, and it beats o1-mini by 10.52% across three code benchmarks.
+  benchmarks: engineering and competition code benchmarks (three)
+  signals: execution feedback, complexity/efficiency reward, reward on performance, complexity and efficiency
+
+[ke-2025-mas-zero] (2025, NeurIPS 2025 Workshop (SEA), rel=4, gran=query, regime=training-free, prod=N, clusters=C3,C4)
+  title: MAS-ZERO: Designing Multi-Agent Systems with Zero Supervision
+  key_idea: Per-instance MAS design that can reduce to simpler systems when adequate.
+  cost: Accuracy gains up to 16.69% (reasoning), 16.66% (coding), 5.45% (agentic) while maintaining cost efficiency
+  summary: MAS-Zero is an inference-time meta-agent that designs, critiques and refines a MAS per problem without a validation set, and can collapse to a simpler system when that suffices. It beats manual and automatic MAS baselines while staying cost-efficient.
+  benchmarks: math and graduate-level QA, coding, search-based agentic tasks
+  signals: meta-feedback on solvability/completeness
+
+[mehta-2025-clear] (2025, arXiv, rel=4, gran=n/a, regime=n/a, prod=N, clusters=C4,C13)
+  title: Beyond Accuracy: A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems
+  key_idea: Multi-dimensional, cost-controlled evaluation for enterprise agents.
+  cost: Accuracy-only optimization yields agents 4.4-10.8x more expensive than cost-aware alternatives with comparable performance (300 enterprise tasks); up to 50x cost variation for similar precision
+  summary: Proposes CLEAR, an enterprise agent evaluation framework across cost, latency, efficacy, assurance and reliability, arguing accuracy-only benchmarks mislead. Expert evaluation suggests CLEAR predicts production success better than accuracy alone.
+  benchmarks: 300 enterprise tasks, analysis of 12 benchmarks
+  signals: cost, latency, efficacy, assurance, reliability
+
+[nie-2025-w4s] (2025, COLM 2025, rel=4, gran=none, regime=RL-offline, prod=N, clusters=C4)
+  title: Weak-for-Strong: Training Weak Meta-Agent to Harness Strong Executors
+  key_idea: Weak meta-agent trained with RL designs workflows for strong executors.
+  summary: W4S trains a small (7B) meta-agent with RL for agentic workflow optimization to design workflows that call a stronger executor LLM, outperforming the strongest baseline by 2.9%-24.6% across eleven benchmarks after one GPU hour of training.
+  signals: execution feedback
+
+[singhvi-2025-databricks-gepa-90x] (2025, Databricks blog, rel=4, gran=none, regime=training-free, prod=N, clusters=C4,C14)
+  title: Building State-of-the-Art Enterprise Agents 90x Cheaper with Automated Prompt Optimization
+  key_idea: Optimize prompts for a cheap open model instead of paying for a frontier model.
+  cost: GEPA-optimized gpt-oss-120b surpasses Claude Sonnet 4 and Claude Opus 4.1 baselines by ~3% while being ~22x and ~90x cheaper to serve on IE Bench; GEPA ~20% cheaper to serve than SFT alternatives
+  summary: Databricks reports that automated prompt optimization (GEPA and others in Agent Bricks) lets an open model beat frontier proprietary models on an enterprise information-extraction benchmark at a fraction of the serving cost, and compares favorably with supervised fine-tuning on lifetime cost.
+  benchmarks: IE Bench (Databricks internal information extraction)
+  signals: task metric on IE Bench
+
+[wang-2025-scoreflow] (2025, arXiv, rel=4, gran=none, regime=RL-offline, prod=N, clusters=C4)
+  title: ScoreFlow: Mastering LLM Agent Workflows via Score-based Preference Optimization
+  key_idea: Preference-optimize a workflow generator using score-aware DPO.
+  cost: 8.2% improvement over baselines on six benchmarks; enables smaller models to outperform larger ones with lower inference costs
+  summary: ScoreFlow trains a workflow generator with Score-DPO, a DPO variant that uses quantitative feedback, performing gradient-based optimization in a continuous space rather than discrete search. It improves over prior workflow optimizers across QA, coding and math.
+  signals: quantitative evaluation scores (Score-DPO)
+
+[xu-2025-boad] (2025, arXiv, rel=4, gran=subagent, regime=bandit-online, prod=N, clusters=C3,C4,C5)
+  title: BOAD: Discovering Hierarchical Software Engineering Agents via Bandit Optimization
+  key_idea: Multi-armed bandit search over sub-agent designs for hierarchical agents.
+  summary: Discovers a hierarchical SWE agent by treating candidate sub-agents as bandit arms whose reward is their helpfulness when collaborating, allowing efficient exploration under limited evaluation budgets. The discovered 36B system ranked second on SWE-bench Live at evaluation time.
+  benchmarks: SWE-bench Verified, SWE-bench Live
+  signals: sub-agent helpfulness reward
+
+[xu-2025-trinity-coordinator] (2025, arXiv, rel=4, gran=step, regime=hybrid, prod=N, clusters=C3,C4)
+  title: TRINITY: An Evolved LLM Coordinator
+  key_idea: Tiny evolved coordinator assigns roles and models per turn.
+  summary: Trinity uses a ~0.6B coordinator plus a ~10K-parameter head, optimized with separable CMA-ES, that at each turn assigns a Thinker, Worker or Verifier role to a chosen LLM. It beats individual models and prior methods, reaching 86.2% on LiveCodeBench.
+  benchmarks: LiveCodeBench, math, reasoning, domain knowledge
+  signals: coordinator hidden states
+
+[yang-2025-shapleyflow] (2025, arXiv, rel=4, gran=step, regime=n/a, prod=N, clusters=C3,C4)
+  title: Understanding and Optimizing Agentic Workflows via Shapley value
+  key_idea: Shapley attribution to find optimal per-component configurations.
+  summary: ShapleyFlow applies cooperative game theory to attribute contributions of workflow components and identify task-specific component configurations, including different LLMs per component, that beat single-LLM workflows across 7 scenarios.
+  signals: Shapley value attribution
+
+[ye-2025-mas-gpt] (2025, ICML 2025, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C3,C4)
+  title: MAS-GPT: Training LLMs to Build LLM-based Multi-Agent Systems
+  key_idea: Generate an executable query-specific MAS in a single forward pass.
+  summary: MAS-GPT reframes MAS construction as generation: a fine-tuned mid-size LLM emits an executable query-specific MAS in one inference, trained on consistency-filtered query-MAS pairs. It outperforms 10+ MAS baselines while avoiding the repeated LLM calls of search-based MAS design.
+  benchmarks: 9 benchmarks
+  signals: query
+
+[zhou-2025-mass] (2025, ICLR 2026, rel=4, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Multi-Agent Design: Optimizing Agents with Better Prompts and Topologies
+  key_idea: Staged local-to-global optimization of prompts and topology for MAS.
+  summary: Analyzes the multi-agent design space and finds prompts and topologies both matter; proposes MASS, which interleaves block-level prompt optimization, topology optimization, and workflow-level prompt optimization.
+  signals: validation score
+
+[hu-2024-adas] (2024, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Automated Design of Agentic Systems
+  key_idea: A meta agent programs new agent designs in code, iterating over an archive of discoveries.
+  summary: Defines Automated Design of Agentic Systems (ADAS) and proposes Meta Agent Search, where a meta agent writes new agents in code using an archive of prior designs. Discovered agents outperform hand-designed agents and transfer across domains and models.
+  signals: validation accuracy, archive of prior agents
+
+[opsahlong-2024-mipro] (2024, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs
+  key_idea: Bayesian-surrogate search over per-module instructions and demos with program-aware proposal generation.
+  summary: Presents MIPRO, an optimizer for multi-stage LM programs that jointly searches instructions and few-shot demonstrations for every module without module-level labels, using a Bayesian surrogate over mini-batch evaluations and meta-optimized proposal generation. Beats baseline optimizers on five of seven programs, by up to 13% accuracy with Llama-3-8B.
+  signals: stochastic mini-batch metric, Bayesian surrogate model
+
+[patel-2024-lotus] (2024, arXiv (PVLDB version: Semantic Operators and Their Optimization in LOTUS), rel=4, gran=step, regime=training-free, prod=N, clusters=C2,C4)
+  title: Semantic Operators: A Declarative Model for Rich, AI-based Data Processing
+  key_idea: Declarative semantic operators optimized via cascades with accuracy guarantees.
+  cost: Optimizations accelerate semantic filter/join/group-by/top-k by up to 1,000x; LOTUS programs match or exceed SOTA pipeline accuracy while running up to 3.6x faster
+  summary: Defines semantic operators (LLM-powered filter, join, map, top-k) with a declarative model, and optimizes them by replacing an expensive gold algorithm with cheap proxies and cascades while giving accuracy guarantees.
+  signals: proxy scores, gold-algorithm correlation
+
+[zhang-2024-osca] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C4,C9)
+  title: Scaling LLM Inference with Optimized Sample Compute Allocation
+  key_idea: Optimise the mixture of inference configurations under budget.
+  cost: Beats best single configuration with 128x less compute on code generation and 25x less on 4 reasoning tasks; better SWE-Bench accuracy with 3x less compute than default configuration
+  summary: Learns an optimal mix of sampling configurations (model, temperature, language) and sample counts under a compute budget, including for an agentic SWE workflow.
+  benchmarks: code generation, 4 reasoning tasks, SWE-Bench
+  signals: per-configuration sample allocation, per-configuration accuracy estimates
+
+[khattab-2023-dspy] (2023, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines
+  key_idea: Treat LM pipelines as parameterized programs and compile (optimize) prompts/demos end-to-end against a metric.
+  cost: Compiled DSPy programs on small open LMs (770M T5, llama2-13b-chat) are competitive with expert-written prompt chains for proprietary GPT-3.5
+  summary: Introduces DSPy, a programming model where LM pipelines are declarative modules with learnable prompts/demonstrations, plus a compiler that optimizes a whole pipeline toward a metric. Shows bootstrapped pipelines beat standard few-shot prompting and let small open models approach proprietary-model pipelines.
+  signals: task metric on training set, bootstrapped demonstrations
+
+[kim-2023-llmcompiler] (2023, ICML 2024, rel=4, gran=step, regime=training-free, prod=N, clusters=C4,C11,C12)
+  title: An LLM Compiler for Parallel Function Calling
+  key_idea: Compile agent tool calls into a parallel execution plan.
+  cost: up to 3.7x latency speedup, up to 6.7x cost savings and up to ~9% accuracy improvement vs ReAct; up to 1.35x latency gain over OpenAI parallel function calling
+  summary: LLMCompiler plans function calls as a DAG and executes independent calls in parallel via a planner, task-fetching unit and executor, instead of ReAct-style sequential reasoning. It cuts latency and cost while improving accuracy.
+  benchmarks: function-calling tasks with varied dependency patterns
+  signals: planner-generated DAG, function-call dependency DAG
+
+[wang-2023-ecooptigen] (2023, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Cost-Effective Hyperparameter Optimization for Large Language Model Generation Inference
+  key_idea: Budget-aware HPO of LLM inference hyperparameters.
+  summary: EcoOptiGen tunes LLM inference hyperparameters (number of responses, temperature, max tokens, prompts, model) under a budget using economical hyperparameter optimization with cost-based pruning; implemented in FLAML's autogen package.
+  signals: utility, inference cost, cost-based pruning
+
+[babu-2026-agentbetta] (2026, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C3,C4)
+  title: AgentBetta: Verification-Driven Adaptive Configuration of an AI Nano-Agent through Selective Expansion and Verified Contraction
+  key_idea: Verification-driven expand/contract of agent configuration, including model capability.
+  cost: Median context allocation reduced from 64,000 to 8,000 characters and tool exposure from five to zero at 91.38% verified success on AB-ConfigBench
+
+[google-vertex-data-driven-prompt-optimizer] (2026, Google Cloud documentation, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C4,C8,C14)
+  title: Data-driven prompt optimizer (Vertex AI / Gemini Enterprise Agent Platform docs)
+  key_idea: Use the incumbent model's outputs as labels to re-optimise prompts for a replacement model.
+
+[jiang-2026-moae] (2026, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: MOAE: Multi-Objective Agent Evolution with Pareto-Preserving Search
+  key_idea: Pareto-archive evolutionary agent refinement without fixed scalarization.
+
+[koh-2026-graft] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C4,C7)
+  title: Global Optimization and Inference-Time Region Grafting for Agentic Workflows
+  key_idea: Inference-time local region replacement in a globally optimized workflow.
+
+[kumar-2026-craft] (2026, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C10)
+  title: CRAFT: Cost-aware Refinement And Front-aware Tuning of Prompts
+  key_idea: Pareto-front prompt optimization with validation-budget-aware acquisition.
+
+[lukassen-2026-cafe] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C4,C13)
+  title: CAFE: A Compound-AI Factorial Evaluation Framework
+  key_idea: Factorial DoE for compound AI configuration effects.
+
+[nie-2026-enumgrpo] (2026, arXiv, rel=3, gran=step, regime=RL-offline, prod=N, clusters=C3,C4)
+  title: Cost-Aware Optimization for Agentic Query Execution
+  key_idea: Cost-aware optimization of where LLM operators run in agentic query plans.
+  cost: 35.4% execution accuracy at $0.011 per query, ~317x cost reduction over hybrid query baseline with 18% relative accuracy improvement (SWAN)
+
+[nie-2026-generative-opt-challenges] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C4)
+  title: Understanding the Challenges in Iterative Generative Optimization with LLMs
+  key_idea: Hidden design choices determine whether generative optimization works.
+
+[rognvaldsson-2026-lean-prover-cost-quality] (2026, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C3,C4,C9)
+  title: Optimizing the Cost-Quality Tradeoff of Agentic Theorem Provers in Lean
+  key_idea: Control plane decides continue-vs-restart from failure signals and cost.
+  cost: Decreases cost by 28.9% over a fixed-step baseline on average on a PutnamBench subset, preserving performance
+
+[talluri-2026-rgao-topology-budget] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C4)
+  title: Retrieval-Conditioned Topology Selection with Provable Budget Conservation for Multi-Agent Code Generation
+  key_idea: Complexity-conditioned topology routing with formal subagent budgets.
+
+[wang-2026-scale-query-level-workflows] (2026, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C12)
+  title: Do We Always Need Query-Level Workflows? Rethinking Agentic Workflow Generation for Multi-Agent Systems
+  key_idea: Per-query workflow generation is often unnecessary; evaluate cheaply.
+  cost: Average 0.61% degradation while cutting token usage by up to 83%
+
+[wu-2026-differentiable-moa] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C4)
+  title: Differentiable Mixture-of-Agents Incentivizes Swarm Intelligence of Large Language Models
+  key_idea: Step-wise sparse agent activation via a differentiable router.
+
+[yue-2026-workflow-opt-survey] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C4,C15)
+  title: From Static Templates to Dynamic Runtime Graphs: A Survey of Workflow Optimization for LLM Agents
+  key_idea: Unified vocabulary and taxonomy for agent workflow optimization.
+
+[zehle-2026-cantante] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C4)
+  title: CANTANTE: Optimizing Agentic Systems via Contrastive Credit Attribution
+  key_idea: Contrastive per-agent credit attribution for optimizing agentic configs.
+
+[zhang-2026-metaagentx] (2026, arXiv, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C4)
+  title: MetaAgent-X : Breaking the Ceiling of Automatic Multi-Agent Systems via End-to-End Reinforcement Learning
+  key_idea: End-to-end RL co-training of designer and executor agents.
+
+[feng-2025-heterogeneous-swarms] (2025, NeurIPS 2025, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C4)
+  title: Heterogeneous Swarms: Jointly Optimizing Model Roles and Weights for Multi-LLM Systems
+  key_idea: Swarm search over model roles (DAG) and weights.
+
+[jung-2025-futureweaver] (2025, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C4,C9)
+  title: FutureWeaver: Planning Test-Time Compute for Multi-Agent Systems with Modularized Collaboration
+  key_idea: Budgeted planning of compute across MAS collaboration modules.
+
+[lee-2025-cais-opt-survey] (2025, EMNLP 2025, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C4,C15)
+  title: Compound AI Systems Optimization: A Survey of Methods, Challenges, and Future Directions
+  key_idea: Taxonomy of compound AI optimization methods.
+
+[li-2025-agentswift] (2025, AAAI 2026, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C4)
+  title: AgentSwift: Efficient LLM Agent Design via Value-guided Hierarchical Search
+  key_idea: Value-model-guided hierarchical MCTS for agent design.
+
+[ma-2025-automaas] (2025, arXiv, rel=3, gran=query, regime=hybrid, prod=N, clusters=C3,C4)
+  title: AutoMaAS: Self-Evolving Multi-Agent Architecture Search for Large Language Models
+  key_idea: Self-evolving supernet with cost-aware operator lifecycle.
+  cost: 1.0-7.1% performance improvement with 3-5% lower inference cost vs SOTA
+
+[notdiamond-2025-prompt-adaptation-weaker-models] (2025, Not Diamond blog, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C4,C14)
+  title: Weaker models, stronger results: How prompt adaptation levels the field, part 2
+  key_idea: Re-optimising prompts per target model is a prerequisite for downgrading to cheaper models.
+  cost: clinc150 intent classification: Gemini 2.5 Flash with adapted prompt 97.5% vs 86.75% with the original prompt and 93% for Gemini 2.5 Pro with the original prompt (~30 minutes background optimisation; vendor-reported)
+
+[orbach-2025-rag-hpo] (2025, AAAI 2026 Workshop (NewFrontiers in IR), rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C13)
+  title: An Analysis of Hyper-Parameter Optimization Methods for Retrieval Augmented Generation
+  key_idea: Empirical benchmark of RAG HPO methods; tune model selection first.
+
+[shen-2025-halo] (2025, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C4,C11)
+  title: Batch Query Processing and Optimization for Agentic Workflows
+  key_idea: Database-style query optimization for batches of agentic workflows.
+  cost: up to 3.6x speedup for batch inference and 2.6x throughput under online serving without compromising output quality
+
+[trirat-2025-agentic-predictor] (2025, ICLR 2026, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C4,C6)
+  title: Multi-View Encoders for Performance Prediction in LLM-Based Agentic Workflows
+  key_idea: Surrogate performance predictor for workflow configs.
+
+[wang-2025-cosmos] (2025, arXiv, rel=3, gran=none, regime=supervised-offline, prod=N, clusters=C4,C6)
+  title: COSMOS: Predictable and Cost-Effective Adaptation of LLMs
+  key_idea: Predict cost and performance of LLM adaptation choices cheaply.
+  cost: Reduces computational costs of strategy selection by 92.72% on average with high prediction accuracy
+
+[wang-2025-evoagentx] (2025, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: EvoAgentX: An Automated Framework for Evolving Agentic Workflows
+  key_idea: Unified open-source platform for evolutionary optimization of agent workflows.
+
+[wang-2025-mas2] (2025, arXiv, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C3,C4)
+  title: MAS$^2$: Self-Generative, Self-Configuring, Self-Rectifying Multi-Agent Systems
+  key_idea: A MAS that builds and rectifies other MAS at run time.
+  cost: Up to 19.6% gains over SOTA MAS while staying on the cost-performance Pareto frontier
+
+[xia-2025-hivemind] (2025, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C4,C7)
+  title: HiveMind: Contribution-Guided Online Prompt Optimization of LLM Multi-Agent Systems
+  key_idea: Shapley-based per-agent contribution scoring for MAS optimization.
+
+[xiang-2025-spo] (2025, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C7)
+  title: Self-Supervised Prompt Optimization
+  key_idea: Reference-free prompt optimization via pairwise LLM judging.
+  cost: Comparable or superior results to SOTA prompt optimizers at 1.1%-5.6% of their cost, using about three samples
+
+[yang-2025-mashost] (2025, arXiv, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C3,C4)
+  title: MasHost Builds It All: Autonomous Multi-Agent System Directed by Reinforcement Learning
+  key_idea: RL-driven autonomous MAS graph construction with efficiency objective.
+
+[zehle-2025-capo] (2025, AutoML 2025, rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C10)
+  title: CAPO: Cost-Aware Prompt Optimization
+  key_idea: AutoML-style cost-aware prompt optimization (racing plus length penalty).
+  cost: Outperforms SOTA discrete prompt optimizers in 11/15 cases (up to 21%p); reduces average prompt length via length penalty and saves evaluations via racing
+
+[zhang-2025-ace] (2025, ICLR 2026, rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C10)
+  title: Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models
+  key_idea: Grow and curate a structured playbook instead of rewriting prompts wholesale.
+  cost: +10.6% on agents and +8.6% on finance benchmarks over strong baselines, with lower adaptation latency and rollout cost
+
+[cheng-2024-trace] (2024, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Trace is the Next AutoDiff: Generative Optimization with Rich Feedback, Execution Traces, and LLMs
+  key_idea: Execution traces act like back-propagated gradients for LLM-driven generative optimization of workflows.
+
+[kim-2024-autorag] (2024, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: AutoRAG: Automated Framework for optimization of Retrieval Augmented Generation Pipeline
+  key_idea: Greedy stage-by-stage module selection for RAG pipelines.
+
+[schnabel-2024-sammo] (2024, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C10)
+  title: Symbolic Prompt Program Search: A Structure-Aware Approach to Efficient Compile-Time Prompt Optimization
+  key_idea: Symbolic structure-aware search over prompt programs.
+
+[shang-2024-agentsquare] (2024, ICLR 2025, rel=3, gran=none, regime=training-free, prod=N, clusters=C3,C4)
+  title: AgentSquare: Automatic LLM Agent Search in Modular Design Space
+  key_idea: Search over modular agent designs with a surrogate performance predictor.
+
+[shi-2024-triple-bai-prompt] (2024, arXiv, rel=3, gran=none, regime=bandit-online, prod=N, clusters=C4,C5)
+  title: Efficient Prompt Optimization Through the Lens of Best Arm Identification
+  key_idea: Prompt selection as fixed-budget best arm identification.
+
+[soylu-2024-bettertogether] (2024, EMNLP 2024, rel=3, gran=none, regime=hybrid, prod=N, clusters=C4,C8)
+  title: Fine-Tuning and Prompt Optimization: Two Great Steps that Work Better Together
+  key_idea: Alternate prompt optimization and weight fine-tuning for LM programs.
+
+[tan-2024-teola] (2024, ASPLOS 2025, rel=3, gran=none, regime=n/a, prod=N, clusters=C4,C11)
+  title: Teola: Towards End-to-End Optimization of LLM-based Applications
+  key_idea: Fine-grained primitive-level orchestration of LLM applications.
+  cost: up to 2.09x speedup over existing systems across popular LLM applications
+
+[yuan-2024-evoagent] (2024, NAACL 2025, rel=3, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: EvoAgent: Towards Automatic Multi-Agent Generation via Evolutionary Algorithms
+  key_idea: Evolutionary expansion of a single agent into a multi-agent system.
+
+[yuksekgonul-2024-textgrad] (2024, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: TextGrad: Automatic "Differentiation" via Text
+  key_idea: Automatic 'differentiation' via textual feedback for optimizing variables in compound AI graphs.
+
+[zaharia-2024-compound-ai-systems] (2024, BAIR blog, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C4,C15)
+  title: The Shift from Models to Compound AI Systems
+  key_idea: Defines compound AI systems and frames their end-to-end optimization and cost control as a research agenda.
+
+[zhuge-2024-gptswarm] (2024, ICML 2024, rel=3, gran=subagent, regime=RL-offline, prod=N, clusters=C3,C4,C12)
+  title: Language Agents as Optimizable Graphs
+  key_idea: Treat multi-agent systems as optimizable graphs and learn which edges to keep.
+
+[cheng-2026-optimas-mas] (2026, EMNLP 2026, rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: OptiMAS: Automatically Optimize Multi-Agent System
+  key_idea: Long-horizon automated MAS optimization.
+
+[yuan-2026-bayesflow] (2026, Findings of EACL 2026, rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: BayesFlow: A Probability Inference Framework for Meta-Agent Assisted Workflow Generation
+  key_idea: Workflow generation as posterior sampling.
+
+[zeng-2026-autoragtuner] (2026, EuroSys 2026 (poster), rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: AutoRAGTuner: A Declarative Framework for Automatic Optimization of RAG Pipelines
+  key_idea: Declarative RAG pipeline spec plus adaptive BO tuning.
+
+[guan-2025-glow] (2025, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C4,C6)
+  title: GLOW: Graph-Language Co-Encoding for Agentic Workflow Performance Prediction
+  key_idea: Graph-language surrogate for workflow performance.
+
+[kartal-2025-ragsmith] (2025, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: RAGSmith: A Framework for Finding the Optimal Composition of Retrieval-Augmented Generation Methods Across Datasets
+  key_idea: Genetic search over RAG technique compositions.
+
+[xu-2025-robustflow] (2025, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: RobustFlow: Towards Robust Agentic Workflow Generation
+  key_idea: Robustness of automated workflow generation.
+
+[zhang-2025-dgm] (2025, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Darwin Godel Machine: Open-Ended Evolution of Self-Improving Agents
+  key_idea: Open-ended evolutionary self-modification of agent code.
+
+[zhang-2025-flora-bench] (2025, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C4,C6)
+  title: GNNs as Predictors of Agentic Workflow Performances
+  key_idea: GNN surrogates for workflow performance.
+
+[zhao-2025-a2flow] (2025, AAAI 2026, rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: A2Flow: Automating Agentic Workflow Generation via Self-Adaptive Abstraction Operators
+  key_idea: Self-adaptive operator abstraction for workflow search.
+
+[ziems-2025-mmgrpo] (2025, ACM CAIS 2026, rel=2, gran=none, regime=RL-offline, prod=N, clusters=C4,C8)
+  title: Composing Policy Gradients and Prompt Optimization for Language Model Programs
+  key_idea: Combine multi-module GRPO with prompt optimization.
+
+[hu-2024-evomac] (2024, ICLR 2025, rel=2, gran=subagent, regime=training-free, prod=N, clusters=C3,C4)
+  title: Self-Evolving Multi-Agent Collaboration Networks for Software Development
+  key_idea: Textual backpropagation to evolve a coding MAS at test time.
+
+[lin-2024-scaffolded-lm-survey] (2024, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C4,C15)
+  title: Scaffolded Language Models with Language Supervision for Mixed-Autonomy: A Survey
+  key_idea: LLM-as-optimizer over prompts/tools/scaffold code, surveyed.
+
+[yin-2024-godel-agent] (2024, ACL 2025, rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Gödel Agent: A Self-Referential Agent Framework for Recursive Self-Improvement
+  key_idea: Self-referential recursive self-improvement of agent code.
+
+[zhou-2024-agent-symbolic-learning] (2024, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Symbolic Learning Enables Self-Evolving Agents
+  key_idea: Language-based backprop over agent pipelines.
+
+[fernando-2023-promptbreeder] (2023, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Promptbreeder: Self-Referential Self-Improvement Via Prompt Evolution
+  key_idea: Self-referential evolution of task and mutation prompts.
+
+[lin-2023-instinct] (2023, ICML 2024, rel=2, gran=none, regime=bandit-online, prod=N, clusters=C4,C5)
+  title: Use Your INSTINCT: INSTruction optimization for LLMs usIng Neural bandits Coupled with Transformers
+  key_idea: Neural-bandit instruction optimization.
+
+[pryzant-2023-protegi] (2023, EMNLP 2023, rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Automatic Prompt Optimization with "Gradient Descent" and Beam Search
+  key_idea: Textual-gradient prompt optimization with bandit beam search.
+
+[yang-2023-opro] (2023, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Large Language Models as Optimizers
+  key_idea: Optimization by prompting: LLM proposes new solutions conditioned on scored history.
+
+[zhou-2022-ape] (2022, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C4)
+  title: Large Language Models Are Human-Level Prompt Engineers
+  key_idea: LLM-generated and scored instruction search.
+

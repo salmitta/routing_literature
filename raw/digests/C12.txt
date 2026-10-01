@@ -1,0 +1,976 @@
+# C12: 158 records (full detail for rel>=4; one-liners for rel<=3)
+
+[anthropic-2026-optimizing-cost-and-intelligence] (2026, Claude Platform documentation, rel=5, gran=step, regime=n/a, prod=N, clusters=C3,C9,C10,C12,C14)
+  title: Optimizing for cost and intelligence
+  key_idea: Vendor-measured playbook of per-step and architecture cost levers, including when delegation to cheaper workers loses.
+  cost: Examples reported: prompt caching cut DeepResearch Bench II cost 81% (Fable 5.1) and 62.5% (Sonnet 5); on SWE-bench Pro, Opus 5.5 low effort with failures re-run at high reached 97% at ~$0.17/task vs 95.3% at $0.29 all-high; Fable 5 coordinator + Sonnet 5 worker cost ~50% of solo Fable 5 on an easy BrowseComp slice; on full BrowseComp, solo Fable 5 at lower effort was 22-30% cheaper than the orchestrator at same accuracy
+  summary: Anthropic documentation with measured results on cost levers: caching, trimming tools and context, effort tuning, retrying failures at higher effort, task budgets, advisor pairing and orchestrator-worker delegation. It reports that advisor gains shrink as the executor approaches the advisor's capability and that cheaper-worker delegation helps on easy slices but can lose to a solo model at lower effort on the full set.
+  benchmarks: SWE-bench Pro, DeepResearch Bench II, BrowseComp, GPQA Diamond, Terminal-Bench 3, internal benchmarks
+  signals: effort level, advisor consultation, task budget
+
+[bai-2026-agents-spend-your-money] (2026, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C9,C10,C12,C13)
+  title: How Do AI Agents Spend Your Money? Analyzing and Predicting Token Consumption in Agentic Coding Tasks
+  key_idea: Where coding-agent tokens go and why they are hard to predict.
+  cost: Agentic coding uses ~1000x more tokens than code chat; runs on the same task vary up to 30x; Kimi-K2 and Claude-Sonnet-4.5 use over 1.5M more tokens than GPT-5 on average
+  summary: The first systematic token-consumption study of coding agents across eight frontier models on SWE-bench Verified. Input tokens dominate cost, usage is highly stochastic, accuracy saturates at intermediate cost, human difficulty ratings poorly predict tokens, and models underestimate their own token use.
+  benchmarks: SWE-bench Verified
+  signals: token usage
+
+[bechard-2026-terminal-agents-suffice] (2026, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C12,C14)
+  title: Terminal Agents Suffice for Enterprise Automation
+  key_idea: A plain terminal coding agent beats heavier enterprise agent stacks on cost.
+  cost: Terminal agents match or outperform more complex agent architectures at a fraction of the cost
+  summary: ServiceNow researchers argue a coding agent with only a terminal and filesystem, calling platform APIs directly, solves many enterprise automation tasks better and far more cheaply than MCP tool agents or GUI web agents. Suggests simple programmatic interfaces plus strong models as the enterprise backbone.
+  benchmarks: diverse real-world enterprise systems
+
+[cai-2026-think-big-search-small] (2026, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C8,C12)
+  title: Think Big, Search Small: Where Capacity Matters in Hierarchical Search Agents?
+  key_idea: Put capacity in the planner/delegator and downsize the executor.
+  cost: Scaling delegation backbone improves EM ~11 points vs ~2.6 for execution; a 1.7B distilled executor matches a frontier sub-agent with 37% fewer sub-agent tokens
+  summary: The authors factor hierarchical search agents into delegation, execution and answer-generation roles and sweep model capacity per role. Decomposition is the capacity bottleneck, while execution can be downsized; a 1.7B executor trained by quality-filtered trajectory distillation matches a frontier executor.
+  benchmarks: five multi-hop QA benchmarks
+  signals: role capacity sweep
+
+[chen-2026-agentslimming] (2026, arXiv, rel=5, gran=subagent, regime=training-free, prod=N, clusters=C3,C4,C12)
+  title: AgentSlimming: Towards Efficient and Cost-Aware Multi-Agent Systems
+  key_idea: Prune agents or downgrade them to cheaper models with validated acceptance.
+  cost: Reduces average token cost by up to 78.9% with negligible performance degradation
+  summary: AgentSlimming compresses graph-structured multi-agent workflows by scoring agent importance, then removing redundant agents or replacing them with low-cost ones, accepting each change only if performance holds. It achieves large token savings with little or no accuracy loss.
+  benchmarks: eight benchmarks
+  signals: agent importance score, baseline-anchored acceptance, agent importance scores
+
+[dennis-2026-compiling-workflows-into-weights] (2026, arXiv, rel=5, gran=none, regime=supervised-offline, prod=N, clusters=C8,C12)
+  title: Compiling Agentic Workflows into LLM Weights: Near-Frontier Quality at Two Orders of Magnitude Less Cost
+  key_idea: Compile agent workflows into a small model's weights.
+  cost: Title claims near-frontier quality at two orders of magnitude less cost; evaluated on travel booking, Zoom support and insurance-claims workflows
+  summary: Argues external orchestration frameworks can be replaced by fine-tuning procedures into model weights, testing across procedural tasks such as travel booking against frontier models with procedures in the system prompt.
+  benchmarks: travel booking and other procedural tasks
+  signals: procedural workflow data
+
+[dylan-2026-equal-inference-cost-mas] (2026, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C12)
+  title: At Equal Inference Cost, Multi-Agent Structure Does Not Beat a Single Frozen Agent
+  key_idea: Under equal call budgets, multi-agent structure does not beat a single agent.
+  cost: Team 0.769 vs single agent 0.754 on ALFWorld (p=0.80) despite 1.8x more evaluation calls
+  summary: Fixes the total number of LLM calls and compares evolving a planner-executor-critic team against evolving a single agent on a frozen 7B model. The team is not significantly better, its value comes entirely from the executor, and with equal cost multi-agent structure adds cost without clear benefit.
+  benchmarks: ALFWorld, WebShop
+  signals: LLM call budget
+
+[furman-2026-replit-free-the-models] (2026, Replit blog, rel=5, gran=subagent, regime=training-free, prod=Y, clusters=C3,C9,C12,C14)
+  title: Free the models: Harness design at the frontier
+  key_idea: Let the frontier orchestrator itself assign tiers and effort to subagents rather than routing externally.
+  cost: DeepSWE v1.1: Replit Agent 72% at $2.11/task vs GPT-6 Astra (mini-swe-agent) 67% at $1.60 (low effort) and 74% at $4.43 (xhigh); sidekick architecture 61% at $1.34. Terminal-Bench 4.0: 49% at $2.53 vs Astra 42% at $2.25 (low) and 60% at $5.86 (xhigh); sidekick 33% at $1.84 (means of 4 runs; vendor-reported). Production delegation rates: 21-36% of turns dispatch a subagent
+  summary: Replit argues that an external router is always less capable than the model it routes for, and instead lets the main agent choose at each step its own effort (changed mid-turn without cache loss on GPT-6), whether to delegate, and which subagent tier (small/standard/large), effort and specialist to use, including reusing already-briefed subagents. It reports production delegation statistics per model and a Pareto comparison against single-model baselines and a one-worker sidekick design.
+  benchmarks: DeepSWE v1.1, Terminal-Bench 4.0, Replit Agent production traffic (delegation statistics)
+  signals: main-agent (LLM) judgement of subtask difficulty, effort level, subagent tier
+
+[ganz-2026-handoff-tax] (2026, arXiv, rel=5, gran=step, regime=n/a, prod=N, clusters=C3,C12)
+  title: The Handoff Tax: Continuing Non-Native Trajectories in LLM Agents
+  key_idea: Mid-trajectory model switches carry a handoff tax; downshifting works better than escalating.
+  cost: Full-trajectory escalation recovers less than half of the cheap-to-strong quality gap at a substantial cost premium; downshifting offers a favorable cost-quality point
+  summary: Studies mid-trajectory model handoffs in coding agents, varying direction, timing and how much of the prior trajectory the receiving model sees. Escalating a cheap model's trajectory to a strong one recovers under half the gap at high cost (the handoff tax), while downshifting after hard reasoning is favorable; less inherited context helps escalation.
+  benchmarks: coding agent tasks
+
+[hong-2026-dats-difficulty-aware-topology] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C3,C12)
+  title: Learning How Much to Collaborate: Difficulty-Aware Topology Selection for Multi-Agent Code Generation
+  key_idea: Choose single agent vs MAS topology per problem by predicted difficulty and cost.
+  cost: At 40% of always-hierarchical cost, 77.7% pass@1 vs 73.6% always-hierarchical and 74.3% strongest learned competitor; hierarchical advantage grows from 2.4 to 21.1 points with difficulty at ~10x tokens
+  summary: Shows the benefit of hierarchical multi-agent collaboration over a single agent grows strongly with problem difficulty while costing ~10x tokens, and trains a selector that picks the topology maximizing predicted success minus cost. Under budget-matched evaluation it beats always-hierarchical at 40% of its cost.
+  benchmarks: APPS, HumanEval+, LiveCodeBench, 400 math problems
+  signals: 39 interpretable difficulty features, cost-penalty scalar
+
+[ke-2026-mas-orchestra] (2026, ICML 2026, rel=5, gran=query, regime=RL-offline, prod=N, clusters=C3,C12,C13)
+  title: MAS-Orchestra: Understanding and Improving Multi-Agent Reasoning Through Holistic Orchestration and Controlled Benchmarks
+  key_idea: Holistic RL orchestration plus a benchmark of when MAS beats single agents.
+  cost: More than 10x efficiency over strong baselines while improving accuracy
+  summary: MAS-Orchestra trains an orchestrator with function-calling RL to generate an entire MAS at once, treating sub-agents as callable functions. Its controlled MASBENCH shows MAS gains depend on task depth, horizon, breadth, parallelism and robustness and on orchestrator and sub-agent capability, not universally.
+  benchmarks: MASBENCH, math reasoning, multi-hop QA, search-based QA
+  signals: task structure axes (depth, horizon, breadth, parallel, robustness)
+
+[kwartler-2026-harness-tokenomics] (2026, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C1,C3,C10,C12,C14)
+  title: Harness Tokenomics: A Router for the Enterprise Agentic Control Plane
+  key_idea: Prompt-cache-aware routing inside agent harnesses.
+  cost: Recovers 13-21% of model spend ($3.3M-$5.1M/year) in an emulated 10,000-seat enterprise at Anthropic list prices; finds highest-priced model can cost less than the next tier on long tool-heavy sessions
+  summary: Builds a cache-aware router for enterprise coding-agent harnesses that routes at session start, side lanes and subagent launch while avoiding cache rebuilds, and derives when mid-task model switches pay back.
+  benchmarks: ~10,000 real sessions from public datasets
+  signals: calibrated prompt classifier, prompt-cache state, price sheet, calibrated prompt classifier over request taxonomy
+
+[leins-2026-when-orchestration-pays-off] (2026, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C12,C13)
+  title: When Does LLM Orchestration Pay Off? A Controlled Evaluation of Accuracy, Cost, and Task Difficulty
+  key_idea: Orchestration gains are modest, model-specific and costly.
+  cost: Largest gain 4.6 points over optimized CoT while needing roughly 2-4x the tokens of task-only inference
+  summary: A controlled comparison of Self-Refine, Best-of-N and Debate against optimized single-call baselines, with equal GEPA optimization budgets. Orchestration gives modest benchmark-dependent gains at 2-4x tokens, does not help more on harder items, and depends strongly on the backbone.
+  benchmarks: competitive programming, chess puzzles, mathematics
+
+[lin-2026-cursor-agent-swarm-economics] (2026, Cursor blog, rel=5, gran=subagent, regime=n/a, prod=N, clusters=C3,C12)
+  title: Agent swarms and the new model economics
+  key_idea: Role-level model assignment (frontier planner, cheap workers) captures most savings in long-horizon multi-agent runs.
+  cost: Building SQLite in Rust from docs: model mixes reached similar quality but cost ranged from $1,339 (Opus 4.8 planner + Composer 2.5 workers) to $10,565 (GPT-5.5 for all roles); workers carried >=69% (usually >90%) of tokens; worker fleet cost $411 vs $9,373 (vendor-reported)
+  summary: Cursor's planner/worker swarm recursively decomposes a goal, with frontier planners and cheaper, faster workers. On a long-running build-SQLite task, the redesigned swarm beat the old one in every model configuration, and mixing a frontier planner with a cheap worker matched single-frontier quality at a fraction of the cost because workers dominate tokens. A more expensive planner that used fewer tokens still raised total cost by inducing more worker tokens.
+  benchmarks: held-out SQL test suite (SQLite-from-scratch task)
+  signals: role (planner vs worker)
+
+[tran-2026-single-vs-multi-agent-equal-budget] (2026, arXiv, rel=5, gran=n/a, regime=n/a, prod=N, clusters=C9,C12,C13)
+  title: Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets
+  key_idea: Many multi-agent gains are unaccounted compute.
+  summary: Information-theoretic and empirical argument that under equal reasoning-token budgets single agents match or beat multi-agent systems on multi-hop reasoning; flags API budget-control artefacts (notably Gemini 2.5).
+  benchmarks: multi-hop reasoning tasks, multi-hop reasoning benchmarks
+  signals: thinking-token budget, reasoning-token budget
+
+[wang-2026-boundaryrouter] (2026, arXiv, rel=5, gran=query, regime=training-free, prod=N, clusters=C1,C2,C3,C6,C12)
+  title: Learning Agent Routing From Early Experience
+  key_idea: Route between plain LLM and full agent using early experience.
+  cost: reduces inference time by 60.6% vs agent while improving performance by 28.6% over direct LLM inference
+  summary: BoundaryRouter decides per query whether direct LLM inference suffices or a full agent is needed, using a memory built by running both on a seed set and rubric-guided reasoning over retrieved cases. It introduces RouteBench with in-domain, paraphrased and out-of-domain splits.
+  benchmarks: RouteBench, RouteBench (new)
+  signals: experience memory of seed runs, rubric-guided reasoning, early experience memory
+
+[yang-2026-harness-adaptation-slm] (2026, arXiv, rel=5, gran=none, regime=training-free, prod=N, clusters=C3,C4,C8,C10,C12)
+  title: Better Harnesses, Smaller Models: Building 90% Cheaper Agents via Automated Harness Adaptation
+  key_idea: Lift task difficulty into the harness so small models suffice.
+  cost: best small-model agent recovered 89.7% of LLM performance at 4% of the cost; optimized harnesses improved 16 of 21 task-SLM pairs, closing the gap in seven
+  summary: Shows that SLM agents can match frontier agents on many routine business tasks at about 90% lower cost if the harness (instructions, tools, orchestration loops) is adapted, and builds a meta-agent that discovers adaptations from failure trajectories. Works best on repetitive workflows and capable-enough SLMs.
+  benchmarks: seven business-oriented agentic tasks, routine business tasks (21 task-SLM pairs)
+  signals: failure trajectories, automated harness adaptation
+
+[zhang-2026-rethinking-mas-efficiency-evaluation] (2026, EMNLP 2026, rel=5, gran=none, regime=n/a, prod=N, clusters=C12,C13)
+  title: Rethinking the Evaluation of Efficiency Methods for Multi-Agent Systems
+  key_idea: Many MAS pruning gains vanish under controlled, MAS-demanding evaluation.
+  summary: Argues that reported gains of MAS efficiency methods (agent pruning, edge removal, compact structure search) are often overestimated because of method-specific prompts, starting topologies and non-MAS-demanding tasks where random pruning already works. A controlled benchmark shows many gains come from structural collapse or disabled tools.
+  benchmarks: controlled MAS-demanding diagnostic benchmark
+
+[zywot-2026-small-agents-beat-large-llm] (2026, arXiv, rel=5, gran=subagent, regime=n/a, prod=N, clusters=C3,C12)
+  title: Can Small Agents Collaborate to Beat a Single Large Language Model?
+  key_idea: Spend capacity on the orchestrator; sub-agents can be small.
+  summary: Controlled comparisons show a minimal MAS of small models (one orchestrator plus specialist sub-agents) can beat much larger single-agent models on tool-heavy tasks. Reasoning at the orchestrator gives the biggest gains, while sub-agent reasoning adds little; orchestrator capacity drives performance.
+  benchmarks: factual retrieval, multi-hop reasoning, scientific QA, math
+
+[belcak-2025-slms-future-agentic-ai] (2025, arXiv (position paper), rel=5, gran=subagent, regime=n/a, prod=N, clusters=C3,C8,C12,C15)
+  title: Small Language Models are the Future of Agentic AI
+  key_idea: Most agent calls should go to SLMs; convert LLM agents to SLMs using logged usage.
+  summary: NVIDIA's position paper argues that small language models are capable enough, better suited and far cheaper for most repetitive, narrow invocations inside agentic systems, and that heterogeneous agents mixing SLMs and LLMs are the natural design. Outlines an LLM-to-SLM conversion algorithm from agent usage logs.
+
+[chaudhry-2025-murakkab] (2025, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C4,C11,C12)
+  title: Murakkab: Resource-Efficient Agentic Workflow Orchestration in Cloud Platforms
+  key_idea: Declarative workflows with profile-guided model/hardware mapping.
+  cost: Reduces GPU usage by up to 2.8x, energy by 3.7x and cost by 4.3x while maintaining SLOs
+  summary: Murakkab is a serving system that decouples workflow specification from execution configuration and uses a profile-guided optimizer to map workflow components to models and hardware under SLOs.
+  benchmarks: diverse agentic workflows
+  signals: profiles, SLOs, workflow structure, user SLOs
+
+[dang-2025-puppeteer-evolving-orchestration] (2025, NeurIPS 2025, rel=5, gran=step, regime=RL-offline, prod=N, clusters=C3,C4,C12)
+  title: Multi-Agent Collaboration via Evolving Orchestration
+  key_idea: RL orchestrator sequences agents step by step and prunes low-utility ones.
+  cost: Superior performance with reduced computational cost; token use falls during training
+  summary: A centralized orchestrator (puppeteer) is trained with REINFORCE to choose which agent acts next as the task state evolves, learning to skip unhelpful agents and terminate early. It improves performance while lowering compute, converging to compact cyclic structures.
+  benchmarks: closed- and open-domain scenarios
+  signals: task state, reward
+
+[fan-2025-imad] (2025, AAAI 2026, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7,C12)
+  title: iMAD: Intelligent Multi-Agent Debate for Efficient and Accurate LLM Inference
+  key_idea: Escalate from single agent to debate only when it is likely to help.
+  cost: Up to 92% token reduction with up to 13.5% accuracy improvement
+  summary: iMAD triggers multi-agent debate only when a lightweight classifier on self-critique features predicts debate will fix a wrong single-agent answer, avoiding debate costs and harmful overturns on easy queries.
+  benchmarks: six (visual) QA datasets
+  signals: 41 self-critique hesitation features, debate-decision classifier
+
+[gao-2025-single-or-multi-agent-why-not-both] (2025, arXiv, rel=5, gran=query, regime=training-free, prod=N, clusters=C2,C12)
+  title: Single-agent or Multi-agent Systems? Why Not Both?
+  key_idea: Cascade requests between single-agent and multi-agent systems.
+  cost: Hybrid cascading between MAS and single-agent improves accuracy 1.1-12% while reducing deployment cost up to 20%
+  summary: An empirical comparison of multi-agent and single-agent systems across agentic applications finds that MAS advantages shrink as frontier LLMs improve. Proposes request cascading between single-agent and multi-agent systems, gaining accuracy while cutting cost up to 20%.
+  benchmarks: popular agentic applications
+  signals: error-prone agent detection
+
+[hadfield-2025-multi-agent-research-system] (2025, Anthropic engineering blog, rel=5, gran=subagent, regime=n/a, prod=Y, clusters=C3,C12,C14)
+  title: How we built our multi-agent research system
+  key_idea: Big-model lead with smaller-model parallel subagents buys quality with tokens; worth it only for high-value breadth tasks.
+  cost: Not a cost reduction: Opus 4 lead + Sonnet 4 subagents outperformed single-agent Opus 4 by 90.2% on an internal research eval; agents use ~4x chat tokens and multi-agent systems ~15x; token usage explained 80% of BrowseComp performance variance; parallel tool calls cut research time up to 90%
+  summary: Describes the production Claude Research system, where an Opus lead agent plans and spawns parallel Sonnet subagents with their own context windows. The heterogeneous setup beat single-agent Opus by 90.2% on an internal eval but used about 15x the tokens of chat, so it pays off only for high-value, parallelizable, context-heavy tasks.
+  benchmarks: internal research eval, BrowseComp
+  signals: token usage, tool calls, model choice
+
+[he-2025-information-theoretic-agentic-design] (2025, arXiv, rel=5, gran=subagent, regime=n/a, prod=N, clusters=C3,C10,C12)
+  title: An Information Theoretic Perspective on Agentic System Design
+  key_idea: Choose compressor/predictor sizes in multi-LM agents by mutual information rather than task-specific sweeps.
+  cost: A 7B Qwen-2.5 compressor is 1.6x more accurate, 4.6x more concise and conveys 5.5x more MI per token than its smaller sibling (abstract)
+  summary: The paper models agentic systems in which small compressor LMs summarize raw context for larger predictor LMs as a noisy channel. It proposes a mutual-information estimator that predicts downstream performance independent of task, and finds that larger compressors are both more accurate and more token-efficient; this guides how to size each role.
+  benchmarks: five datasets
+  signals: mutual information between context and compression
+
+[kapoor-2025-hal-holistic-agent-leaderboard] (2025, arXiv (reported as ICLR 2026 in secondary sources), rel=5, gran=none, regime=n/a, prod=N, clusters=C12,C13)
+  title: Holistic Agent Leaderboard: The Missing Infrastructure for AI Agent Evaluation
+  key_idea: Standardized, cost-aware agent leaderboard with released logs.
+  cost: Reports ~$40,000 total cost for 21,730 rollouts across 9 models x 9 benchmarks; finds higher reasoning effort reduced accuracy in most runs
+  summary: HAL provides a standardized harness that runs agent evaluations in parallel on hundreds of VMs, and reports 21,730 rollouts over 9 models and 9 benchmarks (about $40,000) with cost-accuracy Pareto analysis. LLM-aided log inspection surfaces behaviors like searching for benchmark answers; all 2.5B tokens of logs are released.
+  benchmarks: 9 benchmarks in coding, web navigation, science, customer service, 9 benchmarks incl. coding, web navigation, science, customer service (e.g., tau-bench, GAIA, SWE-bench)
+  signals: cost, accuracy, log inspection, LLM-aided log inspection
+
+[kim-2025-science-of-scaling-agent-systems] (2025, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C12,C13)
+  title: Towards a Science of Scaling Agent Systems
+  key_idea: Predictive scaling principles for when multi-agent architectures help.
+  cost: Relative change vs single agent ranges from +80.8% (decomposable financial reasoning) to -70.0% (sequential planning)
+  summary: Google Research runs 260 controlled configurations across five architectures (single-agent and four multi-agent types) and six benchmarks, fitting a predictive model of when coordination helps. Multi-agent gains saturate as single-agent capability rises, tool-heavy tasks incur multi-agent overhead, and mismatched coordination hurts performance. A companion Google Research blog post ('Towards a science of scaling agent systems: When and why agent systems work') summarizes the findings.
+  benchmarks: six agentic benchmarks
+  signals: coordination metrics
+
+[wang-2025-agentdropout] (2025, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C12)
+  title: AgentDropout: Dynamic Agent Elimination for Token-Efficient and High-Performance LLM-Based Multi-Agent Collaboration
+  key_idea: Drop redundant agents and edges per round by optimizing communication graphs.
+  cost: 21.6% fewer prompt tokens and 18.4% fewer completion tokens with +1.14 performance vs SOTA
+  summary: AgentDropout learns which agents and edges to drop in each communication round by optimizing the graph adjacency matrices, removing redundant agents dynamically. It lowers token use and slightly improves accuracy over prior topology methods.
+  signals: communication graph adjacency
+
+[wang-2025-efficient-agents] (2025, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C3,C12,C13,C15)
+  title: Efficient Agents: Building Effective Agents While Reducing Cost
+  key_idea: Measure agent cost-of-pass and prune unnecessary complexity.
+  cost: Efficient Agents retains 96.7% of OWL's performance while reducing cost from $0.398 to $0.228, a 28.4% improvement in cost-of-pass on GAIA (abstract)
+  summary: Systematic empirical study of efficiency-effectiveness trade-offs in agent systems, varying LLM backbone, framework modules and test-time scaling on GAIA with a cost-of-pass metric. Proposes an Efficient Agents framework sized to task needs.
+  benchmarks: GAIA
+  signals: cost-of-pass
+
+[zhang-2025-maas-agentic-supernet] (2025, ICML 2025, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C3,C4,C12)
+  title: Multi-agent Architecture Search via Agentic Supernet
+  key_idea: Sample a per-query multi-agent architecture from a learned supernet to allocate compute.
+  cost: Requires only 6-45% of the inference costs of existing handcrafted or automated multi-agent systems while surpassing them by 0.54%-11.82%
+  summary: MaAS optimizes an agentic supernet, a distribution over multi-agent architectures, and samples a query-dependent architecture at inference so easy queries get light systems and hard ones get more operators. It cuts inference cost sharply versus handcrafted and automated MAS while improving accuracy and transferring across datasets and backbones.
+  benchmarks: six benchmarks
+  signals: query embedding, difficulty, query features, inference cost, task score
+
+[chen-2024-optima] (2024, arXiv, rel=5, gran=none, regime=hybrid, prod=N, clusters=C3,C4,C8,C12)
+  title: Optima: Optimizing Effectiveness and Efficiency for LLM-Based Multi-Agent System
+  key_idea: Train MAS agents with a reward that penalizes tokens to get efficient communication.
+  cost: Up to 2.8x performance gain with less than 10% of tokens on information-heavy tasks vs vanilla MAS (Llama 3 8B)
+  summary: Optima trains the agents of a multi-agent system with an iterative generate-rank-select-train loop (SFT, DPO and hybrids) whose reward balances task success, token efficiency and readability, using MCTS-style data generation. The trained MAS communicates far more tersely and outperforms both single-agent and vanilla MAS baselines.
+  benchmarks: information-asymmetric QA, complex reasoning tasks
+  signals: reward: task score + token count + readability, task reward, token efficiency, readability
+
+[kapoor-2024-ai-agents-that-matter] (2024, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C2,C12,C13)
+  title: AI Agents That Matter
+  key_idea: Evaluate agents on the cost-accuracy Pareto frontier, not accuracy alone.
+  cost: Simple baselines match complex SOTA agents at far lower cost; the paper designs a joint cost-accuracy optimization that greatly reduces cost while maintaining accuracy (search summary cites 50x cost spread for similar accuracy)
+  summary: Critiques agent benchmarking: accuracy-only leaderboards produce needlessly costly agents, and simple baselines (retry, warming, escalation) sit on the cost-accuracy Pareto frontier. Also covers holdout sets, overfitting and reproducibility, and argues for jointly optimizing cost and accuracy.
+  benchmarks: agent benchmarks incl. HumanEval, HumanEval, other agent benchmarks (see paper)
+  signals: cost, accuracy
+
+[zhang-2024-aflow] (2024, arXiv, rel=5, gran=none, regime=training-free, prod=N, clusters=C3,C4,C12)
+  title: AFlow: Automating Agentic Workflow Generation
+  key_idea: Workflow search lets small models replace large ones.
+  cost: Smaller models outperform GPT-4o on specific tasks at 4.55% of its inference cost in dollars; 5.7% average improvement over SOTA baselines across six benchmarks
+  summary: AFlow searches code-represented agentic workflows with MCTS, refining them from execution feedback. Beyond a 5.7% average gain, optimized workflows let smaller models beat GPT-4o on some tasks at under 5% of its cost.
+  benchmarks: six benchmark datasets
+  signals: execution feedback, benchmark score
+
+[zhang-2024-agentprune] (2024, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C10,C12)
+  title: Cut the Crap: An Economical Communication Pipeline for LLM-based Multi-Agent Systems
+  key_idea: One-shot pruning of the inter-agent message graph removes redundant communication.
+  cost: Comparable results to SOTA topologies at $5.6 vs $43.7; 28.1%-72.8% token reduction when plugged into existing MAS
+  summary: AgentPrune identifies communication redundancy in multi-agent pipelines and does one-shot pruning on the spatial-temporal message-passing graph to keep only useful messages. It reaches state-of-the-art-level accuracy at a fraction of token cost and improves robustness to adversarial agents.
+  benchmarks: six benchmarks
+  signals: message-graph importance
+
+[zhang-2024-g-designer] (2024, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C4,C12)
+  title: G-Designer: Architecting Multi-agent Communication Topologies via Graph Neural Networks
+  key_idea: Generate a per-task communication topology with a graph auto-encoder.
+  cost: Reduces token consumption by up to 95.33% on HumanEval
+  summary: G-Designer uses a variational graph auto-encoder over agent nodes and a task node to generate a task-adaptive communication topology for each task. It reaches strong accuracy while cutting token consumption on easy tasks and stays robust to adversarial agents.
+  benchmarks: MMLU, HumanEval, six benchmarks total
+  signals: task embedding, agent profiles, graph auto-encoder
+
+[ali-2026-harness-effect] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C3,C10,C12,C14)
+  title: The Harness Effect: How Orchestration Design Sets the Token Economics of Enterprise Agentic AI
+  key_idea: Orchestration harness design is a larger cost lever than model choice.
+  cost: Harness cuts blended cost per task 41% ($0.21->$0.12), wall-clock 44%, tokens 38% at quality parity (0.78->0.81) across six models on 22 tasks; quality per dollar +82%
+  summary: A controlled swap that keeps six models fixed and changes only the orchestration layer, comparing a conventional production loop with Writer's agent harness. On this workload the harness moved cost per task more than the whole spread of model choices, and quality gains scaled with model strength.
+  benchmarks: 22 locked enterprise evaluation tasks
+
+[bertalanic-2026-cost-of-consensus] (2026, ACM Conference on AI and Agentic Systems, rel=4, gran=none, regime=n/a, prod=N, clusters=C12)
+  title: The Cost of Consensus: Isolated Self-Correction Prevails Over Unguided Homogeneous Multi-Agent Debate
+  key_idea: Unguided homogeneous debate costs more for no gain over self-correction.
+  cost: Debate uses 2.1-3.4x more tokens (up to 28,631 per problem) than isolated self-correction for equal or lower accuracy
+  summary: A controlled study of homogeneous 10-agent debate with 7-8B models finds sycophantic conformity, contextual fragility and consensus collapse, and that isolated self-correction beats debate at 2-3x lower token cost.
+  benchmarks: GSM-Hard, MMLU-Hard
+
+[bholani-2026-self-healing-router] (2026, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C12)
+  title: Graph-Based Self-Healing Tool Routing for Cost-Efficient LLM Agents
+  key_idea: Replace most LLM control decisions with graph routing; call the LLM only to escalate.
+  cost: Matches ReAct correctness while reducing control-plane LLM calls by 93% (9 vs 123) across 19 scenarios
+  summary: Self-Healing Router treats most agent control flow as deterministic routing over a cost-weighted tool graph with Dijkstra. When a tool fails, edges are reweighted and the path recomputed; the LLM is called only when no feasible path exists.
+  benchmarks: 19 scenarios over three graph topologies
+  signals: tool health monitors, cost-weighted tool graph
+
+[chang-2026-cascadedebate] (2026, arXiv, rel=4, gran=query, regime=hybrid, prod=N, clusters=C2,C12)
+  title: CascadeDebate: Multi-Agent Deliberation for Cost-Aware LLM Cascades
+  key_idea: Deliberate cheaply before escalating.
+  cost: Outperforms single-model cascades and standalone multi-agent systems by up to 26.75%; online threshold optimiser gives 20.98-52.33% relative gains over fixed policies
+  summary: Inserts a small multi-agent deliberation at each tier's escalation boundary so uncertain cases can be resolved by consensus before paying for a larger model or human. An online optimiser adjusts thresholds.
+  benchmarks: five benchmarks in science, medicine, general knowledge
+  signals: confidence, multi-agent consensus
+
+[chen-2026-co-failure-ceiling] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C12,C13,C15)
+  title: When Does Combining Language Models Help? A Co-Failure Ceiling on Routing, Voting, and Mixture-of-Agents Across 67 Frontier Models
+  key_idea: Co-failure ceiling bounds achievable router gains.
+  summary: Proves that any policy outputting one member's answer (routing, voting, cascades) is capped at one minus the rate at which all models fail together, and gives a finite-sample certificate for this ceiling. Empirically the tail is underestimated by correlation models.
+  benchmarks: mathematics, code, open-ended math, execution-graded code, GPQA-Diamond
+  signals: all-model co-failure rate, all-models-wrong rate (beta)
+
+[dennis-2026-in-context-obsoletes-orchestration] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C12)
+  title: In-Context Prompting Obsoletes Agent Orchestration for Procedural Tasks
+  key_idea: Self-orchestration in context beats external orchestrators for procedures.
+  cost: In-context approach scores 4.53-5.00 vs 4.17-4.84 for LangGraph orchestration; failure rates 11.5%/0.5%/5% vs 24%/9%/17%
+  summary: For procedural multi-turn tasks, putting the whole procedure in the system prompt and letting the model self-orchestrate beats an external LangGraph orchestrator on quality and failure rate across three domains. External orchestration is argued to be unnecessary for modern frontier models on such tasks.
+  benchmarks: travel booking, Zoom support, insurance claims
+
+[ghosh-2026-grade-gated-routing] (2026, arXiv, rel=4, gran=subagent, regime=RL-offline, prod=N, clusters=C3,C12)
+  title: Route, Communicate, and Reason: Gated Routing and Adaptive Depth for Efficient Multi-Agent Reasoning
+  key_idea: Learned gates control agent choice, depth and communication per query.
+  cost: +4.8 points over strongest baseline on MMLU-Pro at half the active compute
+  summary: GRADE uses four learned gates to choose which agents to consult, how deep in a hierarchy a query goes, when to communicate and which branches to prune, trained with a multi-agent GRPO variant over a hot-swappable expert registry.
+  benchmarks: GSM8K, MMLU-Pro, GPQA, AIME-2025
+  signals: learned gates for agent selection, depth, communication, pruning
+
+[guo-2026-eet-early-termination] (2026, ACL 2026, rel=4, gran=step, regime=training-free, prod=N, clusters=C9,C12)
+  title: EET: Experience-Driven Early Termination for Cost-Efficient Software Engineering Agents
+  key_idea: Experience-driven early stopping for coding agents.
+  cost: Total cost reduced 19%-55% (32% average) with at most 0.2% loss in resolution rate; API calls, input and output tokens down 21%, 30%, 25%
+  summary: EET extracts experience from past issue-resolution runs and uses it to stop patch generation and selection early when further iterations are unlikely to help, cutting coding-agent cost by about a third.
+  benchmarks: SWE-bench Verified
+  signals: structured experience from prior runs
+
+[hajimiri-2026-skill-memory-worth-tokens] (2026, EMNLP 2026, rel=4, gran=none, regime=n/a, prod=N, clusters=C10,C12,C13)
+  title: Are Online Skill and Memory Modules Always Worth Their Tokens? A Budget-Constrained Study of Web Agents
+  key_idea: Many agent add-on modules lose to a budget-matched plain actor.
+  cost: Token-matched vanilla actor matches or beats AWM, ASI and ReasoningBank in aggregate success while often using fewer tokens
+  summary: Re-evaluates memory, workflow and skill modules for web agents under a fixed total token budget and finds a vanilla actor given the same tokens for extra steps matches or beats them. Run-to-run variance is large and should be reported.
+  benchmarks: WebArena (four domains), WorkArena-L1
+  signals: token-matched budget
+
+[hu-2026-cost-inefficient-coding-agents] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C10,C12,C13)
+  title: Analyzing and Mitigating Cost-Inefficient Behaviors in Coding Agents
+  key_idea: Target recurring wasteful behaviors in coding agents with human-designed skills.
+  cost: developer-designed skills reduced cost by up to 41.73%; subsumed retrieval, similar script generation and test re-execution account for up to 22.75% of task cost
+  summary: Analyzes 1,200 coding-agent trajectories (Claude Code, Mini-SWE-Agent) and identifies three recurring wasteful behaviors: subsumed retrieval, similar script generation and test re-execution. Developer-written skills reduce cost up to 42%, while structure-aware retrieval and agent-synthesized skills help less or even raise cost.
+  benchmarks: SWE-bench Verified, SWE-bench Pro
+  signals: trace analysis, trajectory analysis
+
+[katz-2026-cursor-token-efficiency] (2026, Cursor blog, rel=4, gran=subagent, regime=n/a, prod=Y, clusters=C3,C10,C12,C14)
+  title: Improved token efficiency for longer agent runs
+  key_idea: Many small harness-level context changes compound into measurable production token savings without quality loss.
+  cost: Harness changes cut user token costs 7% with no quality loss: system prompt trimmed ~66%; MCP tools moved to dynamic context (-46.9% total tokens in sessions calling an MCP tool); offloading built-in tools cut static tool-description tokens 60%; cold cache misses -20%; line numbers every 10th line cut cache-read tokens 1.6% (vendor-reported, production traffic)
+  summary: Breaks down where agent inference spend goes in production (output, uncached and cached input by context source) and reports harness changes: trimming instructions models now follow natively, loading rarely needed tools on demand, reordering static context for cache reuse, compressing file-read line numbers, and restraining subagent spawning and subagent model switching. Notes the coordination tax of context-isolated subagents.
+  benchmarks: Cursor production traffic
+
+[khaled-2026-pyramid-moa] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C12)
+  title: Pyramid MoA: A Probabilistic Framework for Cost-Optimized Anytime Inference
+  key_idea: Anytime-computation escalation rule for hierarchical mixture-of-agents.
+  cost: Up to 42.9% compute savings on GSM8K/MMLU while nearly matching the 68.1% Oracle baseline; zero-shot transfer to HumanEval and MATH 500
+  summary: Frames cascades as anytime algorithms and builds a hierarchical mixture-of-agents with a decision-theoretic escalation rule derived from value-of-computation theory. Also finds that passing small-model reasoning upward can help or hurt the large model depending on correctness.
+  benchmarks: MBPP, GSM8K, MMLU, HumanEval, MATH 500
+  signals: value of computation, router confidence
+
+[kulkarni-2026-financial-mas-orchestration-benchmark] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C12,C13,C14)
+  title: Benchmarking Multi-Agent LLM Architectures for Financial Document Processing: A Comparative Study of Orchestration Patterns, Cost-Accuracy Tradeoffs and Production Scaling Strategies
+  key_idea: Orchestration pattern choice drives cost-accuracy; hybrids with routing recover most gains cheaply.
+  cost: Reflexive loop F1 0.943 at 2.3x sequential cost; hierarchical supervisor-worker F1 0.921 at 1.4x cost; hybrid configs recover 89% of reflexive gains at 1.15x cost
+  summary: Benchmarks four orchestration architectures (sequential, parallel fan-out, hierarchical supervisor-worker, reflexive loop) for financial document extraction across five LLMs, measuring F1, latency, cost per document and tokens. Hierarchical designs sit best on the cost-accuracy frontier, and hybrids with caching, model routing and adaptive retry get most of the accuracy at little extra cost.
+  benchmarks: 10,000 SEC filings (10-K, 10-Q, 8-K)
+
+[li-2026-single-agent-skills-vs-mas] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C12)
+  title: When Single-Agent with Skills Replace Multi-Agent Systems and When They Fail
+  key_idea: Compile MAS into a single agent with skills; watch the skill-library capacity limit.
+  cost: Substantially reduced token usage and latency while maintaining competitive accuracy (preliminary)
+  summary: Argues a multi-agent system can be compiled into a single agent that selects from a skill library, trading communication for skill selection, and finds preliminary token and latency savings. Skill-selection accuracy shows a sharp phase transition as the library grows, which hierarchical routing mitigates.
+  benchmarks: reasoning benchmarks
+  signals: skill selection accuracy
+
+[liu-2026-hcp-mad] (2026, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C3,C12)
+  title: HCP-MAD:Heterogeneous Consensus-Progressive Reasoning for Efficient Multi-Agent Debate
+  key_idea: Progressive escalation from pair consensus to full debate.
+  cost: Improves accuracy while substantially reducing token costs across six benchmarks
+  summary: HCP-MAD first checks consensus between two heterogeneous agents and stops early, then runs a short pair debate, and escalates only unresolved tasks to collective voting with more agents, adapting token spend to difficulty.
+  benchmarks: six benchmarks
+  signals: heterogeneous pair consensus
+
+[luo-2026-agentark] (2026, arXiv, rel=4, gran=none, regime=supervised-offline, prod=N, clusters=C8,C12)
+  title: AgentArk: Distilling Multi-Agent Intelligence into a Single LLM Agent
+  key_idea: Single agent inherits multi-agent intelligence.
+  summary: Distills multi-agent debate dynamics into a single LLM agent, shifting computation from inference to training while keeping reasoning and self-correction benefits.
+  signals: multi-agent debate traces
+
+[malik-2026-progressive-crystallization] (2026, arXiv, rel=4, gran=none, regime=supervised-offline, prod=Y, clusters=C8,C12,C14)
+  title: Progressive Crystallization: Turning Agent Exploration into Deterministic, Lower-Cost Workflows in Production
+  key_idea: Graduate agent trajectories into deterministic workflows to remove LLM calls.
+  cost: Deterministic execution rose 0% to 45% over eight months; per-incident agent cost reduced >70% despite doubling incident volume (production cloud-networking AIOps)
+  summary: Progressive crystallization promotes repeatedly validated agent behaviors in a production IT-ops system into deterministic workflows, and demotes them on regression. Over eight months on tens of thousands of incidents per month it shifted executions off the LLM.
+  signals: repeated validated agent behaviors
+
+[marjanovic-2026-model-pools-mas] (2026, arXiv, rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C12,C13)
+  title: Mo'Models, Mo'Problems: How to best select model pools when designing Multi-Agent Systems
+  key_idea: Bigger heterogeneous model pools often hurt MAS; select candidates carefully.
+  summary: Evaluates eight strategies for picking candidate models for multi-agent systems, for routing-based and aggregation-based (voting, judge) architectures. Growing the candidate pool often pushes performance below the best single model; selecting within one model family worked best.
+  benchmarks: scientific reasoning benchmarks
+  signals: model size, accuracy, answer diversity
+
+[peng-2026-inference-economics-coding-agents] (2026, arXiv (industrial case study), rel=4, gran=none, regime=n/a, prod=Y, clusters=C10,C12,C14)
+  title: Inference Economics of Enterprise Coding Agents: A Case Study of Cloud vs. On-Premise LLMs
+  key_idea: Real telemetry: caching reshapes cloud vs on-prem agent economics.
+  cost: Prompt caching (99.3% hit rate) cut realized API cost 88.6% to $0.57 per million tokens; on-prem saves 40.1% TCO under shared GPUs but dedicated reservation costs 43.8% more; local config had fix-commit ratio 74.9% vs 45.9%
+  summary: A longitudinal single-developer case study on a production monorepo comparing API Claude Opus in Claude Code against on-prem quantized GLM in Opencode. Caching makes the API cheaper per token than on-prem, the local model causes far more repair commits, and hybrid routing gateways trade defect rate for savings rather than dominating.
+  benchmarks: production monorepo, two 28-day periods
+  signals: LLM telemetry, Git history
+
+[pham-2026-agentstop] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C6,C9,C12)
+  title: AgentStop: Terminating Local AI Agents Early to Save Energy in Consumer Devices
+  key_idea: Predict failing trajectories from cheap signals and stop them early to save compute.
+  cost: Reduces wasted energy by 15-20% with <5% utility drop on web QA and coding benchmarks
+  summary: Measures the time, token and energy overhead of local LLM agents on consumer hardware and introduces AgentStop, a lightweight supervisor that predicts from cheap execution signals which trajectories will fail and terminates them early.
+  signals: token log probabilities, execution signals
+
+[phillips-2026-when-to-use-multi-agent-systems] (2026, Claude blog (Anthropic), rel=4, gran=none, regime=n/a, prod=Y, clusters=C12,C14)
+  title: Building multi-agent systems: When and how to use them
+  key_idea: Use multi-agent only for context isolation, parallelism or specialization; otherwise it costs 3-10x more tokens.
+  cost: States multi-agent systems typically use 3-10x more tokens than single-agent approaches for equivalent tasks
+  summary: Anthropic guidance recommending single agents by default and multi-agent designs only for context protection, parallelization or specialization, since coordination costs otherwise exceed benefits. Reports that multi-agent systems usually spend 3-10x more tokens due to duplicated context, coordination messages and summarization, and advises decomposing by context boundaries.
+
+[rainone-2026-hybrid-cloud-device-mas-lessons] (2026, arXiv (workshop), rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C12)
+  title: When Cloud Agents Meet Device Agents: Lessons from Hybrid Multi-Agent Systems
+  key_idea: Systematic design-space study of hybrid SLM/LLM multi-agent systems.
+  summary: Qualcomm researchers adapt two MAS architectures for hybrid on-device SLM and cloud LLM inference and map how design choices move systems along the Pareto frontier of power, cost and accuracy. SLMs benefit from LLM help, but the best hybrid architecture is task-dependent and more frontier compute does not reliably help.
+
+[ryser-2026-shipping-cost-mas] (2026, Swiss Conference on Data Science (SDS) 2026, rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C12,C14)
+  title: Measuring Tradeoffs in Multi-Agent Models: a Case Study in Shipping Cost Calculation
+  key_idea: Decompose an industrial agent so small models can serve subtasks.
+  summary: An industrial case study that decomposes a customer-facing shipping-cost agent into sub-tasks so that smaller open-weight models can handle them in a multi-agent system. With optimization, small models are a cost-effective alternative to frontier models in low-risk settings.
+
+[saleh-2026-illusion-agentic-complexity-readme] (2026, ICSME 2026, rel=4, gran=none, regime=n/a, prod=N, clusters=C12)
+  title: The Illusion of Agentic Complexity in README.md Generation: Evaluating Single-Agent vs. Multi-Agent RAG Systems
+  key_idea: Single agent matches MAS quality at a fraction of tokens on a real SE task.
+  cost: Single-agent pipeline matches MAS lexical quality while using 86% fewer tokens at twice the speed
+  summary: Compares a single-agent RAG pipeline, a specialized MAS and a developer-guided planning variant for README generation. The single agent matches lexical quality with 86% fewer tokens, while MAS gives more consistent structure and developer-guided plans give the best quality.
+  benchmarks: README generation for GitHub repositories
+
+[sun-2026-collaboration-tax] (2026, EMNLP 2026, rel=4, gran=none, regime=n/a, prod=N, clusters=C12)
+  title: The Collaboration Tax: How Much LLM Multi-Agent Systems Pay to Coordinate
+  key_idea: Coordination itself has a measurable, predictable performance cost.
+  summary: Defines the collaboration tax as the loss when two LLMs must coordinate under private information instead of acting alone, and measures it across 11 models. The tax falls with capability and stems from a four-stage conversational failure cascade; heterogeneous pairs drift toward the stronger partner.
+  benchmarks: 32 solo-tractable tasks
+  signals: conversation features
+
+[wang-2026-agentconductor] (2026, arXiv, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C3,C12)
+  title: AgentConductor: Topology Evolution for Multi-Agent Competition-Level Code Generation
+  key_idea: Difficulty-aware topology density control by an RL orchestrator.
+  cost: Up to 14.6% higher pass@1, 13% density reduction and 68% token-cost reduction vs strongest baseline
+  summary: AgentConductor trains an LLM orchestrator with RL to infer roles and difficulty per query and build a density-controlled layered DAG topology, refining it with execution feedback. It improves competition-level code generation while cutting token cost.
+  benchmarks: three competition-level and two foundational code datasets
+  signals: task difficulty, execution feedback
+
+[wang-2026-rethinking-scale-slm-agent-paradigms] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C8,C12,C13)
+  title: Rethinking Scale: Deployment Trade-offs of Small Language Models under Agent Paradigms
+  key_idea: For small models, single tool agents beat multi-agent setups on cost-effectiveness.
+  summary: A large study of sub-10B open models as base models, single tool-using agents and multi-agent systems. Single agents give the best performance-cost balance, while multi-agent setups add overhead with limited gains.
+
+[weinberger-2026-prompt-induced-waste-coding-agents] (2026, arXiv, rel=4, gran=step, regime=n/a, prod=N, clusters=C9,C12,C13)
+  title: Prompt-Induced Waste in Coding Agents: Reasoning, Effort, Harness Design, and End-to-End Cost
+  key_idea: Measure cost per successful task; prompt, effort and harness interact.
+  summary: Controlled experiments showing prompt wording, reasoning effort and harness design interact to determine coding-agent cost and success; argues efficiency should be measured as cost per successful task, not tokens.
+  signals: prompt wording, inference effort, harness policy
+
+[xiong-2026-clawarena-team] (2026, arXiv, rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C12,C13)
+  title: ClawArena-Team: Benchmarking Subagent Orchestration and Dynamic Workflows in Language-Model Agents
+  key_idea: Benchmark for the leader role in subagent orchestration.
+  cost: API cost spans over 100x across leader models while overall score spans under 4x
+  summary: Benchmarks a single LLM's ability to act as a manager that spawns and orchestrates a fixed pool of local subagents, scored by execution with no LLM judge. The bottleneck is privilege granting, and management quality is largely decoupled from cost, with cheap open models competitive.
+  benchmarks: ClawArena-Team (41 scenarios, 258 rounds)
+  signals: subagent management score
+
+[xu-2026-hyevo] (2026, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C4,C12)
+  title: HyEvo: Self-Evolving Hybrid Agentic Workflows for Efficient Reasoning
+  key_idea: Replace predictable LLM steps with code nodes during workflow search.
+  cost: Up to 19x lower inference cost and 16x lower latency vs state-of-the-art open-source baseline
+  summary: HyEvo evolves agentic workflows that mix LLM nodes with deterministic code nodes, offloading predictable operations from LLM inference, using a multi-island evolutionary search with reflection. It outperforms prior workflow generators while cutting cost and latency sharply.
+  benchmarks: reasoning and coding benchmarks
+  signals: execution feedback
+
+[xu-2026-learning-what-to-skip] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C3,C6,C12)
+  title: Learning What to Skip: Counterfactual Credit Assignment for Efficient Multi-Agent LLM Workflows
+  key_idea: Counterfactual credit assignment to skip unneeded workflow components.
+  cost: Reduces recorded token cost while matching or improving full-workflow accuracy (no single number in abstract)
+  summary: LW2S learns from controlled skip interventions on full-workflow logs which planning, verification or summarization components can be safely omitted given the current state, with held-out calibration and guards. It lowers token cost at equal accuracy.
+  benchmarks: math reasoning, multiple-choice QA, code generation
+  signals: counterfactual skip interventions, calibrated safety models
+
+[xu-2026-oneflow-single-agent-baseline] (2026, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C3,C10,C12)
+  title: Rethinking the Value of Multi-Agent Workflow: A Strong Single Agent Baseline
+  key_idea: Homogeneous MAS is largely reducible to one agent; heterogeneity is what matters.
+  cost: Single-agent execution matches homogeneous workflows with KV-cache reuse efficiency; OneFlow reduces inference costs vs automatic multi-agent design frameworks
+  summary: Shows that homogeneous multi-agent workflows, where all agents share one base LLM, can be simulated by a single agent in multi-turn conversation at equal accuracy while reusing the KV cache. The proposed OneFlow tailors workflows for single-agent execution; the authors note that truly heterogeneous workflows are where multi-agent value may remain.
+  benchmarks: seven benchmarks (coding, math, QA, domain reasoning, planning/tool use)
+
+[xu-2026-patching-architectures-study] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C12)
+  title: A Systematic Study of LLM-Based Architectures for Automated Patching
+  key_idea: Architecture and iteration depth, not just model, drive patching cost and reliability.
+  summary: A controlled comparison of fixed workflows, single agents, multi-agent systems and general-purpose code agents for automated vulnerability patching. Workflows are efficient but brittle, single agents balance flexibility and cost, multi-agent designs add heavy overhead and drift, and general code agents perform best.
+  benchmarks: real-world vulnerability tasks
+  signals: token usage, execution time
+
+[yang-2026-protocol-routing-cost-aware] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C2,C7,C12)
+  title: LLMs Can Predict Failure Risk, But Struggle to Predict Which Collaboration Protocol Pays Off: Cost-Aware Protocol Routing Across Reasoning Tasks
+  key_idea: Predicting failure is easy; predicting which collaboration pays off is hard.
+  cost: Self-confidence gate reaches 78.0% solve at 45K tokens vs 73.8% at 71.3K for a frozen gpt-oss-120b router
+  summary: Runs every problem under four protocols (direct, self-correction, planner-executor-reviewer, multi-agent deliberation) to study when to pay for collaboration. LLM probes predict baseline failure well (0.88 AUROC) but struggle to predict which collaboration protocol helps; routers tend to under- or over-escalate.
+  benchmarks: 4,181 competition math problems, biology and science benchmarks
+  signals: post-answer failure probe, self-confidence gate, failure-risk probe
+
+[zeng-2026-mixture-of-roles-single-agent] (2026, arXiv, rel=4, gran=query, regime=hybrid, prod=N, clusters=C8,C12)
+  title: One Model, Many Minds: Unlocking Multi-Agent Synergy in a Single Agent via Mixture of Roles
+  key_idea: Compress multi-agent role diversity into a single steered forward pass.
+  cost: On par with MAS while reducing token cost by 20x; +2.2% over single-agent baselines
+  summary: MoRe composes several learned role steering vectors into one per query so a single frozen LLM gets multi-perspective specialization in one turn, matching multi-agent systems at a twentieth of the tokens.
+  benchmarks: reasoning and personality benchmarks
+  signals: query-aware router over steering-vector codebook
+
+[zhao-2026-atom] (2026, arXiv, rel=4, gran=query, regime=RL-online, prod=N, clusters=C4,C12)
+  title: ATOM: Instantiating Budget-Controllable Multi-Agent Collaboration via Nucleus-Electron Hierarchy
+  key_idea: Difficulty-aware budget control over which agents are instantiated.
+  cost: Improves token efficiency by up to 30% vs strong baselines across six benchmarks
+  summary: ATOM generates budget-controllable multi-agent collaboration graphs, keeping an offline-learned backbone and activating query-conditioned agents according to estimated difficulty.
+  signals: query difficulty, budget
+
+[bijoy-2025-prost-slm-multi-agent] (2025, arXiv, rel=4, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C8,C12)
+  title: ProST: Progressive Sub-task Training for Pareto-Optimal Multi-agent Systems Using Small Language Models
+  key_idea: Curriculum over subtasks to make SLM role agents Pareto-competitive.
+  cost: Progressive sub-task training improves effectiveness of SLM multi-agent systems at all configurations (Pareto analysis in paper)
+  summary: Compares single-agent LLM systems with multi-agent SLM systems on AppWorld for effectiveness and efficiency, finding SLMs struggle with long trajectories even with role specialization. Progressive sub-task training, a curriculum over subtasks, improves SLM multi-agent results.
+  benchmarks: AppWorld
+
+[cemri-2025-mast-why-mas-fail] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C7,C12)
+  title: Why Do Multi-Agent LLM Systems Fail?
+  key_idea: Taxonomy and dataset of why multi-agent systems fail.
+  summary: Builds MAST, a taxonomy of 14 multi-agent failure modes in three categories (system design, inter-agent misalignment, task verification) from expert annotation of traces, plus an LLM-judge annotator and a 1600+ trace dataset. Shows that MAS gains on benchmarks are often minimal and that simple fixes give limited improvement.
+  benchmarks: MAST-Data (1600+ traces, 7 MAS frameworks), MAST annotated traces (5 MAS frameworks, 150+ tasks)
+  signals: LLM-as-judge failure annotation, failure taxonomy, LLM judge
+
+[davidson-2025-collaboration-gap] (2025, arXiv, rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C12,C13)
+  title: The Collaboration Gap
+  key_idea: Strong-first, weak-later relay mitigates the heterogeneous collaboration gap.
+  summary: A maze benchmark that isolates collaboration among heterogeneous agents shows that models strong when solo often degrade when paired. A relay in which a stronger agent starts and then hands off to a weaker one closes much of the gap.
+  benchmarks: collaborative maze-solving benchmark
+  signals: pairing type
+
+[el-2025-inefficiencies-meta-agents] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C4,C12,C13)
+  title: Inefficiencies of Meta Agents for Agent Design
+  key_idea: Automated agent design rarely pays back its design cost.
+  cost: Only on two datasets does total design-plus-deployment cost of meta-designed agents fall below human-designed agents, and only when deployed on over 15,000 examples
+  summary: Examines meta-agents that design agents: expanding context with all prior designs underperforms, designed agents lack diversity, and the design cost is recouped only in a few datasets at large deployment scale.
+  signals: design cost, per-example inference cost
+
+[erol-2025-cost-of-pass] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C12,C13,C15)
+  title: Cost-of-Pass: An Economic Framework for Evaluating Language Models
+  key_idea: Cost-of-pass as an economic metric for model selection.
+  cost: Frontier cost-of-pass for complex quantitative tasks roughly halved every few months over the year studied
+  summary: Defines cost-of-pass, the expected monetary cost of producing a correct solution, and the frontier cost-of-pass across models and human experts. Finds lightweight models most cost-effective for basic quantitative tasks, large models for knowledge-intensive ones and reasoning models for complex math.
+  benchmarks: basic quantitative, knowledge-intensive and complex quantitative task suites
+  signals: expected cost of a correct solution, accuracy, inference cost
+
+[jiang-2025-guided-topology-diffusion] (2025, ACL 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C3,C12)
+  title: Dynamic Generation of Multi-LLM Agents Communication Topologies with Graph Diffusion Models
+  key_idea: Diffusion-generated MAS topologies guided by a cost-aware proxy.
+  cost: Generates sparse, efficient topologies that significantly outperform prior methods (no single number in abstract)
+  summary: Guided Topology Diffusion builds multi-agent communication graphs iteratively with a discrete graph diffusion model steered by a lightweight proxy that predicts accuracy, utility and cost. The result is sparse task-adaptive topologies that save tokens.
+  benchmarks: multiple benchmarks
+  signals: proxy reward model (accuracy, utility, cost)
+
+[li-2025-adaptive-graph-pruning] (2025, ECAI 2025, rel=4, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C12)
+  title: Adaptive Graph Pruning for Multi-Agent Communication
+  key_idea: Jointly prune agent count and communication edges per task.
+  cost: Over 90% decrease in token consumption with 2.58%-9.84% performance increase
+  summary: Adaptive Graph Pruning jointly learns how many agents to use (hard pruning) and which edges to keep (soft pruning) per task through a two-stage training strategy. It improves accuracy and cuts tokens by over 90% with only a few training steps.
+  benchmarks: six benchmarks: general reasoning, math reasoning, code generation
+  signals: task
+
+[li-2025-arg-designer] (2025, AAAI 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C3,C12)
+  title: Assemble Your Crew: Automatic Multi-agent Communication Topology Design via Autoregressive Graph Generation
+  key_idea: Autoregressive generation of agent set and topology per query.
+  cost: Significantly greater token efficiency than prior topology designers
+  summary: ARG-Designer generates a MAS collaboration graph from scratch autoregressively, deciding the number of agents, their roles and links conditioned on the task query. It beats template-modification methods and uses fewer tokens.
+  benchmarks: six benchmarks
+  signals: task query
+
+[li-2025-chain-of-agents-afm] (2025, arXiv, rel=4, gran=none, regime=hybrid, prod=N, clusters=C8,C12)
+  title: Chain-of-Agents: End-to-End Agent Foundation Models via Multi-Agent Distillation and Agentic RL
+  key_idea: Distill a multi-agent system into one model.
+  summary: Distills multi-agent system trajectories into a single end-to-end agent foundation model that simulates multi-agent collaboration internally, then applies agentic RL.
+  signals: multi-agent distillation, agentic RL
+
+[lin-2025-supervisoragent] (2025, ICLR 2026, rel=4, gran=step, regime=training-free, prod=N, clusters=C7,C10,C12)
+  title: Stop Wasting Your Tokens: Towards Efficient Runtime Multi-Agent Systems
+  key_idea: Runtime supervision triggered cheaply to stop wasteful agent behavior.
+  cost: Reduces Smolagents token consumption by 29.68% on GAIA without lowering success rate
+  summary: SupervisorAgent is a lightweight runtime supervisor triggered by an LLM-free filter that intervenes at critical points to correct errors, curb inefficient behavior and clean observations, without changing the base agent. It cuts token usage by about 30% on GAIA at equal success.
+  benchmarks: GAIA, math reasoning, code generation, QA
+  signals: LLM-free adaptive filter
+
+[openai-2025-practical-guide-building-agents] (2025, OpenAI business guide (PDF), rel=4, gran=step, regime=n/a, prod=Y, clusters=C3,C12,C14)
+  title: A practical guide to building agents
+  key_idea: Baseline with the strongest model everywhere, then downscale per task; prefer a single agent until complexity demands more.
+  summary: OpenAI's guide, distilled from customer deployments, recommends maximizing a single agent before splitting into manager or decentralized multi-agent patterns. On model selection it advises prototyping with the most capable model for every task to set a baseline, then swapping in smaller models where they remain acceptable, since simple retrieval or intent classification steps may not need the smartest model.
+
+[sharma-2025-slm-agentic-survey] (2025, arXiv, rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C8,C12,C15)
+  title: Small Language Models for Agentic Systems: A Survey of Architectures, Capabilities, and Deployment Trade offs
+  key_idea: SLM-default, LLM-fallback agent design.
+  cost: Claims SLMs with guided decoding can match or surpass LLMs on tool use, function calling and RAG at 10x-100x lower token cost (abstract, synthesized from literature)
+  summary: Survey arguing small language models suffice for many schema-constrained agentic workloads and formalizing SLM-default, LLM-fallback designs with uncertainty-aware routing and verifier cascades. Proposes metrics such as cost per successful task.
+  benchmarks: BFCL v3/v4, StableToolBench
+  signals: uncertainty-aware routing, verifier cascades, uncertainty, verifier checks
+
+[xiao-2025-agentdiet-trajectory-reduction] (2025, FSE 2026, rel=4, gran=step, regime=training-free, prod=N, clusters=C10,C12)
+  title: Reducing Cost of LLM Agents with Trajectory Reduction
+  key_idea: Prune waste from growing agent trajectories during execution.
+  cost: input tokens reduced 39.9%-59.7% and total computational cost reduced 21.1%-35.9% while maintaining agent performance
+  summary: AgentDiet removes useless, redundant and expired information from coding-agent trajectories at inference time, using a cheaper reflection model over a sliding window. It cuts input tokens and total cost substantially with no loss in resolve rate.
+  benchmarks: SWE-bench Verified, Multi-SWE-bench (two benchmarks), two coding-agent benchmarks
+  signals: redundancy/expiry of trajectory content, useless/redundant/expired trajectory content detection
+
+[zhang-2025-safesieve] (2025, AAAI 2026, rel=4, gran=subagent, regime=hybrid, prod=N, clusters=C3,C12)
+  title: SafeSieve: From Heuristics to Experience in Progressive Pruning for LLM-based Multi-Agent Communication
+  key_idea: Progressive heuristic-to-experience pruning of MAS communication.
+  cost: 94.01% average accuracy with 12.4%-27.8% token reduction; 13.3% deployment cost reduction in heterogeneous settings
+  summary: SafeSieve progressively prunes inter-agent communication, starting from LLM-based semantic scoring and moving to experience-driven refinement, while clustering to keep coherent agent groups. It reduces tokens and cost, including in heterogeneous-model deployments, and is robust to prompt injection.
+  benchmarks: SVAMP, HumanEval
+  signals: LLM semantic evaluation, accumulated performance feedback
+
+[zhang-2025-stop-overvaluing-mad] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C3,C12,C13)
+  title: Stop Overvaluing Multi-Agent Debate -- We Must Rethink Evaluation and Embrace Model Heterogeneity
+  key_idea: MAD rarely pays off; model heterogeneity is the reliable improvement.
+  summary: A systematic evaluation of five multi-agent debate methods on nine benchmarks finds they often fail to beat CoT and self-consistency despite using more compute. Mixing heterogeneous models consistently improves MAD.
+  benchmarks: 9 benchmarks
+
+[anthropic-2024-building-effective-agents] (2024, Anthropic engineering blog, rel=4, gran=query, regime=n/a, prod=Y, clusters=C1,C12,C14)
+  title: Building effective agents
+  key_idea: Start simple; add agentic complexity only when it pays for its cost; route easy inputs to smaller models.
+  summary: Anthropic distills lessons from dozens of customer agent deployments: prefer simple composable workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer) and only move to autonomous agents when needed, since agentic systems trade latency and cost for performance. The routing pattern explicitly sends easy questions to smaller models such as Haiku and hard ones to Sonnet.
+  signals: input classification
+
+[chan-2024-agentmonitor] (2024, arXiv, rel=4, gran=subagent, regime=supervised-offline, prod=N, clusters=C7,C12)
+  title: AgentMonitor: A Plug-and-Play Framework for Predictive and Secure Multi-Agent Systems
+  key_idea: Predict MAS performance from agent-level features before/while running.
+  summary: AgentMonitor captures per-agent inputs/outputs in a multi-agent system and trains a regression model (XGBoost) to predict task performance (Spearman 0.89 in-domain), also filtering harmful content.
+  signals: agent input/output features, XGBoost predictor
+
+[li-2024-sparse-topology-debate] (2024, EMNLP 2024 Findings, rel=4, gran=subagent, regime=training-free, prod=N, clusters=C3,C12)
+  title: Improving Multi-Agent Debate with Sparse Communication Topology
+  key_idea: Sparse debate graphs cut tokens; place stronger models at high-centrality nodes.
+  cost: Comparable or superior performance at significantly reduced computational cost; search summary cites over 40% input-token cost reduction in some configurations
+  summary: Studies communication connectivity in multi-agent debate and shows that sparse topologies match or beat fully connected debate at much lower compute. It also finds that giving stronger LLMs to more central agents helps, a form of role-aware model placement.
+  benchmarks: reasoning and factuality tasks, multimodal reasoning, alignment labeling
+
+[wang-2024-rethinking-bounds-multi-agent-discussion] (2024, ACL 2024, rel=4, gran=none, regime=n/a, prod=N, clusters=C12)
+  title: Rethinking the Bounds of LLM Reasoning: Are Multi-Agent Discussions the Key?
+  key_idea: A well-prompted single agent matches multi-agent discussion.
+  summary: Re-examines whether multi-agent discussion improves LLM reasoning and finds that a single agent with strong prompts (demonstrations) matches the best discussion frameworks across tasks and backbones. Multi-agent discussion only helps when no demonstrations are given.
+  benchmarks: reasoning tasks
+
+[xia-2024-agentless] (2024, arXiv, rel=4, gran=none, regime=training-free, prod=N, clusters=C12)
+  title: Agentless: Demystifying LLM-based Software Engineering Agents
+  key_idea: A fixed simple pipeline can beat complex agents on cost and accuracy.
+  cost: $0.70 per issue at 32.00% on SWE-bench Lite, highest among open-source agents at the time
+  summary: Agentless replaces an autonomous coding agent with a fixed three-phase pipeline (localize, repair, validate) and reaches the best open-source SWE-bench Lite result at the time at about $0.70 per issue. It questions whether complex agent loops are needed for many software tasks.
+  benchmarks: SWE-bench Lite
+
+[zhang-2024-ecoact] (2024, ICLR 2025 Workshop, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C10,C12)
+  title: EcoAct: Economic Agent Determines When to Register What Action
+  key_idea: Register tools lazily inside the reasoning loop to shrink per-step context.
+  cost: Over 50% reduction in computational cost on multi-step reasoning tasks while maintaining performance
+  summary: EcoAct gives the agent a single meta-tool to register tools on demand from their names, instead of loading all tool descriptions into context every step. Integrating tool registration into reasoning cuts cost by more than half on multi-step tasks without hurting accuracy.
+  benchmarks: multi-step reasoning tool-use tasks
+  signals: tool names
+
+[kim-2023-llmcompiler] (2023, ICML 2024, rel=4, gran=step, regime=training-free, prod=N, clusters=C4,C11,C12)
+  title: An LLM Compiler for Parallel Function Calling
+  key_idea: Compile agent tool calls into a parallel execution plan.
+  cost: up to 3.7x latency speedup, up to 6.7x cost savings and up to ~9% accuracy improvement vs ReAct; up to 1.35x latency gain over OpenAI parallel function calling
+  summary: LLMCompiler plans function calls as a DAG and executes independent calls in parallel via a planner, task-fetching unit and executor, instead of ReAct-style sequential reasoning. It cuts latency and cost while improving accuracy.
+  benchmarks: function-calling tasks with varied dependency patterns
+  signals: planner-generated DAG, function-call dependency DAG
+
+[alballa-2026-comed] (2026, AACL-IJCNLP 2026, rel=3, gran=query, regime=training-free, prod=N, clusters=C1,C2,C12)
+  title: COMED: The Missing Middle Between Routing and Collaboration in Multi-LLM Inference
+  key_idea: Selective escalation between routing and full collaboration.
+
+[bertalanic-2026-small-llm-team-scaling-decomposition] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C12)
+  title: An Exact Generate - Transform Decomposition of Small-LLM Team Scaling Across Orchestration Architectures
+  key_idea: Team scaling is a task- and architecture-specific bet.
+  cost: At equal call budgets token cost still varies 2.1x across architectures
+
+[chen-2026-token-economics-agents-survey] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C12,C15)
+  title: Token Economics for LLM Agents: A Dual-View Study from Computing and Economics
+  key_idea: Economic taxonomy of token spending in agents.
+
+[chi-2026-agentmeter] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C12,C13)
+  title: Matching Matters: A Fair Quality-Efficiency Benchmark for Command-Line Agents
+  key_idea: Evaluate model-harness pairs jointly on quality and efficiency.
+
+[dubey-2026-psmas-phase-scheduled] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C10,C12)
+  title: Phase-Scheduled Multi-Agent Systems for Token-Efficient Coordination
+  key_idea: Temporal scheduling of agent activation with compressed context for idle agents.
+  cost: Mean 27.3% token reduction (21.4-34.8%) within 2.1 points of fully activated baseline
+
+[elhaimeur-2026-multi-agent-tutoring-latency-cost] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=Y, clusters=C11,C12,C14)
+  title: Latency and Cost of Multi-Agent Intelligent Tutoring at Scale
+  key_idea: Production latency and cost of a deployed multi-agent tutor.
+  cost: Both pay-per-token tiers cost well below a STEM textbook per student per semester under worst-case usage
+
+[elzemity-2026-orchestrated-slms-malware] (2026, RAID 2026, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C3,C12)
+  title: Small, Free, and Effective: Orchestrating Open-Weight Small Language Models to Outperform Single LLM for Malware Analysis
+  key_idea: Orchestrated SLMs as a cheap alternative to frontier LLMs in security analysis.
+
+[fan-2026-science-of-collective-ai] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C12,C15)
+  title: Towards a Science of Collective AI: LLM-based Multi-Agent Systems Need a Transition from Blind Trial-and-Error to Rigorous Science
+  key_idea: Measure collaboration gain net of added budget.
+
+[gharzeddine-2026-cyclic-subtask-graphs] (2026, TMLR 2026, rel=3, gran=none, regime=n/a, prod=N, clusters=C12)
+  title: Complete Cyclic Subtask Graphs for Tool-Using LLM Agents: Flexibility, Cost, and Bottlenecks in Long-Horizon Workflows
+  key_idea: When flexible subtask revisitation is worth its routing and token cost.
+
+[gou-2026-dysco-sparse-consensus] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C12)
+  title: Dynamic Trust-Aware Sparse Communication Topology for LLM-Based Multi-Agent Consensus
+  key_idea: Budgeted dynamic edge selection and early stopping in debate.
+
+[kumar-2026-cooperative-profiles] (2026, arXiv, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C6,C12)
+  title: Cooperative Profiles Predict Multi-Agent LLM Team Performance in AI for Science Workflows
+  key_idea: Cheap game-based profiles predict multi-agent team performance.
+
+[lenton-2026-distilling-repeated-work-into-code] (2026, Unify blog, rel=3, gran=step, regime=training-free, prod=N, clusters=C8,C10,C12)
+  title: Distilling repeated work into code
+  key_idea: Compile recurring agent trajectories into code with targeted model calls and self-repair.
+  cost: Hourly triage task, 8 runs x 12 inquiries: first run 6 model calls and ~251,000 tokens; each later run one call of ~645 tokens (~390x fewer), all 96 inquiries correct; one-off setup and review cost 1.2M tokens (vendor-reported)
+
+[li-2026-e2-explainer-topology] (2026, arXiv, rel=3, gran=subagent, regime=supervised-offline, prod=N, clusters=C3,C12)
+  title: Discovering Efficient and Explainable Communication Topologies for LLM-based Multi-Agent Systems via Causal Inference
+  key_idea: Causal attribution of communication edges enables pruning.
+
+[lin-2026-bagen-budget-aware-agents] (2026, arXiv, rel=3, gran=step, regime=hybrid, prod=N, clusters=C7,C9,C12)
+  title: BAGEN: Are LLM Agents Budget-Aware?
+  key_idea: Agents should predict remaining budget and stop doomed runs early.
+  cost: Early stop saves 28-64% tokens on failed trajectories
+
+[liu-2026-cost-utility-alignment-trajectories] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C6,C12,C13,C15)
+  title: Cost-Utility Alignment in LLM Agent Trajectories:Profiling,Attribution,Diagnosis,Adaptation,and Evaluation
+  key_idea: Treat cost and utility as dual ledgers over agent trajectories.
+
+[liu-2026-ems-majority-then-stopping] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C12)
+  title: EMS: Multi-Agent Voting via Efficient Majority-then-Stopping
+  key_idea: Reliability-ordered agent calls with early stopping of votes.
+
+[liu-2026-utility-guided-orchestration] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C12)
+  title: Utility-Guided Agent Orchestration for Efficient LLM Tool Use
+  key_idea: Explicit utility-based policy over agent actions including stopping.
+
+[merchant-2026-temporal-semantic-cache-mcp] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C10,C12)
+  title: Evaluating Temporal Semantic Caching and Workflow Optimization in Agentic Plan-Execute Pipelines
+  key_idea: Caching and parallelism help plan-execute agents but semantic caching breaks on parameter-rich queries.
+  cost: MCP workflow optimizations gave 1.67x speedup and ~40% lower median end-to-end latency; temporal cache achieved 30.6x median speedup on hits
+
+[mieczkowski-2026-latte-adaptive-task-graphs] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C12)
+  title: Improving the Efficiency of Language Agent Teams with Adaptive Task Graphs
+  key_idea: Shared evolving task graph to cut MAS coordination waste.
+
+[niu-2026-armor-mad] (2026, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C3,C12)
+  title: ARMOR-MAD: Adaptive Routing for Heterogeneous Multi-Agent Debate in Large Language Model Reasoning
+  key_idea: Agreement-gated debate over heterogeneous models.
+
+[patel-2026-six-sigma-agent] (2026, arXiv, rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C12,C14)
+  title: The Six Sigma Agent: Achieving Enterprise-Grade Reliability in LLM Systems Through Consensus-Driven Decomposed Execution
+  key_idea: Redundant cheap-model micro-agents with voting instead of one expensive model.
+  cost: 14,700x reliability improvement over single-agent execution while reducing costs by 80% (three enterprise use cases)
+
+[piriyakulkij-2026-subagents-vs-skills] (2026, arXiv, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C10,C12)
+  title: Subagents vs Agent Skills: Executing Reusable Knowledge for Long-Horizon Agentic Tasks
+  key_idea: When to run reusable knowledge as subagents vs in-context skills.
+
+[singh-2026-total-cost-of-agency] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C12,C14)
+  title: Total Cost of Agency: Exact Attribution of Memory Injection Cost in Multi-Agent LLM Workflows
+  key_idea: Attribute MAS bills to memory injection and control it.
+  cost: Memory injection is ~12% of full billed cost, rising to 27.6% at workflow depth six; shrinking retrieval window 32 to 2 cuts injected tokens 28.7%
+
+[smekal-2026-task-spec-token-spend] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C12,C13)
+  title: Can your AI agent be cheaper? Investigating the effects of task specifications on token spend in agentic coding tasks
+  key_idea: Spec quality drives agent token spend and is predictable from a probe.
+  cost: Reducing a full task spec to a bare user story raises token spend by 29.7%; predictor prices spec/effort configurations within 36% from one probe
+
+[suwannapichat-2026-rga-designer] (2026, ICONIP 2026, rel=3, gran=query, regime=RL-offline, prod=N, clusters=C3,C12)
+  title: Reward-Guided Autoregressive Graph Generation for Efficient Multi-Agent Communication Topology Design
+  key_idea: Reward-guided sparsification of generated MAS topologies.
+  cost: Preserves ARG-Designer accuracy while reducing token consumption by an average of 20.5%
+
+[tang-2026-jisi] (2026, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C1,C12)
+  title: Beyond Gemini-3-Pro: Revisiting LLM Routing and Aggregation at Scale
+  key_idea: Adaptive routing-aggregation switch.
+  cost: Surpasses Gemini-3-Pro with only 47% of the cost by orchestrating ten open-source LLMs (abstract)
+
+[wang-2026-heterogeneous-vuln-detection] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C12)
+  title: Strategic Heterogeneous Multi-Agent Architecture for Cost-Effective Code Vulnerability Detection
+  key_idea: Cloud experts plus a local small verifier.
+  cost: 77.2% F1 at $0.002 per sample vs single-expert LLM F1 71.4% (262 NIST Juliet samples)
+
+[wang-2026-random-routing-sparse-debate] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C12)
+  title: Do We Need Complex Topology Control? Distinct-Peer Random Routing Improves Cost-Efficiency in Sparse Multi-Agent Debate
+  key_idea: Simple random sparse routing plus stopping rivals learned topologies.
+
+[wang-2026-scale-query-level-workflows] (2026, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C12)
+  title: Do We Always Need Query-Level Workflows? Rethinking Agentic Workflow Generation for Multi-Agent Systems
+  key_idea: Per-query workflow generation is often unnecessary; evaluate cheaply.
+  cost: Average 0.61% degradation while cutting token usage by up to 83%
+
+[wei-2026-triage-trajectory-reuse] (2026, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C10,C12)
+  title: TRIAGE: Three-level Routing and Intelligent Agent Guidance for Efficient Execution
+  key_idea: Reuse past trajectories as skills to skip LLM reasoning.
+  cost: 62.3% token savings on 1,007 security monitoring queries; 76.3% token reduction on ToolBench
+
+[wunderlich-2026-multi-agent-pareto-tts] (2026, ACL 2026 SRW, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C9,C12,C13)
+  title: Multi-Agent Reasoning Improves Compute Efficiency: Pareto-Optimal Test-Time Scaling
+  key_idea: Compute-matched Pareto fronts of multi-agent inference strategies.
+  cost: Inference scaling gives up to +7.1 pp over CoT at 20x CoT compute on MMLU-Pro; at equal budget, debate and mixture-of-agents beat self-consistency by 1.3 and 2.7 pp
+
+[ye-2026-conditional-progressive-pruning-debate] (2026, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C12)
+  title: Beyond Solo and Consistency: Vindicating Multi-Agent Debate via Conditional Progressive Pruning
+  key_idea: Prune debate progressively to beat equal-cost baselines.
+
+[yu-2026-when-mas-help-information-bottleneck] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C12,C15)
+  title: When Do Multi-Agent Systems Help? An Information Bottleneck Perspective
+  key_idea: MAS helps only when bounded-message compression is beneficial.
+
+[yuan-2026-mixed-vendor-clinical-mas] (2026, arXiv, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C3,C12)
+  title: Do Mixed-Vendor Multi-Agent LLMs Improve Clinical Diagnosis?
+  key_idea: Vendor diversity beats homogeneous teams in diagnostic MAS.
+
+[zhang-2026-orchslm] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C3,C12)
+  title: OrchSLM: Probing the Dynamics of Small Language Model Orchestration
+  key_idea: Probe of how routing over cached SLM outputs behaves.
+
+[anthropic-2025-advanced-tool-use] (2025, Anthropic engineering blog, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C12,C14)
+  title: Introducing advanced tool use on the Claude Developer Platform
+  key_idea: Deferred tool loading and code-orchestrated tool calls cut agent context tokens while improving tool-selection accuracy.
+  cost: Tool Search Tool: ~85% reduction in upfront tool-definition tokens (~77K to ~8.7K for 50+ MCP tools); MCP-eval accuracy Opus 4 49%->74%, Opus 4.5 79.5%->88.1%. Programmatic tool calling: average tokens 43,588->27,297 (37% reduction) on complex research tasks. Tool use examples: 72%->90% on complex parameter handling (all vendor-reported internal testing)
+
+[anthropic-2025-code-execution-with-mcp] (2025, Anthropic engineering blog, rel=3, gran=none, regime=training-free, prod=N, clusters=C10,C12)
+  title: Code execution with MCP: building more efficient AI agents
+  key_idea: Present tools as code APIs and let the agent execute code so tool definitions and intermediate results stay out of the context window.
+  cost: Example workflow: tool-related context reduced from 150,000 tokens to 2,000 tokens (98.7% saving) by loading tool definitions on demand as code files (vendor-reported, illustrative example)
+
+[chase-2025-how-when-multi-agent] (2025, LangChain blog, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C12)
+  title: How and when to build multi-agent systems
+  key_idea: Multi-agent fits parallel read-heavy tasks worth the token cost; avoid it for tightly coupled writes.
+
+[fu-hinthorn-2025-benchmarking-multi-agent-architectures] (2025, LangChain blog, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C10,C12,C13)
+  title: Benchmarking Multi-Agent Architectures
+  key_idea: Multi-agent decomposition pays off mainly when context grows; supervisor overhead comes from relaying messages.
+  cost: Supervisor architecture improved by nearly 50% on the tau-bench variant after removing handoff messages and letting sub-agents respond directly; single agent's token use grows with distractor domains while supervisor and swarm stay flat (qualitative token comparison, vendor-reported)
+
+[kim-2025-cost-of-dynamic-reasoning] (2025, HPCA 2026, rel=3, gran=none, regime=n/a, prod=N, clusters=C11,C12,C13)
+  title: The Cost of Dynamic Reasoning: Demystifying AI Agents and Test-Time Scaling from an AI Infrastructure Perspective
+  key_idea: Agents' compute returns diminish fast; system costs do not.
+  cost: Agents show rapidly diminishing accuracy returns with increased compute (system-level resource, latency, energy and power analysis)
+
+[li-2025-self-moa] (2025, TMLR 2026, rel=3, gran=none, regime=training-free, prod=N, clusters=C3,C12)
+  title: Rethinking Mixture-of-Agents: Is Mixing Different Large Language Models Beneficial?
+  key_idea: Mixing heterogeneous models is often worse than sampling the best one.
+
+[liu-2025-budget-aware-tool-use] (2025, COLM 2026, rel=3, gran=step, regime=training-free, prod=N, clusters=C9,C12,C13)
+  title: Budget-Aware Tool Use Enables Effective Agent Scaling
+  key_idea: Make agents budget-aware to scale tool use efficiently.
+  cost: Budget-aware methods push the cost-performance Pareto frontier under a unified token+tool cost metric
+
+[rajasekaran-2025-effective-context-engineering] (2025, Anthropic engineering blog, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C10,C12)
+  title: Effective context engineering for AI agents
+  key_idea: Treat context as a finite budget; compact, clear tool results, take notes, and isolate work in sub-agents.
+
+[tripathy-2025-swenergy] (2025, ICSE 2026 Workshop (AGENT), rel=3, gran=none, regime=n/a, prod=N, clusters=C8,C12)
+  title: SWEnergy: An Empirical Study on Energy Efficiency in Agentic Issue Resolution Frameworks with SLMs
+  key_idea: Dropping SLMs into LLM-designed agent frameworks wastes energy.
+  cost: Most energy-intensive framework consumed 9.4x more energy than the least; resolution rates near zero with SLMs
+
+[xu-2025-collaborative-expertise-delegation] (2025, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C12)
+  title: Towards Multi-Agent Reasoning Systems for Collaborative Expertise Delegation: An Exploratory Design Study
+  key_idea: Design-space study of when specialized multi-agent reasoning pays off.
+
+[yan-2025-dont-build-multi-agents] (2025, Cognition blog, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C10,C12,C14)
+  title: Don't Build Multi-Agents
+  key_idea: Context sharing, not agent count, determines reliability; prefer single-threaded agents plus history compression over parallel subagents.
+
+[zhang-2025-avengers] (2025, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C1,C12)
+  title: The Avengers: A Simple Recipe for Uniting Smaller Language Models to Challenge Proprietary Giants
+  key_idea: Cluster-based routing plus voting over small models.
+
+[zhu-2025-multiagentbench] (2025, ACL 2025, rel=3, gran=none, regime=n/a, prod=N, clusters=C12,C13)
+  title: MultiAgentBench: Evaluating the Collaboration and Competition of LLM agents
+  key_idea: Evaluate multi-agent topologies and coordination, not just outcomes.
+
+[fourney-2024-magentic-one] (2024, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C12)
+  title: Magentic-One: A Generalist Multi-Agent System for Solving Complex Tasks
+  key_idea: Orchestrator-plus-specialists architecture with swappable per-agent models.
+
+[li-2024-smoa] (2024, arXiv, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C12)
+  title: SMoA: Improving Multi-agent Large Language Models with Sparse Mixture-of-Agents
+  key_idea: Sparsify MoA information flow with judge-based selection and early stopping.
+  cost: Comparable to MoA with significantly lower computational cost
+
+[wang-2024-mixture-of-agents] (2024, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C3,C12)
+  title: Mixture-of-Agents Enhances Large Language Model Capabilities
+  key_idea: Stack proposer LLMs in layers with an aggregator to exceed a single frontier model.
+  cost: MoA-Lite reported as more cost-effective than GPT-4o with a 1.8% AlpacaEval 2.0 quality gain (per search summary of the paper)
+
+[zhuge-2024-gptswarm] (2024, ICML 2024, rel=3, gran=subagent, regime=RL-offline, prod=N, clusters=C3,C4,C12)
+  title: Language Agents as Optimizable Graphs
+  key_idea: Treat multi-agent systems as optimizable graphs and learn which edges to keep.
+
+[liu-2023-dylan] (2023, COLM 2024, rel=3, gran=subagent, regime=training-free, prod=N, clusters=C3,C12)
+  title: A Dynamic LLM-Powered Agent Network for Task-Oriented Agent Collaboration
+  key_idea: Select which agents participate using contribution scores from a trial run.
+
+[ding-2026-calibrate-then-act] (2026, arXiv, rel=2, gran=step, regime=training-free, prod=N, clusters=C9,C12)
+  title: Calibrate-Then-Act: Cost-Aware Exploration in LLM Agents
+  key_idea: Make cost-benefit trade-offs explicit in agent reasoning.
+
+[sampath-2026-adaptive-orchestration-concierge] (2026, arXiv, rel=2, gran=subagent, regime=training-free, prod=N, clusters=C3,C12)
+  title: Adaptive Orchestration: Scalable Self-Evolving Multi-Agent Systems
+  key_idea: Hire and evict sub-agents dynamically instead of running a static swarm.
+  cost: Maintains high task success while minimizing token consumption vs static agent swarms (no number in abstract)
+
+[zeng-2026-when-multi-agent-rl-helps] (2026, arXiv, rel=2, gran=none, regime=RL-offline, prod=N, clusters=C8,C12)
+  title: When Does Multi-Agent RL Improve LLM Workflows? Workflow, Scale, and Policy-Sharing Tradeoffs
+  key_idea: Workflow- and scale-dependent value of multi-agent RL training.
+
+[openai-agents-sdk-handoffs] (2025, OpenAI Agents SDK documentation, rel=2, gran=subagent, regime=n/a, prod=N, clusters=C3,C10,C12)
+  title: Handoffs (OpenAI Agents SDK documentation)
+  key_idea: LLM-driven delegation as tool calls, with configurable history passed to each specialist (and its model).
+
+[varda-2025-cloudflare-code-mode] (2025, Cloudflare blog, rel=2, gran=none, regime=training-free, prod=N, clusters=C10,C12)
+  title: Code Mode: the better way to use MCP
+  key_idea: Agents call tools more efficiently by writing code against a generated API than by emitting tool calls.
+
+[wang-2025-talkhier] (2025, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C12)
+  title: Talk Structurally, Act Hierarchically: A Collaborative Framework for LLM Multi-Agent Systems
+  key_idea: Structured messages plus hierarchical evaluator teams.
+
+[zhao-2025-cochain] (2025, arXiv, rel=2, gran=none, regime=training-free, prod=N, clusters=C8,C12)
+  title: Cochain: Balancing Insufficient and Excessive Collaboration in LLM Agent Workflows
+  key_idea: Prompt-level cross-stage knowledge instead of multi-agent chatter.
+  cost: Small model with Cochain outperforms GPT-4 in expert evaluation
+
+[li-2024-more-agents-is-all-you-need] (2024, TMLR, rel=2, gran=none, regime=training-free, prod=N, clusters=C9,C12)
+  title: More Agents Is All You Need
+  key_idea: Performance scales with the number of sampled agents under plain voting.
+
+[qian-2024-macnet-scaling-multi-agent] (2024, ICLR 2025, rel=2, gran=none, regime=training-free, prod=N, clusters=C12)
+  title: Scaling Large Language Model-based Multi-Agent Collaboration
+  key_idea: Collaborative scaling law: performance grows logistically with agent count.
+
+[wang-2024-codeact] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8,C12)
+  title: Executable Code Actions Elicit Better LLM Agents
+  key_idea: Code as unified action space.
+  cost: Code actions up to 20% higher success rate than JSON/text
+
+[zhao-2024-steve-2-distill] (2024, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8,C12)
+  title: Do We Really Need a Complex Agent System? Distill Embodied Agent into a Single Model
+  key_idea: Distill an agent system into one model.
+

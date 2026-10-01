@@ -1,0 +1,1055 @@
+# C13: 188 records (full detail for rel>=4; one-liners for rel<=3)
+
+[agarwal-2026-switchcraft] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C1,C3,C13)
+  title: Switchcraft: AI Model Router for Agentic Tool Calling
+  key_idea: Per-tool-call routing to the cheapest correct model.
+  cost: 82.9% accuracy, matching/exceeding best single model, with 84% lower inference cost (over $3,600 saved per million queries)
+  summary: Switchcraft is an inline model router for agentic tool calls that picks the cheapest model predicted to produce a correct call, using a DistilBERT classifier under a latency budget. It matches the best model's accuracy at 84% lower cost and finds larger models do not reliably win on tool use.
+  benchmarks: five function-calling benchmarks, five function-calling benchmarks (incl. BFCL)
+  signals: DistilBERT classifier on tool-call context, query text
+
+[bai-2026-agents-spend-your-money] (2026, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C9,C10,C12,C13)
+  title: How Do AI Agents Spend Your Money? Analyzing and Predicting Token Consumption in Agentic Coding Tasks
+  key_idea: Where coding-agent tokens go and why they are hard to predict.
+  cost: Agentic coding uses ~1000x more tokens than code chat; runs on the same task vary up to 30x; Kimi-K2 and Claude-Sonnet-4.5 use over 1.5M more tokens than GPT-5 on average
+  summary: The first systematic token-consumption study of coding agents across eight frontier models on SWE-bench Verified. Input tokens dominate cost, usage is highly stochastic, accuracy saturates at intermediate cost, human difficulty ratings poorly predict tokens, and models underestimate their own token use.
+  benchmarks: SWE-bench Verified
+  signals: token usage
+
+[fireworks-2026-frontier-is-a-router] (2026, Fireworks AI blog, rel=5, gran=query, regime=None, prod=Y, clusters=C1,C3,C13,C14)
+  title: The frontier isn't a model. It's a router.
+  key_idea: Complementary models give a large oracle headroom for task-level routing in coding agents, but capturing it requires predicting the winner before execution.
+  cost: DeepSWE v1.1 oracle over 18 models: 97.6% pass@1 at $1.88/task vs best single model GPT-6 Astra 74.1% at $6.52; open-models-only oracle 90.3% at $1.45; best pair +13.1 pts, best trio 91.2%. Production: FireRouter sessions $7.42 vs $15.81 for Opus 5 alone (53% reduction, 2,334 sessions over four weeks of internal coding traffic) (vendor-reported)
+  summary: Runs 18 models on every DeepSWE task to measure the per-task oracle routing ceiling, showing most of the gain comes from two or three complementary models and most oracle picks are cheap models. It stresses that oracle upside is upward-biased and that real routers fail on model recall (citing LLMRouterBench), then reports four weeks of internal production coding traffic through task-level, cache-aware FireRouter.
+  benchmarks: DeepSWE v1.1
+  signals: task
+
+[gonuguntla-2026-replay-gap] (2026, COLM 2026, rel=5, gran=step, regime=n/a, prod=N, clusters=C3,C6,C13)
+  title: The Replay Gap: Static Evaluation of Model Switching in LLM Agents Scores the Wrong World
+  key_idea: Offline replay badly misestimates the effect of mid-trajectory model swaps.
+  summary: Tests the common practice of evaluating in-agent model switching by replaying logged trajectories, using live forked SWE-bench rollouts. Swaps rewrite 61-94% of subsequent actions and replay evaluation mispredicts every success-relevant outcome, so static replay scores the wrong world.
+  benchmarks: SWE-bench
+  signals: branching rollouts
+
+[jiang-2026-agentcard] (2026, arXiv, rel=5, gran=subagent, regime=n/a, prod=N, clusters=C3,C4,C11,C13)
+  title: Specialize Roles, Mix Deployments: Pushing the Cost-Accuracy Frontier of LLM Agent Teams
+  key_idea: Benchmark role-by-role model assignment and deployment mode for cost-accuracy.
+  cost: Heterogeneous teams improve accuracy by up to 44% over cost-equivalent homogeneous teams, or match the strongest homogeneous team at up to 12x lower per-task cost via hybrid deployment
+  summary: AgentCARD is a role-aware benchmark suite that evaluates agent teams across which model fills each role (planner, executor, verifier) and where it is hosted (API, self-hosted, hybrid), with Pareto analysis and Shapley diagnostics of role bottlenecks. Heterogeneous teams dominate the cost-accuracy frontier, and whether the planner or executor is the bottleneck depends on the domain.
+  signals: role-level Shapley diagnostics, unified API/self-hosted cost model, role-level evaluation, Shapley role diagnostics, API/self-hosted cost model
+
+[karmakar-2026-agentfloor] (2026, arXiv, rel=5, gran=step, regime=n/a, prod=N, clusters=C3,C13)
+  title: AgentFloor: How Far Up the tool use Ladder Can Small Open-Weight Models Go?
+  key_idea: Map which agent step types need frontier models.
+  cost: Strongest open-weight model matches GPT-5 on the benchmark while being substantially cheaper and faster
+  summary: AgentFloor is a 30-task ladder from instruction following to long-horizon planning, run with 16 open models and GPT-5 over 16,542 scored runs. Small and mid-size open models handle most short, structured tool-use steps, while frontier models keep an edge on long-horizon planning.
+  benchmarks: AgentFloor (30 tasks, six-tier ladder)
+
+[ke-2026-mas-orchestra] (2026, ICML 2026, rel=5, gran=query, regime=RL-offline, prod=N, clusters=C3,C12,C13)
+  title: MAS-Orchestra: Understanding and Improving Multi-Agent Reasoning Through Holistic Orchestration and Controlled Benchmarks
+  key_idea: Holistic RL orchestration plus a benchmark of when MAS beats single agents.
+  cost: More than 10x efficiency over strong baselines while improving accuracy
+  summary: MAS-Orchestra trains an orchestrator with function-calling RL to generate an entire MAS at once, treating sub-agents as callable functions. Its controlled MASBENCH shows MAS gains depend on task depth, horizon, breadth, parallelism and robustness and on orchestrator and sub-agent capability, not universally.
+  benchmarks: MASBENCH, math reasoning, multi-hop QA, search-based QA
+  signals: task structure axes (depth, horizon, breadth, parallel, robustness)
+
+[kumar-2026-task-session-routing-eval] (2026, arXiv, rel=5, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: Task- and Session-Level Model Routing: A Common-Interface Hybrid Evaluation of Four Open-Source Routers Across Four Benchmarks
+  key_idea: Routers often do no better than share-matched fixed tiers.
+  cost: No evidence of task-specific advantage over content-blind allocation for tested open-source routers
+  summary: Evaluates four open-source routers under a common protocol on agentic benchmarks and finds most emit near-constant tiers; gains track tier composition rather than task-specific targeting, so fixed-tier baselines are essential controls.
+  benchmarks: RouterBench, BFCL v4, tau2-bench, WebArena
+  signals: router tier outputs, router tier assignments
+
+[leins-2026-when-orchestration-pays-off] (2026, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C12,C13)
+  title: When Does LLM Orchestration Pay Off? A Controlled Evaluation of Accuracy, Cost, and Task Difficulty
+  key_idea: Orchestration gains are modest, model-specific and costly.
+  cost: Largest gain 4.6 points over optimized CoT while needing roughly 2-4x the tokens of task-only inference
+  summary: A controlled comparison of Self-Refine, Best-of-N and Debate against optimized single-call baselines, with equal GEPA optimization budgets. Orchestration gives modest benchmark-dependent gains at 2-4x tokens, does not help more on harder items, and depends strongly on the backbone.
+  benchmarks: competitive programming, chess puzzles, mathematics
+
+[li-2026-llmrouterbench] (2026, ACL 2026, rel=5, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: LLMRouterBench: A Massive Benchmark and Unified Framework for LLM Routing
+  key_idea: Large unified re-evaluation showing most routers are not reliably better than simple baselines.
+  summary: LLMRouterBench unifies 400K+ instances from 21 datasets and 33 models with 10 baselines. Under unified evaluation, many routers perform similarly and several recent and commercial routers fail to beat a simple baseline, while a large oracle gap remains due to model-recall failures.
+  benchmarks: LLMRouterBench (21 datasets), 21 datasets (400K instances)
+  signals: precomputed outcomes, cost, latency, query embedding
+
+[liu-2026-adwm-ope-llm-agents] (2026, arXiv, rel=5, gran=step, regime=RL-offline, prod=N, clusters=C6,C13)
+  title: Autoregressive Diffusion World Models for Off-Policy Evaluation of LLM Agents
+  key_idea: Off-policy evaluation of LLM agents with an agent-guided diffusion world model.
+  summary: Estimates the value of a new LLM agent policy in multi-turn environments using only pre-collected trajectories, by learning a latent diffusion world model whose per-step denoising is guided by the evaluated agent. Alternating agent and world-model steps avoids the compounding errors of autoregressive world models.
+  signals: pre-collected trajectories, policy-conditioned score
+
+[liu-2026-harness-native-routing] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C1,C3,C5,C6,C13,C14)
+  title: Agentic Routing: The Harness-Native Data Flywheel
+  key_idea: Harness-native step routing with data flywheel.
+  cost: LightGBM router preserves task quality while cutting realized cost ~90% on PinchBench and ~43% on DRACO vs fixed strong model
+  summary: Proposes step-level agentic routing conditioned on harness state that picks one model or an ensemble per step, with each decision generating a data record that feeds a data flywheel.
+  benchmarks: DRACO, PinchBench
+  signals: full harness state, structured routing records, execution trace, outcome, cost, harness state, execution state, harness signals
+
+[notdiamond-2026-interactive-benchmarks-routing] (2026, Not Diamond blog, rel=5, gran=step, regime=None, prod=N, clusters=C1,C3,C10,C13,C14)
+  title: Interactive benchmarks: a new methodology for evaluating model routing
+  key_idea: Evaluate agent routers on interactive, simulated-user sessions where cache dynamics and session length drive cost.
+  cost: Approximates or exceeds Opus 5 xhigh quality at 20-80% cost reduction; SWE-Interact 50.7% at $4.28/attempt, SWE-Together 67.6% at $4.16, Dialogue SWE-Bench-Pro 57.6% at $3.00; adding GLM 5.2 and DeepSeek V4 Flash raised accuracy 3.6% and savings from 39% to 66% vs Opus xhigh. Companion 'Not Diamond Code' post: 39% (Poly-SWE-Bench Verified) and 61% (LongCodeQA) cost reduction vs Opus 4.8 xhigh, >20% savings in enterprise early access (all vendor-reported)
+  summary: Argues that single-turn routing breaks the KV cache and first-turn routing is brittle to mid-session shifts, and describes Not Diamond Code, which predicts future reward and cost for each (model, reasoning effort) pair at every agent step in a cache-aware way. Because static benchmarks miss long sessions and cache expiry (a 10-20x input-cost jump), it evaluates on interactive benchmarks with simulated users built on the Harbor framework and releases a benchmark repo so clients can reproduce comparisons.
+  benchmarks: SWE-Interact, SWE-Together, Dialogue SWE-Bench-Pro, Poly-SWE-Bench Verified, LongCodeQA
+  signals: session state, message and token counts, task complexity, KV-cache state, intermediate and final rewards, reasoning effort
+
+[tran-2026-single-vs-multi-agent-equal-budget] (2026, arXiv, rel=5, gran=n/a, regime=n/a, prod=N, clusters=C9,C12,C13)
+  title: Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets
+  key_idea: Many multi-agent gains are unaccounted compute.
+  summary: Information-theoretic and empirical argument that under equal reasoning-token budgets single agents match or beat multi-agent systems on multi-hop reasoning; flags API budget-control artefacts (notably Gemini 2.5).
+  benchmarks: multi-hop reasoning tasks, multi-hop reasoning benchmarks
+  signals: thinking-token budget, reasoning-token budget
+
+[yang-2026-twinrouterbench] (2026, arXiv, rel=5, gran=step, regime=n/a, prod=N, clusters=C1,C3,C13)
+  title: TwinRouterBench: Fast Static and Live Dynamic Evaluation for Realistic Agentic LLM Routing
+  key_idea: Step-level agentic routing benchmark.
+  summary: TwinRouterBench evaluates step-level routing in agents with a static track of 970 router-visible prefixes with verified target tiers and a dynamic track that runs routers inside a SWE-bench harness, avoiding online judges.
+  benchmarks: SWE-bench, BFCL, mtRAG, QMSum, PinchBench, SWE-bench Verified, SWE-bench Verified (dynamic)
+  signals: router-visible prefix, execution-verified tier labels, execution-verified tier, token cost
+
+[zhang-2026-rethinking-mas-efficiency-evaluation] (2026, EMNLP 2026, rel=5, gran=none, regime=n/a, prod=N, clusters=C12,C13)
+  title: Rethinking the Evaluation of Efficiency Methods for Multi-Agent Systems
+  key_idea: Many MAS pruning gains vanish under controlled, MAS-demanding evaluation.
+  summary: Argues that reported gains of MAS efficiency methods (agent pruning, edge removal, compact structure search) are often overestimated because of method-specific prompts, starting topologies and non-MAS-demanding tasks where random pruning already works. A controlled benchmark shows many gains come from structural collapse or disabled tools.
+  benchmarks: controlled MAS-demanding diagnostic benchmark
+
+[zhou-2026-agent-as-a-router] (2026, arXiv, rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C3,C5,C13)
+  title: Agent-as-a-Router: Agentic Model Routing for Coding Tasks
+  key_idea: Agentic router that learns from execution feedback.
+  cost: Augmenting a vanilla LLM router with dimension-level performance statistics yields 15.3% relative gain (abstract)
+  summary: Argues router bottlenecks come from information deficit and proposes a Context-Action-Feedback loop router (orchestrator, verifier, memory) that accumulates execution-grounded experience during deployment on coding tasks.
+  benchmarks: CodeRouterBench (~10K tasks), CodeRouterBench (~10K tasks, 8 frontier LLMs)
+  signals: task-dimension performance statistics, verifier, memory of execution feedback, execution feedback, memory
+
+[cuadron-2025-danger-of-overthinking-agents] (2025, arXiv, rel=5, gran=step, regime=training-free, prod=N, clusters=C3,C9,C13)
+  title: The Danger of Overthinking: Examining the Reasoning-Action Dilemma in Agentic Tasks
+  key_idea: Reasoning models overthink in agent loops and this costs success.
+  cost: Selecting the solution with lower overthinking score improves performance by almost 30% while reducing computational costs by 43% (SWE-Bench Verified)
+  summary: Studies overthinking in agentic software engineering, where reasoning models prefer internal reasoning over interacting with the environment, with failure patterns like analysis paralysis and rogue actions. Overthinking correlates with lower success.
+  benchmarks: SWE-Bench Verified (4018 trajectories)
+  signals: overthinking score
+
+[kapoor-2025-hal-holistic-agent-leaderboard] (2025, arXiv (reported as ICLR 2026 in secondary sources), rel=5, gran=none, regime=n/a, prod=N, clusters=C12,C13)
+  title: Holistic Agent Leaderboard: The Missing Infrastructure for AI Agent Evaluation
+  key_idea: Standardized, cost-aware agent leaderboard with released logs.
+  cost: Reports ~$40,000 total cost for 21,730 rollouts across 9 models x 9 benchmarks; finds higher reasoning effort reduced accuracy in most runs
+  summary: HAL provides a standardized harness that runs agent evaluations in parallel on hundreds of VMs, and reports 21,730 rollouts over 9 models and 9 benchmarks (about $40,000) with cost-accuracy Pareto analysis. LLM-aided log inspection surfaces behaviors like searching for benchmark answers; all 2.5B tokens of logs are released.
+  benchmarks: 9 benchmarks in coding, web navigation, science, customer service, 9 benchmarks incl. coding, web navigation, science, customer service (e.g., tau-bench, GAIA, SWE-bench)
+  signals: cost, accuracy, log inspection, LLM-aided log inspection
+
+[kim-2025-science-of-scaling-agent-systems] (2025, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C12,C13)
+  title: Towards a Science of Scaling Agent Systems
+  key_idea: Predictive scaling principles for when multi-agent architectures help.
+  cost: Relative change vs single agent ranges from +80.8% (decomposable financial reasoning) to -70.0% (sequential planning)
+  summary: Google Research runs 260 controlled configurations across five architectures (single-agent and four multi-agent types) and six benchmarks, fitting a predictive model of when coordination helps. Multi-agent gains saturate as single-agent capability rises, tool-heavy tasks incur multi-agent overhead, and mismatched coordination hurts performance. A companion Google Research blog post ('Towards a science of scaling agent systems: When and why agent systems work') summarizes the findings.
+  benchmarks: six agentic benchmarks
+  signals: coordination metrics
+
+[somerstep-2025-carrot] (2025, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C13,C15)
+  title: CARROT: A Cost Aware Rate Optimal Router
+  key_idea: Estimate both cost and accuracy per model and plug into a linear utility: minimax-optimal routing.
+  summary: Provides a minimax analysis of routing and shows a router that separately estimates each model's cost and accuracy can be rate-optimal. Introduces CARROT based on this principle and releases the SPROUT dataset spanning recent frontier LLMs with price-aware routing labels.
+  benchmarks: SPROUT, RouterBench, Open LLM Leaderboard v2, open-LLM-leaderboard-v2, SPROUT (GPQA, MuSR, MMLU-Pro, MATH, OpenHermes, RAGBench)
+  signals: predicted accuracy, predicted cost, query embedding
+
+[tan-2025-langprobe] (2025, Findings of EMNLP 2025, rel=5, gran=none, regime=n/a, prod=N, clusters=C4,C13)
+  title: LangProBe: a Language Programs Benchmark
+  key_idea: Cost-aware benchmark of compound LM program architectures and optimizers.
+  cost: Optimized language programs give strong cost-quality Pareto improvements over raw model calls; smaller models in optimized programs beat larger models at a fraction of the cost
+  summary: LangProBe benchmarks over 2000 combinations of tasks, program architectures, optimizers and LMs, studying quality-cost trade-offs of language programs. Human judgment about which compositions to pursue still matters.
+  signals: quality, cost
+
+[wang-2025-efficient-agents] (2025, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C3,C12,C13,C15)
+  title: Efficient Agents: Building Effective Agents While Reducing Cost
+  key_idea: Measure agent cost-of-pass and prune unnecessary complexity.
+  cost: Efficient Agents retains 96.7% of OWL's performance while reducing cost from $0.398 to $0.228, a 28.4% improvement in cost-of-pass on GAIA (abstract)
+  summary: Systematic empirical study of efficiency-effectiveness trade-offs in agent systems, varying LLM backbone, framework modules and test-time scaling on GAIA with a cost-of-pass metric. Proposes an Efficient Agents framework sized to task needs.
+  benchmarks: GAIA
+  signals: cost-of-pass
+
+[ye-2025-x-mas] (2025, arXiv, rel=5, gran=subagent, regime=n/a, prod=N, clusters=C3,C4,C13)
+  title: X-MAS: Towards Building Multi-Agent Systems with Heterogeneous LLMs
+  key_idea: Pick the best LLM per agent function; heterogeneous MAS beats homogeneous.
+  summary: X-MAS studies multi-agent systems where each agent function is powered by a different LLM, benchmarking 27 LLMs over 5 domains and 5 MAS functions (1.7M evaluations) to find the best model per domain-function pair. Switching to heterogeneous assignment improves MATH by up to 8.4% and AIME by 47% without changing structure.
+  benchmarks: X-MAS-Bench (21 test sets, 5 domains), MATH, AIME
+  signals: per-function model benchmark scores, per-domain per-function benchmark results
+
+[boisvert-2024-workarena-plus-plus] (2024, NeurIPS 2024 Datasets and Benchmarks, rel=5, gran=none, regime=n/a, prod=N, clusters=C8,C13)
+  title: WorkArena++: Towards Compositional Planning and Reasoning-based Common Knowledge Work Tasks
+  key_idea: Harder compositional enterprise workflows plus trace generation for training.
+  summary: Adds 682 compositional workflows on ServiceNow that need planning, arithmetic and logical reasoning, retrieval and context understanding, and compares agents with human workers. It also provides a mechanism to generate large numbers of ground-truth observation/action traces for fine-tuning.
+  benchmarks: WorkArena++ (682 tasks)
+  signals: task validators
+
+[drouin-2024-workarena] (2024, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: WorkArena: How Capable Are Web Agents at Solving Common Knowledge Work Tasks?
+  key_idea: Enterprise ITSM-platform web-agent benchmark with verifiable tasks.
+  summary: A remote-hosted benchmark of 33 knowledge-work tasks on the ServiceNow platform, with certifiable oracles and validators, plus the BrowserGym environment for designing and evaluating web agents. Agents show promise but a large gap to full automation remains, especially for open models.
+  benchmarks: WorkArena (33 tasks, ~19.9K instances)
+  signals: task validators
+
+[hu-2024-routerbench] (2024, arXiv, rel=5, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: RouterBench: A Benchmark for Multi-LLM Routing System
+  key_idea: Standard offline benchmark of per-model outcomes and costs for evaluating routers.
+  summary: RouterBench provides over 405k precomputed inference outcomes across a set of representative LLMs and tasks, so routers can be evaluated offline without calling models. It also gives a theoretical framing of routing on the cost-quality plane and compares routing approaches.
+  benchmarks: RouterBench (405k inference outcomes), RouterBench (405k inference outcomes over standard benchmarks)
+  signals: precomputed per-model outcomes, cost, per-query model outcomes
+
+[kapoor-2024-ai-agents-that-matter] (2024, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C2,C12,C13)
+  title: AI Agents That Matter
+  key_idea: Evaluate agents on the cost-accuracy Pareto frontier, not accuracy alone.
+  cost: Simple baselines match complex SOTA agents at far lower cost; the paper designs a joint cost-accuracy optimization that greatly reduces cost while maintaining accuracy (search summary cites 50x cost spread for similar accuracy)
+  summary: Critiques agent benchmarking: accuracy-only leaderboards produce needlessly costly agents, and simple baselines (retry, warming, escalation) sit on the cost-accuracy Pareto frontier. Also covers holdout sets, overfitting and reproducibility, and argues for jointly optimizing cost and accuracy.
+  benchmarks: agent benchmarks incl. HumanEval, HumanEval, other agent benchmarks (see paper)
+  signals: cost, accuracy
+
+[yao-2024-tau-bench] (2024, arXiv, rel=5, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains
+  key_idea: pass^k exposes reliability gaps that pass@1 hides in customer-service agents.
+  summary: Benchmark of multi-turn conversations between an LLM-simulated user and a tool-using agent bound by domain policies, graded by comparing the final database state to an annotated goal. Introduces the pass^k metric for consistency across repeated trials; gpt-4o succeeds on under 50% of tasks and pass^8 falls below 25% in retail.
+  benchmarks: τ-retail, τ-airline
+  signals: database end-state comparison
+
+[bala-2026-set-valued-agent-routing] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C13)
+  title: Multi-Agent Routing as Set-Valued Prediction: A WildChat Benchmark and Cost-Aware Evaluation
+  key_idea: Agent routing as cost-aware set-valued prediction.
+  summary: Treats routing prompts to agents as multi-label set prediction where over-selection costs money, releasing a WildChat-derived benchmark over a 12-agent catalog with set metrics and a cost-tiered weighted routing setting. Supervised routers clearly beat nearest-neighbor and zero-shot LLM routing.
+  benchmarks: WildChat-derived 3,000-prompt, 12-agent benchmark, WildChat-derived 3,000 prompts, 12-agent catalog
+  signals: prompt text, agent cost tiers
+
+[cao-2026-early-outcome-prediction-audit] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C6,C7,C13)
+  title: Testing-Driven Reliability Audit of Trajectory-Based Early Outcome Prediction for LLM Agents: Target-Specific Calibration Transfer Persists Within a Single Benchmark
+  key_idea: Early-outcome predictors for agents need target-specific calibration checks.
+  summary: Audits whether trajectory-based early-outcome predictors, used to stop agent runs once the result is predictable, stay calibrated when applied to agents they were not trained on, using leave-one-agent-out tests on public SWE-bench trajectories. Finds that calibration failures are concentrated in specific target agent and head combinations.
+  benchmarks: SWE-bench Verified, TerminalBench
+  signals: trajectory prefix features
+
+[chatrath-2026-ready] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C2,C7,C13)
+  title: READY or Not: Reliable Enterprise Agent Deployment
+  key_idea: Qualify agents by min-cost oversight policy at a reliability target.
+  cost: Two systems 0.3 points apart in autonomous accuracy need 39.2% vs 29.6% human review to reach 76% reliability
+  summary: Framework to qualify agents for enterprise deployment by measuring reliability and operating cost of the human-AI system under candidate oversight policies, selecting the cheapest policy that meets a reliability target, and statistically qualifying it on held-out cases.
+  benchmarks: clinical-audit case study (16 agent systems, 750 cases)
+  signals: reliability target, human oversight policy, cost
+
+[chen-2026-co-failure-ceiling] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C12,C13,C15)
+  title: When Does Combining Language Models Help? A Co-Failure Ceiling on Routing, Voting, and Mixture-of-Agents Across 67 Frontier Models
+  key_idea: Co-failure ceiling bounds achievable router gains.
+  summary: Proves that any policy outputting one member's answer (routing, voting, cascades) is capped at one minus the rate at which all models fail together, and gives a finite-sample certificate for this ceiling. Empirically the tail is underestimated by correlation models.
+  benchmarks: mathematics, code, open-ended math, execution-graded code, GPQA-Diamond
+  signals: all-model co-failure rate, all-models-wrong rate (beta)
+
+[dong-2026-learning-to-stop-cost-study] (2026, arXiv, rel=4, gran=token, regime=supervised-offline, prod=N, clusters=C9,C13)
+  title: When Does Learning to Stop Help? A Cost-Aware Study of Early Exits in Reasoning Models
+  key_idea: Early-exit savings depend on trajectory structure and serving cost model.
+  cost: Learned stopping gives +3.2 to +21.2 pp additional token saving on Qwen3 free-form math; the same policy saves 32% tokens with KV-cache forking but costs 121% extra under black-box repeated prefilling
+  summary: Controlled comparison of early-exit rules at matched risk of losing correct answers across 18 settings, including probe overhead. Learned stoppers win where answers oscillate; simple thresholds suffice elsewhere; savings depend heavily on the serving regime.
+  benchmarks: GSM8K, MATH-500, MMLU-Pro, AIME-90, GPQA
+  signals: confidence, entropy, answer stability, learned stopper
+
+[feng-2026-llmrouter] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: LLMRouter: Unified Infrastructure for Developing, Evaluating, and Deploying LLM Routers
+  key_idea: Unified router infrastructure and benchmark.
+  cost: Learned routers outperform strongest fixed-model baseline by 14.6% relative (abstract)
+  summary: Unifies routing as a sequential decision process with five components and releases LLMRouter, an open-source library of 16+ routers, plus xRouteBench across generic, memory, vision, time-series and personalized routing.
+  benchmarks: xRouteBench
+  signals: context/model encoders, scoring functions, decision rules
+
+[gao-2026-decisionbench] (2026, arXiv, rel=4, gran=step, regime=n/a, prod=N, clusters=C3,C13)
+  title: DecisionBench: A Benchmark for Emergent Delegation in Long-Horizon Agentic Workflows
+  key_idea: Benchmark for when agents should delegate steps to other models.
+  cost: Counterfactual perfect delegation is 15-31 points above measured performance
+  summary: DecisionBench is a substrate for studying emergent delegation, where an agent can call peer models, with metrics for quality, cost, latency, delegation rate and routing fidelity over 23,375 instances. Mean quality barely changes across awareness conditions, but a counterfactual ceiling shows large unrealized delegation headroom.
+  benchmarks: GAIA, tau-bench, BFCL multi-turn
+  signals: delegation interface, model profiles
+
+[gillespie-2026-enterprise-agent-routing-scaling] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=Y, clusters=C1,C13,C14)
+  title: Scaling Enterprise Agent Routing: Degradation, Diagnosis, and Recovery
+  key_idea: Agent-routing accuracy degrades with catalog size; shortlisting recovers it.
+  summary: Studies routing requests to specialized agents in a deployed enterprise productivity assistant as the catalog grows to 110 agents and 584 tools. Routing F1 drops 16-23 points, split into retrieval and confusion gaps, and embedding shortlisting recovers 10-17 points on real traffic.
+  benchmarks: 110-agent, 584-tool catalog from a deployed enterprise assistant, 1,435 human-labeled production utterances
+  signals: embedding shortlisting
+
+[hajimiri-2026-skill-memory-worth-tokens] (2026, EMNLP 2026, rel=4, gran=none, regime=n/a, prod=N, clusters=C10,C12,C13)
+  title: Are Online Skill and Memory Modules Always Worth Their Tokens? A Budget-Constrained Study of Web Agents
+  key_idea: Many agent add-on modules lose to a budget-matched plain actor.
+  cost: Token-matched vanilla actor matches or beats AWM, ASI and ReasoningBank in aggregate success while often using fewer tokens
+  summary: Re-evaluates memory, workflow and skill modules for web agents under a fixed total token budget and finds a vanilla actor given the same tokens for extra steps matches or beats them. Run-to-run variance is large and should be reported.
+  benchmarks: WebArena (four domains), WorkArena-L1
+  signals: token-matched budget
+
+[hu-2026-cost-inefficient-coding-agents] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C10,C12,C13)
+  title: Analyzing and Mitigating Cost-Inefficient Behaviors in Coding Agents
+  key_idea: Target recurring wasteful behaviors in coding agents with human-designed skills.
+  cost: developer-designed skills reduced cost by up to 41.73%; subsumed retrieval, similar script generation and test re-execution account for up to 22.75% of task cost
+  summary: Analyzes 1,200 coding-agent trajectories (Claude Code, Mini-SWE-Agent) and identifies three recurring wasteful behaviors: subsumed retrieval, similar script generation and test re-execution. Developer-written skills reduce cost up to 42%, while structure-aware retrieval and agent-synthesized skills help less or even raise cost.
+  benchmarks: SWE-bench Verified, SWE-bench Pro
+  signals: trace analysis, trajectory analysis
+
+[khraishi-2026-model-switching-drift] (2026, arXiv, rel=4, gran=step, regime=n/a, prod=N, clusters=C3,C13)
+  title: Evaluating Performance Drift from Model Switching in Multi-Turn LLM Systems
+  key_idea: Mid-conversation model handoffs cause significant, model-pair-specific drift.
+  summary: The paper measures what happens when a multi-turn system switches models mid-interaction, so that a later model must continue a prefix written by a different model. Even a single-turn handoff moves Multi-IF strict success by -8 to +13 pp; the effect decomposes into per-model prefix influence and suffix susceptibility terms, which explain about 70% of the variance.
+  benchmarks: CoQA, Multi-IF
+  signals: prefix influence, suffix susceptibility
+
+[kulkarni-2026-financial-mas-orchestration-benchmark] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C12,C13,C14)
+  title: Benchmarking Multi-Agent LLM Architectures for Financial Document Processing: A Comparative Study of Orchestration Patterns, Cost-Accuracy Tradeoffs and Production Scaling Strategies
+  key_idea: Orchestration pattern choice drives cost-accuracy; hybrids with routing recover most gains cheaply.
+  cost: Reflexive loop F1 0.943 at 2.3x sequential cost; hierarchical supervisor-worker F1 0.921 at 1.4x cost; hybrid configs recover 89% of reflexive gains at 1.15x cost
+  summary: Benchmarks four orchestration architectures (sequential, parallel fan-out, hierarchical supervisor-worker, reflexive loop) for financial document extraction across five LLMs, measuring F1, latency, cost per document and tokens. Hierarchical designs sit best on the cost-accuracy frontier, and hybrids with caching, model routing and adaptive retry get most of the accuracy at little extra cost.
+  benchmarks: 10,000 SEC filings (10-K, 10-Q, 8-K)
+
+[lai-2026-routejudge] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C5,C13)
+  title: RouteJudge: An Open Platform for Reproducible and Preference-Aware LLM Routing
+  key_idea: Arena-style live preference evaluation at the router level rather than the model level.
+  summary: An online platform where several routing strategies each pick a model for the same query, and anonymous pairwise user preferences between the resulting responses are attributed back to the routers. Logs query, decisions, responses, preferences, cost and latency, and ships ORBIT, a toolbox for implementing and submitting routers.
+  signals: anonymous pairwise user preferences, cost, latency
+
+[lai-2026-routing-collapse] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C13)
+  title: When Routing Collapses: On the Degenerate Convergence of LLM Routers
+  key_idea: Decision-aware ranking objective fixes routers over-selecting the strongest model.
+  cost: Reduces cost by about 17% at GPT-4-level performance vs strongest prior router on RouterBench (abstract)
+  summary: Identifies 'routing collapse': as budgets rise, routers default to the most expensive model even when cheaper ones suffice, due to training on scalar score prediction. EquiRouter learns rankings directly to restore use of small models.
+  benchmarks: RouterBench, unimodal and multimodal routing benchmarks
+  signals: learned model rankings, predicted performance, rankings
+
+[lee-2026-routing-gap-task-type] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: Most of the LLM Routing Gap Is Task Type
+  key_idea: Routing gains are mostly task-type effects plus noise.
+  summary: Argues most of the oracle routing gap is explained by task type, and that run-to-run noise (5.37% of model-question pairs flipping between identical runs) makes small router wins uninterpretable.
+  benchmarks: 294 questions, 7 task types, 3 languages
+  signals: task type
+
+[lumer-2026-dont-break-the-cache] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C10,C13,C14)
+  title: Don't Break the Cache: An Evaluation of Prompt Caching for Long-Horizon Agentic Tasks
+  key_idea: How you place cache breakpoints in agent prompts decides whether caching helps.
+  cost: prompt caching reduced API cost by 41-80% and improved time-to-first-token by 13-31% across providers; naive full-context caching can paradoxically increase latency
+  summary: Evaluates provider prompt caching for long-horizon agents over 500+ sessions with 10,000-token system prompts, comparing full-context caching, system-prompt-only caching and caching that excludes dynamic tool results. Placing dynamic content at the end and excluding dynamic tool results gives more consistent gains than caching everything.
+  benchmarks: DeepResearch Bench
+  signals: cache block placement strategy
+
+[marjanovic-2026-model-pools-mas] (2026, arXiv, rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C12,C13)
+  title: Mo'Models, Mo'Problems: How to best select model pools when designing Multi-Agent Systems
+  key_idea: Bigger heterogeneous model pools often hurt MAS; select candidates carefully.
+  summary: Evaluates eight strategies for picking candidate models for multi-agent systems, for routing-based and aggregation-based (voting, judge) architectures. Growing the candidate pool often pushes performance below the best single model; selecting within one model family worked best.
+  benchmarks: scientific reasoning benchmarks
+  signals: model size, accuracy, answer diversity
+
+[ning-2026-hrbench] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C9,C13)
+  title: HRBench: Benchmarking and Understanding Thinking-Mode Switch Strategies in Hybrid-Reasoning LLMs
+  key_idea: Controlled comparison of think/no-think switching strategies.
+  summary: Unified benchmark for thinking-mode switching in hybrid-reasoning LLMs, reimplementing 12+ methods across three strategy families and four training regimes. Prompt-based methods give good token-accuracy trade-offs, routing is more stable, speculative methods cost more.
+  benchmarks: 5 reasoning benchmarks (math, science, code)
+  signals: prompt-based selection, external routing, speculative execution
+
+[rabanser-2026-agent-reliability] (2026, ICML 2026, rel=4, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: Towards a Science of AI Agent Reliability
+  key_idea: Multi-dimensional reliability profile beyond accuracy.
+  summary: Proposes twelve metrics that break agent reliability into consistency, robustness, predictability and safety, borrowing from safety-critical engineering, and shows single success rates hide operational flaws.
+  benchmarks: multiple agent benchmarks
+  signals: consistency, robustness, predictability, safety metrics
+
+[together-2026-deepswe-cascade-deepseek-gpt] (2026, Together AI blog, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C3,C7,C13)
+  title: DeepSeek V4 Pro 0813 vs GPT-5.6 Sol on DeepSWE: Cost, Coding, and Routing
+  key_idea: For agentic coding, a verifier-gated cascade (cheap model, escalate on failing tests) dominates either model alone.
+  cost: Cascade (DeepSeek V4 Pro first, escalate to GPT-5.6 Sol on test failure): 83.0% of DeepSWE tasks at $3.35/task vs Sol alone 72.7% at $8.37 (10 pts better, 60% cheaper); 904 rollouts (vendor-reported)
+  summary: Compares a cheap open model and a frontier closed model over 904 DeepSWE agent rollouts, reporting pass@k, cost, steps and regressions. The cheap model's pass@4 exceeds the frontier model's, and a test-gated cascade that escalates only on failing tests beats both in accuracy and cost; the frontier model's failures more often break already-passing tests.
+  benchmarks: DeepSWE
+  signals: unit-test pass/fail
+
+[together-2026-deepswe-cascade-glm-flash] (2026, Together AI blog, rel=4, gran=query, regime=training-free, prod=N, clusters=C2,C8,C13)
+  title: GLM-5.3 vs. GLM-5.3 Flash on DeepSWE: Cost, Coding, and Routing
+  key_idea: Distillation mostly costs consistency, which retries and verifier-gated escalation can buy back cheaply.
+  cost: Cascade (GLM-5.3 Flash first, escalate to GLM-5.3 when tests reject): 80.9% of DeepSWE tasks at $1.70 vs GLM-5.3 alone 69.0% at $3.99 (57% lower cost); Flash 17x cheaper per rollout (vendor-reported)
+  summary: Evaluates a distilled Flash model against its parent on DeepSWE: the gap is mainly first-try reliability (5.6 pts at pass@1, 2.6 pts at pass@4), the Flash solves 93 of the parent's 99 solved tasks, but breaks passing tests slightly more often. A test-gated cascade from Flash to the parent beats both.
+  benchmarks: DeepSWE
+  signals: unit-test pass/fail
+
+[wang-2026-rethinking-scale-slm-agent-paradigms] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C8,C12,C13)
+  title: Rethinking Scale: Deployment Trade-offs of Small Language Models under Agent Paradigms
+  key_idea: For small models, single tool agents beat multi-agent setups on cost-effectiveness.
+  summary: A large study of sub-10B open models as base models, single tool-using agents and multi-agent systems. Single agents give the best performance-cost balance, while multi-agent setups add overhead with limited gains.
+
+[wei-2026-routing-least-learnable] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C3,C6,C13)
+  title: Routing Is Least Learnable Where It Is Most Valuable: Bounds on Representation Routing for Web Agents
+  key_idea: Router labels are scarce where routing matters; noise inflates oracle gains.
+  cost: Sending only tasks no mode solves to the cheapest mode cuts cost 9.5-30.6% at unchanged success; no tested routing policy robustly beats one well-chosen fixed mode
+  summary: Measures per-task routing among six observation modes for web agents and finds oracle gains are inflated by 12-14% run-to-run noise; five routing policies fail to beat a fixed good mode. Routing supervision is scarcest exactly where routing would help most.
+  benchmarks: VisualWebArena, WebArena
+  signals: observation mode
+
+[weinberger-2026-prompt-induced-waste-coding-agents] (2026, arXiv, rel=4, gran=step, regime=n/a, prod=N, clusters=C9,C12,C13)
+  title: Prompt-Induced Waste in Coding Agents: Reasoning, Effort, Harness Design, and End-to-End Cost
+  key_idea: Measure cost per successful task; prompt, effort and harness interact.
+  summary: Controlled experiments showing prompt wording, reasoning effort and harness design interact to determine coding-agent cost and success; argues efficiency should be measured as cost per successful task, not tokens.
+  signals: prompt wording, inference effort, harness policy
+
+[weinberger-2026-token-reduction-not-cost] (2026, arXiv, rel=4, gran=step, regime=n/a, prod=N, clusters=C10,C13)
+  title: Token Reduction Is Not Cost Reduction
+  key_idea: Measure cost per solved task, not tokens removed.
+  cost: Largest compression cut tool-output tokens by 38.4% but increased billed cost by 6.8%; token reduction correlated weakly with cost reduction (r=0.15)
+  summary: Shows that compressing context in tool-heavy coding agents can trigger extra retrieval, diagnosis, testing and turns that offset token savings, and aggressive compression reduced successful patches. Argues for evaluating cost per successful task including cache behaviour.
+  benchmarks: SWE-bench Go subset, controlled coding tasks
+  signals: billed cost, cache traffic
+
+[xiong-2026-clawarena-team] (2026, arXiv, rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C12,C13)
+  title: ClawArena-Team: Benchmarking Subagent Orchestration and Dynamic Workflows in Language-Model Agents
+  key_idea: Benchmark for the leader role in subagent orchestration.
+  cost: API cost spans over 100x across leader models while overall score spans under 4x
+  summary: Benchmarks a single LLM's ability to act as a manager that spawns and orchestrates a fixed pool of local subagents, scored by execution with no LLM judge. The bottleneck is privilege granting, and management quality is largely decoupled from cost, with cheap open models competitive.
+  benchmarks: ClawArena-Team (41 scenarios, 258 rounds)
+  signals: subagent management score
+
+[xu-2026-low-effort-office-agents] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C9,C13)
+  title: Low Reasoning Effort Is Enough for Routine Office Work by Language-Model Agents
+  key_idea: Routine agent work does not need high reasoning effort.
+  cost: Low reasoning level used about 43% fewer output tokens and 20% less time than max level, with no rule violations across 840 runs of 14 office tasks
+  summary: Controlled test of low vs max reasoning effort for agents doing routine office tasks with a forbidden-tool temptation; low effort was sufficient for compliance and completion.
+  benchmarks: 14 routine office tasks (840 runs)
+  signals: reasoning level setting
+
+[zhang-2026-po-coin-flip] (2026, CTB@ICML 2026 Workshop, rel=4, gran=none, regime=n/a, prod=N, clusters=C4,C13)
+  title: Prompt Optimization Is a Coin Flip: Diagnosing When It Helps in Compound AI Systems
+  key_idea: Prompt optimization in compound systems helps only with exploitable output structure; joint optimization rarely matters.
+  summary: Large-scale study (72+ optimization runs, 18,000 grid evaluations) finding that prompt optimization in compound systems is often no better than chance: 49% of runs on Claude Haiku 4.5 score below zero-shot. Agent-prompt interaction effects were never significant; gains appear only when a task has exploitable output structure.
+  signals: zero-shot vs optimized score
+
+[zhong-2026-enterpriseclawbench] (2026, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: EnterpriseClawBench: Benchmarking Agents from Real Workplace Sessions
+  key_idea: Benchmark mined from real enterprise agent logs.
+  summary: Builds 852 reproducible enterprise tasks from proprietary real workplace agent sessions, releasing the construction and evaluation protocol but not the data. The best configuration scores 0.663, and the authors argue reports must include harness-model pairing, cost and runtime.
+  benchmarks: EnterpriseClawBench (852 tasks from real workplace sessions)
+  signals: rubrics, hard rules
+
+[aggarwal-2025-optimalthinkingbench] (2025, arXiv, rel=4, gran=n/a, regime=n/a, prod=N, clusters=C9,C13)
+  title: OptimalThinkingBench: Evaluating Over and Underthinking in LLMs
+  key_idea: Unified over/underthinking benchmark.
+  summary: Benchmark that jointly scores overthinking on simple queries across 72 domains and underthinking on hard reasoning tasks. None of 33 models thinks optimally; methods that help one side hurt the other.
+  benchmarks: OverthinkingBench, UnderthinkingBench
+  signals: thinking-adjusted accuracy
+
+[barres-2025-tau2-bench] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: τ²-Bench: Evaluating Conversational Agents in a Dual-Control Environment
+  key_idea: Dual-control user-agent tasks for technical support.
+  summary: Extends τ-bench to dual-control settings where the simulated user also acts on a shared environment, modeled as a Dec-POMDP, with a new telecom technical-support domain, a compositional task generator, and a tool-constrained user simulator. Agents drop sharply when moving from no-user to dual-control modes.
+  benchmarks: τ²-bench telecom, retail, airline
+  signals: environment state
+
+[chuang-2025-confident-or-seek-stronger] (2025, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C2,C7,C13)
+  title: Confident or Seek Stronger: Exploring Uncertainty-Based On-device LLM Routing From Benchmarking to Generalization
+  key_idea: Large benchmark of UQ-based SLM-to-LLM escalation.
+  summary: Benchmarks uncertainty-based routing from on-device small models to LLMs across 1500+ settings, finding that uncertainty-correctness alignment matters most and depends on SLM and UQ method. Proposes a calibration-data pipeline for generalising routing thresholds.
+  benchmarks: 1500+ settings
+  signals: uncertainty quantification methods, calibration data, uncertainty quantification
+
+[davidson-2025-collaboration-gap] (2025, arXiv, rel=4, gran=subagent, regime=n/a, prod=N, clusters=C3,C12,C13)
+  title: The Collaboration Gap
+  key_idea: Strong-first, weak-later relay mitigates the heterogeneous collaboration gap.
+  summary: A maze benchmark that isolates collaboration among heterogeneous agents shows that models strong when solo often degrade when paired. A relay in which a stronger agent starts and then hands off to a weaker one closes much of the gap.
+  benchmarks: collaborative maze-solving benchmark
+  signals: pairing type
+
+[el-2025-inefficiencies-meta-agents] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C4,C12,C13)
+  title: Inefficiencies of Meta Agents for Agent Design
+  key_idea: Automated agent design rarely pays back its design cost.
+  cost: Only on two datasets does total design-plus-deployment cost of meta-designed agents fall below human-designed agents, and only when deployed on over 15,000 examples
+  summary: Examines meta-agents that design agents: expanding context with all prior designs underperforms, designed agents lack diversity, and the design cost is recouped only in a few datasets at large deployment scale.
+  signals: design cost, per-example inference cost
+
+[erol-2025-cost-of-pass] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C12,C13,C15)
+  title: Cost-of-Pass: An Economic Framework for Evaluating Language Models
+  key_idea: Cost-of-pass as an economic metric for model selection.
+  cost: Frontier cost-of-pass for complex quantitative tasks roughly halved every few months over the year studied
+  summary: Defines cost-of-pass, the expected monetary cost of producing a correct solution, and the frontier cost-of-pass across models and human experts. Finds lightweight models most cost-effective for basic quantitative tasks, large models for knowledge-intensive ones and reasoning models for complex math.
+  benchmarks: basic quantitative, knowledge-intensive and complex quantitative task suites
+  signals: expected cost of a correct solution, accuracy, inference cost
+
+[fan-2025-cothink] (2025, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C3,C9,C13)
+  title: The Price of a Second Thought: On the Evaluation of Reasoning Efficiency in Large Language Models
+  key_idea: Instruct model outlines, thinking model expands.
+  cost: Cuts token usage by 21.1% while keeping accuracy on GSM8K, MATH500, AIME24 across four thinking models
+  summary: Measures reasoning efficiency relative to instruct models as the minimal-effort baseline, finding thinking models waste compute on easy problems. CoThink has an instruct model draft an outline that a thinking model expands.
+  benchmarks: GSM8K, MATH500, AIME24
+  signals: instruct-model outline
+
+[feng-2025-fusionfactory] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C8,C13)
+  title: FusionFactory: Fusing LLM Capabilities with Multi-LLM Log Data
+  key_idea: Exploit multi-LLM logs for routing and distillation.
+  summary: FusionFactory uses multi-LLM log data to fuse models at three levels: query-level routing, thought-level template reuse, and model-level distillation, outperforming the best single model on all 14 tasks.
+  benchmarks: LLMFusionBench (14 tasks), LLMFusionBench (14 tasks, 20 LLMs), LLMFusionBench (14 tasks, 5 domains)
+  signals: multi-LLM log data, routers, reasoning templates, distillation, multi-LLM logs, query embedding
+
+[frick-2025-p2l] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C13)
+  title: Prompt-to-Leaderboard
+  key_idea: Predict a per-prompt leaderboard from preference data and route to its top model.
+  summary: Prompt-to-Leaderboard trains an LLM to output prompt-specific Bradley-Terry coefficients over models, producing a per-prompt leaderboard usable for routing and evaluation. A router built this way reached #1 on Chatbot Arena in January 2025, and performance scales with a power law.
+  benchmarks: Chatbot Arena
+  signals: prompt-conditioned Bradley-Terry coefficients, human preference votes (Chatbot Arena)
+
+[huang-2025-crmarena-pro] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: CRMArena-Pro: Holistic Assessment of LLM Agents Across Diverse Business Scenarios and Interactions
+  key_idea: Multi-turn enterprise CRM evaluation with confidentiality checks.
+  cost: Top agents ~58% single-turn and ~35% multi-turn success
+  summary: Expands CRMArena to 19 expert-validated sales, service and CPQ tasks in B2B and B2C settings, with persona-driven multi-turn interactions and confidentiality tests. Top agents reach about 58% single-turn and about 35% multi-turn success, and show almost no confidentiality awareness.
+  benchmarks: CRMArena-Pro (19 tasks, B2B and B2C)
+
+[huang-2025-routereval] (2025, EMNLP 2025, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: RouterEval: A Comprehensive Benchmark for Routing LLMs to Explore Model-level Scaling Up in LLMs
+  key_idea: Massive routing benchmark revealing model-level scaling with candidate count.
+  summary: RouterEval releases over 200 million performance records from more than 8,500 LLMs on 12 evaluations and reports a model-level scaling phenomenon: a capable router improves as the candidate pool grows, sometimes beating the best single model. Most existing routers leave large headroom on this benchmark.
+  benchmarks: RouterEval (12 LLM evaluations), ARC, HellaSwag, MMLU, TruthfulQA, GSM8K, MMLU-PRO, and 6 other evaluations
+  signals: precomputed performance records, per-query model outcomes
+
+[jha-2025-itbench] (2025, ICML 2025, rel=4, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: ITBench: Evaluating AI Agents across Diverse Real-World IT Automation Tasks
+  key_idea: IT-operations automation benchmark.
+  summary: IBM framework for benchmarking agents on 94 real-world IT automation scenarios across site reliability engineering, security compliance and FinOps, with push-button workflows and interpretable metrics. SOTA agents solve 13.8% of SRE, 25.2% of CISO and 0% of FinOps scenarios.
+  benchmarks: ITBench (94 scenarios: SRE, CISO, FinOps)
+
+[li-2025-knn-routing] (2025, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C6,C13)
+  title: Rethinking Predictive Modeling for LLM Routing: When Simple kNN Beats Complex Learned Routers
+  key_idea: Simple kNN is a strong router baseline.
+  summary: Shows that a well-tuned k-nearest-neighbors router matches or beats complex learned routers across instruction-following, QA and reasoning benchmarks, explained by locality of model performance in embedding space. Introduces standardized routing benchmarks including a multimodal one.
+  benchmarks: standardized routing benchmarks incl. multimodal
+  signals: query embedding kNN, query embedding neighbors
+
+[lindenbauer-2025-complexity-trap] (2025, DL4C Workshop @ NeurIPS 2025, rel=4, gran=step, regime=training-free, prod=N, clusters=C10,C13)
+  title: The Complexity Trap: Simple Observation Masking Is as Efficient as LLM Summarization for Agent Context Management
+  key_idea: Just mask old observations; LLM summarization rarely pays for itself.
+  cost: simple observation masking roughly halves cost relative to the raw agent while matching (sometimes slightly exceeding) the solve rate of LLM summarization on SWE-bench Verified
+  summary: Systematic comparison in SWE-agent (with evidence for OpenHands) of LLM-based trajectory summarization versus simply masking older environment observations. Masking is as effective and cheaper; summarization can even lengthen trajectories.
+  benchmarks: SWE-bench Verified
+  signals: observation masking window
+
+[lu-2025-routerarena] (2025, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: RouterArena: An Open Platform for Comprehensive Comparison of LLM Routers
+  key_idea: Open router leaderboard.
+  summary: RouterArena is an open platform and leaderboard for comparing LLM routers, with a dataset covering broad knowledge domains at graded difficulty, multiple metrics and automated leaderboard updates.
+  benchmarks: RouterArena, RouterArena dataset (multi-domain, multi-difficulty)
+  signals: router outputs, cost, difficulty levels
+
+[mehta-2025-clear] (2025, arXiv, rel=4, gran=n/a, regime=n/a, prod=N, clusters=C4,C13)
+  title: Beyond Accuracy: A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems
+  key_idea: Multi-dimensional, cost-controlled evaluation for enterprise agents.
+  cost: Accuracy-only optimization yields agents 4.4-10.8x more expensive than cost-aware alternatives with comparable performance (300 enterprise tasks); up to 50x cost variation for similar precision
+  summary: Proposes CLEAR, an enterprise agent evaluation framework across cost, latency, efficacy, assurance and reliability, arguing accuracy-only benchmarks mislead. Expert evaluation suggests CLEAR predicts production success better than accuracy alone.
+  benchmarks: 300 enterprise tasks, analysis of 12 benchmarks
+  signals: cost, latency, efficacy, assurance, reliability
+
+[pacchiardi-2025-predictaboard] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C6,C7,C13)
+  title: PredictaBoard: Benchmarking LLM Score Predictability
+  key_idea: Benchmark for instance-level LLM success prediction.
+  summary: PredictaBoard benchmarks assessors that predict whether an LLM will fail on a given prompt, scoring LLM-assessor pairs by rejection rate at different error tolerances.
+  benchmarks: PredictaBoard
+  signals: assessor predictions
+
+[zellinger-2025-economic-evaluation] (2025, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C2,C13)
+  title: Economic Evaluation of LLMs
+  key_idea: Price errors, latency and abstention to compare models.
+  cost: Reasoning models give better accuracy-cost trade-offs once a mistake costs more than a small dollar threshold (MATH)
+  summary: Proposes scoring LLMs by a single dollar-denominated number based on the use case's cost of mistakes, latency and abstention, allowing comparison beyond Pareto plots.
+  benchmarks: MATH
+  signals: cost of error, latency cost, abstention cost
+
+[zhang-2025-stop-overvaluing-mad] (2025, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C3,C12,C13)
+  title: Stop Overvaluing Multi-Agent Debate -- We Must Rethink Evaluation and Embrace Model Heterogeneity
+  key_idea: MAD rarely pays off; model heterogeneity is the reliable improvement.
+  summary: A systematic evaluation of five multi-agent debate methods on nine benchmarks finds they often fail to beat CoT and self-consistency despite using more compute. Mixing heterogeneous models consistently improves MAD.
+  benchmarks: 9 benchmarks
+
+[chiang-2024-chatbot-arena] (2024, arXiv, rel=4, gran=n/a, regime=n/a, prod=Y, clusters=C5,C6,C13)
+  title: Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference
+  key_idea: Live crowdsourced pairwise preference collection for LLM ranking.
+  summary: Describes the Chatbot Arena platform, which collects crowdsourced pairwise votes between LLMs on real user prompts (over 240K votes at time of writing) and ranks models with Bradley-Terry style statistics.
+  benchmarks: Chatbot Arena
+  signals: pairwise human votes
+
+[ong-2024-routellm] (2024, arXiv (later ICLR 2025 per authors; venue not verified here), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C13,C14)
+  title: RouteLLM: Learning to Route LLMs with Preference Data
+  key_idea: Learn strong-vs-weak routing from pairwise human preference data with a tunable threshold.
+  cost: Blog: >85% cost reduction on MT-Bench, 45% on MMLU, 35% on GSM8K vs GPT-4 at 95% of GPT-4 quality; paper: >2x cost reduction in some cases without quality loss
+  summary: Trains binary routers that pick between a strong and a weak LLM per query using Chatbot Arena human preference data plus augmentation. Compares matrix factorization, BERT classifier, causal-LLM classifier and similarity-weighted ranking routers, and shows they transfer when the model pair is swapped at test time.
+  benchmarks: MT-Bench, MMLU, GSM8K
+  signals: query embedding, human preference labels (Chatbot Arena), matrix factorization, BERT classifier, similarity-weighted ranking, human preference data (Chatbot Arena), data augmentation, human preference
+
+[wang-2024-reasoning-token-economies] (2024, arXiv, rel=4, gran=n/a, regime=n/a, prod=N, clusters=C9,C13)
+  title: Reasoning in Token Economies: Budget-Aware Evaluation of LLM Reasoning Strategies
+  key_idea: Budget-aware evaluation of reasoning strategies.
+  summary: Argues reasoning strategies should be compared at matched compute; with equal budgets, CoT self-consistency often beats more complex strategies, and multi-agent debate or Reflexion can get worse with more budget.
+  signals: compute budget
+
+[xu-2024-theagentcompany] (2024, arXiv, rel=4, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: TheAgentCompany: Benchmarking LLM Agents on Consequential Real World Tasks
+  key_idea: Digital-worker benchmark with consequential multi-tool tasks.
+  summary: Simulated small software company with internal websites, data and simulated coworkers, where agents browse, code, run programs and communicate. The best baseline agent completes 30% of tasks autonomously.
+  benchmarks: TheAgentCompany
+  signals: checkpoint-based partial credit
+
+[zhuang-2024-embedllm] (2024, ICLR (per Semantic Scholar), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C13)
+  title: EmbedLLM: Learning Compact Representations of Large Language Models
+  key_idea: Matrix-factorization-style LLM embeddings reused across routing and performance prediction.
+  summary: EmbedLLM learns compact vector representations of LLMs with an encoder-decoder trained on query-level correctness data. The embeddings support routing and forecasting benchmark performance without running the model, and outperform prior methods on routing accuracy and latency.
+  benchmarks: multiple benchmarks, correctness forecasting across benchmarks, model routing
+  signals: learned model embeddings, query embedding, correctness labels, model embedding, historical correctness
+
+[zhuge-2024-agent-as-a-judge] (2024, arXiv, rel=4, gran=step, regime=training-free, prod=N, clusters=C7,C13)
+  title: Agent-as-a-Judge: Evaluate Agents with Agents
+  key_idea: Use an agent with tools as the evaluator of agent trajectories.
+  summary: Proposes using agentic systems (with tools to inspect workspaces and traces) to judge other agents, giving intermediate feedback over the whole task process. Introduces DevAI, 55 AI-development tasks with 365 hierarchical requirements, and finds Agent-as-a-Judge is far more reliable than LLM-as-a-Judge and comparable to human evaluators.
+  benchmarks: DevAI
+  signals: agent judge, requirement satisfaction
+
+[baral-2026-semantic-cache-operational-gap] (2026, EMNLP 2026 Industry Track, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C10,C13)
+  title: Closing the Operational Gap in Semantic Caching
+  key_idea: Evaluate semantic-cache models at deployment thresholds, not by offline ranking.
+
+[bozoglan-2026-slm-database-agent] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C3,C7,C13)
+  title: What Stops a Small Language Model From Driving a Database Agent
+  key_idea: Small-model agent failures are often interface failures, not capability gaps.
+
+[chen-2026-routing-oracle-stochastic] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C6,C13)
+  title: What Does a Routing Oracle Measure Under Stochastic Decoding? Coupling, Scorer Choice, and Single-Commit Ceilings
+  key_idea: Routing oracles under stochastic decoding overstate the achievable gain of single-commit routers.
+
+[chhikara-2026-matched-trajectory-replay] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C6,C7,C13)
+  title: Evaluating Confidence-Gated Retrieval with Matched Trajectory Replay
+  key_idea: Compare agent gating policies by replaying matched trajectories with fixed costs.
+
+[chi-2026-agentmeter] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C12,C13)
+  title: Matching Matters: A Fair Quality-Efficiency Benchmark for Command-Line Agents
+  key_idea: Evaluate model-harness pairs jointly on quality and efficiency.
+
+[fan-2026-agentprocessbench] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C7,C13)
+  title: AgentProcessBench: Diagnosing Step-Level Process Quality in Tool-Using Agents
+  key_idea: Human-labeled step-quality benchmark for tool agents.
+
+[furman-2026-replit-closing-the-loop-evals] (2026, Replit blog, rel=3, gran=n/a, regime=hybrid, prod=Y, clusters=C5,C7,C13,C14)
+  title: Closing the loop: Evaluating and improving Replit Agent at scale
+  key_idea: Pair offline spec-grounded agent evals with live A/B tests and trace clustering to validate changes such as model swaps.
+
+[garg-2026-unsolvability-ceiling] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C7,C13)
+  title: Unsolvability Ceiling in Multi-LLM Routing: An Empirical Study of Evaluation Artifacts
+  key_idea: Evaluation artifacts corrupt router training signals.
+
+[ghosh-2026-eval-costs-bottleneck] (2026, Hugging Face blog (EvalEval Coalition), rel=3, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: AI evals are becoming the new compute bottleneck
+  key_idea: Reliable agent evaluation is expensive; scaffold drives cost.
+  cost: Reports HAL ~$40K for 21,730 rollouts; one frontier GAIA run $2,829 before caching; 33x cost spread across scaffolds on identical tasks
+
+[gonzalez-pumariega-2026-cua-reliability] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: On the Reliability of Computer Use Agents
+  key_idea: Repeated-execution evaluation for computer-use agents.
+
+[jiang-2026-reliability-at-k] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: Beyond Pass@k: Measuring Reliability and Security of Agentic Code Generation
+  key_idea: Correct pass@k over independent rollouts.
+
+[khanal-2026-beyond-pass1] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: Beyond pass@1: A Reliability Science Framework for Long-Horizon LLM Agents
+  key_idea: Reliability decays with horizon length in ways pass@1 misses.
+
+[kulkarni-2026-cache-eviction-study] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C10,C13)
+  title: Which Eviction Policy Should an LLM Cache Use? A Systematic Study Across Workloads, Capacities, and Encoders
+  key_idea: Most semantic-cache hits at standard thresholds are not valid substitutes.
+  cost: raw semantic-cache hit rates of 51-60% on LMSYS and QQP fall to quality-adjusted rates of 1.1-2.2% when only answer-substitutable hits are counted
+
+[laddha-2026-slmjury] (2026, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C7,C13)
+  title: SLMJury: Can Small Language Models Judge as Well as Large Ones?
+  key_idea: When small judges suffice.
+
+[li-2026-same-model-not-same-service] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C5,C13,C14)
+  title: When Is the Same Model Not the Same Service? A Measurement Study of Hosted Open-Weight LLM APIs
+  key_idea: Hosted models are time-varying services; routing must track provider-level drift.
+  cost: In two counterfactuals, routing lowers Qwen3-32B cost by 37.8% and raises DeepSeek-V3.2 throughput ~90% relative to direct official access
+
+[li-2026-test-time-scaling-agents] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C13)
+  title: Evaluating Test-Time Scaling of General LLM Agents
+  key_idea: More test-time compute does not reliably help general agents.
+
+[li-2026-toolprmbench] (2026, Findings of ACL 2026, rel=3, gran=step, regime=n/a, prod=N, clusters=C7,C13)
+  title: ToolPRMBench: Evaluating and Advancing Process Reward Models for Tool-using Agents
+  key_idea: PRM benchmark for tool-using agents.
+
+[liu-2026-cost-utility-alignment-trajectories] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C6,C12,C13,C15)
+  title: Cost-Utility Alignment in LLM Agent Trajectories:Profiling,Attribution,Diagnosis,Adaptation,and Evaluation
+  key_idea: Treat cost and utility as dual ledgers over agent trajectories.
+
+[lukassen-2026-cafe] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C4,C13)
+  title: CAFE: A Compound-AI Factorial Evaluation Framework
+  key_idea: Factorial DoE for compound AI configuration effects.
+
+[mccleary-2026-bcas] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C3,C9,C13)
+  title: Quantifying the Accuracy and Cost Impact of Design Decisions in Budget-Constrained Agentic LLM Search
+  key_idea: Measurement harness for budget-constrained agentic search design.
+
+[mo-2026-entworld] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: EntWorld: A Holistic Environment and Benchmark for Verifiable Enterprise GUI Agents
+  key_idea: Schema-grounded enterprise (incl. ITIL) GUI tasks.
+
+[moon-2026-price-of-thinking] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C9,C13,C14)
+  title: The Price of Thinking: Reasoning Effort as a Model-Specific API Contract
+  key_idea: Reasoning-effort defaults are model-specific contract terms with cost impact.
+  cost: Explicit-high effort cost $0.01031 more per call than omitted effort on Sonnet 5 (30 AIME 2026 items x5); no detected accuracy difference (+0.0133); cost per correct $0.08665 vs $0.07662
+
+[ndzomga-2026-efficient-benchmarking-agents] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: Efficient Benchmarking of AI Agents
+  key_idea: Evaluate on mid-difficulty tasks to rank agents cheaply.
+  cost: Mid-difficulty task filter cuts evaluation tasks by 44-70% while preserving rank fidelity
+
+[raghavendra-2026-swe-atlas] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: SWE Atlas: Benchmarking Coding Agents Beyond Issue Resolution
+  key_idea: Coding benchmark with cost-per-task Pareto.
+  cost: Reports cost-per-task Pareto from ~$0.35/task (~15% pass) to ~$1.90/task (~40% pass) (per search-result excerpt)
+
+[raj-2026-consistency-testable] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: Consistency as a Testable Property: Statistical Methods to Evaluate AI Agent Reliability
+  key_idea: Statistical tests for agent consistency.
+
+[richards-2026-agentlogs] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C6,C13,C14)
+  title: AgentLogs: A Dataset for Opening the Black Box of GitHub's Cloud Agent
+  key_idea: Large real-world agent trace dataset with per-step token usage.
+
+[satija-2026-fastworkflow] (2026, CAIS 2026, rel=3, gran=step, regime=training-free, prod=N, clusters=C3,C8,C13)
+  title: fastWorkflow: Closing the Performance Gap Between Small and Frontier Language Models for Conversational Agents
+  key_idea: Characterize and engineer around SLM failure modes in agent workflows.
+
+[satish-2026-beyond-token-savings] (2026, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C10,C13)
+  title: Beyond Token Savings: A Systematic Study of Context Compression in LLM Agents
+  key_idea: Compression effects must be judged on execution, not token counts.
+  cost: on Terminal-Bench with Qwen, policies using roughly one-third of the tokens can take 20-80% longer than the uncompressed agent
+
+[smekal-2026-task-spec-token-spend] (2026, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C12,C13)
+  title: Can your AI agent be cheaper? Investigating the effects of task specifications on token spend in agentic coding tasks
+  key_idea: Spec quality drives agent token spend and is predictable from a probe.
+  cost: Reducing a full task spec to a bare user story raises token spend by 29.7%; predictor prices spec/effort configurations within 36% from one probe
+
+[sun-2026-routeguard] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C6,C13)
+  title: RouteGuard: Certifying Routing Gain in LLM Multi-Agent Systems When Complementarity Is Not Enough
+  key_idea: Certify routing gain statistically before shipping a router.
+
+[tian-2026-pinterest-decision-quality] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C6,C13,C14)
+  title: Decision Quality Evaluation Framework at Pinterest
+  key_idea: Production evaluation pipeline using propensity sampling to compare LLM agents on cost and quality.
+
+[tolochinsky-2026-valid-best-model-identification] (2026, arXiv, rel=3, gran=n/a, regime=bandit-online, prod=N, clusters=C5,C6,C13)
+  title: Valid Best-Model Identification for LLM Evaluation via Low-Rank Factorization
+  key_idea: Bandit best-model identification with doubly robust use of predicted scores.
+  cost: Reduces the number of required evaluations while still identifying the best model (qualitative)
+
+[vllm-2026-agentx-agentic-serving] (2026, vLLM blog, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C11,C13)
+  title: vLLM x AgentX: Optimizing for Real-World Agentic Serving
+  key_idea: Agentic workloads are prefill- and cache-dominated; serving must optimise the latency-cost frontier around prefix reuse.
+  cost: Up to 130K total tokens per GPU-second on DeepSeek V4 Pro; 14.6x-106x serving-cost advantage over Opus 5 API pricing across DeepSeek V4 Pro, MiniMax M3, Kimi K3 on SemiAnalysis AgentX (project-reported)
+
+[wu-2026-faq-efficient-evaluation] (2026, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: Efficient Evaluation of LLM Performance with Statistical Guarantees
+  key_idea: Active, statistically valid LLM evaluation reusing historical results.
+  cost: Up to 5x effective sample size gains; matches uniform-sampling CI width with up to 5x fewer queries
+
+[wu-2026-routerxbench] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7,C13)
+  title: Towards Fair and Comprehensive Evaluation of Routers in Collaborative LLM Systems
+  key_idea: Hidden-state probe routers and a fairer benchmark.
+  cost: 16.68% and 18.86% relative improvements over best baselines in router ability and high-accuracy scenarios (abstract)
+
+[wunderlich-2026-multi-agent-pareto-tts] (2026, ACL 2026 SRW, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C9,C12,C13)
+  title: Multi-Agent Reasoning Improves Compute Efficiency: Pareto-Optimal Test-Time Scaling
+  key_idea: Compute-matched Pareto fronts of multi-agent inference strategies.
+  cost: Inference scaling gives up to +7.1 pp over CoT at 20x CoT compute on MMLU-Pro; at equal budget, debate and mixture-of-agents beat self-consistency by 1.3 and 2.7 pp
+
+[balachandran-2025-inference-time-scaling-complex-tasks] (2025, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C13)
+  title: Inference-Time Scaling for Complex Tasks: Where We Stand and What Lies Ahead
+  key_idea: Inference-time scaling gains are task-dependent and diminish on hard tasks.
+
+[deshpande-2025-trail] (2025, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: TRAIL: Trace Reasoning and Agentic Issue Localization
+  key_idea: Benchmark for locating errors in agent traces.
+
+[fu-hinthorn-2025-benchmarking-multi-agent-architectures] (2025, LangChain blog, rel=3, gran=subagent, regime=n/a, prod=N, clusters=C10,C12,C13)
+  title: Benchmarking Multi-Agent Architectures
+  key_idea: Multi-agent decomposition pays off mainly when context grows; supervisor overhead comes from relaying messages.
+  cost: Supervisor architecture improved by nearly 50% on the tau-bench variant after removing handoff messages and letting sub-agents respond directly; single agent's token use grows with distractor domains while supervisor and swarm stay flat (qualitative token comparison, vendor-reported)
+
+[gao-2025-reasoning-efficiency-gap] (2025, arXiv, rel=3, gran=none, regime=RL-offline, prod=N, clusters=C9,C13)
+  title: How Far Are We from Optimal Reasoning Efficiency?
+  key_idea: Frontier-based metric and RL for reasoning efficiency.
+  cost: REO-RL reduces REG by >=50 across evaluated LRMs and matches Qwen3-4B/8B efficiency frontiers under a 16K budget with minimal accuracy loss
+
+[gao-2025-turn-control-coding-agents] (2025, ICSE 2026, rel=3, gran=none, regime=training-free, prod=N, clusters=C3,C9,C13)
+  title: More with Less: An Empirical Study of Turn-Control Strategies for Efficient Coding Agents
+  key_idea: Turn budgets as a cost lever for coding agents.
+
+[gema-2025-inverse-scaling-test-time] (2025, TMLR 2025, rel=3, gran=none, regime=n/a, prod=N, clusters=C9,C13)
+  title: Inverse Scaling in Test-Time Compute
+  key_idea: More test-time compute can reduce accuracy.
+
+[kassem-2025-router-robustness] (2025, EACL (per Semantic Scholar), rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: How Robust Are Router-LLMs? Analysis of the Fragility of LLM Routing Capabilities
+  key_idea: Routers are fragile and category-biased; safety risks.
+
+[kim-2025-cost-of-dynamic-reasoning] (2025, HPCA 2026, rel=3, gran=none, regime=n/a, prod=N, clusters=C11,C12,C13)
+  title: The Cost of Dynamic Reasoning: Demystifying AI Agents and Test-Time Scaling from an AI Infrastructure Perspective
+  key_idea: Agents' compute returns diminish fast; system costs do not.
+  cost: Agents show rapidly diminishing accuracy returns with increased compute (system-level resource, latency, energy and power analysis)
+
+[lin-2025-cuarewardbench] (2025, arXiv, rel=3, gran=step, regime=n/a, prod=N, clusters=C7,C13)
+  title: CUARewardBench: A Benchmark for Evaluating Reward Models on Computer-using Agent
+  key_idea: Benchmark for ORMs/PRMs on computer-use agents.
+
+[liu-2025-budget-aware-tool-use] (2025, COLM 2026, rel=3, gran=step, regime=training-free, prod=N, clusters=C9,C12,C13)
+  title: Budget-Aware Tool Use Enables Effective Agent Scaling
+  key_idea: Make agents budget-aware to scale tool use efficiently.
+  cost: Budget-aware methods push the cost-performance Pareto frontier under a unified token+tool cost metric
+
+[lu-2025-agentrewardbench] (2025, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C7,C13)
+  title: AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories
+  key_idea: Meta-evaluation of LLM judges for web-agent trajectories.
+
+[mcnamara-2025-shopify-sidekick] (2025, Shopify Engineering blog, rel=3, gran=none, regime=n/a, prod=Y, clusters=C7,C13,C14)
+  title: Building production-ready agentic systems: Lessons from Shopify Sidekick
+  key_idea: Production-grounded judges and simulators for agent evaluation.
+
+[nath-2025-toolcomp] (2025, arXiv, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C7,C13)
+  title: ToolComp: A Multi-Tool Reasoning & Process Supervision Benchmark
+  key_idea: Process labels for tool-use trajectories.
+
+[orbach-2025-rag-hpo] (2025, AAAI 2026 Workshop (NewFrontiers in IR), rel=3, gran=none, regime=training-free, prod=N, clusters=C4,C13)
+  title: An Analysis of Hyper-Parameter Optimization Methods for Retrieval Augmented Generation
+  key_idea: Empirical benchmark of RAG HPO methods; tune model selection first.
+
+[pu-2025-thoughtterminator] (2025, arXiv, rel=3, gran=token, regime=training-free, prod=N, clusters=C9,C13)
+  title: THOUGHTTERMINATOR: Benchmarking, Calibrating, and Mitigating Overthinking in Reasoning Models
+  key_idea: Benchmark and fix token-spend calibration on easy problems.
+
+[roig-2025-kami] (2025, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C13,C14)
+  title: Towards a Standard, Enterprise-Relevant Agentic AI Benchmark: Lessons from 5.5 billion tokens' worth of agentic AI evaluations
+  key_idea: Enterprise agentic benchmark with cost-performance trade-offs.
+
+[tan-2025-zero-step-thinking] (2025, NeurIPS 2025 Efficient Reasoning Workshop, rel=3, gran=query, regime=n/a, prod=N, clusters=C9,C13)
+  title: The Zero-Step Thinking: An Empirical Study of Mode Selection as Harder Early Exit in Reasoning Models
+  key_idea: Mode selection is early exit at step zero, and current methods are weak.
+
+[zhang-2025-benchmark-prediction-misses] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: How Benchmark Prediction from Fewer Data Misses the Mark
+  key_idea: Benchmark prediction fails at the frontier.
+
+[zhu-2025-agentic-benchmark-checklist] (2025, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: Establishing Best Practices for Building Rigorous Agentic Benchmarks
+  key_idea: Checklist for rigorous agentic benchmarks.
+  cost: Issues can misestimate agent performance by up to 100% relative; ABC reduces overestimation on CVE-Bench by 33%
+
+[zhu-2025-multiagentbench] (2025, ACL 2025, rel=3, gran=none, regime=n/a, prod=N, clusters=C12,C13)
+  title: MultiAgentBench: Evaluating the Collaboration and Competition of LLM agents
+  key_idea: Evaluate multi-agent topologies and coordination, not just outcomes.
+
+[boyeau-2024-autoeval-done-right] (2024, International Conference on Machine Learning, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: AutoEval Done Right: Using Synthetic Data for Model Evaluation
+  key_idea: Unbiased model evaluation mixing AI and human labels.
+  cost: Effective human-labeled sample size increased by up to 50% in GPT-4 experiments
+
+[brown-2024-large-language-monkeys] (2024, arXiv, rel=3, gran=none, regime=training-free, prod=N, clusters=C7,C9,C13,C15)
+  title: Large Language Monkeys: Scaling Inference Compute with Repeated Sampling
+  key_idea: Inference-time scaling laws for repeated sampling.
+  cost: SWE-bench Lite: DeepSeek-V2-Coder solves 56% with 250 samples vs 15.9% with one; five cheap samples solve more issues at lower cost than a premium frontier single attempt
+
+[chatzi-2024-prediction-powered-ranking] (2024, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C7,C13)
+  title: Prediction-Powered Ranking of Large Language Models
+  key_idea: Statistically valid ranking from few human plus many judge labels.
+
+[chezelles-2024-browsergym] (2024, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: The BrowserGym Ecosystem for Web Agent Research
+  key_idea: Common harness for comparing web agents across benchmarks.
+
+[fisch-2024-stratified-ppi] (2024, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: Stratified Prediction-Powered Inference for Hybrid Language Model Evaluation
+  key_idea: Stratified PPI for hybrid human/autorater evaluation.
+
+[huang-2024-crmarena] (2024, NAACL 2025, rel=3, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: CRMArena: Understanding the Capacity of LLM Agents to Perform Professional CRM Tasks in Realistic Environments
+  key_idea: Realistic CRM tasks for agent evaluation.
+
+[jha-2024-prompt-compression-characterization] (2024, ES-FoMo workshop @ ICML 2024, rel=3, gran=none, regime=n/a, prod=N, clusters=C10,C13)
+  title: Characterizing Prompt Compression Methods for Long Context Inference
+  key_idea: Under standardized evaluation, extractive compression beats token pruning.
+  cost: extractive compression enables up to 10x compression with minimal accuracy degradation; token pruning often lags extractive compression
+
+[li-2024-arena-hard] (2024, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: From Crowdsourced Data to High-Quality Benchmarks: Arena-Hard and BenchBuilder Pipeline
+  key_idea: Turning logged traffic into a cheap, human-aligned eval set.
+  cost: Arena-Hard-Auto: 3x higher separation than MT-Bench, 98.6% correlation with human preference rankings, at a cost of $20
+
+[miranda-2024-hybrid-preferences] (2024, arXiv, rel=3, gran=n/a, regime=supervised-offline, prod=N, clusters=C6,C13)
+  title: Hybrid Preferences: Learning to Route Instances for Human vs. AI Feedback
+  key_idea: Predict where human labels add value and route only those instances to humans.
+  cost: Hybrid human/LM mixture yields better reward-model performance than either source alone while reducing human annotation
+
+[polo-2024-prompteval] (2024, NeurIPS 2024, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: Efficient multi-prompt evaluation of LLMs
+  key_idea: Budgeted estimation of performance over prompt variants.
+  cost: estimates performance quantiles across 100 prompt templates on MMLU with a budget of two single-prompt evaluations
+
+[polo-2024-tinybenchmarks] (2024, ICML 2024, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: tinyBenchmarks: evaluating LLMs with fewer examples
+  key_idea: Estimate full-benchmark performance from ~100 items.
+  cost: estimate MMLU (14K examples) performance from 100 curated examples
+
+[styles-2024-workbench] (2024, arXiv, rel=3, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: WorkBench: a Benchmark Dataset for Agents in a Realistic Workplace Setting
+  key_idea: Outcome-based workplace task evaluation.
+
+[trivedi-2024-appworld] (2024, ACL 2024, rel=3, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: AppWorld: A Controllable World of Apps and People for Benchmarking Interactive Coding Agents
+  key_idea: API-rich simulated app world with collateral-damage checks.
+
+[zhao-2024-wildchat] (2024, ICLR 2024, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C6,C13)
+  title: WildChat: 1M ChatGPT Interaction Logs in the Wild
+  key_idea: Real-world ChatGPT interaction logs.
+
+[chen-2023-chatgpt-behavior-over-time] (2023, Special Issue 5: Grappling With the Generative AI Revolution, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C5,C13)
+  title: How is ChatGPT's behavior changing over time?
+  key_idea: The same API model can change substantially over months.
+
+[ma-2023-prompt-getting-worse] (2023, 2024 IEEE/ACM 3rd International Conference on AI Engineering – Software Engineering for AI (CAIN), rel=3, gran=n/a, regime=n/a, prod=N, clusters=C5,C13)
+  title: (Why) Is My Prompt Getting Worse? Rethinking Regression Testing for Evolving LLM APIs
+  key_idea: LLM API updates silently regress downstream behavior, requiring dedicated regression testing.
+
+[zheng-2023-lmsys-chat-1m] (2023, arXiv, rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C6,C13)
+  title: LMSYS-Chat-1M: A Large-Scale Real-World LLM Conversation Dataset
+  key_idea: Large real-world LLM conversation log dataset.
+
+[zheng-2023-mt-bench] (2023, NeurIPS 2023 (Datasets and Benchmarks), rel=3, gran=n/a, regime=n/a, prod=N, clusters=C5,C7,C13)
+  title: Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena
+  key_idea: LLM-as-a-judge validated against crowdsourced preferences.
+
+[saito-2020-open-bandit-pipeline] (2020, NeurIPS 2021 (Datasets and Benchmarks), rel=3, gran=n/a, regime=n/a, prod=Y, clusters=C6,C13)
+  title: Open Bandit Dataset and Pipeline: Towards Realistic and Reproducible Off-Policy Evaluation
+  key_idea: Real multi-policy logged data and a reference OPE library.
+
+[han-2026-rideway] (2026, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: RideWay: Benchmarking Efficient Task Completion for Tool-Using Language Agents
+  key_idea: Success-gated efficiency metric for tool-using agents.
+
+[lenton-2026-continual-arc] (2026, Unify blog, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C10,C13)
+  title: Why we built Continual-ARC
+  key_idea: Agent memory features often fail to reduce cost on recurring work; simple example caches or stored programs do better.
+  cost: Pooled over 600 instances: persistent memory changed prime-agent's budget use by +0.4/+0.1/-0.1 points (low/medium/high effort); hermes-agent's memory cost ~6 points at low effort; none beat a bare model with a demo-cache floor (vendor-reported)
+
+[merrill-2026-terminal-bench] (2026, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: Terminal-Bench: Benchmarking Agents on Hard, Realistic Tasks in Command Line Interfaces
+  key_idea: Hard, verified terminal tasks for agents.
+
+[mitra-2026-cascades-under-perturbations] (2026, ECML-PKDD 2026 GREEN-AI workshop, rel=2, gran=query, regime=training-free, prod=N, clusters=C2,C13)
+  title: Accuracy and Robustness of Model Cascades Under Data Perturbations
+  key_idea: Cascade routing reliability degrades under distribution shift.
+  cost: Selected cascade achieves up to 10-fold decrease in CO2 emissions
+
+[wang-2026-plan-rewardbench] (2026, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: Aligning Agents via Planning: A Benchmark for Trajectory-Level Reward Modeling
+  key_idea: Benchmark for trajectory-level agent RMs.
+
+[wang-2026-reflect-judges-research-agents] (2026, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: Time to REFLECT: Can We Trust LLM Judges for Evidence-based Research Agents?
+  key_idea: Judges for deep-research agents are unreliable.
+
+[zhao-2026-catchbench] (2026, arXiv, rel=2, gran=step, regime=n/a, prod=N, clusters=C7,C13)
+  title: CatchBench: When Can an Agent Failure Be Caught?
+  key_idea: When are agent failures detectable at all.
+
+[chung-2025-mlenergy] (2025, NeurIPS 2025 Datasets and Benchmarks (Spotlight), rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C13)
+  title: The ML.ENERGY Benchmark: Toward Automated Inference Energy Measurement and Optimization
+  key_idea: Energy-per-request benchmarking and leaderboard.
+  cost: Automated optimization recommendations sometimes save more than 40% energy
+
+[dai-2025-scuba] (2025, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: SCUBA: Salesforce Computer Use Benchmark
+  key_idea: Enterprise CRM computer-use benchmark.
+
+[haque-2025-tinyllm-edge-agents] (2025, arXiv, rel=2, gran=none, regime=supervised-offline, prod=N, clusters=C8,C13)
+  title: TinyLLM: Evaluation and Optimization of Small Language Models for Agentic Tasks on Edge Devices
+  key_idea: SLM function calling at the edge.
+
+[song-2025-prmbench] (2025, arXiv, rel=2, gran=step, regime=n/a, prod=N, clusters=C7,C13)
+  title: PRMBench: A Fine-grained and Challenging Benchmark for Process-Level Reward Models
+  key_idea: Benchmark for PRM error detection.
+
+[spangher-2025-chatbot-arena-estimate] (2025, NAACL 2025 (Industry Track), rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: Chatbot Arena Estimate: towards a generalized performance benchmark for LLM capabilities
+  key_idea: Estimating Arena scores as a benchmark.
+
+[wei-2025-browsecomp] (2025, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: BrowseComp: A Simple Yet Challenging Benchmark for Browsing Agents
+  key_idea: Short-answer verifiable benchmark for deep browsing agents.
+
+[hu-2024-mab-generative-eval] (2024, arXiv, rel=2, gran=none, regime=bandit-online, prod=N, clusters=C5,C13)
+  title: A Multi-Armed Bandit Approach to Online Selection and Evaluation of Generative Models
+  key_idea: UCB bandits to pick the best generative model with minimal samples.
+
+[kipnis-2024-metabench] (2024, ICLR 2025, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: metabench -- A Sparse Benchmark of Reasoning and Knowledge in Large Language Models
+  key_idea: Small item subsets predict full-benchmark performance.
+
+[kurtic-2024-bf16-or-death] (2024, ACL 2025, rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C13)
+  title: "Give Me BF16 or Give Me Death"? Accuracy-Performance Trade-Offs in LLM Quantization
+  key_idea: Quantization choice depends on deployment mode; FP8 is essentially free.
+  cost: FP8 W8A8 lossless across scales; tuned INT8 loses 1-3%; W4A16 most cost-efficient for synchronous deployments, W8A8 best for asynchronous continuous batching
+
+[lambert-2024-rewardbench] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: RewardBench: Evaluating Reward Models for Language Modeling
+  key_idea: Standard reward model benchmark.
+
+[levy-2024-st-webagentbench] (2024, ICLR 2026, rel=2, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: ST-WebAgentBench: A Benchmark for Evaluating Safety and Trustworthiness in Web Agents
+  key_idea: Policy-compliant completion for enterprise web agents.
+
+[xie-2024-osworld] (2024, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments
+  key_idea: Real OS environment for computer-use agents.
+
+[zheng-2024-processbench] (2024, arXiv, rel=2, gran=step, regime=n/a, prod=N, clusters=C7,C13)
+  title: ProcessBench: Identifying Process Errors in Mathematical Reasoning
+  key_idea: Benchmark for step-error detection.
+
+[boubdir-2023-elo-uncovered] (2023, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C5,C13)
+  title: Elo Uncovered: Robustness and Best Practices in Language Model Evaluation
+  key_idea: Elo-based LLM evaluation is volatile; best practices.
+
+[fadeeva-2023-lm-polygraph] (2023, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C7,C13)
+  title: LM-Polygraph: Uncertainty Estimation for Language Models
+  key_idea: Toolkit for uncertainty estimation.
+
+[jimenez-2023-swe-bench] (2023, ICLR 2024, rel=2, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: SWE-bench: Can Language Models Resolve Real-World GitHub Issues?
+  key_idea: Real repository issue resolution as a coding-agent benchmark.
+
+[liu-2023-agentbench] (2023, ICLR 2024, rel=2, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: AgentBench: Evaluating LLMs as Agents
+  key_idea: Broad multi-environment agent capability benchmark.
+
+[mialon-2023-gaia] (2023, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: GAIA: a benchmark for General AI Assistants
+  key_idea: Human-easy, AI-hard assistant tasks.
+
+[vivek-2023-anchor-points] (2023, EACL 2024, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C6,C13)
+  title: Anchor Points: Benchmarking Models with Much Fewer Examples
+  key_idea: Rank models from 1-30 anchor examples.
+
+[zhou-2023-webarena] (2023, arXiv, rel=2, gran=none, regime=n/a, prod=N, clusters=C13)
+  title: WebArena: A Realistic Web Environment for Building Autonomous Agents
+  key_idea: Reproducible realistic websites for agent evaluation.
+
+[chapelle-2012-interleaving] (2012, ACM Transactions on Information Systems, rel=2, gran=n/a, regime=n/a, prod=Y, clusters=C5,C13)
+  title: Large-scale validation and analysis of interleaved search evaluation
+  key_idea: Interleaving as sensitive online comparison from implicit feedback.
+
+[artificial-analysis] (None, Artificial Analysis website, rel=2, gran=none, regime=n/a, prod=N, clusters=C13,C14)
+  title: Artificial Analysis: AI Model and API Providers Analysis
+  key_idea: Price-quality-speed comparisons across providers.
+
+[huggingface-llm-perf-leaderboard] (None, Hugging Face Spaces, rel=2, gran=none, regime=n/a, prod=N, clusters=C11,C13)
+  title: LLM-Perf Leaderboard
+  key_idea: Efficiency leaderboard for open models.
+

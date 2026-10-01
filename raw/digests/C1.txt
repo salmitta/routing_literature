@@ -1,0 +1,1353 @@
+# C1: 213 records (full detail for rel>=4; one-liners for rel<=3)
+
+[agarwal-2026-switchcraft] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C1,C3,C13)
+  title: Switchcraft: AI Model Router for Agentic Tool Calling
+  key_idea: Per-tool-call routing to the cheapest correct model.
+  cost: 82.9% accuracy, matching/exceeding best single model, with 84% lower inference cost (over $3,600 saved per million queries)
+  summary: Switchcraft is an inline model router for agentic tool calls that picks the cheapest model predicted to produce a correct call, using a DistilBERT classifier under a latency budget. It matches the best model's accuracy at 84% lower cost and finds larger models do not reliably win on tool use.
+  benchmarks: five function-calling benchmarks, five function-calling benchmarks (incl. BFCL)
+  signals: DistilBERT classifier on tool-call context, query text
+
+[alazraki-2026-sale-strategy-auctions] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C3,C8)
+  title: Scaling Small Agents Through Strategy Auctions
+  key_idea: Auction among differently sized agents for per-task routing.
+  cost: Reduces reliance on the largest agent by 53% and overall cost by 35%
+  summary: Shows small agents lag on complex tasks and proposes SALE, where agents of different sizes bid short strategic plans scored by a cost-value mechanism, enabling per-task routing and self-improvement without a separate router.
+  benchmarks: deep search, coding tasks
+  signals: strategy bids, cost-value scoring, auction memory
+
+[bao-2026-orcarouter] (2026, arXiv, rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C5,C14)
+  title: OrcaRouter: A Production-Oriented LLM Router with Hybrid Offline-Online Learning
+  key_idea: Offline warm-start plus online LinUCB updates for a production-oriented router.
+  cost: 75.54% accuracy at USD 1.00 per 1,000 queries; ranked second on RouterArena (arena score 72.08)
+  summary: OrcaRouter fits per-arm ridge regressors offline from a full-information reward matrix on curated prompts, then deploys as a LinUCB contextual bandit that can keep learning from bandit feedback.
+  benchmarks: RouterArena
+  signals: lexical features, sentence embedding, bandit reward
+
+[bhola-2026-scrouting-superscout] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C3)
+  title: Scrouting: Cost-Aware Routing of Coding Agents by Scouting the Repository First
+  key_idea: Small scout explores first; its verified handoff lets cheaper fixers succeed.
+  cost: Matches best single model's solve rate on SWE-bench Pro Python slice (159 vs 158 of 266) at about a fifth of total cost per solve; the handoff, not routing, carries the result
+  summary: A 7B searcher first scouts the repository and produces a sandbox-verified handoff, and a router uses its hidden states to dispatch the issue to one of four frontier fixers. Cost per solve drops to about a fifth, and an ablation shows the cheap-model handoff itself, lifting cheaper fixers, drives the gain.
+  benchmarks: SWE-bench Pro (Python, 266 tasks)
+  signals: 7B scout hidden states, verified repository handoff
+
+[cui-2026-uno-orchestra] (2026, arXiv, rel=5, gran=subagent, regime=RL-offline, prod=N, clusters=C1,C3)
+  title: Uno-Orchestra: Parsimonious Agent Routing via Selective Delegation
+  key_idea: Jointly learned selective decomposition and subtask-to-model dispatch.
+  cost: 77.0% macro pass@1, about 16% above strongest workflow baseline at roughly an order of magnitude lower per-query cost
+  summary: Uno-Orchestra learns one policy that decides whether to decompose a task and dispatches each subtask to a (model, primitive) pair, trained from RL trajectories grounded in real worker interactions. It beats 22 baselines at about a tenth of the per-query cost.
+  benchmarks: 13-benchmark suite: math, code, knowledge, long-context, agentic tool use
+  signals: task, worker interactions
+
+[feng-2026-graphplanner] (2026, arXiv, rel=5, gran=step, regime=RL-offline, prod=N, clusters=C1,C3)
+  title: GraphPlanner: Graph Memory-Augmented Agentic Routing for Multi-Agent LLMs
+  key_idea: RL over per-step (role, backbone) choices with graph memory.
+  cost: Up to 9.3% higher accuracy while reducing GPU cost from 186.26 GiB to 1.04 GiB
+  summary: GraphPlanner generates routing workflows per query as an MDP, choosing at each step both an LLM backbone and an agent role (planner, executor, summarizer), with graph memory of past interactions and RL optimizing accuracy and efficiency. It beats single- and multi-round routers and generalizes to unseen tasks and models.
+  benchmarks: 14 LLM tasks
+  signals: heterogeneous graph memory of queries/agents/responses
+
+[fireworks-2026-firerouter-with-opus] (2026, Fireworks AI blog, rel=5, gran=step, regime=None, prod=Y, clusters=C1,C3,C5,C10,C14)
+  title: Introducing FireRouter with Opus
+  key_idea: Turn-level routing in coding agents with explicit pricing of cache loss, validated by a randomised live-traffic A/B test.
+  cost: Internal A/B test (>1 month, sessions randomised to router vs Opus-only): cost per session $15.36 -> $6.63 (57% +/- 19 ppts lower); graded-turn accuracy 78.7% vs 80.2% (98.1% of Opus-only); cache hit rate 94.2% vs 97.8% (vendor-reported)
+  summary: Fireworks releases a per-turn, cache-aware router for coding agents that routes each user turn among Claude Opus 5.5, GLM 5.3 and GLM 5.3 Flash, trading off estimated suitability against cost including the prompt-cache value lost by switching. It reports a randomised A/B test on internal coding traffic, scoring accuracy by task completion, correctness and whether the user corrected the next turn.
+  benchmarks: internal coding traffic A/B test
+  signals: per-turn task suitability estimate, estimated cost per model, prompt-cache loss cost
+
+[fireworks-2026-frontier-is-a-router] (2026, Fireworks AI blog, rel=5, gran=query, regime=None, prod=Y, clusters=C1,C3,C13,C14)
+  title: The frontier isn't a model. It's a router.
+  key_idea: Complementary models give a large oracle headroom for task-level routing in coding agents, but capturing it requires predicting the winner before execution.
+  cost: DeepSWE v1.1 oracle over 18 models: 97.6% pass@1 at $1.88/task vs best single model GPT-6 Astra 74.1% at $6.52; open-models-only oracle 90.3% at $1.45; best pair +13.1 pts, best trio 91.2%. Production: FireRouter sessions $7.42 vs $15.81 for Opus 5 alone (53% reduction, 2,334 sessions over four weeks of internal coding traffic) (vendor-reported)
+  summary: Runs 18 models on every DeepSWE task to measure the per-task oracle routing ceiling, showing most of the gain comes from two or three complementary models and most oracle picks are cheap models. It stresses that oracle upside is upward-biased and that real routers fail on model recall (citing LLMRouterBench), then reports four weeks of internal production coding traffic through task-level, cache-aware FireRouter.
+  benchmarks: DeepSWE v1.1
+  signals: task
+
+[guo-2026-routenlp] (2026, ACL 2026 Industry Track, rel=5, gran=query, regime=hybrid, prod=Y, clusters=C1,C2,C8,C14)
+  title: RouteNLP: Closed-Loop LLM Routing with Conformal Cascading and Distillation Co-Optimization
+  key_idea: Route, cascade, and distil on escalation failures in a closed loop.
+  cost: 8-week enterprise pilot (~5K queries/day): 58% lower inference cost at 91% response acceptance, p99 latency 1,847 ms to 387 ms; 40-85% cost reduction retaining 96-100% quality on a six-task benchmark
+  summary: Closed-loop framework combining a difficulty-aware router, conformal cascading and a loop that clusters escalation failures, distils cheaper models on them and retrains the router. Reports an 8-week enterprise customer-service pilot.
+  benchmarks: six-task finance/customer-service/legal benchmark
+  signals: difficulty-aware router, conformal confidence thresholds, quality signals, escalation failure clusters
+
+[hong-2026-dats-difficulty-aware-topology] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C3,C12)
+  title: Learning How Much to Collaborate: Difficulty-Aware Topology Selection for Multi-Agent Code Generation
+  key_idea: Choose single agent vs MAS topology per problem by predicted difficulty and cost.
+  cost: At 40% of always-hierarchical cost, 77.7% pass@1 vs 73.6% always-hierarchical and 74.3% strongest learned competitor; hierarchical advantage grows from 2.4 to 21.1 points with difficulty at ~10x tokens
+  summary: Shows the benefit of hierarchical multi-agent collaboration over a single agent grows strongly with problem difficulty while costing ~10x tokens, and trains a selector that picks the topology maximizing predicted success minus cost. Under budget-matched evaluation it beats always-hierarchical at 40% of its cost.
+  benchmarks: APPS, HumanEval+, LiveCodeBench, 400 math problems
+  signals: 39 interpretable difficulty features, cost-penalty scalar
+
+[khosravi-2026-which-llm-which-work] (2026, arXiv, rel=5, gran=query, regime=n/a, prod=Y, clusters=C1,C6,C14)
+  title: Which LLM for Which Work? Budgeted Model Allocation under Uncertain Evaluation
+  key_idea: Certify a budgeted model-to-workload assignment under uncertain, proxy-based evaluation and spend evaluation where it changes the decision.
+  cost: On paid software tasks, better information about model quality yields more savings than further optimization of the assignment
+  summary: Frames a company assigning LLMs to recurring workloads under a fixed budget as a knapsack whose quality table is uncertain because models are rarely compared on the same work and scores are proxies. Gives a two-solve certificate for when an assignment is optimal across all tables consistent with evidence and CASE, which targets evaluation at the pairs that matter, tested on a production log.
+  signals: proxy quality scores, production log
+
+[kumar-2026-task-session-routing-eval] (2026, arXiv, rel=5, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: Task- and Session-Level Model Routing: A Common-Interface Hybrid Evaluation of Four Open-Source Routers Across Four Benchmarks
+  key_idea: Routers often do no better than share-matched fixed tiers.
+  cost: No evidence of task-specific advantage over content-blind allocation for tested open-source routers
+  summary: Evaluates four open-source routers under a common protocol on agentic benchmarks and finds most emit near-constant tiers; gains track tier composition rather than task-specific targeting, so fixed-tier baselines are essential controls.
+  benchmarks: RouterBench, BFCL v4, tau2-bench, WebArena
+  signals: router tier outputs, router tier assignments
+
+[kwartler-2026-harness-tokenomics] (2026, arXiv, rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C1,C3,C10,C12,C14)
+  title: Harness Tokenomics: A Router for the Enterprise Agentic Control Plane
+  key_idea: Prompt-cache-aware routing inside agent harnesses.
+  cost: Recovers 13-21% of model spend ($3.3M-$5.1M/year) in an emulated 10,000-seat enterprise at Anthropic list prices; finds highest-priced model can cost less than the next tier on long tool-heavy sessions
+  summary: Builds a cache-aware router for enterprise coding-agent harnesses that routes at session start, side lanes and subagent launch while avoiding cache rebuilds, and derives when mid-task model switches pay back.
+  benchmarks: ~10,000 real sessions from public datasets
+  signals: calibrated prompt classifier, prompt-cache state, price sheet, calibrated prompt classifier over request taxonomy
+
+[li-2026-llmrouterbench] (2026, ACL 2026, rel=5, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: LLMRouterBench: A Massive Benchmark and Unified Framework for LLM Routing
+  key_idea: Large unified re-evaluation showing most routers are not reliably better than simple baselines.
+  summary: LLMRouterBench unifies 400K+ instances from 21 datasets and 33 models with 10 baselines. Under unified evaluation, many routers perform similarly and several recent and commercial routers fail to beat a simple baseline, while a large oracle gap remains due to model-recall failures.
+  benchmarks: LLMRouterBench (21 datasets), 21 datasets (400K instances)
+  signals: precomputed outcomes, cost, latency, query embedding
+
+[li-2026-wiserouter] (2026, arXiv, rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C5,C6)
+  title: WISERouter: LLM Routing with Workload Budget Constraint
+  key_idea: Workload-level budgeted routing learned from logs or online exploration.
+  summary: WISERouter treats routing as a constrained contextual bandit with a workload-level (not per-query) budget, with an offline variant learning from historical interactions and an online variant with O(sqrt T) regret. Tested on RouterBench and SWE-Bench.
+  benchmarks: RouterBench, SWE-Bench
+  signals: query embedding, workload budget
+
+[liu-2026-harness-native-routing] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C1,C3,C5,C6,C13,C14)
+  title: Agentic Routing: The Harness-Native Data Flywheel
+  key_idea: Harness-native step routing with data flywheel.
+  cost: LightGBM router preserves task quality while cutting realized cost ~90% on PinchBench and ~43% on DRACO vs fixed strong model
+  summary: Proposes step-level agentic routing conditioned on harness state that picks one model or an ensemble per step, with each decision generating a data record that feeds a data flywheel.
+  benchmarks: DRACO, PinchBench
+  signals: full harness state, structured routing records, execution trace, outcome, cost, harness state, execution state, harness signals
+
+[liu-2026-vllm-sr-session-aware-agentic-routing] (2026, vLLM blog, rel=5, gran=step, regime=training-free, prod=N, clusters=C1,C3,C10,C11,C14)
+  title: Session-Aware Agentic Routing: Continuity-Aware Model Selection for Long-Horizon LLM Agents
+  key_idea: Turn-level routing in agent sessions must price switches (lost cache, broken tool state), not just pick the best model per prompt.
+  cost: Across 21,600 deterministic turns: 79.29% fewer model switches, 3,836 unsafe switches eliminated, 78.71% estimated physical-model cost reduction vs single-turn routing (quality delta -0.0453); sticky sessions 98.65% cost reduction but -0.1433 quality. 2,896 live AMD ROCm requests with 0 continuity violations (project-reported)
+  summary: Introduces SAAR in vLLM Semantic Router: per-turn semantic routing augmented with router-owned session memory, hard locks during tool loops and around non-portable provider state, safe reset boundaries (drift, idle), and prefix-cache-aware pricing of model switches. Ablations show each component's contribution to switch reduction, unsafe-switch elimination and cost.
+  benchmarks: deterministic replay of 21,600 agent turns, live AMD ROCm requests
+  signals: semantic signals, session memory, tool-loop state, provider-state portability, task drift, prefix-cache warmth / switch cost
+
+[lugoloobi-2026-llms-encode-failures] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7)
+  title: LLMs Encode Their Failures: Predicting Success from Pre-Generation Activations
+  key_idea: Pre-generation probes drive cost-aware routing.
+  cost: Routing with probes exceeds the best single model while reducing inference cost by up to 70% on MATH
+  summary: Probes on pre-generation activations predict policy-specific success on math and code; models encode a model-specific difficulty distinct from human difficulty, and probe-based routing across a model pool beats the best model at up to 70% lower cost.
+  benchmarks: MATH, E2H-AMC, coding
+  signals: pre-generation probe
+
+[lyu-2026-differential-reasoning-router] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C2,C9,C14)
+  title: The Differential Reasoning Router: Operationalizing Cost-Aware LLM Annotation in E-commerce
+  key_idea: Route between direct model, reasoning model and humans.
+  cost: In a production e-commerce workflow, reaches accuracy parity with the strongest confidence-based router with more than 60% reasoning-token cost savings
+  summary: For cold-start LLM annotation, estimates separate success probabilities for a direct and a reasoning model and routes easy items directly, uses reasoning where it helps, and escalates likely double failures to humans.
+  benchmarks: production e-commerce annotation workflow
+  signals: per-sample and per-rule success probabilities of direct vs reasoning model
+
+[notdiamond-2026-interactive-benchmarks-routing] (2026, Not Diamond blog, rel=5, gran=step, regime=None, prod=N, clusters=C1,C3,C10,C13,C14)
+  title: Interactive benchmarks: a new methodology for evaluating model routing
+  key_idea: Evaluate agent routers on interactive, simulated-user sessions where cache dynamics and session length drive cost.
+  cost: Approximates or exceeds Opus 5 xhigh quality at 20-80% cost reduction; SWE-Interact 50.7% at $4.28/attempt, SWE-Together 67.6% at $4.16, Dialogue SWE-Bench-Pro 57.6% at $3.00; adding GLM 5.2 and DeepSeek V4 Flash raised accuracy 3.6% and savings from 39% to 66% vs Opus xhigh. Companion 'Not Diamond Code' post: 39% (Poly-SWE-Bench Verified) and 61% (LongCodeQA) cost reduction vs Opus 4.8 xhigh, >20% savings in enterprise early access (all vendor-reported)
+  summary: Argues that single-turn routing breaks the KV cache and first-turn routing is brittle to mid-session shifts, and describes Not Diamond Code, which predicts future reward and cost for each (model, reasoning effort) pair at every agent step in a cache-aware way. Because static benchmarks miss long sessions and cache expiry (a 10-20x input-cost jump), it evaluates on interactive benchmarks with simulated users built on the Harbor framework and releases a benchmark repo so clients can reproduce comparisons.
+  benchmarks: SWE-Interact, SWE-Together, Dialogue SWE-Bench-Pro, Poly-SWE-Bench Verified, LongCodeQA
+  signals: session state, message and token counts, task complexity, KV-cache state, intermediate and final rewards, reasoning effort
+
+[okeefe-2026-cursor-router] (2026, Cursor blog, rel=5, gran=step, regime=supervised-offline, prod=Y, clusters=C1,C3,C5,C6,C7,C14)
+  title: How Cursor Router chooses the right model for the task
+  key_idea: Learn step-level routing from implicit feedback in production logs, with offline-to-online validation and budgeted confidence-gated upgrades.
+  cost: Auto Intelligence: above Fable-level user satisfaction at 68% lower cost; Auto Balance: outperforms Opus 4.8 at 41% lower cost with +3% satisfaction (relative to frontier models, measured on live traffic; vendor-reported). Compass top-rated turns got positive signal 96% of the time vs 71% for lowest-rated
+  summary: Cursor's per-turn router is trained on hundreds of thousands of production agent turns labelled with implicit satisfaction (user moves on vs corrects the agent) and actual cost including switch-induced cache misses. A complexity predictor (Compass) thresholds turns to a cheap model or to a taxonomy router, which admits a frontier model for a task label only if it beats the cheap model with 75% one-sided confidence, then chooses a traffic-weighted mix within a per-mode cost budget. Policies are tuned by cross-validation, checked on held-out logs, and validated on live traffic before launch.
+  benchmarks: live Cursor traffic, held-out offline split of production turns
+  signals: task category, recent tool calls, conversation state, Compass complexity score (predicted user satisfaction), learned task/domain/modifier taxonomy, implicit user feedback (moves on vs corrects), per-
+
+[son-2026-swe-router] (2026, ICML 2026 Workshop (DL4Code), rel=5, gran=subagent, regime=supervised-offline, prod=N, clusters=C1,C2,C3,C6)
+  title: SWE-Router: Routing in Multi-turn Agentic Software Engineering Tasks
+  key_idea: Route agentic tasks after a short cheap exploration.
+  cost: Greatly improves cost efficiency while maintaining most of the strong model's performance (no single number in abstract)
+  summary: SWE-Router lets a cheap model run a few exploratory turns on a software engineering task, then reads the partial trajectory to decide whether to continue cheaply or escalate. A Bayes-optimality theorem shows conditioning on the trajectory never hurts.
+  benchmarks: SWE-bench, SWE tasks
+  signals: partial trajectory of cheap model, value-based estimate, value estimate
+
+[sridhar-2026-correlated-bandits-routing] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C7,C15)
+  title: Correlation-Aware Contextual Bandits with Surrogate Rewards for LLM Routing
+  key_idea: Bandits with surrogate (judge) rewards for routing.
+  summary: Contextual bandit algorithms for routing that exploit correlated arms and noisy surrogate rewards (e.g. judge predictions), with regret guarantees robust to surrogate misspecification.
+  benchmarks: LLM routing benchmarks
+  signals: surrogate reward model, inter-arm correlation, bandit feedback
+
+[taberner-miller-2026-paretobandit] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: ParetoBandit: Budget-Paced Adaptive Routing for Non-Stationary LLM Serving
+  key_idea: Budget-paced non-stationary bandit routing.
+  cost: budget compliance within 0.4%; up to +0.071 quality lift under price/quality shifts (1,824 prompts, three-model portfolio)
+  summary: ParetoBandit is an open-source cost-aware contextual-bandit router with an online primal-dual pacer enforcing a dollar cost ceiling and forgetting to track price/quality drift, plus hot-swappable models.
+  benchmarks: 1,824 benchmark prompts
+  signals: contextual bandit, primal-dual budget pacer, geometric forgetting, prompt embedding, cost, quality reward
+
+[wang-2026-boundaryrouter] (2026, arXiv, rel=5, gran=query, regime=training-free, prod=N, clusters=C1,C2,C3,C6,C12)
+  title: Learning Agent Routing From Early Experience
+  key_idea: Route between plain LLM and full agent using early experience.
+  cost: reduces inference time by 60.6% vs agent while improving performance by 28.6% over direct LLM inference
+  summary: BoundaryRouter decides per query whether direct LLM inference suffices or a full agent is needed, using a memory built by running both on a seed set and rubric-guided reasoning over retrieved cases. It introduces RouteBench with in-domain, paraphrased and out-of-domain splits.
+  benchmarks: RouteBench, RouteBench (new)
+  signals: experience memory of seed runs, rubric-guided reasoning, early experience memory
+
+[woisetschlager-2026-slarouter] (2026, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Cost-Optimal LLM Routing with Limited User Feedback under User Satisfaction Guarantees
+  key_idea: Online routing from sparse production feedback with SLA guarantees.
+  cost: reduces operating cost by up to 2.2x over existing baselines while meeting SLA constraints
+  summary: SLARouter learns a cost-optimal routing policy online from the sparse, one-sided feedback available in production (e.g. complaints), with guarantees on cost optimality and SLA compliance, without per-benchmark tuning.
+  benchmarks: wide range of LLM benchmarks
+  signals: sparse one-sided user feedback, cost
+
+[xu-2026-seqroute] (2026, arXiv, rel=5, gran=query, regime=RL-offline, prod=N, clusters=C1,C3,C5,C6,C15)
+  title: SeqRoute: Global Budget-Aware Sequential LLM Routing via Offline Reinforcement Learning
+  key_idea: MDP/offline-RL routing across a session with a global budget.
+  cost: Reduces operational costs by 6.0-73.5% while maintaining or improving quality; bankruptcy under 1% (abstract)
+  summary: SeqRoute formulates multi-turn session routing under a global budget as a finite-horizon MDP solved with offline RL (CQL), using hindsight budget relabeling to expand 10,000 sessions into 2.38M transitions.
+  benchmarks: 10,000 raw sessions expanded to 2.38M transitions
+  signals: remaining session budget, Conservative Q-Learning, hindsight budget relabeling, session history, remaining budget
+
+[yang-2026-twinrouterbench] (2026, arXiv, rel=5, gran=step, regime=n/a, prod=N, clusters=C1,C3,C13)
+  title: TwinRouterBench: Fast Static and Live Dynamic Evaluation for Realistic Agentic LLM Routing
+  key_idea: Step-level agentic routing benchmark.
+  summary: TwinRouterBench evaluates step-level routing in agents with a static track of 970 router-visible prefixes with verified target tiers and a dynamic track that runs routers inside a SWE-bench harness, avoiding online judges.
+  benchmarks: SWE-bench, BFCL, mtRAG, QMSum, PinchBench, SWE-bench Verified, SWE-bench Verified (dynamic)
+  signals: router-visible prefix, execution-verified tier labels, execution-verified tier, token cost
+
+[yuan-2026-flowbank] (2026, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C4)
+  title: FlowBank: Query-Adaptive Agentic Workflows Optimization through Precompute-and-Reuse
+  key_idea: Precompute a workflow portfolio and route queries among workflows.
+  cost: Improves over strongest automated and handcrafted baselines by 4.26% and 14.92% relative while remaining cost-competitive
+  summary: FlowBank builds a compact portfolio of complementary workflows offline and routes each query to the best one by predicting utility on a query-workflow bipartite graph, avoiding per-query workflow generation costs.
+  benchmarks: five benchmarks
+  signals: query-workflow edge-value prediction, predicted query-workflow utility
+
+[zhang-2026-budget-aware-agentic-routing] (2026, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C1,C2,C3)
+  title: Budget-Aware Agentic Routing via Boundary-Guided Training
+  key_idea: Per-step cheap/expensive routing trained with boundary-guided RL.
+  cost: Matches strong routing baselines at substantially lower cost (no single number in abstract)
+  summary: Budget-Aware Agentic Routing (Microsoft) chooses cheap vs expensive model at each agent step under strict per-task budgets, using boundary-guided SFT data and Boundary-Guided Policy Optimization to handle sparse rewards.
+  signals: boundary policies (always-small/always-large), per-task budget, RL rewards, boundary policies (always-small vs always-large)
+
+[zhang-2026-mtrouter] (2026, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C1,C3,C6)
+  title: MTRouter: Cost-Aware Multi-Turn LLM Routing with History-Model Joint Embeddings
+  key_idea: Per-turn model selection learned offline from logged agent trajectories via history-model joint embeddings.
+  cost: On ScienceWorld surpasses GPT-5 while reducing total cost by 58.7%; on HLE competitive accuracy with 43.4% lower cost than GPT-5
+  summary: MTRouter selects which model to call at every turn of a multi-turn, long-horizon task under a fixed budget. It embeds the interaction history jointly with candidate models and learns a turn-level utility estimator from logged trajectories; it makes fewer model switches than prior multi-turn routers and shows emergent model specialization.
+  benchmarks: ScienceWorld, Humanity's Last Exam
+  signals: history-model joint embedding, logged trajectory outcomes, cost budget
+
+[zhou-2026-agent-as-a-router] (2026, arXiv, rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C3,C5,C13)
+  title: Agent-as-a-Router: Agentic Model Routing for Coding Tasks
+  key_idea: Agentic router that learns from execution feedback.
+  cost: Augmenting a vanilla LLM router with dimension-level performance statistics yields 15.3% relative gain (abstract)
+  summary: Argues router bottlenecks come from information deficit and proposes a Context-Action-Feedback loop router (orchestrator, verifier, memory) that accumulates execution-grounded experience during deployment on coding tasks.
+  benchmarks: CodeRouterBench (~10K tasks), CodeRouterBench (~10K tasks, 8 frontier LLMs)
+  signals: task-dimension performance statistics, verifier, memory of execution feedback, execution feedback, memory
+
+[feng-2025-ipr] (2025, EMNLP 2025 (Industry), rel=5, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C14)
+  title: IPR: Intelligent Prompt Routing with User-Controlled Quality-Cost Trade-offs
+  key_idea: Tolerance-controlled quality-estimator routing in a production cloud service.
+  cost: Deployed on a major cloud platform: 43.9% cost reduction at quality parity with the strongest Claude-family model, sub-150ms latency (abstract)
+  summary: IPR (AWS) trains quality estimators on 1.5M annotated prompts and routes to the cheapest model within a user-specified quality tolerance. Frozen encoders with model-specific adapters speed onboarding; the system is deployed in production.
+  benchmarks: IPRBench (1.5M prompts, 11 LLMs)
+  signals: lightweight quality estimators, user tolerance parameter
+
+[jin-2025-corl-centralized-budget] (2025, arXiv, rel=5, gran=step, regime=RL-offline, prod=N, clusters=C1,C3)
+  title: Controlling Performance and Budget of a Centralized Multi-agent LLM System with Reinforcement Learning
+  key_idea: Budget-conditioned RL controller that decides which expert LLMs to invoke.
+  cost: Single system surpasses best expert LLM under high budget while staying strong in low-budget modes
+  summary: CoRL trains a controller LLM with RL to selectively call a pool of expert LLMs, maximizing performance while minimizing cost, and conditions on a budget so one system can operate at multiple cost levels. It beats the best single expert at high budget.
+  benchmarks: four benchmarks
+  signals: budget condition, task state
+
+[li-2025-llm-bandit] (2025, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: LLM Bandit: Cost-Efficient LLM Generation via Preference-Conditioned Dynamic Routing
+  key_idea: Preference-conditioned bandit router generalizing to new models.
+  summary: Formulates LLM selection as a multi-armed bandit with preference-conditioned dynamic routing so users can set accuracy-cost preferences at inference time. The policy is designed to generalize to unseen LLMs.
+  signals: query embedding, user preference vector, model identity vectors, query features, user cost/performance preference, model identity features
+
+[li-2025-webrouter] (2025, arXiv, rel=5, gran=step, regime=supervised-offline, prod=N, clusters=C1,C3)
+  title: WebRouter: Query-specific Router via Variational Information Bottleneck for Cost-sensitive Web Agent
+  key_idea: Cost-aware information-bottleneck router for web-agent calls.
+  cost: 87.8% lower operational cost vs GPT-4o baseline with 3.8% accuracy drop on five WebVoyager websites
+  summary: WebRouter is a router for LLM-driven web agents whose prompts combine goals, action histories and page state. It is trained with a cost-aware variational information bottleneck that compresses the prompt while penalizing expected cost, and it chooses a model per agent query.
+  benchmarks: WebVoyager
+  signals: compressed prompt representation (VIB), expected operational cost
+
+[openai-2025-gpt5-system-card] (2025, OpenAI (system card), rel=5, gran=query, regime=hybrid, prod=Y, clusters=C1,C5,C9,C14)
+  title: GPT-5 System Card
+  key_idea: Production query-level router between fast and reasoning models trained on live user signals.
+  summary: Describes GPT-5 as a unified system with a fast model, a deeper reasoning model, and a real-time router that picks between them using conversation type, complexity, tool needs and explicit intent. The router is continuously trained on real signals such as user model switches, response preference rates and measured correctness, and mini models handle traffic once usage limits are hit.
+  signals: conversation type, complexity, tool needs, explicit user intent, user model switches, preference rates, measured correctness, explicit intent
+
+[panda-2025-pilot] (2025, EMNLP 2025 (Findings), rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C5)
+  title: Adaptive LLM Routing under Budget Constraints
+  key_idea: Preference-prior LinUCB with knapsack budget control.
+  summary: PILOT treats routing as a contextual bandit, initializing a shared query-model embedding space from offline human preference data and refining it online with LinUCB. An online cost policy based on a multi-choice knapsack enforces user budgets.
+  benchmarks: RouterBench-style routing benchmarks
+  signals: shared query-LLM embedding, offline human preference prior, LinUCB bandit feedback, budget knapsack, query embedding, LLM embedding, human preference prior, bandit reward, budget
+
+[qian-2025-xrouter] (2025, arXiv, rel=5, gran=query, regime=RL-offline, prod=N, clusters=C1,C3)
+  title: xRouter: Training Cost-Aware LLMs Orchestration System via Reinforcement Learning
+  key_idea: RL-trained orchestrator that decides whether and which external models to call.
+  cost: Substantial cost reductions at comparable task completion rates across diverse benchmarks (no single number in abstract)
+  summary: xRouter (Salesforce) trains a tool-calling router LLM with RL and an explicit cost-aware reward; it can answer directly or invoke one or more external models. The paper reports substantial cost reductions at comparable completion rates and shares lessons about what helps learned routing.
+  benchmarks: diverse benchmarks
+  signals: router LLM tool calls, cost-aware reward
+
+[shao-2025-r2-reasoner] (2025, arXiv, rel=5, gran=step, regime=hybrid, prod=N, clusters=C1,C3,C9)
+  title: Route-and-Reason: Scaling Large Language Model Reasoning with Reinforced Model Router
+  key_idea: Decompose, then route each subtask to a model.
+  cost: Reduces API costs by 84.46% vs state-of-the-art baselines while maintaining competitive accuracy on six reasoning benchmarks
+  summary: A decomposer splits a query into subtasks and a reinforced allocator assigns each subtask to one of nine models of very different sizes. Trained by alternating SFT and RL.
+  benchmarks: six reasoning benchmarks
+  signals: subtask decomposition, subtask allocator
+
+[somerstep-2025-carrot] (2025, arXiv, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C13,C15)
+  title: CARROT: A Cost Aware Rate Optimal Router
+  key_idea: Estimate both cost and accuracy per model and plug into a linear utility: minimax-optimal routing.
+  summary: Provides a minimax analysis of routing and shows a router that separately estimates each model's cost and accuracy can be rate-optimal. Introduces CARROT based on this principle and releases the SPROUT dataset spanning recent frontier LLMs with price-aware routing labels.
+  benchmarks: SPROUT, RouterBench, Open LLM Leaderboard v2, open-LLM-leaderboard-v2, SPROUT (GPQA, MuSR, MMLU-Pro, MATH, OpenHermes, RAGBench)
+  signals: predicted accuracy, predicted cost, query embedding
+
+[su-2025-daao] (2025, WWW 2026, rel=5, gran=query, regime=hybrid, prod=N, clusters=C1,C3,C4)
+  title: Difficulty-Aware Agentic Orchestration for Query-Specific Multi-Agent Workflows
+  key_idea: Difficulty-driven workflow depth plus per-operator LLM routing.
+  cost: Up to 11.21% higher accuracy with up to 36% lower cost (per search summary of the paper); abstract reports gains in accuracy and efficiency on six benchmarks
+  summary: DAAO predicts query difficulty with a VAE, allocates workflow depth and operators accordingly, and routes each operator to an LLM with a cost- and performance-aware router, updating difficulty estimates from workflow outcomes. Simple queries get lighter workflows and cheaper models.
+  benchmarks: six benchmarks
+  signals: VAE difficulty estimate, workflow success feedback, predicted query difficulty (VAE), cost-aware router
+
+[su-2025-toolorchestra] (2025, arXiv, rel=5, gran=step, regime=RL-offline, prod=N, clusters=C1,C3,C8)
+  title: ToolOrchestra: Elevating Intelligence via Efficient Model and Tool Orchestration
+  key_idea: A small RL-trained orchestrator decides when to call expensive models and tools.
+  cost: On HLE 37.1% vs GPT-5 35.1% while 2.5x more efficient; on tau2-Bench and FRAMES surpasses GPT-5 using about 30% of the cost
+  summary: NVIDIA's ToolOrchestra trains a small 8B orchestrator with RL to coordinate tools and other models, including larger LLMs, with rewards for outcome, efficiency and user tool preferences. The Orchestrator beats GPT-5 on HLE at 2.5x better efficiency and on tau2-Bench and FRAMES at about 30% of the cost.
+  benchmarks: Humanity's Last Exam, tau2-Bench, FRAMES, HLE
+  signals: outcome, efficiency and user-preference rewards, outcome, efficiency and preference rewards
+
+[tsiourvas-2025-causal-routing] (2025, NeurIPS 2025, rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: Causal LLM Routing: End-to-End Regret Minimization from Observational Data
+  key_idea: Causal, regret-minimizing router trained from logged single-model outcomes.
+  summary: Learns routing policies end-to-end from observational data where only the deployed model's outcome is logged, by minimizing decision regret with two surrogate objectives. It avoids requiring full-feedback evaluation of all models and handles heterogeneous cost preferences.
+  benchmarks: public benchmarks
+  signals: observational (logged) outcomes, regret surrogate losses
+
+[wang-2025-mixllm] (2025, NAACL 2025, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: MixLLM: Dynamic Routing in Mixed Large Language Models
+  key_idea: Contextual-bandit router with continual learning and dynamic candidate pools.
+  cost: 97.25% of GPT-4's quality at 24.18% of the cost under the time constraint (abstract)
+  summary: MixLLM is a contextual-bandit routing system that augments query embeddings with tags, predicts quality and cost per candidate, and uses a meta-decision maker trading off quality, cost and latency. It supports continual training from feedback and changes in the candidate set.
+  benchmarks: routing benchmark with mixed LLMs
+  signals: query embedding with tags, predicted quality, predicted cost, latency, user feedback, tag-enhanced query embedding
+
+[wei-2025-barp] (2025, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C6)
+  title: Learning to Route LLMs from Bandit Feedback: One Policy, Many Trade-offs
+  key_idea: Train routers with bandit feedback and a preference-conditioned policy.
+  cost: Outperforms strong offline routers by at least 12.46% and the largest LLM by at least 2.45% (abstract)
+  summary: BaRP trains a router under the same partial-feedback restriction as deployment, where only the chosen model's outcome is observed, framed as a contextual bandit over prompt features and a preference vector. Operators can adjust the performance/cost trade-off at test time without retraining.
+  benchmarks: routing benchmarks (unseen tasks)
+  signals: prompt features, user preference vector, partial (bandit) feedback, bandit reward
+
+[yue-2025-masrouter] (2025, ACL 2025, rel=5, gran=subagent, regime=RL-offline, prod=N, clusters=C1,C3)
+  title: MasRouter: Learning to Route LLMs for Multi-Agent Systems
+  key_idea: Cascaded controller jointly selects collaboration mode, roles and per-agent LLMs.
+  cost: Up to 52.07% overhead reduction vs SOTA on HumanEval; 17.21%-28.17% overhead reduction when plugged into mainstream MAS; +1.8%-8.2% on MBPP
+  summary: Defines Multi-Agent System Routing: jointly choosing the collaboration mode, the agent roles and the LLM for each agent. A cascaded controller network builds the MAS step by step, improving accuracy and cutting cost versus prior MAS and routers, and can be plugged into existing frameworks.
+  benchmarks: MBPP, HumanEval
+  signals: query embedding, role embedding, LLM descriptions
+
+[zhang-2025-router-r1] (2025, NeurIPS 2025, rel=5, gran=query, regime=RL-offline, prod=N, clusters=C1,C3)
+  title: Router-R1: Teaching LLMs Multi-Round Routing and Aggregation via Reinforcement Learning
+  key_idea: RL-trained LLM router that performs multi-round routing and aggregation with a cost reward.
+  cost: Superior performance with cost management across 7 QA benchmarks (no single headline ratio in abstract)
+  summary: Router-R1 makes the router itself an LLM trained with RL to interleave internal reasoning with calls to other models, aggregating their responses over multiple rounds. The rule-based reward includes format, outcome and a cost term, and conditioning on simple model descriptors lets it generalize to unseen models.
+  benchmarks: seven general and multi-hop QA benchmarks
+  signals: router LLM reasoning, model descriptors (price, latency, example performance), cost reward
+
+[dai-2024-c2mab-v] (2024, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Cost-Effective Online Multi-LLM Selection with Versatile Reward Models
+  key_idea: Combinatorial bandit selection of LLM subsets under cost.
+  summary: C2MAB-V is a cost-aware combinatorial multi-armed bandit for selecting multiple LLMs per query across collaborative task types with different reward models. It uses online feedback and confidence bounds to balance exploration, exploitation and cost.
+  benchmarks: three application scenarios with nine LLMs
+  signals: combinatorial bandit rewards, cost, reward models per task type, task reward, LLM price, combinatorial selection
+
+[dekoninck-2024-cascade-routing] (2024, ICML (per Semantic Scholar), rel=5, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C15)
+  title: A Unified Approach to Routing and Cascading for LLMs
+  key_idea: Cascade routing: provably optimal unification of routing and cascading.
+  cost: Cascade routing consistently outperforms routing or cascading alone by a large margin (no single number in abstract)
+  summary: Derives an optimal cascading strategy, proves optimality of an existing routing strategy, and unifies them as cascade routing, which can route and then escalate. Analysis identifies quality-estimator accuracy as the key factor for success of any model selection scheme.
+  signals: quality estimator, cost estimator, quality estimates, cost estimates
+
+[hu-2024-routerbench] (2024, arXiv, rel=5, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: RouterBench: A Benchmark for Multi-LLM Routing System
+  key_idea: Standard offline benchmark of per-model outcomes and costs for evaluating routers.
+  summary: RouterBench provides over 405k precomputed inference outcomes across a set of representative LLMs and tasks, so routers can be evaluated offline without calling models. It also gives a theoretical framing of routing on the cost-quality plane and compares routing approaches.
+  benchmarks: RouterBench (405k inference outcomes), RouterBench (405k inference outcomes over standard benchmarks)
+  signals: precomputed per-model outcomes, cost, per-query model outcomes
+
+[nguyen-2024-metallm] (2024, arXiv, rel=5, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: MetaLLM: A High-performant and Cost-efficient Dynamic Framework for Wrapping LLMs
+  key_idea: Bandit formulation of cost-aware LLM wrapping.
+  summary: MetaLLM frames per-query LLM selection for classification and multiple-choice QA as a multi-armed bandit balancing accuracy and cost. Experiments on OpenAI, Together AI and open-source models show improved accuracy-cost trade-offs.
+  benchmarks: classification and multiple-choice QA tasks
+  signals: query embedding, bandit reward (accuracy minus cost), task reward, API cost
+
+[bae-2026-contextual-queueing-bandits] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C11)
+  title: Learning to Route and Schedule LLMs from User Retrials via Contextual Queueing Bandits
+  key_idea: Treat user retrials as free implicit feedback to learn query-to-LLM routing online under queueing dynamics.
+  summary: Formulates joint LLM routing and request scheduling as a contextual queueing bandit in which an unsatisfied user retrying a query serves as implicit negative feedback, avoiding explicit ratings. A Thompson-sampling algorithm with decaying forced exploration achieves sublinear routing regret while keeping queues stable, and is evaluated on offline routing datasets and real WildChat conversation logs.
+  benchmarks: SPROUT, EmbedLLM, RouterBench, WildChat-1M
+  signals: query embedding, user retrials (implicit feedback), queue state
+
+[bala-2026-set-valued-agent-routing] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C13)
+  title: Multi-Agent Routing as Set-Valued Prediction: A WildChat Benchmark and Cost-Aware Evaluation
+  key_idea: Agent routing as cost-aware set-valued prediction.
+  summary: Treats routing prompts to agents as multi-label set prediction where over-selection costs money, releasing a WildChat-derived benchmark over a 12-agent catalog with set metrics and a cost-tiered weighted routing setting. Supervised routers clearly beat nearest-neighbor and zero-shot LLM routing.
+  benchmarks: WildChat-derived 3,000-prompt, 12-agent benchmark, WildChat-derived 3,000 prompts, 12-agent catalog
+  signals: prompt text, agent cost tiers
+
+[bhatti-2026-proteus] (2026, EuroMLSys 2026, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C1,C6,C14)
+  title: PROTEUS: SLA-Aware Routing via Lagrangian RL for Multi-LLM Serving Systems
+  key_idea: SLA-conditioned router via Lagrangian RL.
+  cost: 90.1% accuracy on RouterBench within 1.3% of oracle; cost savings up to 89.8% vs best fixed model (abstract)
+  summary: PROTEUS accepts an accuracy target at runtime and uses Lagrangian RL with a learned dual variable so a single router satisfies the full range of accuracy floors. OmniRouter meets floors only 22% of the time in comparison.
+  benchmarks: RouterBench, SPROUT
+  signals: Lagrangian dual variable, accuracy target as input, accuracy target tau, query features
+
+[bouchard-2026-escalation-decision-theory] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: Is Escalation Worth It? A Decision-Theoretic Characterization of LLM Cascades
+  key_idea: Duality-based frontier characterization for cascades.
+  cost: A lightweight pre-generation router beats the best cascade policy on 4 of 5 datasets (MATH, MMLU, TriviaQA, SimpleQA, LiveCodeBench), eight models
+  summary: Decision-theoretic analysis of LLM cascades via constrained optimization and duality: characterizes the cost-quality frontier of two-model and k-model threshold cascades and finds long fixed chains underperform the pairwise envelope.
+  benchmarks: MATH, MMLU, TriviaQA, SimpleQA, LiveCodeBench
+  signals: confidence, shadow prices, confidence threshold
+
+[chen-2026-co-failure-ceiling] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C12,C13,C15)
+  title: When Does Combining Language Models Help? A Co-Failure Ceiling on Routing, Voting, and Mixture-of-Agents Across 67 Frontier Models
+  key_idea: Co-failure ceiling bounds achievable router gains.
+  summary: Proves that any policy outputting one member's answer (routing, voting, cascades) is capped at one minus the rate at which all models fail together, and gives a finite-sample certificate for this ceiling. Empirically the tail is underestimated by correlation models.
+  benchmarks: mathematics, code, open-ended math, execution-graded code, GPQA-Diamond
+  signals: all-model co-failure rate, all-models-wrong rate (beta)
+
+[chen-2026-hm-router] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C3,C4)
+  title: HM-ROUTER: Joint Model and Harness Routing for Agentic Systems
+  key_idea: Route over (model, harness) pairs, not just models.
+  cost: Leads at all seven evaluated cost budgets; +7.3 points mean routing accuracy over strongest learned baseline
+  summary: HM-Router jointly selects a model and an agent harness per query, learning shared model and harness representations with a tensor-decomposition interaction term so it can predict unobserved model-harness pairs. It beats learned baselines across cost budgets.
+  benchmarks: benchmark from 12 public agent benchmarks (293 routes, 73 models, 25 harnesses)
+  signals: model and harness representations, CP-decomposition interaction term
+
+[dong-2026-llm-shepherding] (2026, arXiv, rel=4, gran=token, regime=supervised-offline, prod=N, clusters=C1,C2,C9)
+  title: Pay for Hints, Not Answers: LLM Shepherding for Cost-Efficient Inference
+  key_idea: Buy a partial LLM hint instead of a full answer.
+  cost: Reduces costs by 42-94% vs LLM-only on GSM8K, CNK12, HumanEval, MBPP; up to 2.8x cost reduction vs state-of-the-art routing and cascading at matched accuracy
+  summary: Requests only a short prefix of the LLM response as a hint for the small model, generalising routing and cascading. A two-stage predictor decides whether a hint is needed and how many tokens to buy.
+  benchmarks: GSM8K, CNK12, HumanEval, MBPP
+  signals: predicted need for hint, hint length
+
+[feng-2026-llmrouter] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: LLMRouter: Unified Infrastructure for Developing, Evaluating, and Deploying LLM Routers
+  key_idea: Unified router infrastructure and benchmark.
+  cost: Learned routers outperform strongest fixed-model baseline by 14.6% relative (abstract)
+  summary: Unifies routing as a sequential decision process with five components and releases LLMRouter, an open-source library of 16+ routers, plus xRouteBench across generic, memory, vision, time-series and personalized routing.
+  benchmarks: xRouteBench
+  signals: context/model encoders, scoring functions, decision rules
+
+[fisch-2026-pandoras-router] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C15)
+  title: Pandora's AI Model Routing Box: Efficient Allocation with Costly Value Estimation
+  key_idea: Optimal search theory for when to pay for better routing estimates.
+  summary: Formalizes routing with costly value estimation as Pandora's Box optimal search, giving closed-form value-of-information rules for whether refining an estimate for a specialist is worth it, with centralized and decentralized (bidding) variants.
+  signals: costly value estimation, value of information
+
+[gillespie-2026-enterprise-agent-routing-scaling] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=Y, clusters=C1,C13,C14)
+  title: Scaling Enterprise Agent Routing: Degradation, Diagnosis, and Recovery
+  key_idea: Agent-routing accuracy degrades with catalog size; shortlisting recovers it.
+  summary: Studies routing requests to specialized agents in a deployed enterprise productivity assistant as the catalog grows to 110 agents and 584 tools. Routing F1 drops 16-23 points, split into retrieval and confusion gaps, and embedding shortlisting recovers 10-17 points on real traffic.
+  benchmarks: 110-agent, 584-tool catalog from a deployed enterprise assistant, 1,435 human-labeled production utterances
+  signals: embedding shortlisting
+
+[guo-2026-think-when-needed-ranking] (2026, SIGIR 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9)
+  title: Think When Needed: Model-Aware Reasoning Routing for LLM-based Ranking
+  key_idea: Pre-generation think/no-think router for LLM ranking.
+  cost: +6.3% NDCG@10 with 49.5% fewer tokens on MovieLens with Qwen3-4B
+  summary: A lightweight router head uses pre-generation features to decide whether an LLM ranker should reason, and picks its operating point on a validation Pareto frontier under system constraints.
+  benchmarks: MovieLens, two other ranking datasets
+  signals: ranking features (candidate dispersion), model-aware difficulty checklist
+
+[hasanaliyev-2026-expected-reward-prediction] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C7)
+  title: Expected Reward Prediction, with Applications to Model Routing
+  key_idea: Predict expected reward-model score per model per prompt for routing.
+  summary: Shows the expected reward an LLM would earn on a prompt under repeated sampling can be predicted before generation, and uses this prediction for cost-controlled routing that beats category-level baselines.
+  benchmarks: open-perfectblend
+  signals: reward model scores, prompt
+
+[he-2026-market-aware-routing] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=Y, clusters=C1,C5,C14)
+  title: You Cannot Pick a Provider From the Price List: Market-Aware Routing for Open-Weight LLM Inference
+  key_idea: Same-model provider routing with online feasibility certification under drifting provider quality.
+  cost: Certification moved live traffic from a premium anchor provider to a substantially cheaper certified endpoint (matched quality)
+  summary: Measures live inference endpoints across providers serving the same open-weight models over several waves and finds that quality, latency and availability vary widely and are not predicted by price, and that the map drifts over time. Proposes FACET, an online provider router that certifies per-provider, per-task feasibility and fails safe to an anchor provider.
+  signals: measured provider quality, latency, availability, price
+
+[huang-2026-rlcascaderouter] (2026, arXiv, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C1,C2,C6)
+  title: RLCascadeRouter: Quality-Estimator-Free Cascade Routing via Reinforcement Learning
+  key_idea: RL cascade routing without explicit quality estimators.
+  summary: Formulates cascade routing as an MDP with stop and model-selection actions and optimises the performance-cost objective directly with RL, avoiding separate quality estimators. Supports unseen models without retraining.
+  benchmarks: LLMRouterBench (ten benchmarks), ten LLMRouterBench benchmarks
+  signals: observed responses, trajectory returns
+
+[huang-2026-uniscale] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C9)
+  title: UniScale: Adaptive Unified Inference Scaling via Online Joint Optimization of Model Routing and Test-Time Scaling
+  key_idea: Learn routing and test-time compute jointly online with a LinUCB contextual bandit.
+  summary: Unifies model routing and test-time-scaling choices into a single action space and learns the joint policy online as a contextual bandit with LinUCB plus explicit cost modeling. Reports better quality-cost trade-offs than routing-only or TTS-only baselines in dynamic inference settings.
+  signals: query features, cost model, reward feedback
+
+[kabeer-2026-pearl] (2026, ICCBI 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C3,C8)
+  title: PEARL: Performance-Efficient Agentic Retrieval-Augmented Generation Through Learned Orchestration
+  key_idea: Distill the LLM orchestrator into a tiny classifier from its own traces.
+  cost: Distilled Flan-T5-small (80M) orchestrator achieves Routing Accuracy Score 0.942 on Indian legal queries
+  summary: PEARL replaces a GPT-4 orchestrator in a multi-agent RAG system with an 80M Flan-T5 trained on 12,000 GPT-4 routing traces, classifying queries into one of four agent pipeline configurations.
+  benchmarks: Indian legal queries
+  signals: GPT-4 routing traces
+
+[lai-2026-routejudge] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C5,C13)
+  title: RouteJudge: An Open Platform for Reproducible and Preference-Aware LLM Routing
+  key_idea: Arena-style live preference evaluation at the router level rather than the model level.
+  summary: An online platform where several routing strategies each pick a model for the same query, and anonymous pairwise user preferences between the resulting responses are attributed back to the routers. Logs query, decisions, responses, preferences, cost and latency, and ships ORBIT, a toolbox for implementing and submitting routers.
+  signals: anonymous pairwise user preferences, cost, latency
+
+[lai-2026-routing-collapse] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C13)
+  title: When Routing Collapses: On the Degenerate Convergence of LLM Routers
+  key_idea: Decision-aware ranking objective fixes routers over-selecting the strongest model.
+  cost: Reduces cost by about 17% at GPT-4-level performance vs strongest prior router on RouterBench (abstract)
+  summary: Identifies 'routing collapse': as budgets rise, routers default to the most expensive model even when cheaper ones suffice, due to training on scalar score prediction. EquiRouter learns rankings directly to restore use of small models.
+  benchmarks: RouterBench, unimodal and multimodal routing benchmarks
+  signals: learned model rankings, predicted performance, rankings
+
+[lai-2026-saverouter] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: Routing Should Pay for Itself: Sparse Supervision for Economical LLM Routing
+  key_idea: Account for supervision cost in router economics.
+  cost: Uses ~33-41% of training feedback at competitive quality; reduces break-even deployment volume ~1.9-9.5x (abstract)
+  summary: SaveRouter accounts for the upfront cost of collecting query-model feedback, acquiring only informative labels and sharing capability information across queries so the router pays back sooner.
+  benchmarks: four routing benchmarks
+  signals: sparse selectively-acquired feedback, partial query-model feedback, shared capability information
+
+[lee-2026-drift-aware-routing] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Drift-Aware LLM Routing with Sparse Contexts and Shared Budgets
+  key_idea: Sparse, drift-aware contextual bandit routing with shared budgets and audit sampling.
+  summary: Formulates non-stationary budgeted routing with high-dimensional sparse contexts and drift in both request mix and model frontier; the algorithm uses a rolling audit window, pessimistic reward/optimistic cost estimates and online shadow prices, with regret bounds under bounded drift.
+  signals: sparse prompt embedding directions, audit labels, resource shadow prices
+
+[lee-2026-routing-gap-task-type] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: Most of the LLM Routing Gap Is Task Type
+  key_idea: Routing gains are mostly task-type effects plus noise.
+  summary: Argues most of the oracle routing gap is explained by task type, and that run-to-run noise (5.37% of model-question pairs flipping between identical runs) makes small router wins uninterpretable.
+  benchmarks: 294 questions, 7 task types, 3 languages
+  signals: task type
+
+[liu-2026-vllm-semantic-router] (2026, arXiv, rel=4, gran=query, regime=hybrid, prod=N, clusters=C1,C11,C14)
+  title: vLLM Semantic Router: Signal Driven Decision Routing for Mixture-of-Modality Models
+  key_idea: Composable signal-driven routing for production gateways.
+  summary: Technical report of vLLM Semantic Router, which composes heterogeneous signals (heuristics, classifiers for semantics, safety, modality) via configurable Boolean rules into deployment-specific routing policies, with plugin chains for hallucination detection and memory.
+  signals: 13 signal types, Boolean decision rules, neural classifiers
+
+[manoharan-2026-t2mo] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C14)
+  title: Task-to-Model Optimization for Enterprise LLM Coding Assistants: A Data-Driven Framework for Cost-Optimal Routing
+  key_idea: Cost-per-completed-task objective for enterprise routing.
+  summary: Describes a nine-stage methodology for cost-optimal model routing in enterprise coding assistants, optimizing cost per completed task including escalations, with shadow-mode deployment and governance.
+  signals: telemetry, task taxonomy, difficulty grading, cost per completed task
+
+[moslem-2026-cluster-route-escalate] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2)
+  title: Cluster, Route, Escalate: Cascaded Framework for Cost-Aware LLM Serving
+  key_idea: Cluster-level routing followed by QE-triggered escalation.
+  cost: Retains 97-99% of the strongest model's accuracy while reducing time per output token
+  summary: Stage one clusters queries and assigns each cluster its most cost-effective model under a tunable budget; stage two escalates outputs judged low-quality by a quality estimator. Needs only task-correctness labels and adapts to model pool changes.
+  signals: query clusters, quality estimation
+
+[moslem-2026-routing-cascading-survey] (2026, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C2,C5,C15)
+  title: Dynamic Model Routing and Cascading for Efficient LLM Inference: A Survey
+  key_idea: Most up-to-date taxonomy of routing and cascading.
+  summary: Systematic survey of multi-LLM routing and cascading across independently trained models, organized by paradigm (difficulty, preferences, clustering, uncertainty, RL, multimodality, cascading). Adds a conceptual framework for characterizing routing systems and discusses trade-offs.
+
+[raj-2026-trace-router] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C3,C5)
+  title: TRACE-ROUTER: Task-Consistent and Adaptive Online Routing for Agentic AI
+  key_idea: Task-level bandit routing aligned with delayed agent rewards.
+  cost: On tau2-Bench beats latency-matched interpolation between models by 7-8 accuracy points; non-dominated Pareto points on three agentic benchmarks
+  summary: TRACE-Router argues per-call routers cannot attribute delayed task rewards, so it assigns each agentic task to a model once at admission with a contextual bandit, pins all calls to it and learns from terminal reward and latency.
+  benchmarks: tau2-Bench, Terminal-Bench, third agentic benchmark
+  signals: terminal task reward, latency
+
+[tsai-2026-neuralucb-routing] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Reward-Based Online LLM Routing via NeuralUCB
+  key_idea: NeuralUCB applied to cost-aware LLM routing.
+  cost: substantially lower inference cost than max-quality reference with competitive reward (RouterBench, simulated online)
+  summary: Implements NeuralUCB for cost-aware routing and evaluates it in a simulated online setting on RouterBench, beating random and min-cost baselines on utility.
+  benchmarks: RouterBench
+  signals: query embedding, utility reward (quality minus cost)
+
+[varshney-2026-prefill-activation-router] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7)
+  title: LLM Router: Rethinking Routing with Prefill Activations
+  key_idea: Prefill activations as routing features.
+  cost: Closes 45.58% of the gap between best single model and oracle while saving 74.31% cost relative to the most expensive model
+  summary: Routes using internal activations of an open-weight encoder model to predict correctness of target models including closed ones, with a shared multi-output MLP (NVIDIA authors).
+  signals: prefill residual-stream activations of an open encoder model, prefill activations, residual stream
+
+[wang-2026-routemoa] (2026, arXiv, rel=4, gran=subagent, regime=supervised-offline, prod=N, clusters=C1,C3)
+  title: RouteMoA: Dynamic Routing without Pre-Inference Boosts Efficient Mixture-of-Agents
+  key_idea: Pre-inference routing to pick which models join each MoA layer.
+  cost: 89.8% cost reduction and 63.6% latency reduction in large-scale model pool vs MoA
+  summary: RouteMoA screens candidate models with a lightweight scorer before any inference, refines scores with judges using existing outputs, and ranks models by performance, cost and latency. It outperforms MoA while cutting cost by about 90% in large pools.
+  signals: query-based performance prediction, judge self/cross assessment
+
+[xue-2026-r2-router] (2026, ICML 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9)
+  title: R2-Router: A New Paradigm for LLM Routing with Reasoning
+  key_idea: Route over (model, output length budget).
+  cost: State-of-the-art performance at 4-5x lower cost than existing routers
+  summary: Routes jointly over models and output-length budgets enforced by instructions, finding that a strong model with a constrained length can beat a weaker model at similar cost. Introduces R2-Bench.
+  benchmarks: R2-Bench
+  signals: predicted quality per (model, length budget)
+
+[zeng-2026-metarouter] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Learning to Route LLMs from Implicit Cost-Performance Preferences via Meta-Learning
+  key_idea: Meta-learned bandit router for per-user preferences.
+  summary: MetaRouter learns each user's implicit cost-performance preference from a few interactions by treating preference profiles as tasks in a meta-learned contextual bandit.
+  benchmarks: ID and OOD tasks
+  signals: implicit user cost-performance preference
+
+[zhang-2026-dialrouter] (2026, arXiv, rel=4, gran=step, regime=supervised-offline, prod=N, clusters=C1,C3,C6)
+  title: From Myopic Selection to Long-Horizon Awareness: Sequential LLM Routing for Multi-Turn Dialogue
+  key_idea: Long-horizon sequential routing for multi-turn interactions, distilled from MCTS search.
+  summary: DialRouter treats model selection across a multi-turn dialogue as a sequential decision problem. It runs MCTS over dialogue branches induced by different model choices, then distills a lightweight routing policy from the high-reward search trajectories so that no online search is needed at inference.
+  benchmarks: open-domain and domain-specific dialogue tasks
+  signals: MCTS-derived trajectory rewards, retrieval-based future state approximation, cost-aware reward, dialogue state
+
+[zhang-2026-racer] (2026, ICML 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7,C9)
+  title: Reasoning Is Not Free: Robust Adaptive Cost-Efficient Routing for LLM-as-a-Judge
+  key_idea: Budgeted, shift-robust routing between reasoning and non-reasoning judges.
+  cost: Superior accuracy-cost trade-offs under distribution shift (no single number in abstract)
+  summary: Shows reasoning judges help on math and code verification but not on simpler evaluations, and routes between reasoning and non-reasoning judges under a fixed budget via distributionally robust optimisation.
+  signals: judge task features, KL uncertainty set
+
+[zhang-2026-v0-generalist-value-model] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C9)
+  title: V_0: A Generalist Value Model for Any Policy at State Zero
+  key_idea: Predict per-prompt success of any model from its performance profile and route by it.
+  cost: Pareto-optimal performance-cost trade-off in LLM routing tasks (qualitative)
+  summary: Trains a generalist value model that predicts the expected success of any model on an unseen prompt by conditioning on a history of that model's instruction-performance pairs instead of fitting parameters. Used to allocate GRPO rollout budgets and, at deployment, as a router.
+  signals: instruction-performance history, prompt
+
+[zhou-2026-select-then-solve] (2026, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C3)
+  title: Select-then-Solve: Paradigm Routing as Inference-Time Optimization for LLM Agents
+  key_idea: Route each task to the best agent paradigm, not just the best model.
+  summary: Compares six reasoning paradigms (Direct, CoT, ReAct, Plan-Execute, Reflection, ReCode) over four LLMs and ten benchmarks (~18,000 runs) and finds no paradigm dominates. A light embedding router that picks the paradigm per task raises average accuracy from 47.6% to 53.1%.
+  benchmarks: ten benchmarks incl. GAIA, HumanEval
+  signals: query embedding
+
+[ziller-2026-greenserv] (2026, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: GreenServ: Energy-Efficient Context-Aware Dynamic Routing for Multi-Model LLM Inference
+  key_idea: Contextual bandit routing that optimizes accuracy against energy and onboards new models online.
+  cost: Compared with random routing, 22% higher accuracy with 31% lower cumulative energy across five tasks and 16 open LLMs; 71.7% average accuracy on RouterBench
+  summary: Routes each query among 16 open LLMs with a contextual multi-armed bandit that uses lightweight query features and learns online from partial feedback on accuracy and energy. It needs no offline calibration and new models can be added without retraining.
+  benchmarks: RouterBench
+  signals: task type, semantic cluster, text complexity, observed accuracy, energy
+
+[zu-2026-barouter] (2026, The Web Conference (WWW) 2026, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: BARouter: A Budget-adaptive Online Large Language Model Router Framework
+  key_idea: Budget-adaptive online routing with regret guarantees under shifting query distributions.
+  summary: An online router for LLM serving that adjusts its policy per query from estimated quality, query cost and live budget consumption, so it adapts to different initial budgets and shifting query distributions without manual tuning. Proves sublinear regret and reports outperforming baselines across budget levels.
+  signals: estimated response quality, query cost, real-time budget consumption
+
+[aws-2025-bedrock-intelligent-prompt-routing] (2025, AWS Machine Learning blog, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: Use Amazon Bedrock Intelligent Prompt Routing for cost and latency benefits
+  key_idea: Managed pairwise quality-prediction router inside a cloud platform.
+  cost: (vendor-reported) Internal tests: 56% savings for Anthropic family (Haiku 3.5 + Sonnet 3.5 v2) at Sonnet quality, 35% Nova, 16% Llama; 63.6% average savings on RAG datasets; ~85 ms P90 router overhead
+  summary: GA announcement of Bedrock's managed router, which predicts per-request quality for two models in the same family and routes on a cost-quality criterion. Caveats: English and chat-optimized, pairwise only, not adaptable to application data, may underperform on specialized tasks. Docs: docs.aws.amazon.com/bedrock/latest/userguide/prompt-routing.html.
+  benchmarks: internal AWS datasets incl. RAG
+  signals: predicted response quality per model
+
+[cencerrado-2025-no-answer-needed] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C7)
+  title: No Answer Needed: Predicting LLM Answer Accuracy from Question-Only Linear Probes
+  key_idea: Pre-generation correctness probes.
+  summary: Linear probes on activations after reading a question, before generation, predict whether the model's answer will be correct, generalizing out of distribution except on math.
+  benchmarks: trivia and OOD knowledge datasets, TriviaQA, OOD knowledge datasets
+  signals: pre-generation activations (linear probe), pre-generation linear probe
+
+[cheema-2025-tweakllm] (2025, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C10)
+  title: TweakLLM: A Routing Architecture for Dynamic Tailoring of Cached Responses
+  key_idea: Cache hit + small-model rewrite as a cheap route.
+  summary: Routes semantically matched queries to a small LLM that edits the cached response to fit the new prompt, instead of returning it verbatim or calling the frontier model. User studies and LLM debates suggest quality comparable to frontier models with better cache effectiveness.
+  benchmarks: real-world query datasets, user studies
+  signals: semantic cache hit, lightweight LLM adaptation
+
+[chen-2025-concur] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C4,C5,C9)
+  title: CONCUR: A Framework for Continual Constrained and Unconstrained Routing
+  key_idea: Modular continual routing over strategies.
+  summary: CONCUR routes tasks to computation strategies (model plus decoding method) with separate per-strategy predictors, supporting budgeted and unbudgeted routing and continual addition of strategies.
+  benchmarks: knowledge- and reasoning-intensive tasks (ID and OOD)
+  signals: per-strategy predictors, multiple task representations, task representations, strategy representations, budget
+
+[chen-2025-tagrouter] (2025, ACL 2025, rel=4, gran=query, regime=training-free, prod=N, clusters=C1)
+  title: TagRouter: Learning Route to LLMs through Tags for Open-Domain Text Generation Tasks
+  key_idea: Tag-based training-free routing for open-ended generation.
+  cost: Increases system accept rate by 6.15% and reduces costs by 17.20% vs 13 baselines (abstract)
+  summary: TagRouter is a training-free routing method for open-domain text generation that routes via tags derived from queries and model performance per tag. It outperforms 13 baselines on accept rate and cost.
+  signals: query tags, tag-model performance statistics
+
+[chiang-2025-dueling-routing] (2025, arXiv, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: LLM Routing with Dueling Feedback
+  key_idea: Contextual dueling bandits for preference-feedback routing.
+  summary: Formulates routing as contextual dueling bandits learning from pairwise preferences, with model embeddings derived by category-calibrated contrastive fine-tuning and Feel-Good Thompson Sampling. Achieves lower regret and better cost-performance balance.
+  benchmarks: RouterBench, MixInstruct
+  signals: pairwise preference feedback, category-calibrated model embeddings, model embeddings
+
+[chuang-2025-confident-or-seek-stronger] (2025, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C2,C7,C13)
+  title: Confident or Seek Stronger: Exploring Uncertainty-Based On-device LLM Routing From Benchmarking to Generalization
+  key_idea: Large benchmark of UQ-based SLM-to-LLM escalation.
+  summary: Benchmarks uncertainty-based routing from on-device small models to LLMs across 1500+ settings, finding that uncertainty-correctness alignment matters most and depends on SLM and UQ method. Proposes a calibration-data pipeline for generalising routing thresholds.
+  benchmarks: 1500+ settings
+  signals: uncertainty quantification methods, calibration data, uncertainty quantification
+
+[ding-2025-best-route] (2025, ICML 2025, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9)
+  title: BEST-Route: Adaptive LLM Routing with Test-Time Optimal Compute
+  key_idea: Jointly route over model choice and test-time sample count.
+  cost: Reduces costs by up to 60% with less than 1% performance drop on real-world datasets
+  summary: BEST-Route chooses both the model and how many responses to sample from it (best-of-n), based on query difficulty and a quality threshold. Sampling multiple answers from a small model often beats one answer from a large model at lower cost.
+  benchmarks: real-world datasets
+  signals: difficulty estimate, quality threshold, best-of-n sampling count, query difficulty, quality thresholds
+
+[feng-2025-fusionfactory] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C8,C13)
+  title: FusionFactory: Fusing LLM Capabilities with Multi-LLM Log Data
+  key_idea: Exploit multi-LLM logs for routing and distillation.
+  summary: FusionFactory uses multi-LLM log data to fuse models at three levels: query-level routing, thought-level template reuse, and model-level distillation, outperforming the best single model on all 14 tasks.
+  benchmarks: LLMFusionBench (14 tasks), LLMFusionBench (14 tasks, 20 LLMs), LLMFusionBench (14 tasks, 5 domains)
+  signals: multi-LLM log data, routers, reasoning templates, distillation, multi-LLM logs, query embedding
+
+[fernandez-2025-radar] (2025, ICLR 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9)
+  title: RADAR: Reasoning-Ability and Difficulty-Aware Routing for Reasoning LLMs
+  key_idea: Psychometric routing over (model, reasoning budget) configurations.
+  summary: RADAR fits an item response model over model and reasoning-budget pairs, then routes harder queries to higher-ability configurations. It generalizes out of distribution and can add models using a small adaptive query set.
+  benchmarks: 8 reasoning benchmarks
+  signals: IRT query difficulty, model-budget ability
+
+[frick-2025-p2l] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C13)
+  title: Prompt-to-Leaderboard
+  key_idea: Predict a per-prompt leaderboard from preference data and route to its top model.
+  summary: Prompt-to-Leaderboard trains an LLM to output prompt-specific Bradley-Terry coefficients over models, producing a per-prompt leaderboard usable for routing and evaluation. A router built this way reached #1 on Chatbot Arena in January 2025, and performance scales with a power law.
+  benchmarks: Chatbot Arena
+  signals: prompt-conditioned Bradley-Terry coefficients, human preference votes (Chatbot Arena)
+
+[guo-2025-moma-generalized-routing] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C3)
+  title: Towards Generalized Routing: Model and Agent Orchestration for Adaptive and Efficient Inference
+  key_idea: Unified router over both LLMs and agents.
+  cost: Superior cost-efficiency and scalability vs existing routers (no single number in abstract)
+  summary: MoMA routes each query either to an LLM or to a specialized agent, using profiled model capabilities for LLM routing and a context-aware state machine with dynamic masking for agent selection. It targets mixed ecosystems of models and domain agents.
+  signals: intent recognition, capability profiles
+
+[huang-2025-routereval] (2025, EMNLP 2025, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: RouterEval: A Comprehensive Benchmark for Routing LLMs to Explore Model-level Scaling Up in LLMs
+  key_idea: Massive routing benchmark revealing model-level scaling with candidate count.
+  summary: RouterEval releases over 200 million performance records from more than 8,500 LLMs on 12 evaluations and reports a model-level scaling phenomenon: a capable router improves as the candidate pool grows, sometimes beating the best single model. Most existing routers leave large headroom on this benchmark.
+  benchmarks: RouterEval (12 LLM evaluations), ARC, HellaSwag, MMLU, TruthfulQA, GSM8K, MMLU-PRO, and 6 other evaluations
+  signals: precomputed performance records, per-query model outcomes
+
+[jitkrittum-2025-unirouter] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C5,C6,C15)
+  title: Universal Model Routing for Efficient LLM Inference
+  key_idea: Represent LLMs by prediction profiles on anchor prompts to route among unseen models.
+  summary: UniRoute (Google) handles dynamic routing where new LLMs appear at test time by representing each model as a vector of its errors on a small representative prompt set. Cluster-based and learned-cluster-map instantiations are shown to estimate a theoretically optimal rule, with an excess-risk bound.
+  benchmarks: public benchmarks (30+ unseen LLMs), public benchmarks with 30+ unseen LLMs
+  signals: model feature vector from predictions on representative prompts, prompt clusters, LLM feature vector from representative prompts, clusters
+
+[li-2025-knn-routing] (2025, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C6,C13)
+  title: Rethinking Predictive Modeling for LLM Routing: When Simple kNN Beats Complex Learned Routers
+  key_idea: Simple kNN is a strong router baseline.
+  summary: Shows that a well-tuned k-nearest-neighbors router matches or beats complex learned routers across instruction-following, QA and reasoning benchmarks, explained by locality of model performance in embedding space. Introduces standardized routing benchmarks including a multimodal one.
+  benchmarks: standardized routing benchmarks incl. multimodal
+  signals: query embedding kNN, query embedding neighbors
+
+[lu-2025-routerarena] (2025, arXiv, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: RouterArena: An Open Platform for Comprehensive Comparison of LLM Routers
+  key_idea: Open router leaderboard.
+  summary: RouterArena is an open platform and leaderboard for comparing LLM routers, with a dataset covering broad knowledge domains at graded difficulty, multiple metrics and automated leaderboard updates.
+  benchmarks: RouterArena, RouterArena dataset (multi-domain, multi-difficulty)
+  signals: router outputs, cost, difficulty levels
+
+[mei-2025-omnirouter] (2025, SIGKDD Explorations 2025, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C15)
+  title: OmniRouter: Budget and Performance Controllable Multi-LLM Routing
+  key_idea: Batch-level constrained optimization for budget-controllable routing.
+  cost: Up to 6.30% accuracy improvement while reducing computational costs by at least 10.15% vs router baselines (abstract)
+  summary: OmniRouter treats routing as a global constrained optimization that minimizes total cost subject to a performance level, rather than per-query greedy choices. A retrieval-augmented predictor estimates capabilities and costs, and Lagrangian dual decomposition finds allocations under capacity constraints.
+  signals: retrieval-augmented performance predictor, cost predictor, Lagrangian dual multipliers
+
+[microsoft-2025-foundry-model-router] (2025, Microsoft Learn, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: Model router for Microsoft Foundry (concepts)
+  key_idea: Managed multi-vendor router with quality-band routing modes.
+  summary: A trained language model deployed as a single Foundry endpoint that routes each prompt across OpenAI, Anthropic, xAI, DeepSeek and Meta models. Balanced mode picks the cheapest model within about 1-2% of the best predicted quality, Cost mode within about 5-6%, and Quality mode ignores cost; supports model subsets, failover, agent tool use and session affinity for cache reuse. No quantitative savings figures on this page.
+  signals: prompt complexity, reasoning need, task type
+
+[nielsen-2025-conductor] (2025, ICLR 2026, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C1,C3)
+  title: Learning to Orchestrate Agents in Natural Language with the Conductor
+  key_idea: Small RL-trained conductor orchestrates large worker LLMs.
+  summary: A 7B Conductor trained with RL learns coordination strategies over pools of powerful worker LLMs, designing communication topologies and writing focused instructions, and beats any individual worker on hard reasoning benchmarks. Trained on randomized pools, it adapts to arbitrary agent sets.
+  benchmarks: LiveCodeBench, GPQA
+
+[pan-2025-route-to-reason] (2025, The Web Conference (per Semantic Scholar), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9)
+  title: Route to Reason: Adaptive Routing for LLM and Reasoning Strategy Selection
+  key_idea: Joint model plus reasoning-strategy routing.
+  cost: Higher accuracy than the best single model while reducing token usage by over 60% (seven open models, four reasoning strategies)
+  summary: Route-To-Reason jointly selects the LLM and the reasoning strategy (e.g. CoT variants) for each query under a user budget, using learned embeddings of model-strategy pairs and a routing table of predicted cost and performance.
+  signals: model and strategy embeddings, query complexity, budget, learned model and strategy embeddings, predicted performance, predicted token count
+
+[poon-2025-online-multi-llm-context-evolution] (2025, AAAI 2026, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Online Multi-LLM Selection via Contextual Bandits under Unstructured Context Evolution
+  key_idea: LinUCB for multi-turn LLM selection under evolving context.
+  summary: Studies sequential LLM selection across multi-step query refinement, where the prompt changes in response to earlier outputs. A LinUCB-based algorithm with myopic regret guarantees, plus budget-aware and position-aware variants, needs no offline data.
+  benchmarks: diverse benchmarks
+  signals: evolving prompt context, budget, position
+
+[shen-2025-sater] (2025, EMNLP 2025, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2)
+  title: SATER: A Self-Aware and Token-Efficient Approach to Routing and Cascading
+  key_idea: Train the SLM to know when to refuse and escalate.
+  cost: Comparable performance while reducing computational costs by over 50% and cascade latency by over 80% (abstract)
+  summary: SATER fine-tunes small models with shortest-response preference optimization and a confidence-aware rejection mechanism so they work in both pre-generation routing and cascade modes. It cuts redundant output and latency.
+  benchmarks: six datasets
+  signals: self-aware rejection, shortest-response preference optimization
+
+[shirkavand-2025-cscr] (2025, NeurIPS 2025, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: Cost-Aware Contrastive Routing for LLMs
+  key_idea: Cost-spectrum contrastive embeddings with kNN routing.
+  cost: Improves accuracy-cost tradeoff by up to 25% (abstract)
+  summary: CSCR maps prompts and models into a shared embedding space, using logit footprints for open models and perplexity fingerprints for API models, and trains a contrastive encoder to favor the cheapest accurate model within cost bands. Routing reduces to one kNN lookup with microsecond latency and no retraining when the pool changes.
+  signals: logit footprints, perplexity fingerprints, contrastive cost bands, FAISS kNN
+
+[song-2025-irt-router] (2025, ACL 2025, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: IRT-Router: Effective and Interpretable Multi-LLM Routing via Item Response Theory
+  key_idea: Psychometric IRT model of model ability vs query difficulty for routing.
+  summary: IRT-Router borrows item response theory to jointly model LLM abilities and query difficulty/attributes, giving both accurate performance prediction and interpretable parameters. An online warm-up based on semantic similarity helps cold-start queries; experiments span 20 LLMs and 12 datasets.
+  benchmarks: 12 datasets
+  signals: item response theory ability/difficulty, query embedding, semantic warm-up, IRT ability and difficulty
+
+[tran-2025-arch-router] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C14)
+  title: Arch-Router: Aligning LLM Routing with Human Preferences
+  key_idea: Route by matching queries to human-written policy descriptions rather than benchmark scores.
+  summary: Arch-Router is a 1.5B model that maps queries to user-defined domain or action preferences, which are then bound to specific models. New models can be added by editing the policy mapping without retraining; the authors report state-of-the-art preference matching against proprietary models.
+  benchmarks: conversational datasets
+  signals: user-defined domain/action policies, 1.5B router LM, domain-action preference policies, domain-action preference labels
+
+[varangot-reille-2025-doing-more-with-less] (2025, Journal of Artificial Intelligence Research, rel=4, gran=query, regime=n/a, prod=N, clusters=C1,C15)
+  title: Doing More with Less: A Survey on Routing Strategies for Resource Optimisation in Large Language Model-Based Systems
+  key_idea: Survey of routing for resource optimization.
+  summary: Survey of routing strategies in LLM-based systems covering when, why and how to route queries to smaller or specialized components to save cost and energy.
+
+[wang-2025-icl-router] (2025, AAAI 2026, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: ICL-Router: In-Context Learned Model Representations for LLM Routing
+  key_idea: In-context model capability vectors for retrain-free router extension.
+  summary: ICL-Router represents each candidate model through in-context vectors built from its performance on a profiling query set, and trains an LLM-based router to predict whether a model will answer a new query correctly. New models can be integrated without retraining.
+  signals: in-context vectors of model performance, query embedding projector
+
+[wang-2025-when-to-reason] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9,C11)
+  title: When to Reason: Semantic Router for vLLM
+  key_idea: Route reasoning on/off per query.
+  cost: +10.2 pp accuracy on MMLU-Pro while reducing latency 47.1% and tokens 48.5% vs direct inference with vLLM (abstract)
+  summary: A semantic router classifies whether a query needs reasoning mode and enables chain-of-thought only when beneficial, integrated with vLLM.
+  benchmarks: MMLU-Pro
+  signals: reasoning-need classifier, query reasoning-requirement classifier
+
+[woisetschlager-2025-mess-plus] (2025, NeurIPS 2025, rel=4, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C15)
+  title: MESS+: Dynamically Learned Inference-Time LLM Routing in Model Zoos with Service Level Guarantees
+  key_idea: Lyapunov-style virtual queues for SLA-guaranteed cost-optimal routing.
+  cost: Average 2x cost savings vs existing LLM routing techniques (abstract)
+  summary: MESS+ is a stochastic-optimization router for model zoos that learns satisfaction probabilities online and solves per-request optimization with virtual queues to meet SLA quality guarantees while minimizing cost. Includes theory on cost optimality and constraint satisfaction.
+  benchmarks: LLM benchmarks
+  signals: learned request satisfaction probability, virtual queues, SLA constraint
+
+[wu-2025-training-free-online-routing] (2025, NeurIPS 2025, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C5,C15)
+  title: Efficient Training-Free Online Routing for High-Volume Multi-LLM Serving
+  key_idea: Online budgeted routing with competitive-ratio guarantees.
+  cost: Average 3.55x improvement in overall performance, 1.85x in cost efficiency and ~4.25x throughput vs 8 baselines (abstract)
+  summary: Presents the first training-free algorithm for online routing under high query volume and token budgets, estimating query features via ANN search and solving a one-time optimization on initial queries. Provides a 1-o(1) competitive ratio guarantee.
+  benchmarks: 3 benchmark datasets
+  signals: approximate nearest neighbor features, one-time LP on initial queries, token budget
+
+[zhang-2025-confidence-driven-router] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7)
+  title: Leveraging Uncertainty Estimation for Efficient LLM Routing
+  key_idea: Uncertainty-based edge-cloud routing evaluated by judges.
+  summary: Proposes a confidence-driven router for edge-cloud deployments that uses uncertainty estimation to decide routing, and evaluates response quality with LLM-as-a-judge as a proxy for human preference. Reports better quality than prior routers at similar cost.
+  benchmarks: MT-Bench, GSM8K, MMLU
+  signals: uncertainty estimate, LLM-as-a-judge ratings
+
+[zhang-2025-meta-router] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C7)
+  title: Meta-Router: Bridging Gold-standard and Preference-based Evaluations in Large Language Model Routing
+  key_idea: Causal debiasing of judge-labeled routing supervision.
+  summary: Meta-Router casts training with combined gold-standard and preference-based labels as causal inference, correcting bias in cheap judge/crowd labels via a conditional average treatment effect estimate.
+  signals: gold-standard labels, preference/judge labels, causal CATE correction
+
+[zhang-2025-model-sat] (2025, AAAI 2025, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: Capability Instruction Tuning: A New Paradigm for Dynamic LLM Routing
+  key_idea: Capability instruction tuning: route by aptitude-test profiles.
+  summary: Model-SAT builds capability instructions from a model's aptitude-test results and trains a lightweight LLM to predict whether each candidate can handle an instruction. New models are onboarded by running a quick 50-task aptitude test, without candidate inference at routing time.
+  benchmarks: 50 tasks
+  signals: model capability representation (aptitude test), instruction
+
+[zhang-2025-synapseroute] (2025, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9)
+  title: SynapseRoute: An Auto-Route Switching Framework on Dual-State Large Language Model
+  key_idea: Route queries between thinking and non-thinking modes of one model.
+  cost: Accuracy 0.8390 vs 0.8272 for thinking-only, with 36.8% lower inference time and 39.66% fewer tokens on medical datasets
+  summary: Finds about 58% of medical questions are answered correctly without thinking mode, and trains a router that sends each query to thinking or non-thinking mode. Proposes an accuracy-inference-token index for evaluation.
+  benchmarks: medical QA datasets
+  signals: query complexity features
+
+[almahairi-2024-anyscale-router] (2024, Anyscale blog, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: Building an LLM Router for High-Quality and Cost-Effective Responses
+  key_idea: Judge-labeled data to fine-tune an LLM classifier router.
+  cost: (vendor-reported) Up to 70% cost reduction on MT-Bench, 30% on MMLU, 40% on GSM8K vs random routing / commercial routers
+  summary: Tutorial companion to RouteLLM: fine-tunes a Llama3-8B causal classifier on ~109K Nectar queries labeled 1-5 by a GPT-4 judge on Mixtral responses, routing to Mixtral when predicted score is high and to GPT-4 otherwise.
+  benchmarks: MT-Bench, MMLU, GSM8K
+  signals: LLM-judge score labels, query text
+
+[anthropic-2024-building-effective-agents] (2024, Anthropic engineering blog, rel=4, gran=query, regime=n/a, prod=Y, clusters=C1,C12,C14)
+  title: Building effective agents
+  key_idea: Start simple; add agentic complexity only when it pays for its cost; route easy inputs to smaller models.
+  summary: Anthropic distills lessons from dozens of customer agent deployments: prefer simple composable workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer) and only move to autonomous agents when needed, since agentic systems trade latency and cost for performance. The routing pattern explicitly sends easy questions to smaller models such as Haiku and hard ones to Sonnet.
+  signals: input classification
+
+[chen-2024-routerdc] (2024, NeurIPS 2024, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: RouterDC: Query-Based Router by Dual Contrastive Learning for Assembling Large Language Models
+  key_idea: Dual contrastive learning of query and LLM embeddings for routing.
+  summary: RouterDC trains a query encoder and per-LLM embeddings with two contrastive losses (sample-LLM and sample-sample) so that queries where several LLMs do well are handled gracefully. It outperforms individual top models and prior routers in and out of distribution (+2.76% and +1.90%).
+  signals: query embedding, learned LLM embeddings, contrastive losses
+
+[chuang-2024-self-ref] (2024, ICML (per Semantic Scholar), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C7)
+  title: Learning to Route LLMs with Confidence Tokens
+  key_idea: Train the model to emit calibrated confidence tokens for routing/deferral.
+  cost: Significant improvements in downstream routing and rejection tasks vs verbalised confidence and token probabilities (no single number in abstract)
+  summary: Self-REF fine-tunes LLMs to emit confidence tokens indicating whether an answer is correct, from which a confidence score is extracted. These scores outperform verbalized confidence and token probabilities for routing to another model or rejecting.
+  signals: learned confidence tokens, confidence tokens
+
+[damani-2024-learning-how-hard-to-think] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C9)
+  title: Learning How Hard to Think: Input-Adaptive Allocation of LM Computation
+  key_idea: Learn per-input marginal value of compute, then allocate.
+  cost: Reduces computation by up to 50% at no cost to response quality, or improves quality by up to 10% at fixed budget (programming, math, dialog)
+  summary: Predicts, per input, how much reward extra decoding compute would add and allocates best-of-k samples or routes between cheap and expensive decoding procedures accordingly.
+  benchmarks: programming, mathematics, dialog tasks
+  signals: predicted reward distribution per input and budget
+
+[ding-2024-hybrid-llm] (2024, ICLR 2024, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C6)
+  title: Hybrid LLM: Cost-Efficient and Quality-Aware Query Routing
+  key_idea: Route to small vs large model by predicting the quality gap, with a test-time tunable threshold.
+  cost: Up to 40% fewer calls to the large model with no drop in response quality (abstract)
+  summary: Proposes a hybrid inference setup where a lightweight router predicts, per query, whether a small edge-deployable model will match the large model's quality. The quality threshold is tunable at test time to trade quality for cost.
+  benchmarks: MixInstruct
+  signals: difficulty estimate, predicted quality gap, desired quality threshold, predicted query difficulty, quality gap estimate, difficulty
+
+[feng-2024-graphrouter] (2024, ICLR (per Semantic Scholar), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: GraphRouter: A Graph-based Router for LLM Selections
+  key_idea: Inductive graph edge prediction for LLM selection that generalizes to new models.
+  summary: GraphRouter builds a heterogeneous graph of task, query and LLM nodes and predicts edge attributes (response quality and cost) inductively. This lets it adapt to newly introduced LLMs without retraining; it reports at least 12.3% improvement over prior routers across three effect-cost weightings.
+  signals: task-query-LLM heterogeneous graph, edge prediction of effect and cost
+
+[mohammadshahi-2024-routoo] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: Routoo: Learning to Route to Large Language Models Effectively
+  key_idea: Performance predictor plus cost-aware selector.
+  cost: Matches Mixtral 8x7b on MMLU at one-third lower inference cost; with GPT-4 in pool nearly matches GPT-4 at half the cost (abstract)
+  summary: Routoo uses a lightweight LLM performance predictor and a cost-aware selector to choose among LLMs per prompt under cost and latency constraints. On MMLU it matches Mixtral at a third lower cost and nearly matches GPT-4 at half the cost.
+  benchmarks: MMLU
+  signals: LLM-based performance predictor, cost/latency constraints
+
+[notdiamond-2024-reduce-own-inference-costs] (2024, Not Diamond blog, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C5,C14)
+  title: Using Not Diamond to reduce Not Diamond's inference costs by 51% (with one line of code)
+  key_idea: A single cost-quality tradeoff knob on a learned router halved production inference cost with small engagement impact.
+  cost: Enabling the cost-tradeoff parameter on Not Diamond's consumer chatbot cut inference cost 51% on average (~$750,000 annualised); power-user median messages fell from 5 to 4/day while week-over-week message growth was 43% vs 16% the prior week (vendor-reported, before/after on live traffic)
+  summary: Not Diamond reports switching its own consumer chatbot's router from quality-maximising to a cost-tradeoff setting and compares cost and engagement metrics before and after the change on live traffic. Costs roughly halved with a small drop in power-user messaging.
+  benchmarks: live chatbot traffic before/after
+  signals: prompt, user preference feedback, cost tradeoff parameter
+
+[ong-2024-routellm] (2024, arXiv (later ICLR 2025 per authors; venue not verified here), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C13,C14)
+  title: RouteLLM: Learning to Route LLMs with Preference Data
+  key_idea: Learn strong-vs-weak routing from pairwise human preference data with a tunable threshold.
+  cost: Blog: >85% cost reduction on MT-Bench, 45% on MMLU, 35% on GSM8K vs GPT-4 at 95% of GPT-4 quality; paper: >2x cost reduction in some cases without quality loss
+  summary: Trains binary routers that pick between a strong and a weak LLM per query using Chatbot Arena human preference data plus augmentation. Compares matrix factorization, BERT classifier, causal-LLM classifier and similarity-weighted ranking routers, and shows they transfer when the model pair is swapped at test time.
+  benchmarks: MT-Bench, MMLU, GSM8K
+  signals: query embedding, human preference labels (Chatbot Arena), matrix factorization, BERT classifier, similarity-weighted ranking, human preference data (Chatbot Arena), data augmentation, human preference
+
+[ramirez-2024-two-tier] (2024, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C2,C7)
+  title: Optimising Calls to Large Language Models with Uncertainty-Based Two-Tier Selection
+  key_idea: Small-model uncertainty as a simple escalation criterion.
+  cost: Outperforms existing cascading and routing methods on 25 of 27 setups (three model pairs, nine tasks)
+  summary: Uses only the uncertainty of the small LLM's generation to decide whether to call the large model, and beats routing and cascading methods requiring extra neural models in 25 of 27 setups.
+  benchmarks: nine tasks
+  signals: small-model generation uncertainty
+
+[shekhar-2024-optimizing-costs-llm-usage] (2024, arXiv, rel=4, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C2,C6,C10)
+  title: Towards Optimizing the Costs of LLM Usage
+  key_idea: Quality prediction plus LP model selection plus prompt shortening.
+  cost: Reduces costs by 40%-90% while improving quality by 4%-7% (enterprise and open-source document-processing datasets)
+  summary: Predicts LLM output quality without calling the models and solves an LP-rounding selection under budget and latency, plus token-reduction heuristics for prompts.
+  benchmarks: enterprise document datasets, open-source summarisation/QA datasets, enterprise datasets, annotated open-source datasets
+  signals: predicted output quality, token-reduction heuristics, token count
+
+[stripelis-2024-to-router] (2024, EMNLP 2024 (per Semantic Scholar), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: TensorOpera Router: A Multi-Model Router for Efficient LLM Inference
+  key_idea: Commercial multi-expert query router behind a single API.
+  cost: Up to 40% improvement in query efficiency and up to 30% cost reduction while maintaining or improving performance by up to 10% vs standalone experts (abstract)
+  summary: TensorOpera Router integrates multiple LLM experts behind one interface and routes each query to the best expert for its requirements. It reports efficiency and cost gains versus standalone experts.
+  signals: query embedding, expert performance labels
+
+[zhang-2024-treacle] (2024, arXiv, rel=4, gran=query, regime=RL-offline, prod=N, clusters=C1,C2,C5,C6)
+  title: Efficient Contextual LLM Cascades through Budget-Constrained Policy Learning
+  key_idea: Budget-constrained RL policy over (model, prompt) choices with re-query ability.
+  cost: Cost savings of up to 85% compared to baselines while maintaining high accuracy
+  summary: TREACLE is an RL policy that jointly picks the model and prompt scheme for each question under long-run monetary and latency budgets. It uses question embeddings and the consistency of previous responses as state.
+  benchmarks: GSM8K, CSQA, LLC
+  signals: question embedding, response history consistency, budget and latency, budget
+
+[zhao-2024-eagle] (2024, arXiv, rel=4, gran=query, regime=training-free, prod=N, clusters=C1,C5)
+  title: Eagle: Efficient Training-Free Router for Multi-LLM Inference
+  key_idea: Training-free ELO-based routing with fast online updates.
+  cost: Up to 23.52% AUC improvement; 1/20 of baseline initialization time and 100-200x faster incremental updates (abstract)
+  summary: Eagle is a training-free router combining global ELO rankings with local ELO computed over similar past queries. It improves routing AUC and supports very fast incremental updates for high-volume online serving.
+  benchmarks: RouterBench, RouterBench-style datasets
+  signals: global and local ELO ratings, query embedding neighbors, global ELO, local ELO over similar queries, pairwise feedback
+
+[zhuang-2024-embedllm] (2024, ICLR (per Semantic Scholar), rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6,C13)
+  title: EmbedLLM: Learning Compact Representations of Large Language Models
+  key_idea: Matrix-factorization-style LLM embeddings reused across routing and performance prediction.
+  summary: EmbedLLM learns compact vector representations of LLMs with an encoder-decoder trained on query-level correctness data. The embeddings support routing and forecasting benchmark performance without running the model, and outperform prior methods on routing accuracy and latency.
+  benchmarks: multiple benchmarks, correctness forecasting across benchmarks, model routing
+  signals: learned model embeddings, query embedding, correctness labels, model embedding, historical correctness
+
+[aggarwal-2023-automix] (2023, NeurIPS 2024, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C7)
+  title: AutoMix: Automatically Mixing Language Models
+  key_idea: Self-verification plus POMDP escalation policy.
+  cost: Reduces computational cost by over 50% for comparable performance (five LMs, five datasets)
+  summary: AutoMix lets a small model answer, estimates correctness through few-shot self-verification, and uses a POMDP-based router to decide whether to escalate to larger models given noisy verification. Across five models and datasets it cuts cost by over half at comparable quality.
+  benchmarks: five datasets, five context-grounded reasoning datasets
+  signals: few-shot self-verification, POMDP router over confidence, answer confidence, POMDP belief, self-verification, POMDP router
+
+[chen-2023-frugalgpt] (2023, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2)
+  title: FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance
+  key_idea: Learned LLM cascade with a scorer deciding when to stop.
+  cost: Matches best individual LLM (e.g. GPT-4) with up to 98% cost reduction, or +4% accuracy over GPT-4 at the same cost (abstract)
+  summary: Surveys cost reduction strategies for LLM APIs (prompt adaptation, LLM approximation, cascades) and proposes FrugalGPT, a learned cascade that decides which LLM combinations to query per input. It reports large cost reductions on classification-style tasks.
+  signals: answer quality scorer, cascade thresholds, learned answer scorer, cost budget
+
+[lu-2023-zooter] (2023, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: Routing to the Expert: Efficient Reward-guided Ensemble of Large Language Models
+  key_idea: Distill off-the-shelf reward-model rankings into a cheap pre-generation router.
+  summary: Zooter distills reward-model scores on training queries into a routing function that sends each query to the LLM with relevant expertise, avoiding the cost of generating from every model and ranking. Tag-based label enhancement reduces noise from silver reward supervision; across 26 subsets it beats the best single model on average.
+  benchmarks: benchmark collection of 26 subsets, 26 subsets across domains
+  signals: reward model scores (distilled), query tags, query embedding, distilled reward model scores, tags
+
+[sakota-2023-forc] (2023, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C2,C6)
+  title: Fly-Swat or Cannon? Cost-Effective Language Model Choice via Meta-Modeling
+  key_idea: Meta-model plus batch assignment for LM choice.
+  cost: match the performance of the largest LM while achieving a cost reduction of 63% (14 datasets, four LMs)
+  summary: A meta-model predicts how well each candidate LM will do on each input, then an assignment solves budget-constrained or cost-minimising allocation across a batch.
+  benchmarks: 14 datasets, five task types, 14 datasets across five tasks
+  signals: meta-model predicted performance, cost budget
+
+[shnitzer-2023-routing-benchmark-datasets] (2023, arXiv, rel=4, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: Large Language Model Routing with Benchmark Datasets
+  key_idea: Reuse benchmark outcomes to train per-model correctness predictors for routing.
+  summary: Recasts benchmark datasets as training data for a router that picks the best LLM for new tasks, reducing the problem to a collection of binary correctness classifiers. It shows consistent gains over any single model and discusses limits of transferring from benchmarks.
+  benchmarks: HELM-style benchmark collection
+  signals: per-model correctness classifiers, query embedding (kNN), benchmark correctness labels
+
+[github-copilot-auto-model-selection] (None, GitHub Docs, rel=4, gran=step, regime=n/a, prod=Y, clusters=C1,C3,C14)
+  title: About Copilot auto model selection
+  key_idea: Cache-boundary-aware model switching in a coding assistant.
+  cost: (vendor-reported) 10% discount on model costs when using auto selection on paid plans
+  summary: Copilot's auto mode combines a system that tracks model health and availability with one that estimates task complexity, and switches models at natural cache boundaries or large complexity shifts in a conversation, subject to admin policies.
+  signals: task complexity, real-time model health, cache boundaries, conversation complexity drift
+
+[openrouter-2025-auto-router] (None, OpenRouter docs, rel=4, gran=query, regime=bandit-online, prod=Y, clusters=C1,C5,C14)
+  title: Auto Router (Intelligent Model Selection)
+  key_idea: Route by aggregate market spend per task type.
+  summary: OpenRouter's free auto router classifies each prompt into about 30 task types, ranks models by what the OpenRouter community actually spends on for that task over the last seven days, applies the user's cost tier, and returns primary picks with fallbacks and session stickiness. The current docs describe this market-signal design and do not mention Not Diamond (earlier versions were reported as Not Diamond-powered, unverified here).
+  signals: task-type classifier (~30 types), community spend over trailing 7 days, cost tier
+
+[alballa-2026-comed] (2026, AACL-IJCNLP 2026, rel=3, gran=query, regime=training-free, prod=N, clusters=C1,C2,C12)
+  title: COMED: The Missing Middle Between Routing and Collaboration in Multi-LLM Inference
+  key_idea: Selective escalation between routing and full collaboration.
+
+[askin-2026-federated-router] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: Federate the Router: Learning Language Model Routers with Sparse and Decentralized Evaluations
+  key_idea: Federated router training across clients.
+
+[bell-2026-continual-model-routing] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: Continual Model Routing in Evolving Model Hubs
+  key_idea: Continual routing over growing model hubs.
+
+[chen-2026-routing-oracle-stochastic] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C6,C13)
+  title: What Does a Routing Oracle Measure Under Stochastic Decoding? Coupling, Scorer Choice, and Single-Commit Ceilings
+  key_idea: Routing oracles under stochastic decoding overstate the achievable gain of single-commit routers.
+
+[chen-2026-workload-router-pool] (2026, arXiv (vision paper), rel=3, gran=step, regime=n/a, prod=N, clusters=C1,C11,C14)
+  title: The Workload-Router-Pool Architecture for LLM Inference Optimization: A Vision Paper from the vLLM Semantic Router Project
+  key_idea: Joint view of workload, router and model pool for inference optimization.
+
+[da-2026-routebalance] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C11)
+  title: RouteBalance: Fused Model Routing and Load Balancing for Heterogeneous LLM Serving
+  key_idea: Fuse router and load balancer for heterogeneous LLM serving.
+  cost: At its cost-priority corner, per-request cost ties the cheapest baseline; highest routing-decision quality (DeepEval 0.419) on a 13-instance 28-GPU cluster
+
+[garg-2026-unsolvability-ceiling] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C7,C13)
+  title: Unsolvability Ceiling in Multi-LLM Routing: An Empirical Study of Evaluation Artifacts
+  key_idea: Evaluation artifacts corrupt router training signals.
+
+[hao-2026-racer] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7,C15)
+  title: RACER: Risk-Aware Calibrated Efficient Routing for Large Language Models
+  key_idea: Conformal set-valued routing with risk guarantees.
+
+[huang-2026-evolverouter] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C3)
+  title: EvolveRouter: Co-Evolving Routing and Prompt for Multi-Agent Question Answering
+  key_idea: Co-evolve routing and agent prompts; adapt team size per query.
+
+[jain-2026-calm-slm-fleet] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C1,C3,C5)
+  title: CALM: A Self-Adaptive Orchestration Approach for QoS-Aware Routing in Small Language Model based Systems
+  key_idea: Self-adaptive orchestration of a fleet of SLMs.
+
+[kondapalli-2026-slms-as-multi-agent-routers] (2026, arXiv, rel=3, gran=query, regime=hybrid, prod=N, clusters=C1,C3,C8)
+  title: SLMs as Multi-Agent Routers: A Progressive SFT and Reinforcement Learning Approach
+  key_idea: A small RL-trained model routes among retrieval agents.
+
+[lai-2026-dars] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C6)
+  title: From Sampled Outcomes to Capability Distributions: Rethinking Supervision for LLM Routing
+  key_idea: Distribution-aware routing labels.
+
+[lai-2026-routefm] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: Pretrain Once, Route Anywhere: Towards a Foundation Model for LLM Routing
+  key_idea: Foundation model for routing.
+
+[litellm-2026-auto-routing] (2026, LiteLLM documentation, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C1,C5,C10,C14)
+  title: [Beta] Auto Routing (LiteLLM proxy docs: complexity, semantic and adaptive routing)
+  key_idea: Open-source gateway combining tiered complexity classification with per-tier bandits and cache-preserving session pinning.
+
+[liu-2026-trouter] (2026, ACL 2026, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: Task-Aware LLM Routing with Multi-Level Task-Profile-Guided Data Synthesis for Cold-Start Scenarios
+  key_idea: Taxonomy-guided data synthesis for cold-start routing.
+
+[mahmood-2026-routing-user-choice] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: Routing, Cascades, and User Choice for LLMs
+  key_idea: Game-theoretic analysis of routing with user behavior.
+
+[markovic-voronov-2026-batch-routing] (2026, CAIS 2026, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C11)
+  title: Robust Batch-Level Query Routing for Large Language Models under Cost and Capacity Constraints
+  key_idea: Robust batch-level routing under capacity constraints.
+  cost: Batch-level routing outperforms per-query methods by up to 24% under adversarial batching (abstract)
+
+[nguyen-2026-cupid-model-zoo] (2026, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: CUPID in the Model Zoo: Online Matchmaking for Selecting Your Dream LLM
+  key_idea: Dueling-bandit matchmaking that learns which LLM a user prefers from pairwise feedback under a budget.
+
+[patel-2026-locus] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: LOCUS: Low-Dimensional Model Embeddings for Efficient Model Exploration, Comparison, and Selection
+  key_idea: Sample-efficient model embeddings.
+  cost: Needs up to 4.8x fewer query evaluation samples than baselines to produce informative embeddings (abstract)
+
+[sun-2026-routeguard] (2026, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C6,C13)
+  title: RouteGuard: Certifying Routing Gain in LLM Multi-Agent Systems When Complementarity Is Not Enough
+  key_idea: Certify routing gain statistically before shipping a router.
+
+[tang-2026-jisi] (2026, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C1,C12)
+  title: Beyond Gemini-3-Pro: Revisiting LLM Routing and Aggregation at Scale
+  key_idea: Adaptive routing-aggregation switch.
+  cost: Surpasses Gemini-3-Pro with only 47% of the cost by orchestrating ten open-source LLMs (abstract)
+
+[wu-2026-routerxbench] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7,C13)
+  title: Towards Fair and Comprehensive Evaluation of Routers in Collaborative LLM Systems
+  key_idea: Hidden-state probe routers and a fairer benchmark.
+  cost: 16.68% and 18.86% relative improvements over best baselines in router ability and high-accuracy scenarios (abstract)
+
+[yan-2026-zerorouter] (2026, AAAI 2026, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: Breaking Model Lock-in: Cost-Efficient Zero-Shot LLM Routing via a Universal Latent Space
+  key_idea: Universal latent query-difficulty space for zero-shot model onboarding.
+
+[zeng-2026-relope] (2026, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7)
+  title: ReLope: KL-Regularized LoRA Probes for Multimodal LLM Routing
+  key_idea: Improve hidden states to make probe routing work for MLLMs.
+
+[zhao-2026-tcandon-router] (2026, arXiv, rel=3, gran=subagent, regime=supervised-offline, prod=N, clusters=C1,C3)
+  title: TCAndon-Router: Adaptive Reasoning Router for Multi-Agent Collaboration
+  key_idea: Reasoning-based multi-label routing to expert agents.
+
+[barrak-2025-cargo] (2025, CASCON 2025, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7)
+  title: CARGO: A Framework for Confidence-Aware Routing of Large Language Models
+  key_idea: Judge-supervised two-stage confidence-aware router.
+
+[behera-2025-multi-llm-inference-survey] (2025, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: Towards Efficient Multi-LLM Inference: Characterization and Analysis of LLM Routing and Hierarchical Techniques
+  key_idea: Survey of routing vs hierarchical inference.
+
+[chen-2025-llm-ensemble-survey] (2025, IJCAI 2026 (per Semantic Scholar), rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C15)
+  title: Harnessing Multiple Large Language Models: A Survey on LLM Ensemble
+  key_idea: Taxonomy placing routing within LLM ensembling.
+
+[chen-2025-llm-slm-collab-survey] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C1,C2,C3,C15)
+  title: A Survey on Collaborative Mechanisms Between Large and Small Language Models
+  key_idea: LLM-SLM collaboration taxonomy.
+
+[elumar-2025-camvo] (2025, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: Cost-aware LLM-based Online Dataset Annotation
+  key_idea: LinUCB subset selection for cheaper LLM ensembles.
+
+[huang-2025-thriftllm] (2025, VLDB 2025, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C15)
+  title: ThriftLLM: On Cost-Effective Selection of Large Language Models for Classification Queries
+  key_idea: Budgeted ensemble selection with guarantees.
+
+[jin-2025-radialrouter] (2025, EMNLP 2025, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: RadialRouter: Structured Representation for Efficient and Robust Large Language Models Routing
+  key_idea: Radial Transformer backbone for robust routing.
+  cost: Outperforms existing routers by 9.2% (Balance) and 5.8% (Cost First) on RouterBench (abstract)
+
+[kassem-2025-router-robustness] (2025, EACL (per Semantic Scholar), rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C13)
+  title: How Robust Are Router-LLMs? Analysis of the Fragility of LLM Routing Capabilities
+  key_idea: Routers are fragile and category-biased; safety risks.
+
+[patel-2025-proxrouter] (2025, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C1)
+  title: ProxRouter: Proximity-Weighted LLM Query Routing for Improved Robustness to Outliers
+  key_idea: Robust nonparametric routing for outliers.
+
+[pulishetty-2025-cross-attention-router] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: One Head, Many Models: Cross-Attention Routing for Cost-Aware LLM Selection
+  key_idea: Cross-attention query-model router.
+  cost: Up to 6.6% improvement in AIQ and 2.9% in max performance over existing routers on RouterBench (abstract)
+
+[shi-2025-inferencedynamics] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: INFERENCEDYNAMICS: Efficient Routing Across LLMs through Structured Capability and Knowledge Profiling
+  key_idea: Multi-dimensional capability/knowledge profiling for scalable routing.
+
+[vllm-2025-semantic-router] (2025, vLLM blog, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C9,C14)
+  title: vLLM Semantic Router: Next Phase in LLM inference
+  key_idea: Classifier-based reasoning-mode and model selection in the serving layer.
+  cost: (vendor-reported) ~10% higher accuracy, ~50% lower latency, ~50% fewer tokens in trials (no benchmark or baseline disclosed)
+
+[wang-2025-slm-llm-collab-survey] (2025, arXiv, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C1,C15)
+  title: A Survey on Collaborating Small and Large Language Models for Performance, Cost-effectiveness, Cloud-edge Privacy, and Trustworthiness
+  key_idea: Goal-based SLM-LLM survey.
+
+[wang-2025-slm-mux] (2025, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C1,C3)
+  title: Slm-mux: Orchestrating small language models for reasoning
+  key_idea: Orchestrate complementary SLMs instead of calling a large model.
+  cost: With two SLMs, outperforms Qwen 2.5 72B on GPQA and GSM8K and matches it on MATH; up to +13.4% on MATH vs prior orchestration
+
+[wood-2025-martian-up-and-to-the-left] (2025, Martian blog, rel=3, gran=query, regime=supervised-offline, prod=Y, clusters=C1,C14)
+  title: Up and to the left! How Martian Uses Routing to Push the Pareto Frontier
+  key_idea: Customer-specific routers trained on customer data can beat the single-model cost-quality frontier.
+  cost: Customer help chat: 52.4% lower error rate and 92% lower cost; RAG system on GPT-4: +20% quality at 1/80 the cost; user-facing system: router responses preferred 79.2% of the time at 1/300 of GPT-4 cost, 13->113 tokens/s (vendor-reported customer deployments, no methodology)
+
+[wu-2025-rirs-iterative-routing-specialists] (2025, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C1,C3)
+  title: Talk to Right Specialists: Iterative Routing in Multi-agent Systems for Question Answering
+  key_idea: Route questions to relevant specialist agents instead of broadcasting.
+
+[xie-2025-gmtrouter] (2025, EMNLP 2025 (Findings), rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: GMTRouter: Personalized LLM Router over Multi-turn User Interactions
+  key_idea: Personalized graph router over multi-turn interactions.
+
+[yao-2025-super-agent-hybrid-routers] (2025, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C3,C15)
+  title: Toward Super Agent System with Hybrid AI Routers
+  key_idea: Blueprint for intent routing plus local/cloud model routing in a super agent.
+
+[zeng-2025-pac-efficient-routing] (2025, arXiv, rel=3, gran=query, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: A note on conditional PAC-efficient reasoning in large language model routing
+  key_idea: Limits of distribution-free conditional guarantees for routing.
+
+[zhang-2025-agentrouter-kg] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C3)
+  title: AgentRouter: A Knowledge-Graph-Guided LLM Router for Collaborative Multi-Agent Question Answering
+  key_idea: GNN-based routing among agents from a query knowledge graph.
+
+[zhang-2025-avengers] (2025, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C1,C12)
+  title: The Avengers: A Simple Recipe for Uniting Smaller Language Models to Challenge Proprietary Giants
+  key_idea: Cluster-based routing plus voting over small models.
+
+[zheng-2025-disrouter] (2025, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C7)
+  title: DiSRouter: Distributed Self-Routing for LLM Selections
+  key_idea: Distributed self-routing via self-awareness training.
+
+[chen-2024-small-models-survey] (2024, Computational Linguistics, rel=3, gran=n/a, regime=n/a, prod=N, clusters=C1,C8,C15)
+  title: What is the Role of Small Models in the LLM Era: A Survey
+  key_idea: Small models in the LLM era.
+
+[guha-2024-smoothie] (2024, arXiv, rel=3, gran=query, regime=training-free, prod=N, clusters=C1,C7)
+  title: Smoothie: Label Free Language Model Routing
+  key_idea: Unsupervised routing from output agreement.
+
+[hu-2024-pak-ucb] (2024, arXiv, rel=3, gran=query, regime=bandit-online, prod=N, clusters=C1,C5)
+  title: PAK-UCB Contextual Bandit: An Online Learning Approach to Prompt-Aware Selection of Generative Models and LLMs
+  key_idea: Prompt-aware kernel UCB for per-prompt generative model selection.
+
+[ibm-2024-llm-routers-blog] (2024, IBM Research blog, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: LLM routing for quality, low-cost responses
+  key_idea: Benchmark-trained correctness predictors for routing.
+  cost: Vendor-reported: router saves about 5 cents per query vs GPT-4 at comparable performance on RouterBench
+
+[maurya-2024-selectllm] (2024, ACL (per Semantic Scholar), rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: SelectLLM: Query-Aware Efficient Selection Algorithm for Large Language Models
+  key_idea: Query-aware subset selection of LLMs.
+
+[notdiamond-2024-rorf] (2024, GitHub (Not Diamond), rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: RoRF - Routing on Random Forests
+  key_idea: Random forests on text embeddings as cheap pairwise routers.
+
+[sikeridis-2024-pickllm] (2024, Workshop on Scalable and Efficient AI (per arXiv comments), rel=3, gran=query, regime=RL-online, prod=N, clusters=C1,C5)
+  title: PickLLM: Context-Aware RL-Assisted Large Language Model Routing
+  key_idea: Session-level RL router with customizable reward.
+
+[srivatsa-2024-lessons-routing] (2024, Insights from Negative Results in NLP Workshop 2024, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: Harnessing the Power of Multiple Minds: Lessons Learned from LLM Routing
+  key_idea: Negative-results study on classifier routing for reasoning tasks.
+
+[hari-2023-tryage] (2023, arXiv, rel=3, gran=query, regime=supervised-offline, prod=N, clusters=C1)
+  title: Tryage: Real-time, intelligent Routing of User Prompts to Large Language Models
+  key_idea: Predict per-expert performance on a prompt and optimize a constraint-aware objective over a model library.
+
+[lee-2023-orchestrallm] (2023, NAACL 2024, rel=3, gran=query, regime=training-free, prod=N, clusters=C1)
+  title: OrchestraLLM: Efficient Orchestration of Language Models for Dialogue State Tracking
+  key_idea: Exemplar-retrieval SLM/LLM routing.
+  cost: Reduces computational costs by over 50% while improving performance vs LLM only (abstract)
+
+[notdiamond-product] (None, Not Diamond website, rel=3, gran=step, regime=supervised-offline, prod=N, clusters=C1,C3,C14)
+  title: Not Diamond: Model Routing for Coding Agents
+  key_idea: Commercial per-call router for agent workloads.
+  cost: (vendor-reported) Claims 5%+ accuracy gains and 20%+ cost savings; Rootly case: +39% average accuracy across benchmarks
+
+[ashiga-2025-ensemble-survey] (2025, IEEE TAI 2025, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C1,C2,C15)
+  title: Ensemble Learning for Large Language Models in Text and Code Generation: A Survey
+  key_idea: Ensemble survey with routing and cascading sections.
+
+[li-2025-edge-cloud-survey] (2025, ACM Computing Surveys (per Semantic Scholar), rel=2, gran=n/a, regime=n/a, prod=N, clusters=C1,C11,C15)
+  title: Collaborative Inference and Learning between Edge SLMs and Cloud LLMs: A Survey of Algorithms, Execution, and Open Challenges
+  key_idea: Edge-cloud collaboration taxonomy.
+
+[lin-2025-router-vulnerabilities] (2025, arXiv, rel=2, gran=query, regime=n/a, prod=N, clusters=C1)
+  title: Life-Cycle Routing Vulnerabilities of LLM Router
+  key_idea: Security of routers.
+
+[lu-2024-merge-ensemble-cooperate] (2024, arXiv, rel=2, gran=n/a, regime=n/a, prod=N, clusters=C1,C15)
+  title: Merge, Ensemble, and Cooperate! A Survey on Collaborative Strategies in the Era of Large Language Models
+  key_idea: Merge/ensemble/cooperate taxonomy.
+
+[yadav-2024-moerging-survey] (2024, arXiv, rel=2, gran=query, regime=n/a, prod=N, clusters=C1,C15)
+  title: A Survey on Model MoErging: Recycling and Routing Among Specialized Experts for Collaborative Learning
+  key_idea: Routing among specialized experts.
+
+[katanemo-plano-archgw] (None, GitHub, rel=2, gran=query, regime=supervised-offline, prod=N, clusters=C1,C14)
+  title: Plano (formerly archgw): AI-native proxy and data plane for agentic apps
+  key_idea: Gateway with preference-aligned router model.
+
+[martian-docs] (None, Martian docs, rel=2, gran=query, regime=n/a, prod=N, clusters=C1,C14)
+  title: Martian Documentation (Gateway API)
+  key_idea: Early router vendor, now gateway plus research.
+
+[nvidia-llm-router-blueprint] (None, GitHub (NVIDIA-AI-Blueprints), rel=2, gran=query, regime=hybrid, prod=N, clusters=C1,C14)
+  title: NVIDIA AI Blueprint: LLM Router
+  key_idea: Reference architecture for intent and learned routing.
+
+[requesty-router] (None, Requesty website, rel=2, gran=query, regime=n/a, prod=N, clusters=C1,C14)
+  title: Requesty: AI Gateway and LLM Router
+  key_idea: Commercial router-gateway.
+
